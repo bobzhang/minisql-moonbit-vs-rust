@@ -1,0 +1,36 @@
+1|1|red
+1|2|green
+1|3|blue
+2|1|one
+3|1|
+4|1|a
+4|2|
+4|3|b
+4|4|
+1|3
+2|1
+3|1
+4|4
+dlröw olléh
+1|A|65
+2|ñ|241
+3|中|20013
+5|19
+i|4
+s|4
+p|2
+m|1
+1|ab|2
+2|abab|4
+3|ababab|6
+4|abababab|8
+5|ababababab|10
+0|0
+5|101
+10|1010
+255|11111111
+0|the red cat sat on the red mat
+1|the red dog sat on the red mat
+2|the blue dog sat on the blue mat
+3|the blue dog stood on the blue mat
+X-Y-Z

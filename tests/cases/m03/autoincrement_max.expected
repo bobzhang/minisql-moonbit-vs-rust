@@ -1,0 +1,17 @@
+9223372036854775806|almost
+9223372036854775807|max
+Error: database or disk is full
+9223372036854775806|almost
+9223372036854775807|max
+Error: database or disk is full
+9223372036854775806|almost
+1|explicit one
+9223372036854775806|almost
+9223372036854775807|explicit max
+Error: database or disk is full
+1|explicit one
+9223372036854775806|almost
+9223372036854775807|explicit max
+max
+ok
+1|first

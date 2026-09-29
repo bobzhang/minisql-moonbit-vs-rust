@@ -1,0 +1,23 @@
+1|1|none|NULL|-3
+1|1|none|NULL|-3
+2|1|none|NULL|-3
+1|1|none|NULL|-3
+2|1|none|NULL|-3
+3|1|given|NULL|-3
+4|A|none|1.25|-3
+1|1|none|-3
+2|1|none|-3
+3|1|given|-3
+4|A|none|-3
+5|NULL|NULL|-3
+1|NULL|NULL
+2|NULL|NULL
+Error: NOT NULL constraint failed: nn.x
+ok|NULL
+5
+Error: 0 values for 1 columns
+1|1|none
+2|1|none
+3|1|given
+4|A|none
+5|NULL|NULL

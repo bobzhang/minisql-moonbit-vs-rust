@@ -1,0 +1,20 @@
+1|A
+2|b
+2|A
+x|first
+y|second
+1|1|new
+1|2|other
+1|1|keep
+2|1|also
+1|a|1
+5|b|5
+Error: UNIQUE constraint failed: mix.id
+1|q|10
+5|b|5
+Error: UNIQUE constraint failed: e.a
+Error: UNIQUE constraint failed: e.b
+Error: UNIQUE constraint failed: e.c
+1|1|1
+2|2|2
+x|6

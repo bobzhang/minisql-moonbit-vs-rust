@@ -1,0 +1,16 @@
+Error: integer overflow
+9.223372036854776e+18
+4.611686018427388e+18
+Error: integer overflow
+1.0e+19|real
+Error: integer overflow
+-9.223372036854776e+18
+9223372036854775807
+-9223372036854775808
+Error: integer overflow
+a|3.0
+b|1.8446744073709552e+19
+a|3
+1.8446744073709552e+19|real
+Error: integer overflow
+1.0e+19

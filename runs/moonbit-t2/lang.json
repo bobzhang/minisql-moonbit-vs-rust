@@ -1,0 +1,4 @@
+{
+ "build": "moon build --release",
+ "binary": "_build/native/release/build/cmd/main/main.exe"
+}

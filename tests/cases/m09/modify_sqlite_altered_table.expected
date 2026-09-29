@@ -1,0 +1,13 @@
+===== phase 1 (sqlite) =====
+===== phase 2 (engine) =====
+7|300
+42|2701
+===== phase 3 (sqlite) =====
+ok
+7|300
+42|2701
+2251
+1|a1|42|cee|NULL
+4|a4|42|cee|1.5
+10|a10|7|cee|NULL
+3001|engine|42|cee|NULL

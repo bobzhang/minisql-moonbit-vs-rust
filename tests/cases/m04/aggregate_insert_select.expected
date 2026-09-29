@@ -1,0 +1,16 @@
+a|75|3
+b|75|2
+c|70|1
+avg|36.666666666666664|real
+empty sum|NULL|null
+max|100|integer
+rows|6|integer
+4
+a|75|3
+b|75|2
+c|100|2
+d|1|1
+a|210|2
+b|75|2
+c|100|2
+75|25+50

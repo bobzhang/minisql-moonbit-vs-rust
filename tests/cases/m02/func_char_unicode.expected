@@ -1,0 +1,31 @@
+Hi|A|abc
+|text|0
+é|中文|😀|1
+C3A9|E282AC|F09F9880
+A|A|BC
+65|97|233|20013|128512
+NULL|NULL|null
+54|45|65|233
+955|ß|xy
+1|90
+2|233
+3|20013
+4|NULL
+5|NULL
+6|128512
+1|Z
+2|é
+3|中
+6|😀
+2
+3
+6
+4
+5
+1
+2
+3
+6
+ABZ
+Error: wrong number of arguments to function unicode()
+Error: wrong number of arguments to function unicode()

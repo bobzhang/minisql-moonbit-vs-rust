@@ -1,0 +1,15 @@
+hello
+hello|text
+it's|a"b
+1|nosuch
+2|nosuch
+1
+1|x|text
+2|a|text
+3|dq|text
+a
+a
+a
+abcdef|6
+Error: no such column: nosuch
+Error: no such column: nosuch

@@ -1,0 +1,29 @@
+Error: no such table: nosuch
+1|x
+2|y
+Error: no such column: nosuch
+Error: no such column: nosuch
+1
+2
+Error: no such column: t.nosuch
+Error: no such column: other.a
+2
+1
+Error: no such column: x.a
+x
+y
+Error: no such column: nosuch
+Error: duplicate column name: A
+1|one
+y
+2|x!
+3|y!
+done
+1|x
+2|y
+1
+2
+x
+integer
+1
+y

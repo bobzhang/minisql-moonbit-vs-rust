@@ -1,0 +1,40 @@
+Error: misuse of aggregate: sum()
+2
+Error: misuse of aggregate function max()
+9
+Error: aggregate functions are not allowed in the GROUP BY clause
+a|3
+b|3
+Error: wrong number of arguments to function count()
+3|6|2.0
+Error: FILTER may not be used with non-aggregate abs()
+1
+2
+3
+Error: no such column: nosuch
+Error: misuse of aggregate function max()
+Error: misuse of aggregate function min()
+a|1
+a|2
+b|3
+a|2
+b|1
+b
+a
+3
+3
+a
+6.0
+aab
+a|1.5
+b|3.0
+a|1
+b|0
+18
+2
+2
+b|1
+4.0
+b|3
+a|2
+b|3

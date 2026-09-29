@@ -1,0 +1,15 @@
+Error: no such savepoint: nosuch
+Error: no such savepoint: nosuch
+Error: no such savepoint: nosuch
+1
+Error: no such savepoint: b
+Error: no such savepoint: b
+Error: no such savepoint: c
+0
+4
+Error: no such savepoint: a
+4
+Error: cannot start a transaction within a transaction
+4
+6
+2

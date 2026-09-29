@@ -1,0 +1,20 @@
+===== phase 1 (engine) =====
+===== phase 2 (sqlite) =====
+ok
+200|2459303|70003|6
+1|70001|ddd|dd1
+2|20020|bbb|bbb
+3|13|aaa|aaa
+4|6|ccc|cc4
+11|70002|ddd|d11
+200|8|ccc|200
+===== phase 3 (engine) =====
+200|9776|209
+===== phase 4 (sqlite) =====
+ok
+200|9776|209
+11|short11
+===== phase 5 (engine) =====
+===== phase 6 (sqlite) =====
+ok
+150|450551|5816

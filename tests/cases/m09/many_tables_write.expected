@@ -1,0 +1,21 @@
+===== phase 1 (engine) =====
+===== phase 2 (sqlite) =====
+ok
+index|120
+table|121
+long_sql|tbl_119
+tbl_077
+1|119|one of 119
+2|238|two of 119
+two of 75
+1|the default for b
+2|the default for b
+===== phase 3 (engine) =====
+index|119
+table|121
+Error: no such table: tbl_050
+===== phase 4 (sqlite) =====
+ok
+index|117
+table|120
+engine

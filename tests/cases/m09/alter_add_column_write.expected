@@ -1,0 +1,20 @@
+===== phase 1 (engine) =====
+Error: duplicate column name: a
+Error: Cannot add a PRIMARY KEY column
+===== phase 2 (sqlite) =====
+ok
+1|a1|7|NULL|-2.5|dflt|X'00FF'|0
+2000|a2000|7|NULL|-2.5|dflt|X'00FF'|0
+2001|new|1|c|1.5|E|X'00FF'|0
+2002|newest|7|NULL|-2.5|dflt|X'00FF'|0
+2002|14008|-5001.0|1|0
+2001
+2003|by sqlite|7|NULL|-2.5|dflt|X'00FF'|0
+===== phase 3 (engine) =====
+1|a1|7|NULL|-2.5|dflt|X'00FF'|0
+2003|by sqlite|7|NULL|-2.5|dflt|X'00FF'|0
+===== phase 4 (sqlite) =====
+ok
+1|1
+7|1001
+8|1001

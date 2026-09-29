@@ -1,0 +1,22 @@
+===== phase 1 (engine) =====
+===== phase 2 (sqlite) =====
+ok
+table|t|t
+index|t_a|t
+index|t_b|t
+view|v|v
+b1|17
+b299|784
+17
+17
+===== phase 3 (engine) =====
+Error: no such index: t_b
+table|t
+index|t_a
+index|t_ab_id
+===== phase 4 (sqlite) =====
+ok
+table|t|t
+index|t_a|t
+index|t_ab_id|t
+100

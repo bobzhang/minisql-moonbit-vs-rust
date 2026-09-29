@@ -1,0 +1,14 @@
+===== phase 1 (sqlite) =====
+===== phase 2 (engine) =====
+a|3
+b|1000
+table|a|a
+table|b|b
+table|c|c
+table|sqlite_sequence|sqlite_sequence
+1|x
+2|y
+0
+0
+x|3
+y|3

@@ -1,0 +1,15 @@
+616263||41|text
+00FF10||DEADBEEF
+C3A9|E4B8AD|F09F9880
+323535|2D31|30|312E35|3130302E30
+|text
+00000000
+X'68656C6C6F'|hello
+1|4869|4
+2|0102|4
+3|3130|4
+4||0
+5|20|2
+3
+Error: wrong number of arguments to function hex()
+Error: wrong number of arguments to function hex()

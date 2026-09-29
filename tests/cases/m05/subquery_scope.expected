@@ -1,0 +1,33 @@
+1|2
+2|2
+3|2
+1|3
+2|2
+3|1
+1|u2t1,u3t1,u4t1
+2|u2t2,u3t2,u4t2
+3|u2t3,u3t3,u4t3
+1|3
+2|3
+3|3
+1|NULL
+2|1
+3|2
+1|2
+2|2
+3|2
+1
+2
+3
+1
+2
+3
+9
+t1|u2
+t2|u3
+t3|u4
+1|2
+2|2
+3|2
+Error: no such column: inner_t.id
+Error: no such column: w

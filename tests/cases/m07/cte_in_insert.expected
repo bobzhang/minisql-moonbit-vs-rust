@@ -1,0 +1,20 @@
+1|40|a
+2|20|b
+3|NULL|c
+8|204|8
+1|40|a
+2|20|b
+3|NULL|c
+4|10|copy-a
+5|30|copy-a
+300|ret
+1|40|a
+50|NULL|new
+1|upd
+51|ins
+9|81
+8|64
+8
+Error: 2 values for 1 columns
+Error: UNIQUE constraint failed: nums.n
+9

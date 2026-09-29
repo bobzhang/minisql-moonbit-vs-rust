@@ -1,0 +1,28 @@
+one|1
+two|2
+three|3
+1|1|v1
+2|4|v2
+3|9|v3
+Error: no such column: a
+1|x
+2|y
+3|NULL
+1
+2
+3
+10
+2|two
+1
+2
+3
+2|two
+3|three
+1|10
+2|20
+3|30
+three
+3|6|5
+Error: table c has 2 values for 3 columns
+Error: table c has 2 values for 1 columns
+Error: table c has 3 values for 2 columns

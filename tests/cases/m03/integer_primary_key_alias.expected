@@ -1,0 +1,32 @@
+5|5|5|5|five
+6|6|6|6|auto
+7|7|7|7|null means auto
+5|five
+6|auto
+7|null means auto
+5|integer|five
+6|integer|auto
+7|integer|null means auto
+20|integer|text
+30|integer|real
+40|integer|padded
+Error: datatype mismatch
+Error: datatype mismatch
+Error: datatype mismatch
+Error: UNIQUE constraint failed: t.id
+5|five
+6|auto
+7|null means auto
+20|text
+30|real
+40|padded
+100|via rowid
+1|1|x
+2|2|y
+1|NULL|a
+1|NULL|b
+1|NULL|c
+NULL|null|a
+text|text|d
+text
+real

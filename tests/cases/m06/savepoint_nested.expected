@@ -1,0 +1,15 @@
+base
+in s1
+in s2
+base
+in s1
+Error: no such savepoint: s3
+Error: no such savepoint: s2
+base
+in s1
+after s2 rollback
+5
+3
+base
+in s1
+after s2 rollback

@@ -1,0 +1,8 @@
+other failures (8): m03/default_expressions m03/insert_default_values m03/rowid_allocation m03/rowid_max_value m05/correlated_where m05/join_using_star m05/left_join_basic m06/alter_rename_column
+m01: 26/26 passed
+m02: 34/34 passed
+m03: 24/28 passed
+m04: 26/26 passed
+m05: 25/28 passed
+m06: 26/27 passed
+TOTAL: 161/169 passed

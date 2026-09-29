@@ -1,0 +1,4 @@
+other failures (1): m02/printf_quoting
+m01: 26/26 passed
+m02: 33/34 passed
+TOTAL: 59/60 passed

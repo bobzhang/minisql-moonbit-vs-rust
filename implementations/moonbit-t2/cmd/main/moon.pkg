@@ -1,0 +1,6 @@
+import {
+  "bench/minisql/io",
+  "bench/minisql/engine",
+}
+
+pkgtype(kind: "executable")

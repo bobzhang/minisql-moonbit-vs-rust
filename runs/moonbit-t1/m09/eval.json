@@ -1,0 +1,381 @@
+{
+ "visible": {
+  "build_ok": true,
+  "passed": 247,
+  "total": 247,
+  "per_milestone": {
+   "m01": [
+    27,
+    27
+   ],
+   "m02": [
+    34,
+    34
+   ],
+   "m03": [
+    28,
+    28
+   ],
+   "m04": [
+    27,
+    27
+   ],
+   "m05": [
+    28,
+    28
+   ],
+   "m06": [
+    28,
+    28
+   ],
+   "m07": [
+    31,
+    31
+   ],
+   "m08": [
+    21,
+    21
+   ],
+   "m09": [
+    23,
+    23
+   ]
+  },
+  "similarity": 1.0
+ },
+ "hidden": {
+  "build_ok": true,
+  "passed": 232,
+  "total": 242,
+  "per_milestone": {
+   "m01": [
+    26,
+    26
+   ],
+   "m02": [
+    33,
+    34
+   ],
+   "m03": [
+    26,
+    28
+   ],
+   "m04": [
+    26,
+    26
+   ],
+   "m05": [
+    26,
+    28
+   ],
+   "m06": [
+    23,
+    27
+   ],
+   "m07": [
+    30,
+    30
+   ],
+   "m08": [
+    21,
+    21
+   ],
+   "m09": [
+    21,
+    22
+   ]
+  },
+  "similarity": 0.9883
+ },
+ "code": {
+  "files": [
+   {
+    "lines": 31,
+    "nonblank": 30,
+    "comment": 1,
+    "code": 29,
+    "bytes": 687,
+    "words": 193,
+    "file": "cmd/main/main.mbt",
+    "tokens": 304,
+    "test": false
+   },
+   {
+    "lines": 450,
+    "nonblank": 427,
+    "comment": 32,
+    "code": 395,
+    "bytes": 10040,
+    "words": 2853,
+    "file": "db/agg.mbt",
+    "tokens": 4675,
+    "test": false
+   },
+   {
+    "lines": 368,
+    "nonblank": 339,
+    "comment": 48,
+    "code": 291,
+    "bytes": 6789,
+    "words": 1726,
+    "file": "db/ast.mbt",
+    "tokens": 3568,
+    "test": false
+   },
+   {
+    "lines": 405,
+    "nonblank": 391,
+    "comment": 28,
+    "code": 363,
+    "bytes": 9966,
+    "words": 2878,
+    "file": "db/cte.mbt",
+    "tokens": 4515,
+    "test": false
+   },
+   {
+    "lines": 1006,
+    "nonblank": 966,
+    "comment": 54,
+    "code": 912,
+    "bytes": 22318,
+    "words": 7005,
+    "file": "db/datetime.mbt",
+    "tokens": 11421,
+    "test": false
+   },
+   {
+    "lines": 708,
+    "nonblank": 690,
+    "comment": 33,
+    "code": 657,
+    "bytes": 19984,
+    "words": 5801,
+    "file": "db/ddl.mbt",
+    "tokens": 8552,
+    "test": false
+   },
+   {
+    "lines": 664,
+    "nonblank": 640,
+    "comment": 38,
+    "code": 602,
+    "bytes": 16441,
+    "words": 4395,
+    "file": "db/dml.mbt",
+    "tokens": 7379,
+    "test": false
+   },
+   {
+    "lines": 600,
+    "nonblank": 572,
+    "comment": 37,
+    "code": 535,
+    "bytes": 14068,
+    "words": 4200,
+    "file": "db/eval.mbt",
+    "tokens": 6591,
+    "test": false
+   },
+   {
+    "lines": 581,
+    "nonblank": 555,
+    "comment": 55,
+    "code": 500,
+    "bytes": 14387,
+    "words": 4317,
+    "file": "db/exec.mbt",
+    "tokens": 6280,
+    "test": false
+   },
+   {
+    "lines": 299,
+    "nonblank": 286,
+    "comment": 19,
+    "code": 267,
+    "bytes": 7672,
+    "words": 2341,
+    "file": "db/fileread.mbt",
+    "tokens": 3547,
+    "test": false
+   },
+   {
+    "lines": 685,
+    "nonblank": 651,
+    "comment": 66,
+    "code": 585,
+    "bytes": 17267,
+    "words": 5507,
+    "file": "db/filewrite.mbt",
+    "tokens": 8076,
+    "test": false
+   },
+   {
+    "lines": 671,
+    "nonblank": 654,
+    "comment": 22,
+    "code": 632,
+    "bytes": 15180,
+    "words": 4782,
+    "file": "db/funcs.mbt",
+    "tokens": 7430,
+    "test": false
+   },
+   {
+    "lines": 366,
+    "nonblank": 356,
+    "comment": 17,
+    "code": 339,
+    "bytes": 9147,
+    "words": 3030,
+    "file": "db/lexer.mbt",
+    "tokens": 4211,
+    "test": false
+   },
+   {
+    "lines": 332,
+    "nonblank": 317,
+    "comment": 23,
+    "code": 294,
+    "bytes": 6829,
+    "words": 1858,
+    "file": "db/ops.mbt",
+    "tokens": 3028,
+    "test": false
+   },
+   {
+    "lines": 1905,
+    "nonblank": 1831,
+    "comment": 96,
+    "code": 1735,
+    "bytes": 46650,
+    "words": 13463,
+    "file": "db/parser.mbt",
+    "tokens": 21486,
+    "test": false
+   },
+   {
+    "lines": 760,
+    "nonblank": 737,
+    "comment": 48,
+    "code": 689,
+    "bytes": 19254,
+    "words": 5637,
+    "file": "db/plan.mbt",
+    "tokens": 8727,
+    "test": false
+   },
+   {
+    "lines": 646,
+    "nonblank": 632,
+    "comment": 21,
+    "code": 611,
+    "bytes": 15063,
+    "words": 4340,
+    "file": "db/printf.mbt",
+    "tokens": 6931,
+    "test": false
+   },
+   {
+    "lines": 276,
+    "nonblank": 254,
+    "comment": 26,
+    "code": 228,
+    "bytes": 5832,
+    "words": 2178,
+    "file": "db/ptree.mbt",
+    "tokens": 3047,
+    "test": false
+   },
+   {
+    "lines": 747,
+    "nonblank": 703,
+    "comment": 68,
+    "code": 635,
+    "bytes": 17900,
+    "words": 5128,
+    "file": "db/schema.mbt",
+    "tokens": 8265,
+    "test": false
+   },
+   {
+    "lines": 1614,
+    "nonblank": 1561,
+    "comment": 82,
+    "code": 1479,
+    "bytes": 40385,
+    "words": 11107,
+    "file": "db/select.mbt",
+    "tokens": 17468,
+    "test": false
+   },
+   {
+    "lines": 368,
+    "nonblank": 350,
+    "comment": 35,
+    "code": 315,
+    "bytes": 9303,
+    "words": 2723,
+    "file": "db/sqledit.mbt",
+    "tokens": 4302,
+    "test": false
+   },
+   {
+    "lines": 615,
+    "nonblank": 579,
+    "comment": 60,
+    "code": 519,
+    "bytes": 13152,
+    "words": 4474,
+    "file": "db/value.mbt",
+    "tokens": 6281,
+    "test": false
+   },
+   {
+    "lines": 887,
+    "nonblank": 869,
+    "comment": 40,
+    "code": 829,
+    "bytes": 22106,
+    "words": 6298,
+    "file": "db/window.mbt",
+    "tokens": 9743,
+    "test": false
+   }
+  ],
+  "all": {
+   "lines": 14984,
+   "nonblank": 14390,
+   "code": 13441,
+   "comment": 949,
+   "bytes": 360420,
+   "words": 106234,
+   "tokens": 165827,
+   "n_files": 23
+  },
+  "main": {
+   "lines": 14984,
+   "nonblank": 14390,
+   "code": 13441,
+   "comment": 949,
+   "bytes": 360420,
+   "words": 106234,
+   "tokens": 165827,
+   "n_files": 23
+  },
+  "test": {
+   "lines": 0,
+   "nonblank": 0,
+   "code": 0,
+   "comment": 0,
+   "bytes": 0,
+   "words": 0,
+   "tokens": 0,
+   "n_files": 0
+  }
+ },
+ "compliance": {
+  "ok": true,
+  "issues": []
+ }
+}

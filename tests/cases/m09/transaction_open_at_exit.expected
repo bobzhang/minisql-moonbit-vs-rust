@@ -1,0 +1,17 @@
+===== phase 1 (engine) =====
+3003
+===== phase 2 (sqlite) =====
+ok
+table|t
+1|committed
+2|committed in txn
+===== phase 3 (engine) =====
+1|committed
+2|committed in txn
+Error: no such table: ghost
+===== phase 4 (engine) =====
+2
+===== phase 5 (sqlite) =====
+ok
+1|committed
+2|committed in txn

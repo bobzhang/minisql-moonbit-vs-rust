@@ -1,0 +1,15 @@
+hello|[        hi]|[hi        ]|[he]
+[    h]|[hel  ]|[]|[hi]
+[]|[     ]|[]
+42|-1.5|100.0|0.25|7
+ABC
+[abcdef]
+[   é]|[中   ]
+[naïve café]
+[    é]|[éè]|[中文  ]
+Ann is 30 years old|abc
+100%|50%|%s|%x%
+|apple   |   apple|app|
+|fig     |     fig|fig|
+|        |        ||
+|watermelon|watermelon|wat|

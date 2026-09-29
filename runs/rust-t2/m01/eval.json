@@ -1,0 +1,130 @@
+{
+ "visible": {
+  "build_ok": true,
+  "passed": 27,
+  "total": 27,
+  "per_milestone": {
+   "m01": [
+    27,
+    27
+   ]
+  },
+  "similarity": 1.0
+ },
+ "hidden": {
+  "build_ok": true,
+  "passed": 26,
+  "total": 26,
+  "per_milestone": {
+   "m01": [
+    26,
+    26
+   ]
+  },
+  "similarity": 1.0
+ },
+ "code": {
+  "files": [
+   {
+    "lines": 162,
+    "nonblank": 144,
+    "comment": 4,
+    "code": 140,
+    "bytes": 3309,
+    "words": 899,
+    "file": "src/ast.rs",
+    "tokens": 1748,
+    "test": false
+   },
+   {
+    "lines": 748,
+    "nonblank": 710,
+    "comment": 13,
+    "code": 697,
+    "bytes": 26005,
+    "words": 7241,
+    "file": "src/engine.rs",
+    "tokens": 10005,
+    "test": false
+   },
+   {
+    "lines": 306,
+    "nonblank": 298,
+    "comment": 7,
+    "code": 291,
+    "bytes": 9906,
+    "words": 2794,
+    "file": "src/lexer.rs",
+    "tokens": 3689,
+    "test": false
+   },
+   {
+    "lines": 35,
+    "nonblank": 33,
+    "comment": 0,
+    "code": 33,
+    "bytes": 971,
+    "words": 240,
+    "file": "src/main.rs",
+    "tokens": 343,
+    "test": false
+   },
+   {
+    "lines": 1062,
+    "nonblank": 1003,
+    "comment": 12,
+    "code": 991,
+    "bytes": 34936,
+    "words": 8693,
+    "file": "src/parser.rs",
+    "tokens": 13417,
+    "test": false
+   },
+   {
+    "lines": 475,
+    "nonblank": 446,
+    "comment": 25,
+    "code": 421,
+    "bytes": 13366,
+    "words": 4064,
+    "file": "src/value.rs",
+    "tokens": 5891,
+    "test": false
+   }
+  ],
+  "all": {
+   "lines": 2788,
+   "nonblank": 2634,
+   "code": 2573,
+   "comment": 61,
+   "bytes": 88493,
+   "words": 23931,
+   "tokens": 35093,
+   "n_files": 6
+  },
+  "main": {
+   "lines": 2788,
+   "nonblank": 2634,
+   "code": 2573,
+   "comment": 61,
+   "bytes": 88493,
+   "words": 23931,
+   "tokens": 35093,
+   "n_files": 6
+  },
+  "test": {
+   "lines": 0,
+   "nonblank": 0,
+   "code": 0,
+   "comment": 0,
+   "bytes": 0,
+   "words": 0,
+   "tokens": 0,
+   "n_files": 0
+  }
+ },
+ "compliance": {
+  "ok": true,
+  "issues": []
+ }
+}

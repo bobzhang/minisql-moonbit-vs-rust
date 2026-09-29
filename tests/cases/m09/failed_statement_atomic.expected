@@ -1,0 +1,37 @@
+===== phase 1 (engine) =====
+Error: UNIQUE constraint failed: t.u
+Error: NOT NULL constraint failed: t.n
+Error: CHECK constraint failed: n >= 0
+Error: UNIQUE constraint failed: t.u
+Error: integer overflow
+Error: UNIQUE constraint failed: t.u
+1002|500508
+===== phase 2 (sqlite) =====
+ok
+1002|500508|3007
+991|u991|991
+992|u992|992
+993|u993|993
+994|u994|994
+995|u995|995
+996|u996|996
+997|u997|997
+998|u998|998
+999|u999|999
+1000|u1000|1000
+3001|f1|1
+3002|f2|2
+3006|i6|6
+3007|u9|9
+0
+3007
+===== phase 3 (engine) =====
+Error: UNIQUE constraint failed: t.u
+Error: UNIQUE constraint failed: t.u
+Error: UNIQUE constraint failed: t.u
+Error: cannot commit - no transaction is active
+===== phase 4 (sqlite) =====
+ok
+4001|txn1
+4003|txn3
+1004

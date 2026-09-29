@@ -1,0 +1,12 @@
+1
+2
+Error: no such table: t
+Error: no such table: t
+Error: no such table: t
+x|y
+Error: no such column: a
+Error: no such table: MixedCase
+10
+Error: no such table: quoted name
+1
+Error: incomplete input

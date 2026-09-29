@@ -1,0 +1,26 @@
+1|42|integer
+2|3|integer
+3|3.5|real
+4|100|integer
+5|1500|integer
+6|0.25|real
+7|12|integer
+8|0|integer
+9|3|integer
+10|1|integer
+11|7|integer
+12|7|integer
+13|7.25|real
+14|9223372036854775807|integer
+15|9.223372036854776e+18|real
+16|1.0e+20|real
+17|abc|text
+18|3 apples|text
+19||text
+20|X'3432'|blob
+21|NULL|null
+22|0x1F|text
+1.5|1|2024|3|12|9.99
+real|integer|integer|integer|integer|real
+1.5|real|1|integer|2024|integer|3|integer
+x|text|true|text|2024-01-01|text|2024-01-01 10:00:00|text

@@ -1,0 +1,28 @@
+Error: UNIQUE constraint failed: seats.hall, seats.rownum, seats.seat
+A|1|1|ann
+A|1|2|bob
+A|1|3|eve
+A|2|1|cy
+B|1|1|di
+B|1|2|fay
+C|1|2|gus
+Error: UNIQUE constraint failed: seats.hall, seats.rownum, seats.seat
+Error: UNIQUE constraint failed: seats.hall, seats.rownum, seats.seat
+A|2|1
+A|5|1
+A|5|2
+A|5|3
+di
+fay
+eve
+bob
+ann
+bob
+fay
+gus
+Error: UNIQUE constraint failed: pairs.y, pairs.x
+1|2
+2|1
+Error: UNIQUE constraint failed: tl.a, tl.b
+3
+hal

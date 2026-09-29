@@ -1,0 +1,41 @@
+-- All accepted spellings of transaction control statements.
+CREATE TABLE t(v INTEGER);
+
+BEGIN;
+INSERT INTO t VALUES (1);
+COMMIT;
+BEGIN TRANSACTION;
+INSERT INTO t VALUES (2);
+COMMIT TRANSACTION;
+BEGIN DEFERRED;
+INSERT INTO t VALUES (3);
+END;
+BEGIN IMMEDIATE;
+INSERT INTO t VALUES (4);
+END TRANSACTION;
+BEGIN EXCLUSIVE TRANSACTION;
+INSERT INTO t VALUES (5);
+COMMIT;
+BEGIN DEFERRED TRANSACTION;
+INSERT INTO t VALUES (6);
+ROLLBACK TRANSACTION;
+BEGIN IMMEDIATE TRANSACTION;
+INSERT INTO t VALUES (7);
+ROLLBACK;
+SELECT v FROM t ORDER BY v;
+-- Keywords are case-insensitive.
+begin exclusive;
+insert into t values (8);
+commit;
+Begin Transaction;
+Insert Into t Values (9);
+Rollback Transaction;
+SELECT v FROM t ORDER BY v;
+-- END and COMMIT are interchangeable regardless of how BEGIN was spelled.
+BEGIN EXCLUSIVE;
+INSERT INTO t VALUES (10);
+END;
+BEGIN;
+DELETE FROM t WHERE v < 3;
+ROLLBACK;
+SELECT count(*), sum(v) FROM t;

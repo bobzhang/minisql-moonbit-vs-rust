@@ -1,0 +1,33 @@
+amy|300
+cat|210
+ben|200
+amy|0
+ben|1
+cat|1
+dan|2
+eli|2
+fox|3
+3|6
+fox|3
+gus|4
+dan,eli,fox,gus
+cte|-1
+amy|top
+ben|mid
+cat|mid
+dan|low
+eli|low
+fox|deep
+gus|deep
+8|64
+9|81
+10|100
+11|121
+12|144
+13|169
+14|196
+20|2870
+1 9 25 49 81
+Error: no such table: main.squares
+Error: cannot modify chain because it is a view
+7

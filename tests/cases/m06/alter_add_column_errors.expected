@@ -1,0 +1,24 @@
+Error: duplicate column name: name
+Error: Cannot add a PRIMARY KEY column
+Error: Cannot add a UNIQUE column
+Error: Cannot add a NOT NULL column with default value NULL
+Error: no such table: nosuch
+Error: Cannot add a column to a view
+1|a
+1
+Error: UNIQUE constraint failed: t.u
+1|a|[]|NULL
+2|b|[]|x
+3|c|[]|NULL
+1|a||NULL
+2|b||x
+3|c||NULL
+-7|it's
+3
+NULL|2|3
+1|2|3|-7
+2|2|3|-7
+3|2|3|-7
+4|2|3|-7
+20|4
+4

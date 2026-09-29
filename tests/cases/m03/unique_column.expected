@@ -1,0 +1,33 @@
+Error: UNIQUE constraint failed: t.email
+Error: UNIQUE constraint failed: t.code
+1|a@x|10
+2|b@x|20
+1|a@x|10
+2|b@x|20
+5|NULL|NULL
+6|NULL|NULL
+Error: UNIQUE constraint failed: t.code
+1|a@x|10
+2|b@x|20
+5|NULL|NULL
+6|NULL|NULL
+8|A@X|80
+Error: UNIQUE constraint failed: t.email
+1|a@x|10
+2|b@x|20
+5|NULL|NULL
+6|NULL|NULL
+8|A@X|80
+1|a@x|10
+5|NULL|NULL
+6|NULL|NULL
+8|A@X|80
+9|b@x|20
+Error: UNIQUE constraint failed: n.v
+1|integer
+1|text
+Error: UNIQUE constraint failed: n.v
+1|integer
+1|text
+X'01'|blob
+Error: UNIQUE constraint failed: m.v

@@ -1,0 +1,23 @@
+1|a|x1
+2|b|x2
+Error: no such table: old_t
+table|new_t|new_t
+index|old_t_name|new_t
+index|sqlite_autoindex_new_t_1|new_t
+Error: NOT NULL constraint failed: new_t.name
+Error: UNIQUE constraint failed: new_t.code
+3
+4|d
+fresh
+Error: there is already another table or index with this name: old_t
+Error: there is already another table or index with this name: old_t_name
+Error: there is already another table or index with this name: New_T
+Error: no such table: nosuch
+4
+4
+old_t
+plain
+1|a|x1
+2|b|x2
+3|c|x3
+4|d|x4

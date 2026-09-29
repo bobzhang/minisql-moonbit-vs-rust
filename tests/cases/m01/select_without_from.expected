@@ -1,0 +1,14 @@
+1
+1|2|3
+a|1.5|NULL|X'00'
+2|xy|-5|1
+real|text|null
+1|2
+all
+kept
+kept
+3
+Error: no such column: a
+Error: no such column: t.a
+1|2|7
+1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20

@@ -1,0 +1,4 @@
+other failures (2): m02/math_exp_log m02/printf_quoting
+m01: 26/26 passed
+m02: 32/34 passed
+TOTAL: 58/60 passed

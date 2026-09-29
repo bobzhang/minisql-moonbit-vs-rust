@@ -1,0 +1,14 @@
+1 and 0|[]|0|0.000000
+1|no conversions
+NULL|NULL|null
+42|1.5|text
+plain text|a%b
+[   42]|[42   ]|[3.14]|[   3.142]
+[42   ]
+[ccc]
+[  a]
+[    bb]
+10 10 10.000000 a
+2|2.9|2.9
+text|text
+Error: no such function: sprintf

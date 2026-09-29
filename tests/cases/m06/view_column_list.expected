@@ -1,0 +1,26 @@
+1|x|1.5
+2|y|2.5
+3|z|NULL
+3|z|NULL
+2|y|2.5
+1|x|1.5
+z
+Error: no such column: a
+Error: no such column: v.b
+x|2.5|1
+z|3|1
+y|4.5|1
+10.0|3
+3|3|x
+9
+1
+2
+3
+10
+1|one|x
+3|three|z
+three
+1|x
+2|y
+3|z
+Error: expected 2 columns for 'bad' but got 3

@@ -1,0 +1,27 @@
+Error: UNIQUE constraint failed: t.code
+2|a|2
+1|b|1
+1|b|1
+2|a|2
+3|NULL|4
+4|NULL|5
+1|10|ten
+2|20|twenty
+3|NULL|none
+Error: UNIQUE constraint failed: i.id
+Error: UNIQUE constraint failed: i.id
+1|10|ten
+2|20|twenty
+3|NULL|none
+10|integer|ten
+20|integer|twenty
+NULL|null|none
+abc|text|text key
+1.5|real|real key
+Error: UNIQUE constraint failed: r.k
+1.0
+2.5
+Error: UNIQUE constraint failed: c.name
+Zed
+Zed
+Error: table "bad" has more than one primary key

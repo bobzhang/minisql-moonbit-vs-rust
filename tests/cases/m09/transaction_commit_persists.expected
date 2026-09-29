@@ -1,0 +1,18 @@
+===== phase 1 (engine) =====
+===== phase 2 (sqlite) =====
+ok
+table|t|t
+index|t_v|t
+table|u|u
+4000|4000
+1|one
+2|two
+3|row3
+11
+3999
+===== phase 3 (engine) =====
+11
+20
+===== phase 4 (sqlite) =====
+11
+20

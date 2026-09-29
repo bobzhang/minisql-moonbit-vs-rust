@@ -1,0 +1,30 @@
+ann|eng|80
+ann|eng|100
+bob|eng|80
+bob|eng|100
+cy|ops|30
+ann|eng|nyc|100
+bob|eng|sf|80
+ann|100
+bob|80
+ann|eng|eng|eng
+bob|eng|eng|eng
+Error: ambiguous column name: site
+ann|nyc|nyc
+ann|nyc|sf
+bob|sf|nyc
+bob|sf|sf
+cy|nyc|sf
+5
+ann|eng|100
+bob|eng|80
+cy|ops|NULL
+dot|NULL|NULL
+bob
+ann
+eng|360
+ops|30
+ann|100
+bob|80
+Error: cannot join using column name - column not present in both tables
+Error: cannot join using column nosuch - column not present in both tables

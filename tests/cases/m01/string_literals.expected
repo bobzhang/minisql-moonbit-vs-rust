@@ -1,0 +1,12 @@
+hello
+
+it's|'|''|a'b'c
+back\slash|tab\t|\
+say "hi"|"
+SELECT * FROM t|a -- b|1 + 1
+naïve|Straße|日本語|Ελληνικά
+text|text|text
+123|1.5|text
+a
+recovered
+Error: unrecognized token: "'unterminated"

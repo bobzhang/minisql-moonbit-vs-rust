@@ -1,0 +1,11 @@
+===== phase 1 (engine) =====
+0
+2
+Error: no such table: nothing_here
+===== phase 2 (engine) =====
+0
+===== phase 3 (sqlite) =====
+ok
+table|t
+1|x
+2|y

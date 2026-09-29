@@ -1,0 +1,10 @@
+other failures (8): m02/printf_quoting m03/insert_default_values m04/group_by_order_limit m05/join_using_star m06/alter_drop_column m06/alter_drop_column_errors m06/perf_order_by_limit m08/autoincrement_sqlite_sequence
+m01: 26/26 passed
+m02: 33/34 passed
+m03: 27/28 passed
+m04: 25/26 passed
+m05: 27/28 passed
+m06: 24/27 passed
+m07: 30/30 passed
+m08: 20/21 passed
+TOTAL: 212/220 passed

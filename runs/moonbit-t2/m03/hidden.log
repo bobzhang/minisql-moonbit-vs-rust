@@ -1,0 +1,5 @@
+other failures (4): m03/default_expressions m03/insert_default_values m03/rowid_allocation m03/rowid_max_value
+m01: 26/26 passed
+m02: 34/34 passed
+m03: 24/28 passed
+TOTAL: 84/88 passed

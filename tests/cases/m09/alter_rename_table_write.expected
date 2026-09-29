@@ -1,0 +1,35 @@
+===== phase 1 (engine) =====
+===== phase 2 (sqlite) =====
+ok
+table|new_t|new_t
+index|old_t_v|new_t
+view|old_view|old_view
+index|sqlite_autoindex_new_t_1|new_t
+1|a|1
+2|b|2
+3|c|3
+4|d|4
+b|2
+c|3
+d|4
+3
+4
+Error: UNIQUE constraint failed: new_t.code
+Error: no such table: old_t
+===== phase 3 (engine) =====
+table|Final Name|Final Name
+index|old_t_v|Final Name
+view|old_view|old_view
+index|sqlite_autoindex_Final Name_1|Final Name
+1|a|1
+2|b|2
+3|c|3
+4|d|4
+===== phase 4 (sqlite) =====
+ok
+table|Final Name|Final Name
+index|old_t_v|Final Name
+view|old_view|old_view
+index|sqlite_autoindex_Final Name_1|Final Name
+3
+f

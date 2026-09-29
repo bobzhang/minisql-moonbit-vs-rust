@@ -1,0 +1,14 @@
+===== phase 1 (sqlite) =====
+===== phase 2 (engine) =====
+0|NULL|0.0|NULL
+table|t|t
+Error: no such table: missing_table
+1
+===== phase 3 (sqlite) =====
+===== phase 4 (engine) =====
+0
+NULL
+index|sqlite_autoindex_u_1|u
+table|t|t
+index|t_a|t
+table|u|u

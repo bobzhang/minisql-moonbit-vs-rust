@@ -1,0 +1,28 @@
+10|100
+tn1|un1
+Error: ambiguous column name: name
+Error: ambiguous column name: id
+Error: ambiguous column name: name
+Error: ambiguous column name: id
+10
+10
+20
+1|2
+2|2
+tn1
+1|tn1
+Error: ambiguous column name: name
+Error: ambiguous column name: t.v
+10|20
+Error: no such column: t.v
+Error: ambiguous column name: x.id
+10|100
+tn1|un1|100
+z1|tn1|un1
+z1|10
+z2|20
+tn1
+tn2
+un1|tn1
+1|tn1
+3

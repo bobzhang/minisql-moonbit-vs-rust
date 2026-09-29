@@ -1,0 +1,335 @@
+{
+ "visible": {
+  "build_ok": true,
+  "passed": 172,
+  "total": 172,
+  "per_milestone": {
+   "m01": [
+    27,
+    27
+   ],
+   "m02": [
+    34,
+    34
+   ],
+   "m03": [
+    28,
+    28
+   ],
+   "m04": [
+    27,
+    27
+   ],
+   "m05": [
+    28,
+    28
+   ],
+   "m06": [
+    28,
+    28
+   ]
+  },
+  "similarity": 1.0
+ },
+ "hidden": {
+  "build_ok": true,
+  "passed": 161,
+  "total": 169,
+  "per_milestone": {
+   "m01": [
+    26,
+    26
+   ],
+   "m02": [
+    34,
+    34
+   ],
+   "m03": [
+    24,
+    28
+   ],
+   "m04": [
+    26,
+    26
+   ],
+   "m05": [
+    25,
+    28
+   ],
+   "m06": [
+    26,
+    27
+   ]
+  },
+  "similarity": 0.9943
+ },
+ "code": {
+  "files": [
+   {
+    "lines": 8,
+    "nonblank": 7,
+    "comment": 1,
+    "code": 6,
+    "bytes": 136,
+    "words": 44,
+    "file": "cmd/main/main.mbt",
+    "tokens": 73,
+    "test": false
+   },
+   {
+    "lines": 458,
+    "nonblank": 437,
+    "comment": 34,
+    "code": 403,
+    "bytes": 10564,
+    "words": 2960,
+    "file": "engine/aggregate.mbt",
+    "tokens": 4719,
+    "test": false
+   },
+   {
+    "lines": 313,
+    "nonblank": 286,
+    "comment": 43,
+    "code": 243,
+    "bytes": 6100,
+    "words": 1529,
+    "file": "engine/ast.mbt",
+    "tokens": 3085,
+    "test": false
+   },
+   {
+    "lines": 400,
+    "nonblank": 379,
+    "comment": 37,
+    "code": 342,
+    "bytes": 8680,
+    "words": 2794,
+    "file": "engine/collate.mbt",
+    "tokens": 3996,
+    "test": false
+   },
+   {
+    "lines": 1053,
+    "nonblank": 1013,
+    "comment": 55,
+    "code": 958,
+    "bytes": 24066,
+    "words": 7284,
+    "file": "engine/datetime.mbt",
+    "tokens": 11898,
+    "test": false
+   },
+   {
+    "lines": 231,
+    "nonblank": 210,
+    "comment": 46,
+    "code": 164,
+    "bytes": 5351,
+    "words": 1496,
+    "file": "engine/db.mbt",
+    "tokens": 2428,
+    "test": false
+   },
+   {
+    "lines": 648,
+    "nonblank": 627,
+    "comment": 41,
+    "code": 586,
+    "bytes": 17241,
+    "words": 4396,
+    "file": "engine/dml.mbt",
+    "tokens": 7478,
+    "test": false
+   },
+   {
+    "lines": 599,
+    "nonblank": 577,
+    "comment": 31,
+    "code": 546,
+    "bytes": 14172,
+    "words": 3953,
+    "file": "engine/eval.mbt",
+    "tokens": 6315,
+    "test": false
+   },
+   {
+    "lines": 724,
+    "nonblank": 699,
+    "comment": 55,
+    "code": 644,
+    "bytes": 18652,
+    "words": 5270,
+    "file": "engine/exec.mbt",
+    "tokens": 8164,
+    "test": false
+   },
+   {
+    "lines": 690,
+    "nonblank": 670,
+    "comment": 27,
+    "code": 643,
+    "bytes": 16065,
+    "words": 5336,
+    "file": "engine/functions.mbt",
+    "tokens": 7663,
+    "test": false
+   },
+   {
+    "lines": 293,
+    "nonblank": 283,
+    "comment": 15,
+    "code": 268,
+    "bytes": 6911,
+    "words": 2272,
+    "file": "engine/lexer.mbt",
+    "tokens": 3190,
+    "test": false
+   },
+   {
+    "lines": 328,
+    "nonblank": 312,
+    "comment": 30,
+    "code": 282,
+    "bytes": 6827,
+    "words": 2098,
+    "file": "engine/numeric.mbt",
+    "tokens": 3255,
+    "test": false
+   },
+   {
+    "lines": 349,
+    "nonblank": 316,
+    "comment": 38,
+    "code": 278,
+    "bytes": 7561,
+    "words": 2778,
+    "file": "engine/ordmap.mbt",
+    "tokens": 3894,
+    "test": false
+   },
+   {
+    "lines": 1605,
+    "nonblank": 1537,
+    "comment": 82,
+    "code": 1455,
+    "bytes": 38394,
+    "words": 11063,
+    "file": "engine/parser.mbt",
+    "tokens": 17832,
+    "test": false
+   },
+   {
+    "lines": 1353,
+    "nonblank": 1313,
+    "comment": 96,
+    "code": 1217,
+    "bytes": 32101,
+    "words": 9031,
+    "file": "engine/planner.mbt",
+    "tokens": 14263,
+    "test": false
+   },
+   {
+    "lines": 616,
+    "nonblank": 605,
+    "comment": 20,
+    "code": 585,
+    "bytes": 14237,
+    "words": 3873,
+    "file": "engine/printf.mbt",
+    "tokens": 6386,
+    "test": false
+   },
+   {
+    "lines": 1241,
+    "nonblank": 1199,
+    "comment": 95,
+    "code": 1104,
+    "bytes": 32153,
+    "words": 9291,
+    "file": "engine/query.mbt",
+    "tokens": 13754,
+    "test": false
+   },
+   {
+    "lines": 773,
+    "nonblank": 738,
+    "comment": 58,
+    "code": 680,
+    "bytes": 19893,
+    "words": 6092,
+    "file": "engine/schema.mbt",
+    "tokens": 8803,
+    "test": false
+   },
+   {
+    "lines": 413,
+    "nonblank": 391,
+    "comment": 39,
+    "code": 352,
+    "bytes": 9674,
+    "words": 3109,
+    "file": "engine/storage.mbt",
+    "tokens": 4435,
+    "test": false
+   },
+   {
+    "lines": 108,
+    "nonblank": 103,
+    "comment": 8,
+    "code": 95,
+    "bytes": 2686,
+    "words": 651,
+    "file": "engine/txn.mbt",
+    "tokens": 1186,
+    "test": false
+   },
+   {
+    "lines": 275,
+    "nonblank": 258,
+    "comment": 32,
+    "code": 226,
+    "bytes": 5926,
+    "words": 1947,
+    "file": "engine/value.mbt",
+    "tokens": 2942,
+    "test": false
+   }
+  ],
+  "all": {
+   "lines": 12478,
+   "nonblank": 11960,
+   "code": 11077,
+   "comment": 883,
+   "bytes": 297390,
+   "words": 87267,
+   "tokens": 135759,
+   "n_files": 21
+  },
+  "main": {
+   "lines": 12478,
+   "nonblank": 11960,
+   "code": 11077,
+   "comment": 883,
+   "bytes": 297390,
+   "words": 87267,
+   "tokens": 135759,
+   "n_files": 21
+  },
+  "test": {
+   "lines": 0,
+   "nonblank": 0,
+   "code": 0,
+   "comment": 0,
+   "bytes": 0,
+   "words": 0,
+   "tokens": 0,
+   "n_files": 0
+  }
+ },
+ "compliance": {
+  "ok": true,
+  "issues": []
+ }
+}

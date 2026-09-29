@@ -1,0 +1,32 @@
+===== phase 1 (sqlite) =====
+===== phase 2 (engine) =====
+1000
+===== phase 3 (sqlite) =====
+ok
+1334|engine1001|sqlite998
+1
+2
+===== phase 4 (engine) =====
+1334|267
+from sqlite
+2
+table|e
+table|s
+index|sqlite_autoindex_e_1
+table|t
+index|t_v2
+Error: UNIQUE constraint failed: e.x
+===== phase 5 (sqlite) =====
+ok
+table|e|e
+index|sqlite_autoindex_e_1|e
+table|t|t
+index|t_v2|t
+5000
+2
+3
+1335
+===== phase 6 (engine) =====
+1335|5000
+998|sqlite998
+997|sqlite997

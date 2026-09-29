@@ -1,0 +1,24 @@
+1|a1|1.5|d1
+2|a2|2.5|d2
+3|NULL|NULL|NULL
+Error: no such column: b
+1|a1|d1
+2|a2|d2
+3|NULL|NULL
+1|a1|d1
+2|a2|d2
+3|NULL|NULL
+4|a4|dd
+Error: table t has 3 columns but 5 values were supplied
+5
+1
+2
+Error: error in index ix_q after drop column: no such column: q
+1|r1
+1|r1|new
+1|r1
+1|1
+2|2
+3|3
+4|4
+5|5

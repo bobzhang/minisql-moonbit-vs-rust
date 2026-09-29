@@ -1,0 +1,16 @@
+1|one
+2|two
+2
+view|v
+view|vv
+Error: no such table: main.t
+Error: no such table: main.t
+Error: no such table: main.t
+5|five
+1
+Error: no such table: main.v
+3
+Error: no such table: main.not_yet
+42
+Error: no such column: x
+1|added

@@ -1,0 +1,14 @@
+===== phase 1 (engine) =====
+===== phase 2 (sqlite) =====
+ok
+1999|1826267|15
+2|k3|-3|replaced two
+10|k10|1000|upserted
+11|k11|11|t1
+21|k20|21|t1
+100|k100|-100|bulk
+101|k101|101|t1
+5000|k1|-1|replaced
+5001|fresh|7|x
+251
+253

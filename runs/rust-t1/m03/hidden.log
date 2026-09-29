@@ -1,0 +1,5 @@
+other failures (3): m02/math_exp_log m03/default_expressions m03/insert_default_values
+m01: 26/26 passed
+m02: 33/34 passed
+m03: 26/28 passed
+TOTAL: 85/88 passed

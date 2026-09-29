@@ -1,0 +1,38 @@
+1|11|a
+2|2|b
+3|13|c
+4|12|d
+2|2|b
+3|11|c
+4|12|d
+Error: UNIQUE constraint failed: t.code
+2|2|b
+3|11|c
+4|12|d
+Error: UNIQUE constraint failed: t.code
+2|2|b
+3|11|c
+4|12|d
+Error: UNIQUE constraint failed: t.code
+2|2|b
+3|11|c
+4|12|d
+2|11|c
+4|12|d
+2|11|c
+4|12|d
+1|p|q
+2|r|s
+1|dflt|q
+2|r|s
+Error: NOT NULL constraint failed: n.y
+1|dflt|q
+2|r|s
+Error: UNIQUE constraint failed: t.code
+2|11|c
+4|12|d
+1|a
+2|b
+Error: UNIQUE constraint failed: k.u
+1|a
+2|b

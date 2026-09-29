@@ -1,0 +1,29 @@
+table|a|a
+index|a_x|a
+view|av|av
+index|sqlite_autoindex_a_1|a
+index|a_x|b
+view|av|av
+table|b|b
+index|sqlite_autoindex_b_1|b
+index|a_x|b
+view|av|av
+table|b|b
+index|sqlite_autoindex_b_1|b
+4
+4
+table|b|b
+index|b_z|b
+index|sqlite_autoindex_b_1|b
+0
+3
+0
+table|keep|keep
+index|sqlite_autoindex_keep_1|keep
+0
+table|keep|keep
+index|keep_k2|keep
+index|sqlite_autoindex_keep_1|keep
+Error: table keep already exists
+Error: no such column: nosuch
+3

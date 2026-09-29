@@ -1,0 +1,28 @@
+===== phase 1 (sqlite) =====
+===== phase 2 (engine) =====
+view|v nested|v nested
+view|v_dept_totals|v_dept_totals
+view|v_names|v_names
+view|v_ranked|v_ranked
+view|v_rich|v_rich
+ann|100
+ben|120
+empty|0|NULL
+eng|2|220
+ops|2|185
+8
+ops
+eve
+eng
+eng|440
+ops|370
+ben|1
+ann|2
+eve|3
+cid|4
+dee|5
+ann|220
+ben|220
+0
+Error: cannot modify v_rich because it is a view
+Error: no such table: v_missing

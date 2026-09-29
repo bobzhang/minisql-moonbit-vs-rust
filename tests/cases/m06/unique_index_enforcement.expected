@@ -1,0 +1,18 @@
+Error: UNIQUE constraint failed: users.email
+2
+Error: UNIQUE constraint failed: users.email
+2
+Error: UNIQUE constraint failed: users.email
+1
+2
+Error: UNIQUE constraint failed: users.email
+b@x
+11
+12
+13
+Error: UNIQUE constraint failed: loose.v
+3
+3
+1|a@x
+8|b@x
+2

@@ -1,0 +1,31 @@
+one
+two
+other
+NULL
+first
+no match
+no match
+eq
+ne
+ne
+ne
+five
+1
+six
+1|red
+2|green
+3|blue
+4|unknown
+5|unknown
+1|one
+2|two
+3|NULL
+4|NULL
+5|NULL
+2
+3
+3
+2
+1
+4
+5

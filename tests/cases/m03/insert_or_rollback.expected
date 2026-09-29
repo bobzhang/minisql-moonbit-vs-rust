@@ -1,0 +1,23 @@
+Error: UNIQUE constraint failed: t.v
+1|a
+2|b
+1|a
+2|b
+3|c
+Error: UNIQUE constraint failed: t.id
+1|a
+2|b
+3|c
+Error: UNIQUE constraint failed: r.k
+1|x
+1|x
+2|y
+Error: UNIQUE constraint failed: t.v
+1|a
+2|b
+3|c
+1|a
+2|b!
+3|c!
+Error: NOT NULL constraint failed: n.x
+2

@@ -1,0 +1,38 @@
+-- RANGE offsets with DESC ordering (N PRECEDING then means values up to
+-- current + N) and with REAL ORDER BY values / REAL offsets.
+CREATE TABLE t(id INTEGER PRIMARY KEY, x REAL, v INTEGER);
+INSERT INTO t VALUES (1, 0.5, 1), (2, 1.0, 2), (3, 1.25, 4), (4, 2.0, 8), (5, 3.5, 16), (6, 3.5, 32), (7, 4.75, 64);
+
+-- REAL offset on REAL values.
+SELECT id, x, sum(v) OVER (ORDER BY x RANGE BETWEEN 0.5 PRECEDING AND 0.5 FOLLOWING) FROM t ORDER BY id;
+-- Integer offset on REAL values.
+SELECT id, x, sum(v) OVER (ORDER BY x RANGE BETWEEN 1 PRECEDING AND CURRENT ROW) FROM t ORDER BY id;
+
+-- DESC: "1 PRECEDING" covers values in [x, x + 1].
+SELECT id, x, sum(v) OVER (ORDER BY x DESC RANGE 1 PRECEDING) FROM t ORDER BY id;
+SELECT id, x, sum(v) OVER (ORDER BY x DESC RANGE BETWEEN CURRENT ROW AND 1.5 FOLLOWING) FROM t ORDER BY id;
+SELECT id, x, sum(v) OVER (ORDER BY x DESC RANGE BETWEEN 0.75 PRECEDING AND 0.75 FOLLOWING) FROM t ORDER BY id;
+
+-- Same frame asc vs desc yields the same set for symmetric bounds.
+SELECT id, sum(v) OVER (ORDER BY x RANGE BETWEEN 1 PRECEDING AND 1 FOLLOWING) = sum(v) OVER (ORDER BY x DESC RANGE BETWEEN 1 PRECEDING AND 1 FOLLOWING)
+FROM t ORDER BY id;
+
+-- Integer ORDER BY values with a REAL offset.
+CREATE TABLE i(id INTEGER PRIMARY KEY, k INTEGER);
+INSERT INTO i VALUES (1, 10), (2, 11), (3, 12), (4, 14), (5, 17);
+SELECT id, k, count(*) OVER (ORDER BY k RANGE BETWEEN 1.5 PRECEDING AND 1.5 FOLLOWING) FROM i ORDER BY id;
+SELECT id, k, group_concat(k, ',') OVER (ORDER BY k DESC RANGE BETWEEN 2 PRECEDING AND CURRENT ROW) FROM i ORDER BY id;
+
+-- Negative ORDER BY values.
+CREATE TABLE neg(id INTEGER PRIMARY KEY, k INTEGER);
+INSERT INTO neg VALUES (1, -5), (2, -3), (3, -2), (4, 0), (5, 2);
+SELECT id, k, sum(k) OVER (ORDER BY k RANGE BETWEEN 2 PRECEDING AND 2 FOLLOWING) FROM neg ORDER BY id;
+SELECT id, k, min(k) OVER (ORDER BY k DESC RANGE BETWEEN 3 FOLLOWING AND UNBOUNDED FOLLOWING) FROM neg ORDER BY id;
+
+-- A running "last 30 days" window using julianday values as the key.
+CREATE TABLE ev(id INTEGER PRIMARY KEY, day TEXT, n INTEGER);
+INSERT INTO ev VALUES (1, '2024-01-01', 1), (2, '2024-01-15', 2), (3, '2024-01-31', 4), (4, '2024-02-01', 8), (5, '2024-03-15', 16);
+SELECT id, day, sum(n) OVER (ORDER BY julianday(day) RANGE BETWEEN 30 PRECEDING AND CURRENT ROW) FROM ev ORDER BY id;
+
+-- Error: a negative RANGE offset.
+SELECT sum(v) OVER (ORDER BY x RANGE -1 PRECEDING) FROM t;

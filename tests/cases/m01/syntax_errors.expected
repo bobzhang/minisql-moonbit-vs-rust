@@ -1,0 +1,36 @@
+Error: incomplete input
+still running
+2|6
+Error: near "FROM": syntax error
+Error: incomplete input
+1|2
+Error: near "*": syntax error
+-1
+Error: near "seelct": syntax error
+typo above did not stop us
+Error: near "FROM": syntax error
+1|x
+Error: incomplete input
+1
+Error: near "DESC": syntax error
+1
+Error: near "(": syntax error
+1|x
+1|x
+2|y
+3|z
+10
+20
+30
+xy
+integer|text
+3
+end
+q
+p
+1
+2
+z
+y
+x
+1

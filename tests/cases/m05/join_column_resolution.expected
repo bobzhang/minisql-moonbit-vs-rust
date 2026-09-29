@@ -1,0 +1,36 @@
+apple|fruit
+pear|fruit
+kale|veg
+apple|fruit
+pear|fruit
+kale|veg
+Error: no such column: items.title
+apple
+pear
+kale
+rock
+1|fruit|1|apple|1
+1|fruit|2|pear|1
+2|veg|3|kale|2
+1|1|fruit
+2|1|fruit
+3|2|veg
+4|NULL|NULL
+Error: no such table: nosuch
+1|1
+2|1
+3|2
+apple:fruit
+kale:veg
+pear:fruit
+kale|veg
+apple|fruit
+pear|fruit
+apple|fruit|crisp
+kale|veg|leafy
+apple|crisp
+pear|NULL
+kale|leafy
+rock|NULL
+Error: no such column: i.nosuch
+Error: no such column: z.title

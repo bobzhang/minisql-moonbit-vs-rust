@@ -1,0 +1,29 @@
+Error: no such function: nosuchfunc
+1
+OK
+Error: no such function: substrng
+abc|abc
+3
+Error: wrong number of arguments to function abs()
+2.0|1.6
+Error: wrong number of arguments to function coalesce()
+1
+Error: wrong number of arguments to function substr()
+cdef
+Error: no such function: nosuchfunc
+3
+4
+Error: no such function: nosuchfunc
+Error: no such function: nosuchfunc
+-6
+8
+A|b|3
+third|second
+4|8
+integer
+integer
+2|1|a|a-b-c
+a|a|2.57|b
+1-2-3|ABCD
+2D33|-3
+34|4

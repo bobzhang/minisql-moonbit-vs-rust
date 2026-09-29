@@ -1,0 +1,24 @@
+Error: CHECK constraint failed: price > 0
+Error: CHECK constraint failed: length(code) = 3
+Error: CHECK constraint failed: lo <= hi
+1|10|abc|1|2
+1|10|abc|1|2
+5|NULL|NULL|NULL|7
+6|12|integer
+7|123|text
+Error: CHECK constraint failed: lo <= hi
+1|20|1|2
+5|NULL|NULL|7
+6|24|0|0
+7|4|0|0
+Error: CHECK constraint failed: v
+NULL|null
+0.5|real
+1|integer
+1x|text
+Error: CHECK constraint failed: valid_status
+Error: CHECK constraint failed: tag = lower(tag)
+done|0.0|fine
+new|0.5|ok
+new|1.0|x_y
+Error: no such column: nosuch

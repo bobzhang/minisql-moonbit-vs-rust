@@ -1,0 +1,37 @@
+3
+6
+6
+3
+1
+2
+3
+4
+5
+6
+2
+3
+5
+4
+4
+6
+2
+3
+1|a
+2|b
+3|c
+4|d
+7
+8
+7
+4
+3
+5
+6
+closed|2
+open|4
+void|1
+Error: no such column: nosuch
+Error: subqueries prohibited in partial index WHERE clauses
+orders_big
+orders_note
+orders_open_amount

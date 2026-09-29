@@ -1,0 +1,24 @@
+1|x
+2|y
+3|z
+1|x
+2|y
+4|w
+5|after clear
+5|after clear
+101|after hundred
+-3|negative
+5|after clear
+50|fifty
+101|after hundred
+102|next
+103|null id
+Error: NOT NULL constraint failed: b.v
+1|one
+2|two
+1|fresh
+1|x
+2|y
+3|w
+Error: AUTOINCREMENT is only allowed on an INTEGER PRIMARY KEY
+Error: AUTOINCREMENT is only allowed on an INTEGER PRIMARY KEY

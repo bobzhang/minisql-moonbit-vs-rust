@@ -1,0 +1,163 @@
+{
+ "visible": {
+  "build_ok": true,
+  "passed": 27,
+  "total": 27,
+  "per_milestone": {
+   "m01": [
+    27,
+    27
+   ]
+  },
+  "similarity": 1.0
+ },
+ "hidden": {
+  "build_ok": true,
+  "passed": 26,
+  "total": 26,
+  "per_milestone": {
+   "m01": [
+    26,
+    26
+   ]
+  },
+  "similarity": 1.0
+ },
+ "code": {
+  "files": [
+   {
+    "lines": 176,
+    "nonblank": 157,
+    "comment": 7,
+    "code": 150,
+    "bytes": 3543,
+    "words": 907,
+    "file": "src/ast.rs",
+    "tokens": 1795,
+    "test": false
+   },
+   {
+    "lines": 83,
+    "nonblank": 70,
+    "comment": 5,
+    "code": 65,
+    "bytes": 2072,
+    "words": 540,
+    "file": "src/db.rs",
+    "tokens": 944,
+    "test": false
+   },
+   {
+    "lines": 26,
+    "nonblank": 19,
+    "comment": 1,
+    "code": 18,
+    "bytes": 492,
+    "words": 174,
+    "file": "src/error.rs",
+    "tokens": 247,
+    "test": false
+   },
+   {
+    "lines": 321,
+    "nonblank": 305,
+    "comment": 10,
+    "code": 295,
+    "bytes": 11100,
+    "words": 3158,
+    "file": "src/eval.rs",
+    "tokens": 4522,
+    "test": false
+   },
+   {
+    "lines": 497,
+    "nonblank": 476,
+    "comment": 9,
+    "code": 467,
+    "bytes": 19423,
+    "words": 4669,
+    "file": "src/exec.rs",
+    "tokens": 6814,
+    "test": false
+   },
+   {
+    "lines": 283,
+    "nonblank": 273,
+    "comment": 14,
+    "code": 259,
+    "bytes": 9812,
+    "words": 2761,
+    "file": "src/lexer.rs",
+    "tokens": 3678,
+    "test": false
+   },
+   {
+    "lines": 118,
+    "nonblank": 114,
+    "comment": 3,
+    "code": 111,
+    "bytes": 3353,
+    "words": 850,
+    "file": "src/main.rs",
+    "tokens": 1179,
+    "test": false
+   },
+   {
+    "lines": 992,
+    "nonblank": 931,
+    "comment": 14,
+    "code": 917,
+    "bytes": 32236,
+    "words": 8356,
+    "file": "src/parser.rs",
+    "tokens": 12687,
+    "test": false
+   },
+   {
+    "lines": 438,
+    "nonblank": 408,
+    "comment": 25,
+    "code": 383,
+    "bytes": 12538,
+    "words": 3654,
+    "file": "src/value.rs",
+    "tokens": 5290,
+    "test": false
+   }
+  ],
+  "all": {
+   "lines": 2934,
+   "nonblank": 2753,
+   "code": 2665,
+   "comment": 88,
+   "bytes": 94569,
+   "words": 25069,
+   "tokens": 37156,
+   "n_files": 9
+  },
+  "main": {
+   "lines": 2934,
+   "nonblank": 2753,
+   "code": 2665,
+   "comment": 88,
+   "bytes": 94569,
+   "words": 25069,
+   "tokens": 37156,
+   "n_files": 9
+  },
+  "test": {
+   "lines": 0,
+   "nonblank": 0,
+   "code": 0,
+   "comment": 0,
+   "bytes": 0,
+   "words": 0,
+   "tokens": 0,
+   "n_files": 0
+  }
+ },
+ "compliance": {
+  "ok": true,
+  "issues": []
+ }
+}

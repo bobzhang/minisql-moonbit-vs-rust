@@ -1,0 +1,15 @@
+plain|with space|  leading and trailing  
+a|b||
+café|中文|emoji 😀|Ωmega
+NULL|null
+|x|
+X'00'|X'0A0B0C'|X'DEADBEEF'|X'DEADBEEF'
+X''|X''
+X'48656C6C6F'
+blob|text
+1|two|3.0|NULL|X'04'
+1|text|text
+2|X'CAFE'|blob
+3||text
+4|X''|blob
+5|ü|text

@@ -1,0 +1,25 @@
+Error: UNIQUE constraint failed: users.name
+Alice
+alice 
+Error: UNIQUE constraint failed: tags.t
+2
+Red
+RED
+Error: UNIQUE constraint failed: codes.c
+[ ab]
+[ab]
+banana
+cherry
+Banana
+banana
+cherry
+apple
+Apple
+banana
+Banana
+cherry
+Apple
+apple
+0
+Error: UNIQUE constraint failed: words.w
+0

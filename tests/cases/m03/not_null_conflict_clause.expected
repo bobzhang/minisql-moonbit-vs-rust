@@ -1,0 +1,22 @@
+5|1|r1
+1
+0
+5|1|r1
+2
+5|1|r1
+2|2|r3
+5|4|r5
+5|1|r1
+5|2|r3
+5|4|r5
+5|1|r1
+5|2|r3
+5|4|r5
+Error: NOT NULL constraint failed: u.a
+Error: NOT NULL constraint failed: t.b
+5|1|r1
+5|2|r3
+5|4|r5
+Error: NOT NULL constraint failed: f.x
+Error: NOT NULL constraint failed: f.y
+1|1

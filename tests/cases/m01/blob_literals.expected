@@ -1,0 +1,22 @@
+X''|X'00'|X'FF'|X'FF'|X'ABCD'
+X'0102030405060708090A0B0C0D0E0F10'
+blob|blob
+X'414243'
+1|X'00'|blob
+2|X'0000'|blob
+3|X''|blob
+4|X'FF'|blob
+5|X'7F'|blob
+X''
+X'00'
+X'0000'
+X'7F'
+X'FF'
+X'FF'
+X'7F'
+X'0000'
+X'00'
+X''
+Error: unrecognized token: "x'abc'"
+Error: unrecognized token: "x'zz'"
+Error: no such column: x

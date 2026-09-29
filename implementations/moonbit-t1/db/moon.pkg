@@ -1,0 +1,10 @@
+import {
+  "moonbitlang/core/string",
+  "moonbitlang/core/double",
+  "moonbitlang/core/int64",
+  "moonbitlang/core/encoding/utf8",
+  "moonbitlang/core/buffer",
+  "moonbitlang/core/math",
+}
+
+warnings = "-implicit_impl_as_method"

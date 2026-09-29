@@ -1,0 +1,29 @@
+===== phase 1 (engine) =====
+===== phase 2 (sqlite) =====
+ok
+table|café|café
+index|café_idx|café
+index|sqlite_autoindex_表_1|表
+table|表|表
+1|résumé|6|72C3A973756DC3A9
+2|中文字符|4|E4B8ADE69687E5AD97E7ACA6
+3|😀🎉|2|F09F9880F09F8E89
+4|é|2|65CC81
+5|Ωmega|5|CEA96D656761
+6|zebra|5|7A65627261
+7|Ärger|5|C38472676572
+8||0|
+8
+4
+1
+6
+7
+9
+5
+2
+3
+3000|6000
+2
+===== phase 3 (engine) =====
+一二三四
+3

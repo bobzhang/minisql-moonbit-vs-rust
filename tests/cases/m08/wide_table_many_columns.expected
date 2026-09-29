@@ -1,0 +1,15 @@
+===== phase 1 (sqlite) =====
+===== phase 2 (engine) =====
+0|-1000|2000|-127000|128000|198000|-199000
+7|NULL|NULL|NULL|NULL|NULL|8
+2|100000|-198992
+0
+1|first|3.5|BEEF|last
+2|NULL|NULL||only-last
+3|NULL|NULL||NULL
+1|five hundred|600|integer|NULL
+2|NULL|NULL|null|NULL
+3|NULL|NULL|null|NULL
+1
+2
+1|2|3

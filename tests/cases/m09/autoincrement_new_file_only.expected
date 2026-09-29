@@ -1,0 +1,9 @@
+===== phase 1 (engine) =====
+Error: NOT NULL constraint failed: log.msg
+===== phase 2 (sqlite) =====
+ok
+table|log|log
+table|sqlite_sequence|sqlite_sequence
+log|2500
+2000|2000
+2501

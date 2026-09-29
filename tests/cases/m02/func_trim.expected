@@ -1,0 +1,18 @@
+[a b]|[a b  ]|[  a b]
+||x|x
+1
+hi|hixx|xxhi
+HELLO|HELLO|abc
+cc|aa|
+1
+a|文|abc
+NULL|NULL|NULL|NULL
+23|1.|7|text|A
+1|[padded]|[  padded  ]|8|8
+2|[--dashes--]|[dashes]|10|10
+3|[none]|[none]|4|4
+4|[]|[   ]|0|0
+5|NULL|NULL|NULL|NULL
+4
+Error: wrong number of arguments to function trim()
+Error: wrong number of arguments to function ltrim()

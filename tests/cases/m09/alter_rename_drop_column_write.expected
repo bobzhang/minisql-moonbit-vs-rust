@@ -1,0 +1,24 @@
+===== phase 1 (engine) =====
+Error: error in index t_amount after drop column: no such column: total
+Error: no such column: "nosuch"
+===== phase 2 (sqlite) =====
+ok
+table|t|t
+index|t_amount|t
+view|tv|tv
+1|f1|10|l1
+2|f2|20|l2
+1000|f1000|10000|l1000
+1001|given|5|last
+1001
+f10|100
+f100|1000
+f1000|10000
+f101|1010
+f102|1020
+===== phase 3 (engine) =====
+===== phase 4 (sqlite) =====
+ok
+1|10|c1
+2|20|c2
+2

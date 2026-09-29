@@ -1,0 +1,28 @@
+1
+2
+4
+1
+4
+1980|1
+1990|2
+2000|1
+1
+1
+2
+3
+2
+3
+5
+5
+Error: UNIQUE constraint failed: index 'emails_ci'
+A@EXAMPLE.COM
+b@example.com
+Error: UNIQUE constraint failed: index 'pts_sum'
+Error: UNIQUE constraint failed: index 'pts_sum'
+1|2
+2|2
+3
+3
+4
+Error: misuse of aggregate function max()
+Error: subqueries prohibited in index expressions

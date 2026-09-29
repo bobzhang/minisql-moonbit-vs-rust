@@ -1,0 +1,36 @@
+0
+view|big_orders|big_orders
+table|customers|customers
+index|customers_name|customers
+table|orders|orders
+index|orders_cust|orders
+index|sqlite_autoindex_customers_1|customers
+view|big_orders|big_orders
+table|customers|customers
+index|customers_name|customers
+table|orders|orders
+index|orders_cust|orders
+index|sqlite_autoindex_customers_1|customers
+6
+customers
+orders
+index|3
+table|2
+view|1
+customers|2
+orders|1
+customers|customers_name
+customers|sqlite_autoindex_customers_1
+orders|orders_cust
+customers
+orders
+1
+big_orders
+orders
+MixedCase
+MixedCase
+index|odd index|odd name
+table|odd name|odd name
+Error: table sqlite_master may not be modified
+Error: table sqlite_master may not be modified
+9

@@ -1,0 +1,1425 @@
+{
+ "primer_tokens": 11693,
+ "arm": "moonbit",
+ "trial": 1,
+ "model": "claude-opus-5-5",
+ "effort": "high",
+ "created": "2026-09-28T10:33:19.097366+00:00",
+ "template_rev": "c42ff84a9913f4b665d13b91a85ebad79eac91bd",
+ "claude_version": "2.1.281 (Claude Code)",
+ "milestones": {
+  "1": {
+   "sessions": [
+    {
+     "session_id": "f0baf551-8f20-48c7-8aff-e21cb3d2f338",
+     "api_calls": 32,
+     "max_context_tokens": 141414,
+     "tool_calls": {
+      "Bash": 31,
+      "Read": 1
+     },
+     "build_attempts": 15,
+     "build_failures": 2,
+     "test_runs": 4,
+     "compactions": 0,
+     "suspicious_commands": [],
+     "complete": true,
+     "green_api_calls": 16,
+     "green_input_tokens": 1221686,
+     "subtype": "success",
+     "is_error": false,
+     "result_text": "Milestone 1 is finished: `python3 tools/run_tests.py --upto 1` passes all 27 tests in `tests/m01`.\n\nThe engine is a new package, `db/`, and `cmd/main` now reads the script from stdin, runs it, and prints the results.\n\n- **Lexer and statement splitting:** string literals, quoted identifiers, blob literals (`X'..'`), decimal and hex numbers, `_` digit separators (SQLite 3.53 accepts `1_000`), `?`/`:name` parameters, comments, and all operators.\n- **Parser:** `CREATE TABLE` with free-form type names and every constraint form (constraints are parsed and stored for enforcement in M3, not enforced yet), `DROP TABLE`, `INSERT` (`VALUES`, `SELECT`, `DEFAULT VALUES`, `OR \u2026`, `REPLACE`), and `SELECT` with `*`, `t.*`, aliases, `WHERE` and `ORDER BY`. Expressions follow SQLite's operator precedence.\n- **Values and types:** the five storage classes, type affinity from the declared type name, affinity applied on insert and in comparisons, and SQLite's text-to-number rules. Integer overflow switches to REAL, division by zero gives NULL, and the edge case `-9223372036854775808` stays an integer. REAL output follows SPEC \u00a72.3, and sorting uses SQLite's cross-class order.\n- **Executor:** tables are kept in memory as rows with rowids. Column names resolve case-insensitively, and a double-quoted name that isn't a column becomes a string. Each statement's rows are held until it completes, and it reports the error cases listed in the spec.\n\nI also compared about 400 extra queries against Python's `sqlite3` module, which is the reference 3.53.3. All of them match except two features that belong to later milestones: `count(*)` (M4) and an error for a self-join with no aliases (M5).\n\nA few M2/M3 features are only partly in, because they cost little now:\n- **Done:** ORDER BY by alias or column number, `SELECT DISTINCT`, and `rowid`/`oid`/`_rowid_`.\n- **Partly done:** `INTEGER PRIMARY KEY` works as a rowid alias, but duplicate keys aren't rejected yet.\n- **Parsing only:** `COLLATE` is parsed ",
+     "num_turns": 33,
+     "duration_ms": 648168,
+     "duration_api_ms": 624343,
+     "cost_usd": 3.1852004,
+     "input_tokens": 64,
+     "cache_creation_input_tokens": 138424,
+     "cache_read_input_tokens": 3212762,
+     "output_tokens": 71750,
+     "model_usage": {
+      "claude-opus-5-5": {
+       "inputTokens": 64,
+       "outputTokens": 71750,
+       "cacheReadInputTokens": 3212762,
+       "cacheCreationInputTokens": 138424,
+       "webSearchRequests": 0,
+       "costUSD": 3.1852004,
+       "contextWindow": 1000000,
+       "maxOutputTokens": 128000,
+       "thinkingTokens": 23841,
+       "canonicalModel": "claude-opus-5-5",
+       "provider": "firstParty",
+       "costBasis": "list"
+      }
+     },
+     "rate_limited": false,
+     "wall_seconds": 652.3,
+     "exit_code": 0,
+     "resumed_from": null,
+     "kind": "initial",
+     "index": 1
+    }
+   ],
+   "nudges": 0,
+   "done": true,
+   "start_rev": "df3624da2de2608c2d461ec662185eb842d28569",
+   "end_rev": "4eaf27f4506a8ea01d092648ce21b1132b2de486",
+   "churn": {
+    "lines_added": 3140,
+    "lines_deleted": 2
+   },
+   "eval": {
+    "visible": {
+     "build_ok": true,
+     "passed": 27,
+     "total": 27,
+     "per_milestone": {
+      "m01": [
+       27,
+       27
+      ]
+     },
+     "similarity": 1.0
+    },
+    "hidden": {
+     "build_ok": true,
+     "passed": 26,
+     "total": 26,
+     "per_milestone": {
+      "m01": [
+       26,
+       26
+      ]
+     },
+     "similarity": 1.0
+    },
+    "compliance": {
+     "ok": true,
+     "issues": []
+    }
+   },
+   "code_totals": {
+    "all": {
+     "lines": 3142,
+     "nonblank": 2977,
+     "code": 2753,
+     "comment": 224,
+     "bytes": 72191,
+     "words": 22410,
+     "tokens": 33081,
+     "n_files": 7
+    },
+    "main": {
+     "lines": 3142,
+     "nonblank": 2977,
+     "code": 2753,
+     "comment": 224,
+     "bytes": 72191,
+     "words": 22410,
+     "tokens": 33081,
+     "n_files": 7
+    },
+    "test": {
+     "lines": 0,
+     "nonblank": 0,
+     "code": 0,
+     "comment": 0,
+     "bytes": 0,
+     "words": 0,
+     "tokens": 0,
+     "n_files": 0
+    }
+   },
+   "finished": "2026-09-28T10:44:24.977760+00:00"
+  },
+  "2": {
+   "sessions": [
+    {
+     "session_id": "40945d05-864b-4565-abc6-c6c1b9983ff8",
+     "api_calls": 41,
+     "max_context_tokens": 202592,
+     "tool_calls": {
+      "Bash": 42
+     },
+     "build_attempts": 11,
+     "build_failures": 2,
+     "test_runs": 4,
+     "compactions": 0,
+     "suspicious_commands": [],
+     "complete": true,
+     "green_api_calls": 26,
+     "green_input_tokens": 3128040,
+     "subtype": "success",
+     "is_error": false,
+     "result_text": "Milestone 2 is finished: `python3 tools/run_tests.py --upto 2` passes all 61 tests (27/27 from M1, 34/34 from M2).\n\n**What was added**\n- **Parser** (`db/parser.mbt`): both forms of `CASE`, `CAST(x AS type)`, `[NOT] BETWEEN`, `[NOT] IN (list)` (including an empty list), `[NOT] LIKE \u2026 [ESCAPE \u2026]`, `[NOT] GLOB`, and `COLLATE` names checked when parsed. `like(...)` and `glob(...)` also work as function calls.\n- **Comparison rules** (`db/eval.mbt`, `db/exec.mbt`): the affinity and collation of each comparison are worked out once, when column names are resolved.\n  - Collations follow SQLite: an explicit `COLLATE` wins, then the column's declared collation. Unary `+` and `CAST` keep a column's collation; other expressions drop it.\n  - `BETWEEN` works like the two separate comparisons it stands for.\n  - `IN` uses the affinity and collation of its left side. As in SQLite, `x IN (constant)` is rewritten to `x = +constant`.\n  - `ORDER BY` now sorts with collations too.\n- **CAST, LIKE and GLOB** (`db/ops.mbt`): CAST follows SQLite for each target type. LIKE and GLOB are a port of SQLite's matching algorithm, including character classes and using `%` or `_` as the escape character.\n- **Functions** (`db/funcs.mbt`): every scalar and math function in the spec, with argument-count checks and \"no such function\" errors raised before any row is read. `coalesce`, `ifnull` and `iif`/`if` only evaluate the argument they need. `max`/`min`/`nullif` use the collation of the leftmost argument that has one, and break ties the way SQLite does.\n- **printf** (`db/printf.mbt`): a port of SQLite's formatting code, including its own float-to-digits routine, so rounding matches SQLite (e.g. `%.2f` of 2.675 gives `2.67`). `round()` and `quote()` use the same code. An empty printf result is NULL, as in SQLite.\n\n**Extra checking:** I also ran about 150 more expressions through both the engine and `sqlite3`. They covered printf flags and conversions, rounding, substr/instr/unhex, CAST, affinity and coll",
+     "num_turns": 43,
+     "duration_ms": 968464,
+     "duration_api_ms": 946086,
+     "cost_usd": 4.8621176,
+     "input_tokens": 82,
+     "cache_creation_input_tokens": 198674,
+     "cache_read_input_tokens": 5866888,
+     "output_tokens": 104951,
+     "model_usage": {
+      "claude-opus-5-5": {
+       "inputTokens": 82,
+       "outputTokens": 104951,
+       "cacheReadInputTokens": 5866888,
+       "cacheCreationInputTokens": 198674,
+       "webSearchRequests": 0,
+       "costUSD": 4.8621176,
+       "contextWindow": 1000000,
+       "maxOutputTokens": 128000,
+       "thinkingTokens": 62268,
+       "canonicalModel": "claude-opus-5-5",
+       "provider": "firstParty",
+       "costBasis": "list"
+      }
+     },
+     "rate_limited": false,
+     "wall_seconds": 970.0,
+     "exit_code": 0,
+     "resumed_from": null,
+     "kind": "initial",
+     "index": 1
+    }
+   ],
+   "nudges": 0,
+   "done": true,
+   "start_rev": "7107f8a9d39ce3b4114d052235637f80a53f5fea",
+   "end_rev": "2bfddc30b10afe323f40dea09d2bb5413db57fd6",
+   "churn": {
+    "lines_added": 2328,
+    "lines_deleted": 128
+   },
+   "eval": {
+    "visible": {
+     "build_ok": true,
+     "passed": 61,
+     "total": 61,
+     "per_milestone": {
+      "m01": [
+       27,
+       27
+      ],
+      "m02": [
+       34,
+       34
+      ]
+     },
+     "similarity": 1.0
+    },
+    "hidden": {
+     "build_ok": true,
+     "passed": 59,
+     "total": 60,
+     "per_milestone": {
+      "m01": [
+       26,
+       26
+      ],
+      "m02": [
+       33,
+       34
+      ]
+     },
+     "similarity": 0.9989
+    },
+    "compliance": {
+     "ok": true,
+     "issues": []
+    }
+   },
+   "code_totals": {
+    "all": {
+     "lines": 5344,
+     "nonblank": 5119,
+     "code": 4797,
+     "comment": 322,
+     "bytes": 122143,
+     "words": 37037,
+     "tokens": 56637,
+     "n_files": 10
+    },
+    "main": {
+     "lines": 5344,
+     "nonblank": 5119,
+     "code": 4797,
+     "comment": 322,
+     "bytes": 122143,
+     "words": 37037,
+     "tokens": 56637,
+     "n_files": 10
+    },
+    "test": {
+     "lines": 0,
+     "nonblank": 0,
+     "code": 0,
+     "comment": 0,
+     "bytes": 0,
+     "words": 0,
+     "tokens": 0,
+     "n_files": 0
+    }
+   },
+   "finished": "2026-09-28T11:07:31.551058+00:00"
+  },
+  "3": {
+   "sessions": [
+    {
+     "session_id": "a3094219-eca8-472a-b527-791415fd076d",
+     "api_calls": 44,
+     "max_context_tokens": 179550,
+     "tool_calls": {
+      "Bash": 44,
+      "Write": 3
+     },
+     "build_attempts": 12,
+     "build_failures": 2,
+     "test_runs": 4,
+     "compactions": 0,
+     "suspicious_commands": [],
+     "complete": true,
+     "green_api_calls": 25,
+     "green_input_tokens": 2527626,
+     "subtype": "success",
+     "is_error": false,
+     "result_text": "Milestone 3 is finished: `python3 tools/run_tests.py --upto 3` passes all 89 tests (M1 27/27, M2 34/34, M3 28/28).\n\n**What was added**\n- **Storage** (`db/ptree.mbt`): rows are now kept in a balanced tree keyed by rowid, so scans come out in rowid order. The tree is never modified in place, so a failed statement is undone by putting back the state saved before it ran. This should also make M6 transactions easy.\n- **Schema** (`db/schema.mbt`): each table records its rowid alias (`INTEGER PRIMARY KEY`), AUTOINCREMENT counter, CHECK constraints (checked for unknown columns when the table is created), and one index per UNIQUE or non-integer PRIMARY KEY constraint. These indexes use the columns' collations. Constraints are checked in the same order SQLite uses, which decides the result when one row breaks two constraints with different conflict rules.\n- **INSERT / UPDATE / DELETE** (`db/dml.mbt`):\n  - NOT NULL (with REPLACE falling back to the column default), CHECK, and UNIQUE/rowid checks.\n  - All five conflict modes, from the statement's `OR` clause or the constraint's own `ON CONFLICT`. FAIL keeps the rows changed before the error; ABORT undoes the whole statement.\n  - Upsert, including several `ON CONFLICT` clauses, `excluded.col`, and `DO UPDATE ... WHERE`.\n  - `RETURNING`, `INSERT ... SELECT`, `DEFAULT VALUES`, `REPLACE INTO`, and `SET (a, b) = (x, y)`.\n  - Rowid rules: max+1, AUTOINCREMENT high-water mark, and SQLite's random-rowid fallback when the max rowid is 2^63\u22121.\n  - `changes()`, `total_changes()` and `last_insert_rowid()`, matching SQLite after FAIL, ABORT and upsert.\n- **SELECT**: ORDER BY accepts aliases, column numbers, `COLLATE` and `NULLS FIRST/LAST`; `LIMIT`/`OFFSET` in both forms, with SQLite's type checks; DISTINCT treats values as equal using the column collation.\n\n**Beyond the visible tests**, I compared extra scripts against the real SQLite, covering RETURNING, DO UPDATE, UPDATE OR FAIL/REPLACE, defaults, and ORDER BY/LIMIT edge cases. Output ma",
+     "num_turns": 48,
+     "duration_ms": 726429,
+     "duration_api_ms": 698157,
+     "cost_usd": 4.0923886000000005,
+     "input_tokens": 88,
+     "cache_creation_input_tokens": 175632,
+     "cache_read_input_tokens": 5594703,
+     "output_tokens": 78402,
+     "model_usage": {
+      "claude-opus-5-5": {
+       "inputTokens": 88,
+       "outputTokens": 78402,
+       "cacheReadInputTokens": 5594703,
+       "cacheCreationInputTokens": 175632,
+       "webSearchRequests": 0,
+       "costUSD": 4.0923886000000005,
+       "contextWindow": 1000000,
+       "maxOutputTokens": 128000,
+       "thinkingTokens": 40253,
+       "canonicalModel": "claude-opus-5-5",
+       "provider": "firstParty",
+       "costBasis": "list"
+      }
+     },
+     "rate_limited": false,
+     "wall_seconds": 728.0,
+     "exit_code": 0,
+     "resumed_from": null,
+     "kind": "initial",
+     "index": 1
+    }
+   ],
+   "nudges": 0,
+   "done": true,
+   "start_rev": "2710e47476e609d4fa57562d6b306f1b47c762df",
+   "end_rev": "aee330befdbc34d017058b22dda8e5f75d11ac4f",
+   "churn": {
+    "lines_added": 1685,
+    "lines_deleted": 343
+   },
+   "eval": {
+    "visible": {
+     "build_ok": true,
+     "passed": 89,
+     "total": 89,
+     "per_milestone": {
+      "m01": [
+       27,
+       27
+      ],
+      "m02": [
+       34,
+       34
+      ],
+      "m03": [
+       28,
+       28
+      ]
+     },
+     "similarity": 1.0
+    },
+    "hidden": {
+     "build_ok": true,
+     "passed": 85,
+     "total": 88,
+     "per_milestone": {
+      "m01": [
+       26,
+       26
+      ],
+      "m02": [
+       33,
+       34
+      ],
+      "m03": [
+       26,
+       28
+      ]
+     },
+     "similarity": 0.9981
+    },
+    "compliance": {
+     "ok": true,
+     "issues": []
+    }
+   },
+   "code_totals": {
+    "all": {
+     "lines": 6689,
+     "nonblank": 6398,
+     "code": 5979,
+     "comment": 419,
+     "bytes": 155027,
+     "words": 46568,
+     "tokens": 72166,
+     "n_files": 13
+    },
+    "main": {
+     "lines": 6689,
+     "nonblank": 6398,
+     "code": 5979,
+     "comment": 419,
+     "bytes": 155027,
+     "words": 46568,
+     "tokens": 72166,
+     "n_files": 13
+    },
+    "test": {
+     "lines": 0,
+     "nonblank": 0,
+     "code": 0,
+     "comment": 0,
+     "bytes": 0,
+     "words": 0,
+     "tokens": 0,
+     "n_files": 0
+    }
+   },
+   "finished": "2026-09-28T11:19:53.343716+00:00"
+  },
+  "4": {
+   "sessions": [
+    {
+     "session_id": "6518997c-75b8-4a76-9ced-0c4584236f45",
+     "api_calls": 32,
+     "max_context_tokens": 150683,
+     "tool_calls": {
+      "Bash": 30,
+      "Write": 2
+     },
+     "build_attempts": 9,
+     "build_failures": 1,
+     "test_runs": 4,
+     "compactions": 0,
+     "suspicious_commands": [],
+     "complete": true,
+     "green_api_calls": 25,
+     "green_input_tokens": 2259342,
+     "subtype": "success",
+     "is_error": false,
+     "result_text": "Milestone 4 is done: `python3 tools/run_tests.py --upto 4` passes all 116 tests (M1 27, M2 34, M3 28, M4 27).\n\n**Aggregation** (new file `db/agg.mbt`, wired into `db/exec.mbt`)\n- The parser now reads `GROUP BY`, `HAVING`, `ORDER BY` inside a function call, and `FILTER (WHERE \u2026)`.\n- When a query is bound, each aggregate call is replaced by a reference to its result. Using one in the wrong place is an error: in `WHERE`, `GROUP BY`, `UPDATE SET`, `DELETE WHERE`, inside another aggregate, or in the `ORDER BY` of a query with no aggregates. `HAVING` on a non-aggregate query is also an error, and so are `FILTER` or `ORDER BY` on a scalar function.\n- Groups are keyed by the collation of each grouping expression and come out in key order. `GROUP BY` accepts expressions, aliases and ordinals.\n- `sum`, `total` and `avg` add up the same way SQLite does, including its error-compensated floating-point sum. `sum` raises \"integer overflow\" and `total` never does.\n- Bare columns follow SQLite's actual behaviour, which I checked against the local `sqlite3`: a group normally takes the first row, but if there is a `min()`/`max()` it takes the row where the last such aggregate most recently changed.\n\n**Date/time** (new file `db/datetime.mbt`)\n- This is a port of SQLite's date logic, covering `date`, `time`, `datetime`, `julianday`, `unixepoch`, `strftime` and `timediff`.\n- It handles all the listed input formats and timezone suffixes, and every modifier in the spec, plus the `+YYYY-MM-DD` and `\u00b1HH:MM` forms.\n\nBeyond the test suite, I ran about 45 extra edge-case queries through both the engine and the local `sqlite3`. They agree everywhere except where expected: subqueries (not until milestone 5), `'now'`/`utc` (not tested), and how the command-line tool itself prints NULLs and decimals, which the spec defines differently.\n\nOne judgement call: I left out `strftime('%y')` because the local `sqlite3` returns NULL for it. That binary is version 3.51, while the reference is 3.53, which mig",
+     "num_turns": 34,
+     "duration_ms": 776327,
+     "duration_api_ms": 750280,
+     "cost_usd": 3.0861024,
+     "input_tokens": 64,
+     "cache_creation_input_tokens": 140263,
+     "cache_read_input_tokens": 3035199,
+     "output_tokens": 64072,
+     "model_usage": {
+      "claude-opus-5-5": {
+       "inputTokens": 66,
+       "outputTokens": 64104,
+       "cacheReadInputTokens": 3148192,
+       "cacheCreationInputTokens": 146765,
+       "webSearchRequests": 0,
+       "costUSD": 3.0861024,
+       "contextWindow": 1000000,
+       "maxOutputTokens": 128000,
+       "thinkingTokens": 35319,
+       "canonicalModel": "claude-opus-5-5",
+       "provider": "firstParty",
+       "costBasis": "list"
+      }
+     },
+     "rate_limited": false,
+     "wall_seconds": 778.1,
+     "exit_code": 0,
+     "resumed_from": null,
+     "kind": "initial",
+     "index": 1
+    }
+   ],
+   "nudges": 0,
+   "done": true,
+   "start_rev": "152081e958bb5681f2c3deb92ec53f60f1264fad",
+   "end_rev": "3298e5adc732534278bd07b9b02779434067e18f",
+   "churn": {
+    "lines_added": 1614,
+    "lines_deleted": 34
+   },
+   "eval": {
+    "visible": {
+     "build_ok": true,
+     "passed": 116,
+     "total": 116,
+     "per_milestone": {
+      "m01": [
+       27,
+       27
+      ],
+      "m02": [
+       34,
+       34
+      ],
+      "m03": [
+       28,
+       28
+      ],
+      "m04": [
+       27,
+       27
+      ]
+     },
+     "similarity": 1.0
+    },
+    "hidden": {
+     "build_ok": true,
+     "passed": 111,
+     "total": 114,
+     "per_milestone": {
+      "m01": [
+       26,
+       26
+      ],
+      "m02": [
+       33,
+       34
+      ],
+      "m03": [
+       26,
+       28
+      ],
+      "m04": [
+       26,
+       26
+      ]
+     },
+     "similarity": 0.9985
+    },
+    "compliance": {
+     "ok": true,
+     "issues": []
+    }
+   },
+   "code_totals": {
+    "all": {
+     "lines": 8271,
+     "nonblank": 7916,
+     "code": 7408,
+     "comment": 508,
+     "bytes": 190527,
+     "words": 57270,
+     "tokens": 89662,
+     "n_files": 15
+    },
+    "main": {
+     "lines": 8271,
+     "nonblank": 7916,
+     "code": 7408,
+     "comment": 508,
+     "bytes": 190527,
+     "words": 57270,
+     "tokens": 89662,
+     "n_files": 15
+    },
+    "test": {
+     "lines": 0,
+     "nonblank": 0,
+     "code": 0,
+     "comment": 0,
+     "bytes": 0,
+     "words": 0,
+     "tokens": 0,
+     "n_files": 0
+    }
+   },
+   "finished": "2026-09-28T11:33:10.058154+00:00"
+  },
+  "5": {
+   "sessions": [
+    {
+     "session_id": "6439a150-eb30-4f86-9dba-94d4c86efa95",
+     "api_calls": 52,
+     "max_context_tokens": 203725,
+     "tool_calls": {
+      "Bash": 53,
+      "Write": 1
+     },
+     "build_attempts": 21,
+     "build_failures": 3,
+     "test_runs": 6,
+     "compactions": 0,
+     "suspicious_commands": [],
+     "complete": true,
+     "green_api_calls": 24,
+     "green_input_tokens": 2451606,
+     "subtype": "success",
+     "is_error": false,
+     "result_text": "Milestone 5 is finished: `python3 tools/run_tests.py --upto 5` passes all 144 tests, including the 28 new m05 tests, and milestones 1\u20134 still pass.\n\nI also ran five extra scripts of edge cases through both the engine and `sqlite3`. Four give identical output (one differs only in error wording). A few cases still differ, listed at the end.\n\n**What was built**\n- **Parser**: full queries with `UNION`, `UNION ALL`, `INTERSECT` and `EXCEPT`, with `ORDER BY`/`LIMIT` applying to the whole compound. `VALUES` works as a query and as a `FROM` source (columns are named `column1`, `column2`, \u2026). The `FROM` clause now takes comma, `CROSS`, `INNER`, `LEFT`, `RIGHT`, `FULL` and `NATURAL` joins with `ON` or `USING`, plus subqueries with aliases. Expressions can contain scalar subqueries, `[NOT] EXISTS` and `[NOT] IN (SELECT \u2026)`.\n- **Planning and execution** (new file `db/select.mbt`): each query is now fully bound before it runs, so subqueries can be stored and re-run. Joins run as nested loops:\n  - `LEFT` joins fill unmatched rows with NULLs.\n  - `RIGHT`/`FULL` joins track which right-side rows matched and add the unmatched ones afterwards.\n  - `USING`/`NATURAL` columns appear once in `*` and don't trigger \"ambiguous column\" errors. For `RIGHT`/`FULL` joins they take the value from whichever side has one.\n- **Correlated subqueries**: while a subquery runs, the enclosing queries' current rows are kept on a stack, so inner queries can refer to outer columns at any depth. Subqueries that don't refer to outer rows are run once per statement and cached. An aggregate such as `sum(s.amount)` inside a subquery is counted by the outer query when it only uses outer columns, as in SQLite.\n- **Compound queries** remove duplicates treating NULLs as equal and use SQLite's per-column collation rule. `INTERSECT`/`EXCEPT` return the left side's rows.\n- **Performance**: equality join conditions are answered with a lookup index instead of a full scan, and correlated lookups reuse that index while th",
+     "num_turns": 55,
+     "duration_ms": 978329,
+     "duration_api_ms": 916442,
+     "cost_usd": 5.056831000000001,
+     "input_tokens": 104,
+     "cache_creation_input_tokens": 199807,
+     "cache_read_input_tokens": 7429795,
+     "output_tokens": 98600,
+     "model_usage": {
+      "claude-opus-5-5": {
+       "inputTokens": 104,
+       "outputTokens": 98600,
+       "cacheReadInputTokens": 7429795,
+       "cacheCreationInputTokens": 199807,
+       "webSearchRequests": 0,
+       "costUSD": 5.056831000000001,
+       "contextWindow": 1000000,
+       "maxOutputTokens": 128000,
+       "thinkingTokens": 50177,
+       "canonicalModel": "claude-opus-5-5",
+       "provider": "firstParty",
+       "costBasis": "list"
+      }
+     },
+     "rate_limited": false,
+     "wall_seconds": 980.2,
+     "exit_code": 0,
+     "resumed_from": null,
+     "kind": "initial",
+     "index": 1
+    }
+   ],
+   "nudges": 0,
+   "done": true,
+   "start_rev": "24f0dfe14f2c9e65dd6af7841b9865ca12482995",
+   "end_rev": "8be76f4dc0b872cc5df64bdeb23967cf61e3ca13",
+   "churn": {
+    "lines_added": 1848,
+    "lines_deleted": 476
+   },
+   "eval": {
+    "visible": {
+     "build_ok": true,
+     "passed": 144,
+     "total": 144,
+     "per_milestone": {
+      "m01": [
+       27,
+       27
+      ],
+      "m02": [
+       34,
+       34
+      ],
+      "m03": [
+       28,
+       28
+      ],
+      "m04": [
+       27,
+       27
+      ],
+      "m05": [
+       28,
+       28
+      ]
+     },
+     "similarity": 1.0
+    },
+    "hidden": {
+     "build_ok": true,
+     "passed": 137,
+     "total": 142,
+     "per_milestone": {
+      "m01": [
+       26,
+       26
+      ],
+      "m02": [
+       33,
+       34
+      ],
+      "m03": [
+       26,
+       28
+      ],
+      "m04": [
+       26,
+       26
+      ],
+      "m05": [
+       26,
+       28
+      ]
+     },
+     "similarity": 0.998
+    },
+    "compliance": {
+     "ok": true,
+     "issues": []
+    }
+   },
+   "code_totals": {
+    "all": {
+     "lines": 9644,
+     "nonblank": 9228,
+     "code": 8620,
+     "comment": 608,
+     "bytes": 223434,
+     "words": 66559,
+     "tokens": 104363,
+     "n_files": 16
+    },
+    "main": {
+     "lines": 9644,
+     "nonblank": 9228,
+     "code": 8620,
+     "comment": 608,
+     "bytes": 223434,
+     "words": 66559,
+     "tokens": 104363,
+     "n_files": 16
+    },
+    "test": {
+     "lines": 0,
+     "nonblank": 0,
+     "code": 0,
+     "comment": 0,
+     "bytes": 0,
+     "words": 0,
+     "tokens": 0,
+     "n_files": 0
+    }
+   },
+   "finished": "2026-09-28T11:49:50.806998+00:00"
+  },
+  "6": {
+   "sessions": [
+    {
+     "session_id": "3c9e42d7-e1ee-428d-8c0f-a9e5a733b414",
+     "api_calls": 72,
+     "max_context_tokens": 256244,
+     "tool_calls": {
+      "Bash": 68,
+      "Read": 2,
+      "Write": 2
+     },
+     "build_attempts": 20,
+     "build_failures": 5,
+     "test_runs": 8,
+     "compactions": 0,
+     "suspicious_commands": [],
+     "complete": true,
+     "green_api_calls": 37,
+     "green_input_tokens": 4487469,
+     "subtype": "success",
+     "is_error": false,
+     "result_text": "Milestone 6 is done: `python3 tools/run_tests.py --upto 6` passes all 172 tests, including all 28 in m06, and the unit tests pass. The five perf tests each run in about 0.25\u20130.5 s against their 5 s limit.\n\n**What was added**\n- **Statements:** `CREATE [UNIQUE] INDEX` (with expressions, `COLLATE`, `ASC`/`DESC`, partial `WHERE`), `DROP INDEX`, `CREATE VIEW` (with an optional column list), `DROP VIEW`, the four `ALTER TABLE` forms, and `BEGIN`/`COMMIT`/`END`/`ROLLBACK`/`SAVEPOINT`/`RELEASE`/`ROLLBACK TO`. Parsing is in `db/parser.mbt`; execution is in the new `db/ddl.mbt`.\n- **Schema rules:** tables, views and indexes share one case-insensitive namespace, names starting with `sqlite_` are rejected, and automatic indexes are named `sqlite_autoindex_<table>_N` and renamed with their table. Unique indexes are enforced, including expression and partial ones, and work with `INSERT OR \u2026`, `REPLACE` and upsert.\n- **`sqlite_schema` / `sqlite_master`:** queryable, listed in creation order, and read-only.\n- **Views:** bound by name each time they are used, so they break when a base table is dropped and work again when it is recreated. Circular definitions are caught, and views are read-only.\n- **Renames:** renaming a table or column rewrites CHECK constraints, index definitions and saved view queries.\n- **Transactions:** the whole database state (schema and data) is snapshotted at `BEGIN` and at each savepoint. `ON CONFLICT ROLLBACK` / `INSERT OR ROLLBACK` undoes the whole transaction; other failing statements undo only themselves.\n- **Speed (new `db/plan.mbt`):** queries and UPDATE/DELETE now look rows up by rowid or index for `=`, `IN`, `IS`, ranges and `BETWEEN`, with the same type-conversion and collation rules as a full scan. Uncorrelated `IN (SELECT \u2026)` checks against a sorted set, and view or FROM-subquery results are cached until a table changes. One case with a view inside a correlated subquery went from 110 s to 0.3 s.\n- **Row order without `ORDER BY`:** SQLite's output",
+     "num_turns": 74,
+     "duration_ms": 1613213,
+     "duration_api_ms": 1412407,
+     "cost_usd": 6.9833490000000005,
+     "input_tokens": 144,
+     "cache_creation_input_tokens": 249539,
+     "cache_read_input_tokens": 12151457,
+     "output_tokens": 125268,
+     "model_usage": {
+      "claude-opus-5-5": {
+       "inputTokens": 146,
+       "outputTokens": 125273,
+       "cacheReadInputTokens": 12293485,
+       "cacheCreationInputTokens": 252326,
+       "webSearchRequests": 0,
+       "costUSD": 6.9833490000000005,
+       "contextWindow": 1000000,
+       "maxOutputTokens": 128000,
+       "thinkingTokens": 62324,
+       "canonicalModel": "claude-opus-5-5",
+       "provider": "firstParty",
+       "costBasis": "list"
+      }
+     },
+     "rate_limited": false,
+     "wall_seconds": 1614.7,
+     "exit_code": 0,
+     "resumed_from": null,
+     "kind": "initial",
+     "index": 1
+    }
+   ],
+   "nudges": 0,
+   "done": true,
+   "start_rev": "a0b767168fa8227fa6fdae4b701ad611bb9b7420",
+   "end_rev": "8ce81fe768003fa224525120fb96af8d396d2255",
+   "churn": {
+    "lines_added": 2250,
+    "lines_deleted": 89
+   },
+   "eval": {
+    "visible": {
+     "build_ok": true,
+     "passed": 172,
+     "total": 172,
+     "per_milestone": {
+      "m01": [
+       27,
+       27
+      ],
+      "m02": [
+       34,
+       34
+      ],
+      "m03": [
+       28,
+       28
+      ],
+      "m04": [
+       27,
+       27
+      ],
+      "m05": [
+       28,
+       28
+      ],
+      "m06": [
+       28,
+       28
+      ]
+     },
+     "similarity": 1.0
+    },
+    "hidden": {
+     "build_ok": true,
+     "passed": 161,
+     "total": 169,
+     "per_milestone": {
+      "m01": [
+       26,
+       26
+      ],
+      "m02": [
+       33,
+       34
+      ],
+      "m03": [
+       26,
+       28
+      ],
+      "m04": [
+       26,
+       26
+      ],
+      "m05": [
+       26,
+       28
+      ],
+      "m06": [
+       24,
+       27
+      ]
+     },
+     "similarity": 0.9924
+    },
+    "compliance": {
+     "ok": true,
+     "issues": []
+    }
+   },
+   "code_totals": {
+    "all": {
+     "lines": 11807,
+     "nonblank": 11325,
+     "code": 10591,
+     "comment": 734,
+     "bytes": 280923,
+     "words": 82852,
+     "tokens": 129593,
+     "n_files": 18
+    },
+    "main": {
+     "lines": 11807,
+     "nonblank": 11325,
+     "code": 10591,
+     "comment": 734,
+     "bytes": 280923,
+     "words": 82852,
+     "tokens": 129593,
+     "n_files": 18
+    },
+    "test": {
+     "lines": 0,
+     "nonblank": 0,
+     "code": 0,
+     "comment": 0,
+     "bytes": 0,
+     "words": 0,
+     "tokens": 0,
+     "n_files": 0
+    }
+   },
+   "finished": "2026-09-28T12:17:19.025304+00:00"
+  },
+  "7": {
+   "sessions": [
+    {
+     "session_id": "666b3065-267b-41b7-a405-a15f6190fdce",
+     "api_calls": 50,
+     "max_context_tokens": 258108,
+     "tool_calls": {
+      "Bash": 52,
+      "Write": 2
+     },
+     "build_attempts": 11,
+     "build_failures": 2,
+     "test_runs": 4,
+     "compactions": 0,
+     "suspicious_commands": [],
+     "complete": true,
+     "green_api_calls": 31,
+     "green_input_tokens": 3992352,
+     "subtype": "success",
+     "is_error": false,
+     "result_text": "Milestone 7 is done: `python3 tools/run_tests.py --upto 7` passes all 203 tests (all 31 in m07, and every earlier milestone still passes). The two performance tests run in about 0.5s and 0.4s.\n\n**What I added**\n- **`WITH` clauses** work before `SELECT`, `VALUES`, `INSERT`, `UPDATE` and `DELETE`, in subqueries, and in view definitions. A CTE takes precedence over a table or view with the same name. The target table of `UPDATE`/`DELETE` is always the real table. View bodies don't see the caller's CTEs.\n- **Recursive CTEs** follow SQLite's rules:\n  - setup rows go into a queue; each row taken off the queue is output and then fed to the recursive arms;\n  - `UNION` removes duplicates;\n  - `ORDER BY` in the recursive part decides which queued row runs next, and `LIMIT`/`OFFSET` apply as SQLite applies them;\n  - SQLite's error cases are reported: circular reference, multiple recursive references, and aggregates or window functions in the recursive part.\n- **Speed-up for recursive CTEs:** in a recursive arm made of plain inner joins, the reference to the CTE itself (which holds one row) is moved to the front of the join. This lets each step use an index or a hash lookup on the other tables.\n- **Window functions:** all the ranking and value functions the spec lists, plus every M4 aggregate with `OVER`. This covers `PARTITION BY`, `ORDER BY`, named windows (including `OVER (w ...)`), `ROWS`/`RANGE`/`GROUPS` frames with all bound types and `EXCLUDE` options, and `FILTER`. SQLite's error messages are reproduced. Sliding frames stay fast: `count`/`sum`/`total`/`avg` add and remove rows as the frame moves, and `min`/`max` use a deque.\n- **Also added:** the `x IN tablename` form, which the tests use with CTEs.\n\n**Beyond the visible tests**\nI compared about 150 extra queries against SQLite, covering NULL keys in `RANGE` frames, `EXCLUDE` options, CTE scoping, error cases and 50k-row stress queries. Two behaviours I only found this way now match SQLite:\n- When a query has several wi",
+     "num_turns": 55,
+     "duration_ms": 1045478,
+     "duration_api_ms": 1001266,
+     "cost_usd": 5.9087178,
+     "input_tokens": 100,
+     "cache_creation_input_tokens": 254190,
+     "cache_read_input_tokens": 8306389,
+     "output_tokens": 110676,
+     "model_usage": {
+      "claude-opus-5-5": {
+       "inputTokens": 100,
+       "outputTokens": 110676,
+       "cacheReadInputTokens": 8306389,
+       "cacheCreationInputTokens": 254190,
+       "webSearchRequests": 0,
+       "costUSD": 5.9087178,
+       "contextWindow": 1000000,
+       "maxOutputTokens": 128000,
+       "thinkingTokens": 64179,
+       "canonicalModel": "claude-opus-5-5",
+       "provider": "firstParty",
+       "costBasis": "list"
+      }
+     },
+     "rate_limited": false,
+     "wall_seconds": 1047.1,
+     "exit_code": 0,
+     "resumed_from": null,
+     "kind": "initial",
+     "index": 1
+    }
+   ],
+   "nudges": 0,
+   "done": true,
+   "start_rev": "34658fce1bb28f643a9c8369f7bd106ab1cf14e3",
+   "end_rev": "7bce9ba5cc899e6636b8b1dfcd00b164df80270c",
+   "churn": {
+    "lines_added": 1712,
+    "lines_deleted": 23
+   },
+   "eval": {
+    "visible": {
+     "build_ok": true,
+     "passed": 203,
+     "total": 203,
+     "per_milestone": {
+      "m01": [
+       27,
+       27
+      ],
+      "m02": [
+       34,
+       34
+      ],
+      "m03": [
+       28,
+       28
+      ],
+      "m04": [
+       27,
+       27
+      ],
+      "m05": [
+       28,
+       28
+      ],
+      "m06": [
+       28,
+       28
+      ],
+      "m07": [
+       31,
+       31
+      ]
+     },
+     "similarity": 1.0
+    },
+    "hidden": {
+     "build_ok": true,
+     "passed": 191,
+     "total": 199,
+     "per_milestone": {
+      "m01": [
+       26,
+       26
+      ],
+      "m02": [
+       33,
+       34
+      ],
+      "m03": [
+       26,
+       28
+      ],
+      "m04": [
+       26,
+       26
+      ],
+      "m05": [
+       26,
+       28
+      ],
+      "m06": [
+       24,
+       27
+      ],
+      "m07": [
+       30,
+       30
+      ]
+     },
+     "similarity": 0.9935
+    },
+    "compliance": {
+     "ok": true,
+     "issues": []
+    }
+   },
+   "code_totals": {
+    "all": {
+     "lines": 13498,
+     "nonblank": 12971,
+     "code": 12147,
+     "comment": 824,
+     "bytes": 323006,
+     "words": 94771,
+     "tokens": 148430,
+     "n_files": 20
+    },
+    "main": {
+     "lines": 13498,
+     "nonblank": 12971,
+     "code": 12147,
+     "comment": 824,
+     "bytes": 323006,
+     "words": 94771,
+     "tokens": 148430,
+     "n_files": 20
+    },
+    "test": {
+     "lines": 0,
+     "nonblank": 0,
+     "code": 0,
+     "comment": 0,
+     "bytes": 0,
+     "words": 0,
+     "tokens": 0,
+     "n_files": 0
+    }
+   },
+   "finished": "2026-09-28T12:35:25.343604+00:00"
+  },
+  "8": {
+   "sessions": [
+    {
+     "session_id": "c9d1da85-3b07-469a-b8c9-248a5503368b",
+     "api_calls": 25,
+     "max_context_tokens": 72402,
+     "tool_calls": {
+      "Bash": 24,
+      "Write": 1
+     },
+     "build_attempts": 8,
+     "build_failures": 0,
+     "test_runs": 3,
+     "compactions": 0,
+     "suspicious_commands": [],
+     "complete": true,
+     "green_api_calls": 15,
+     "green_input_tokens": 654654,
+     "subtype": "success",
+     "is_error": false,
+     "result_text": "Milestone 8 is done: `python3 tools/run_tests.py --upto 8` passes all 224 tests, including the 21 in m08.\n\n**How it works.** When you run `minisql DBFILE`, the whole file is read and loaded into the engine's existing in-memory tables before the script runs, so every query feature from M1\u2013M7 works on file databases unchanged. The reader is in the new file `db/fileread.mbt`:\n- **File header:** reads the page size (512\u201365536, including the value 1 meaning 65536) and the reserved bytes per page.\n- **Table b-trees:** walks both interior and leaf pages, and follows overflow chains using the payload formulas from the spec. Free pages and freeblocks are never visited, so their contents are ignored.\n- **Records:** decodes every serial type. REAL columns get their float type back, because SQLite stores whole-number reals as integers. The `INTEGER PRIMARY KEY` column takes its value from the rowid. Columns missing from records written before an `ALTER TABLE ADD COLUMN` get their `DEFAULT` value.\n- **Schema:** each `CREATE` statement in `sqlite_schema` is parsed and run in file order. Indexes, including `sqlite_autoindex_*`, are rebuilt from the table rows rather than read from their b-trees. Views load from their stored SQL.\n- **AUTOINCREMENT:** the counters are restored from `sqlite_sequence`.\n\n**Other changes:**\n- `cmd/main/main.mbt` loads the file when one is given. A missing or empty file means an empty database; the file itself isn't created yet, which is left for M9 (writing).\n- `sqlite_schema` now shows the real root pages of objects loaded from a file.\n- Views show `rootpage` 0. Before this they showed a made-up number, even in memory mode.\n- `sqlite_sequence` now appears in the schema and can be queried whenever an AUTOINCREMENT table exists, in memory or from a file.\n\nI also checked some cases the visible tests don't cover against real sqlite3, and the output matched: the root pages, AUTOINCREMENT after a reload, and a 200,000-row file with indexes. That file loads a",
+     "num_turns": 26,
+     "duration_ms": 204928,
+     "duration_api_ms": 176082,
+     "cost_usd": 1.128948,
+     "input_tokens": 50,
+     "cache_creation_input_tokens": 68484,
+     "cache_read_input_tokens": 1272280,
+     "output_tokens": 16321,
+     "model_usage": {
+      "claude-opus-5-5": {
+       "inputTokens": 50,
+       "outputTokens": 16321,
+       "cacheReadInputTokens": 1272280,
+       "cacheCreationInputTokens": 68484,
+       "webSearchRequests": 0,
+       "costUSD": 1.128948,
+       "contextWindow": 1000000,
+       "maxOutputTokens": 128000,
+       "thinkingTokens": 5503,
+       "canonicalModel": "claude-opus-5-5",
+       "provider": "firstParty",
+       "costBasis": "list"
+      }
+     },
+     "rate_limited": false,
+     "wall_seconds": 206.4,
+     "exit_code": 0,
+     "resumed_from": null,
+     "kind": "initial",
+     "index": 1
+    }
+   ],
+   "nudges": 0,
+   "done": true,
+   "start_rev": "17492af5a6e5581d3e4d2609c8a7986051f8fed1",
+   "end_rev": "7af5febda2eb46a93df211e33bdd3c451621cfbf",
+   "churn": {
+    "lines_added": 372,
+    "lines_deleted": 6
+   },
+   "eval": {
+    "visible": {
+     "build_ok": true,
+     "passed": 224,
+     "total": 224,
+     "per_milestone": {
+      "m01": [
+       27,
+       27
+      ],
+      "m02": [
+       34,
+       34
+      ],
+      "m03": [
+       28,
+       28
+      ],
+      "m04": [
+       27,
+       27
+      ],
+      "m05": [
+       28,
+       28
+      ],
+      "m06": [
+       28,
+       28
+      ],
+      "m07": [
+       31,
+       31
+      ],
+      "m08": [
+       21,
+       21
+      ]
+     },
+     "similarity": 1.0
+    },
+    "hidden": {
+     "build_ok": true,
+     "passed": 211,
+     "total": 220,
+     "per_milestone": {
+      "m01": [
+       26,
+       26
+      ],
+      "m02": [
+       33,
+       34
+      ],
+      "m03": [
+       26,
+       28
+      ],
+      "m04": [
+       26,
+       26
+      ],
+      "m05": [
+       26,
+       28
+      ],
+      "m06": [
+       23,
+       27
+      ],
+      "m07": [
+       30,
+       30
+      ],
+      "m08": [
+       21,
+       21
+      ]
+     },
+     "similarity": 0.9907
+    },
+    "compliance": {
+     "ok": true,
+     "issues": []
+    }
+   },
+   "code_totals": {
+    "all": {
+     "lines": 13865,
+     "nonblank": 13323,
+     "code": 12475,
+     "comment": 848,
+     "bytes": 332729,
+     "words": 97694,
+     "tokens": 152885,
+     "n_files": 21
+    },
+    "main": {
+     "lines": 13865,
+     "nonblank": 13323,
+     "code": 12475,
+     "comment": 848,
+     "bytes": 332729,
+     "words": 97694,
+     "tokens": 152885,
+     "n_files": 21
+    },
+    "test": {
+     "lines": 0,
+     "nonblank": 0,
+     "code": 0,
+     "comment": 0,
+     "bytes": 0,
+     "words": 0,
+     "tokens": 0,
+     "n_files": 0
+    }
+   },
+   "finished": "2026-09-28T12:39:16.869582+00:00"
+  },
+  "9": {
+   "sessions": [
+    {
+     "session_id": "66115edf-b4f9-4578-9999-95501b678450",
+     "api_calls": 37,
+     "max_context_tokens": 127822,
+     "tool_calls": {
+      "Bash": 35,
+      "Write": 2
+     },
+     "build_attempts": 10,
+     "build_failures": 2,
+     "test_runs": 6,
+     "compactions": 0,
+     "suspicious_commands": [],
+     "complete": true,
+     "green_api_calls": 31,
+     "green_input_tokens": 2586912,
+     "subtype": "success",
+     "is_error": false,
+     "result_text": "Milestone 9 is done: `python3 tools/run_tests.py --upto 9` passes all 247 tests, including all 23 in m09.\n\n**How it works**\n- **Writing the file** (`db/filewrite.mbt`): the engine still keeps the whole database in memory. At exit it rewrites the entire file from the committed state, which the spec allows. If a transaction is still open, it is rolled back first.\n  - All tables, indexes and `sqlite_sequence` are rebuilt from sorted data, with the schema table rooted on page 1. Long values spill onto overflow pages, and the file has no free pages.\n  - Index entries come out in the index's own order, so NOCASE, RTRIM and DESC columns are sorted correctly.\n- **Header fields**: an existing file keeps its page size, and new files get 4096-byte pages. The change counter goes up by 1 and \"version-valid-for\" matches it. The schema cookie goes up only when the schema actually changed. The page count is the real count, and fields like user version and application id are kept.\n- **Skipped writes**: if nothing changed, an existing file is left untouched. If the file couldn't be loaded, it is never overwritten. A file that didn't exist is always created.\n- **ALTER TABLE fix** (`db/sqledit.mbt`): before this, ALTER TABLE never updated the stored `CREATE` text, so the saved schema was out of date. That was the one failing test. RENAME TO, RENAME COLUMN, ADD COLUMN and DROP COLUMN now edit the saved SQL of the table, its indexes and any views that use it, matching SQLite's style (for example `CREATE TABLE \"u\"(...)`). To get the text of an added column, I added a `sql` field to `AlterAdd` in the parser.\n- `cmd/main/main.mbt` now saves the database after the script runs.\n\n**Extra checks beyond the test suite**\n- SQLite's `integrity_check` returned `ok` at page sizes 512, 1024, 4096 and 65536 for: a schema big enough to span several pages under page 1, index keys large enough to overflow inside index pages, and DESC blob indexes.\n- A file with every kind of ALTER applied read back corre",
+     "num_turns": 38,
+     "duration_ms": 533208,
+     "duration_api_ms": 499658,
+     "cost_usd": 2.6391792,
+     "input_tokens": 74,
+     "cache_creation_input_tokens": 123904,
+     "cache_read_input_tokens": 3218856,
+     "output_tokens": 50194,
+     "model_usage": {
+      "claude-opus-5-5": {
+       "inputTokens": 74,
+       "outputTokens": 50194,
+       "cacheReadInputTokens": 3218856,
+       "cacheCreationInputTokens": 123904,
+       "webSearchRequests": 0,
+       "costUSD": 2.6391792,
+       "contextWindow": 1000000,
+       "maxOutputTokens": 128000,
+       "thinkingTokens": 26178,
+       "canonicalModel": "claude-opus-5-5",
+       "provider": "firstParty",
+       "costBasis": "list"
+      }
+     },
+     "rate_limited": false,
+     "wall_seconds": 534.9,
+     "exit_code": 0,
+     "resumed_from": null,
+     "kind": "initial",
+     "index": 1
+    }
+   ],
+   "nudges": 0,
+   "done": true,
+   "start_rev": "ea53891c147a7951d770a3ca9a153c034ac6f237",
+   "end_rev": "603a5be900fd701b3189d6467e50e0bab7f4366e",
+   "churn": {
+    "lines_added": 1213,
+    "lines_deleted": 96
+   },
+   "eval": {
+    "visible": {
+     "build_ok": true,
+     "passed": 247,
+     "total": 247,
+     "per_milestone": {
+      "m01": [
+       27,
+       27
+      ],
+      "m02": [
+       34,
+       34
+      ],
+      "m03": [
+       28,
+       28
+      ],
+      "m04": [
+       27,
+       27
+      ],
+      "m05": [
+       28,
+       28
+      ],
+      "m06": [
+       28,
+       28
+      ],
+      "m07": [
+       31,
+       31
+      ],
+      "m08": [
+       21,
+       21
+      ],
+      "m09": [
+       23,
+       23
+      ]
+     },
+     "similarity": 1.0
+    },
+    "hidden": {
+     "build_ok": true,
+     "passed": 232,
+     "total": 242,
+     "per_milestone": {
+      "m01": [
+       26,
+       26
+      ],
+      "m02": [
+       33,
+       34
+      ],
+      "m03": [
+       26,
+       28
+      ],
+      "m04": [
+       26,
+       26
+      ],
+      "m05": [
+       26,
+       28
+      ],
+      "m06": [
+       23,
+       27
+      ],
+      "m07": [
+       30,
+       30
+      ],
+      "m08": [
+       21,
+       21
+      ],
+      "m09": [
+       21,
+       22
+      ]
+     },
+     "similarity": 0.9883
+    },
+    "compliance": {
+     "ok": true,
+     "issues": []
+    }
+   },
+   "code_totals": {
+    "all": {
+     "lines": 14984,
+     "nonblank": 14390,
+     "code": 13441,
+     "comment": 949,
+     "bytes": 360420,
+     "words": 106234,
+     "tokens": 165827,
+     "n_files": 23
+    },
+    "main": {
+     "lines": 14984,
+     "nonblank": 14390,
+     "code": 13441,
+     "comment": 949,
+     "bytes": 360420,
+     "words": 106234,
+     "tokens": 165827,
+     "n_files": 23
+    },
+    "test": {
+     "lines": 0,
+     "nonblank": 0,
+     "code": 0,
+     "comment": 0,
+     "bytes": 0,
+     "words": 0,
+     "tokens": 0,
+     "n_files": 0
+    }
+   },
+   "finished": "2026-09-28T12:48:56.926329+00:00"
+  }
+ }
+}

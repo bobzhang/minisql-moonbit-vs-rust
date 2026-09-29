@@ -1,0 +1,32 @@
+1
+1
+2
+2
+3
+1
+2
+1
+2
+Alice
+bob
+CAROL
+ALICE
+bob
+carol
+Error: UNIQUE constraint failed: t.code
+1|Alice|[A1]
+2|bob|[b2  ]
+3|CAROL|[c3]
+4|dave|[ b2]
+1
+2
+3
+2
+1
+2
+3
+1
+ALICE
+Error: UNIQUE constraint failed: d.k
+Key|1
+Error: no such collation sequence: nosuch

@@ -1,0 +1,264 @@
+{
+ "visible": {
+  "build_ok": true,
+  "passed": 116,
+  "total": 116,
+  "per_milestone": {
+   "m01": [
+    27,
+    27
+   ],
+   "m02": [
+    34,
+    34
+   ],
+   "m03": [
+    28,
+    28
+   ],
+   "m04": [
+    27,
+    27
+   ]
+  },
+  "similarity": 1.0
+ },
+ "hidden": {
+  "build_ok": true,
+  "passed": 110,
+  "total": 114,
+  "per_milestone": {
+   "m01": [
+    26,
+    26
+   ],
+   "m02": [
+    34,
+    34
+   ],
+   "m03": [
+    24,
+    28
+   ],
+   "m04": [
+    26,
+    26
+   ]
+  },
+  "similarity": 0.9976
+ },
+ "code": {
+  "files": [
+   {
+    "lines": 8,
+    "nonblank": 7,
+    "comment": 1,
+    "code": 6,
+    "bytes": 136,
+    "words": 44,
+    "file": "cmd/main/main.mbt",
+    "tokens": 73,
+    "test": false
+   },
+   {
+    "lines": 445,
+    "nonblank": 425,
+    "comment": 33,
+    "code": 392,
+    "bytes": 10127,
+    "words": 2810,
+    "file": "engine/aggregate.mbt",
+    "tokens": 4497,
+    "test": false
+   },
+   {
+    "lines": 202,
+    "nonblank": 183,
+    "comment": 24,
+    "code": 159,
+    "bytes": 3860,
+    "words": 992,
+    "file": "engine/ast.mbt",
+    "tokens": 2011,
+    "test": false
+   },
+   {
+    "lines": 395,
+    "nonblank": 375,
+    "comment": 36,
+    "code": 339,
+    "bytes": 8480,
+    "words": 2721,
+    "file": "engine/collate.mbt",
+    "tokens": 3888,
+    "test": false
+   },
+   {
+    "lines": 1053,
+    "nonblank": 1013,
+    "comment": 55,
+    "code": 958,
+    "bytes": 24066,
+    "words": 7284,
+    "file": "engine/datetime.mbt",
+    "tokens": 11893,
+    "test": false
+   },
+   {
+    "lines": 271,
+    "nonblank": 240,
+    "comment": 46,
+    "code": 194,
+    "bytes": 6295,
+    "words": 2203,
+    "file": "engine/db.mbt",
+    "tokens": 2899,
+    "test": false
+   },
+   {
+    "lines": 641,
+    "nonblank": 623,
+    "comment": 35,
+    "code": 588,
+    "bytes": 17149,
+    "words": 4353,
+    "file": "engine/dml.mbt",
+    "tokens": 7334,
+    "test": false
+   },
+   {
+    "lines": 530,
+    "nonblank": 509,
+    "comment": 30,
+    "code": 479,
+    "bytes": 12496,
+    "words": 3524,
+    "file": "engine/eval.mbt",
+    "tokens": 5561,
+    "test": false
+   },
+   {
+    "lines": 903,
+    "nonblank": 879,
+    "comment": 50,
+    "code": 829,
+    "bytes": 22937,
+    "words": 6466,
+    "file": "engine/exec.mbt",
+    "tokens": 9943,
+    "test": false
+   },
+   {
+    "lines": 690,
+    "nonblank": 670,
+    "comment": 27,
+    "code": 643,
+    "bytes": 16065,
+    "words": 5336,
+    "file": "engine/functions.mbt",
+    "tokens": 7658,
+    "test": false
+   },
+   {
+    "lines": 293,
+    "nonblank": 283,
+    "comment": 15,
+    "code": 268,
+    "bytes": 6911,
+    "words": 2272,
+    "file": "engine/lexer.mbt",
+    "tokens": 3190,
+    "test": false
+   },
+   {
+    "lines": 328,
+    "nonblank": 312,
+    "comment": 30,
+    "code": 282,
+    "bytes": 6816,
+    "words": 2096,
+    "file": "engine/numeric.mbt",
+    "tokens": 3245,
+    "test": false
+   },
+   {
+    "lines": 270,
+    "nonblank": 244,
+    "comment": 24,
+    "code": 220,
+    "bytes": 5528,
+    "words": 2065,
+    "file": "engine/ordmap.mbt",
+    "tokens": 2921,
+    "test": false
+   },
+   {
+    "lines": 1327,
+    "nonblank": 1265,
+    "comment": 74,
+    "code": 1191,
+    "bytes": 31216,
+    "words": 9130,
+    "file": "engine/parser.mbt",
+    "tokens": 14571,
+    "test": false
+   },
+   {
+    "lines": 616,
+    "nonblank": 605,
+    "comment": 20,
+    "code": 585,
+    "bytes": 14237,
+    "words": 3873,
+    "file": "engine/printf.mbt",
+    "tokens": 6386,
+    "test": false
+   },
+   {
+    "lines": 272,
+    "nonblank": 255,
+    "comment": 30,
+    "code": 225,
+    "bytes": 5795,
+    "words": 1918,
+    "file": "engine/value.mbt",
+    "tokens": 2891,
+    "test": false
+   }
+  ],
+  "all": {
+   "lines": 8244,
+   "nonblank": 7888,
+   "code": 7358,
+   "comment": 530,
+   "bytes": 192114,
+   "words": 57087,
+   "tokens": 88961,
+   "n_files": 16
+  },
+  "main": {
+   "lines": 8244,
+   "nonblank": 7888,
+   "code": 7358,
+   "comment": 530,
+   "bytes": 192114,
+   "words": 57087,
+   "tokens": 88961,
+   "n_files": 16
+  },
+  "test": {
+   "lines": 0,
+   "nonblank": 0,
+   "code": 0,
+   "comment": 0,
+   "bytes": 0,
+   "words": 0,
+   "tokens": 0,
+   "n_files": 0
+  }
+ },
+ "compliance": {
+  "ok": true,
+  "issues": []
+ }
+}

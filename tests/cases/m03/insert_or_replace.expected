@@ -1,0 +1,27 @@
+1|a2|uno
+2|b|two
+3|c|three
+1|a2|uno
+3|c|three
+10|b|dos
+3|a2|both
+10|b|dos
+3|a2|both
+4|d|four
+10|b|dos
+3|a2|both
+10|b|dos
+11|d|new four
+x|dflt|B2
+1|third
+2|second
+Error: NOT NULL constraint failed: c.v
+Error: CHECK constraint failed: v > 0
+1|5
+1|6
+1|1|x
+1|2|z
+1|NULL|n1
+1|NULL|n2
+1|1|x
+1|2|z

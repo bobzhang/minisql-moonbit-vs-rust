@@ -1,0 +1,36 @@
+-- Compound queries used as subqueries: in IN, EXISTS, scalar positions, FROM,
+-- and correlated with an outer query.
+CREATE TABLE a(v INTEGER);
+CREATE TABLE b(v INTEGER);
+CREATE TABLE q(x INTEGER);
+INSERT INTO a VALUES (1), (2), (3);
+INSERT INTO b VALUES (3), (4);
+INSERT INTO q VALUES (1), (3), (4), (5);
+
+SELECT x FROM q WHERE x IN (SELECT v FROM a UNION SELECT v FROM b) ORDER BY x;
+SELECT x FROM q WHERE x NOT IN (SELECT v FROM a UNION ALL SELECT v FROM b) ORDER BY x;
+SELECT x FROM q WHERE x IN (SELECT v FROM a INTERSECT SELECT v FROM b);
+SELECT x FROM q WHERE x IN (SELECT v FROM a EXCEPT SELECT v FROM b) ORDER BY x;
+-- A NULL in a compound IN-list makes NOT IN unknown.
+SELECT count(*) FROM q WHERE x NOT IN (SELECT v FROM a UNION SELECT NULL);
+-- Scalar compound subquery: first row of the ordered compound.
+SELECT (SELECT v FROM a UNION SELECT v FROM b ORDER BY 1 DESC);
+SELECT (SELECT v FROM a EXCEPT SELECT v FROM b ORDER BY 1 DESC LIMIT 1 OFFSET 1);
+-- EXISTS over compounds.
+SELECT EXISTS (SELECT v FROM a INTERSECT SELECT v FROM b), EXISTS (SELECT v FROM a INTERSECT SELECT x FROM q WHERE x > 3);
+-- Compound in FROM, aggregated and joined.
+SELECT count(*), sum(v) FROM (SELECT v FROM a UNION SELECT v FROM b);
+SELECT u.v, q.x FROM (SELECT v FROM a UNION ALL SELECT v FROM b) u JOIN q ON q.x = u.v ORDER BY u.v, q.x;
+SELECT q.x, u.v FROM q LEFT JOIN (SELECT v FROM a INTERSECT SELECT v FROM b) u ON u.v = q.x ORDER BY q.x;
+-- Correlated compound: each member may reference the outer row.
+SELECT x, (SELECT count(*) FROM (SELECT v FROM a WHERE v < q.x UNION SELECT v FROM b WHERE v < q.x)) FROM q ORDER BY x;
+SELECT x FROM q WHERE EXISTS (SELECT 1 FROM a WHERE v = q.x UNION ALL SELECT 1 FROM b WHERE v = q.x + 1) ORDER BY x;
+SELECT x FROM q WHERE x IN (SELECT v + 1 FROM a EXCEPT SELECT v FROM b WHERE v < q.x) ORDER BY x;
+-- Compound of queries with joins.
+SELECT a.v FROM a JOIN b ON a.v = b.v UNION SELECT x FROM q WHERE x > 4 ORDER BY 1;
+-- Compound in INSERT ... SELECT and DELETE ... IN.
+CREATE TABLE u(v INTEGER);
+INSERT INTO u SELECT v FROM a UNION SELECT v FROM b UNION SELECT x FROM q;
+SELECT v FROM u ORDER BY v;
+DELETE FROM u WHERE v IN (SELECT v FROM a INTERSECT SELECT x FROM q);
+SELECT v FROM u ORDER BY v;

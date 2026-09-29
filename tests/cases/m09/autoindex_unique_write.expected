@@ -1,0 +1,33 @@
+===== phase 1 (engine) =====
+===== phase 2 (sqlite) =====
+ok
+table|nk|nk
+table|p|p
+table|pair|pair
+index|sqlite_autoindex_nk_1|nk
+index|sqlite_autoindex_nk_2|nk
+index|sqlite_autoindex_p_1|p
+index|sqlite_autoindex_p_2|p
+index|sqlite_autoindex_p_3|p
+index|sqlite_autoindex_pair_1|pair
+5000|12502500
+100
+4321
+1667
+a2
+NULL|NULL
+NULL|z
+1.5|x
+2.0|y
+Error: UNIQUE constraint failed: p.code
+Error: UNIQUE constraint failed: p.name
+Error: UNIQUE constraint failed: p.a, p.b
+Error: UNIQUE constraint failed: pair.x, pair.y
+ok
+===== phase 3 (engine) =====
+NEW|new|0
+Error: UNIQUE constraint failed: p.code
+===== phase 4 (sqlite) =====
+ok
+2501|6250001
+NEWER

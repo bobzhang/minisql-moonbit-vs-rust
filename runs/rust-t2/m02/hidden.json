@@ -1,0 +1,425 @@
+{
+ "build_ok": true,
+ "results": [
+  {
+   "case": "m01/affinity_blob_column",
+   "passed": true,
+   "error": null,
+   "seconds": 0.007,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/affinity_integer_column",
+   "passed": true,
+   "error": null,
+   "seconds": 0.007,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/affinity_numeric_column",
+   "passed": true,
+   "error": null,
+   "seconds": 0.011,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/affinity_real_column",
+   "passed": true,
+   "error": null,
+   "seconds": 0.01,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/affinity_text_column",
+   "passed": true,
+   "error": null,
+   "seconds": 0.007,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/arithmetic_integer",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/arithmetic_real",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/blob_literals",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/comments",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/comparison_cross_class",
+   "passed": true,
+   "error": null,
+   "seconds": 0.005,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/comparison_int_real",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/concat_operator",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/create_table_if_not_exists",
+   "passed": true,
+   "error": null,
+   "seconds": 0.007,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/division_by_zero",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/lexer_tokens",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/logic_three_valued",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/name_resolution_errors",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/numeric_literals",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/operator_precedence",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/order_by_expressions",
+   "passed": true,
+   "error": null,
+   "seconds": 0.005,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/select_aliases",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/select_without_from",
+   "passed": true,
+   "error": null,
+   "seconds": 0.004,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/string_literals",
+   "passed": true,
+   "error": null,
+   "seconds": 0.005,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/syntax_errors",
+   "passed": true,
+   "error": null,
+   "seconds": 0.007,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/text_to_number",
+   "passed": true,
+   "error": null,
+   "seconds": 0.004,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/where_basic",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/affinity_column_pairs",
+   "passed": true,
+   "error": null,
+   "seconds": 0.004,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/affinity_expressions",
+   "passed": true,
+   "error": null,
+   "seconds": 0.005,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/case_result_types",
+   "passed": true,
+   "error": null,
+   "seconds": 0.005,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/cast_to_numeric",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/cast_to_real",
+   "passed": true,
+   "error": null,
+   "seconds": 0.005,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/cast_to_text_blob",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/cast_type_affinity",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/collate_operator",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/collation_nocase",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/collation_precedence",
+   "passed": true,
+   "error": null,
+   "seconds": 0.007,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/func_abs",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/func_char_unicode",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/func_concat",
+   "passed": true,
+   "error": null,
+   "seconds": 0.004,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/func_instr",
+   "passed": true,
+   "error": null,
+   "seconds": 0.004,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/func_max_min_scalar",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/func_replace",
+   "passed": true,
+   "error": null,
+   "seconds": 0.005,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/func_round",
+   "passed": true,
+   "error": null,
+   "seconds": 0.005,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/func_substr",
+   "passed": true,
+   "error": null,
+   "seconds": 0.007,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/func_unhex",
+   "passed": true,
+   "error": null,
+   "seconds": 0.005,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/glob_basic",
+   "passed": true,
+   "error": null,
+   "seconds": 0.004,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/glob_character_classes",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/in_list_affinity",
+   "passed": true,
+   "error": null,
+   "seconds": 0.005,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/in_list_nulls",
+   "passed": true,
+   "error": null,
+   "seconds": 0.004,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/is_distinct_from",
+   "passed": true,
+   "error": null,
+   "seconds": 0.004,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/is_operator",
+   "passed": true,
+   "error": null,
+   "seconds": 0.005,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/like_basic",
+   "passed": true,
+   "error": null,
+   "seconds": 0.005,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/like_unicode_types",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/math_exp_log",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/math_trig",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/operator_precedence_m2",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/printf_float_e_g",
+   "passed": true,
+   "error": null,
+   "seconds": 0.005,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/printf_float_f",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/printf_integers",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m02/printf_quoting",
+   "passed": false,
+   "error": null,
+   "seconds": 0.004,
+   "similarity": 0.9333
+  }
+ ]
+}

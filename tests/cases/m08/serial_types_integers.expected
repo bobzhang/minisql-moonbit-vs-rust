@@ -1,0 +1,62 @@
+===== phase 1 (sqlite) =====
+===== phase 2 (engine) =====
+1|0|integer|zero (serial 8)
+2|1|integer|one (serial 9)
+3|2|integer|serial 1
+4|-1|integer|serial 1
+5|127|integer|serial 1 max
+6|-128|integer|serial 1 min
+7|128|integer|serial 2
+8|-129|integer|serial 2
+9|32767|integer|serial 2 max
+10|-32768|integer|serial 2 min
+11|32768|integer|serial 3
+12|-32769|integer|serial 3
+13|8388607|integer|serial 3 max
+14|-8388608|integer|serial 3 min
+15|8388608|integer|serial 4
+16|-8388609|integer|serial 4
+17|2147483647|integer|serial 4 max
+18|-2147483648|integer|serial 4 min
+19|2147483648|integer|serial 5
+20|-2147483649|integer|serial 5
+21|140737488355327|integer|serial 5 max
+22|-140737488355328|integer|serial 5 min
+23|140737488355328|integer|serial 6
+24|-140737488355329|integer|serial 6
+25|9223372036854775807|integer|serial 6 max
+26|-9223372036854775808|integer|serial 6 min
+27|255|integer|byte pattern
+28|65535|integer|byte pattern
+29|16777215|integer|byte pattern
+30|4294967295|integer|byte pattern
+31|-256|integer|byte pattern
+32|1099511627776|integer|byte pattern
+33|72057594037927936|integer|byte pattern
+34|NULL|null|null (serial 0)
+34|33|-9223372036854775808|9223372036854775807
+-9223372036854775808
+-140737488355329
+-140737488355328
+-2147483649
+-2147483648
+-8388609
+-8388608
+-32769
+-32768
+-256
+-129
+-128
+-1
+2147483648
+-140737488355329
+serial 4
+4311810038
+Error: integer overflow
+32
+0|1|-1|300|-70000|3000000000|-300000000000000|9000000000000000000
+1|0|NULL|-300|70000|-3000000000|300000000000000|-9000000000000000000
+integer|integer|integer|integer
+integer|integer|null|integer
+-69700
+NULL

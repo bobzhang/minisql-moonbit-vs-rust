@@ -1,0 +1,274 @@
+{
+ "visible": {
+  "build_ok": true,
+  "passed": 224,
+  "total": 224,
+  "per_milestone": {
+   "m01": [
+    27,
+    27
+   ],
+   "m02": [
+    34,
+    34
+   ],
+   "m03": [
+    28,
+    28
+   ],
+   "m04": [
+    27,
+    27
+   ],
+   "m05": [
+    28,
+    28
+   ],
+   "m06": [
+    28,
+    28
+   ],
+   "m07": [
+    31,
+    31
+   ],
+   "m08": [
+    21,
+    21
+   ]
+  },
+  "similarity": 1.0
+ },
+ "hidden": {
+  "build_ok": true,
+  "passed": 212,
+  "total": 220,
+  "per_milestone": {
+   "m01": [
+    26,
+    26
+   ],
+   "m02": [
+    33,
+    34
+   ],
+   "m03": [
+    27,
+    28
+   ],
+   "m04": [
+    25,
+    26
+   ],
+   "m05": [
+    27,
+    28
+   ],
+   "m06": [
+    24,
+    27
+   ],
+   "m07": [
+    30,
+    30
+   ],
+   "m08": [
+    20,
+    21
+   ]
+  },
+  "similarity": 0.9932
+ },
+ "code": {
+  "files": [
+   {
+    "lines": 439,
+    "nonblank": 410,
+    "comment": 18,
+    "code": 392,
+    "bytes": 12852,
+    "words": 3128,
+    "file": "src/agg.rs",
+    "tokens": 4912,
+    "test": false
+   },
+   {
+    "lines": 432,
+    "nonblank": 393,
+    "comment": 17,
+    "code": 376,
+    "bytes": 8844,
+    "words": 2186,
+    "file": "src/ast.rs",
+    "tokens": 4325,
+    "test": false
+   },
+   {
+    "lines": 995,
+    "nonblank": 956,
+    "comment": 19,
+    "code": 937,
+    "bytes": 26684,
+    "words": 7854,
+    "file": "src/datetime.rs",
+    "tokens": 11959,
+    "test": false
+   },
+   {
+    "lines": 3542,
+    "nonblank": 3403,
+    "comment": 136,
+    "code": 3267,
+    "bytes": 120086,
+    "words": 30214,
+    "file": "src/engine.rs",
+    "tokens": 45134,
+    "test": false
+   },
+   {
+    "lines": 678,
+    "nonblank": 653,
+    "comment": 35,
+    "code": 618,
+    "bytes": 21831,
+    "words": 5770,
+    "file": "src/engine/access.rs",
+    "tokens": 8597,
+    "test": false
+   },
+   {
+    "lines": 224,
+    "nonblank": 212,
+    "comment": 8,
+    "code": 204,
+    "bytes": 7261,
+    "words": 1965,
+    "file": "src/engine/file.rs",
+    "tokens": 2861,
+    "test": false
+   },
+   {
+    "lines": 2015,
+    "nonblank": 1934,
+    "comment": 90,
+    "code": 1844,
+    "bytes": 64267,
+    "words": 17497,
+    "file": "src/engine/query.rs",
+    "tokens": 25639,
+    "test": false
+   },
+   {
+    "lines": 316,
+    "nonblank": 303,
+    "comment": 9,
+    "code": 294,
+    "bytes": 8783,
+    "words": 2269,
+    "file": "src/engine/schema.rs",
+    "tokens": 3490,
+    "test": false
+   },
+   {
+    "lines": 887,
+    "nonblank": 858,
+    "comment": 29,
+    "code": 829,
+    "bytes": 28629,
+    "words": 7524,
+    "file": "src/engine/window.rs",
+    "tokens": 11060,
+    "test": false
+   },
+   {
+    "lines": 1449,
+    "nonblank": 1383,
+    "comment": 17,
+    "code": 1366,
+    "bytes": 42672,
+    "words": 12240,
+    "file": "src/func.rs",
+    "tokens": 17335,
+    "test": false
+   },
+   {
+    "lines": 325,
+    "nonblank": 317,
+    "comment": 8,
+    "code": 309,
+    "bytes": 10239,
+    "words": 2829,
+    "file": "src/lexer.rs",
+    "tokens": 3775,
+    "test": false
+   },
+   {
+    "lines": 45,
+    "nonblank": 43,
+    "comment": 0,
+    "code": 43,
+    "bytes": 1245,
+    "words": 322,
+    "file": "src/main.rs",
+    "tokens": 453,
+    "test": false
+   },
+   {
+    "lines": 2011,
+    "nonblank": 1935,
+    "comment": 24,
+    "code": 1911,
+    "bytes": 64254,
+    "words": 14724,
+    "file": "src/parser.rs",
+    "tokens": 23678,
+    "test": false
+   },
+   {
+    "lines": 609,
+    "nonblank": 574,
+    "comment": 32,
+    "code": 542,
+    "bytes": 17320,
+    "words": 5179,
+    "file": "src/value.rs",
+    "tokens": 7613,
+    "test": false
+   }
+  ],
+  "all": {
+   "lines": 13967,
+   "nonblank": 13374,
+   "code": 12932,
+   "comment": 442,
+   "bytes": 434967,
+   "words": 113701,
+   "tokens": 170831,
+   "n_files": 14
+  },
+  "main": {
+   "lines": 13967,
+   "nonblank": 13374,
+   "code": 12932,
+   "comment": 442,
+   "bytes": 434967,
+   "words": 113701,
+   "tokens": 170831,
+   "n_files": 14
+  },
+  "test": {
+   "lines": 0,
+   "nonblank": 0,
+   "code": 0,
+   "comment": 0,
+   "bytes": 0,
+   "words": 0,
+   "tokens": 0,
+   "n_files": 0
+  }
+ },
+ "compliance": {
+  "ok": true,
+  "issues": []
+ }
+}

@@ -1,0 +1,38 @@
+1|10
+3|30
+5|50
+2
+Error: CHECK constraint failed: n >= 0
+1|10
+3|30
+5|50
+6|60
+Error: CHECK constraint failed: n >= 0
+1|10
+3|30
+5|50
+6|60
+1|11
+3|30
+5|50
+6|60
+Error: CHECK constraint failed: small
+1|11
+3|30
+5|50
+6|60
+1|22
+3|60
+5|50
+6|60
+1|22
+3|35
+5|25
+6|35
+Error: CHECK constraint failed: n >= 0
+1|22
+3|35
+5|25
+6|35
+1|ok
+4|NULL

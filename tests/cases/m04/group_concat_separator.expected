@@ -1,0 +1,16 @@
+a;b;c;e
+a, b, c, e
+abce
+e and c and b and a
+abce
+a0b0c0e
+a→b→c→e
+aX_bX_cX_e
+x|1|2|3
+y|10
+z|NULL
+x|321
+y|10
+z|NULL
+b
+Error: wrong number of arguments to function group_concat()

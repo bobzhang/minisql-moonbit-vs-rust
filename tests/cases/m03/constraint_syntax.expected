@@ -1,0 +1,20 @@
+1|none|-1|2.5|X'00'|NULL
+1|none|-1|2.5|X'00'|NULL
+2|x|5|2.5|X'01'|999
+Error: NOT NULL constraint failed: t.a
+Error: UNIQUE constraint failed: t.a
+Error: CHECK constraint failed: b <> 0
+Error: UNIQUE constraint failed: t.b, t.c
+Error: CHECK constraint failed: c >= 0
+1|none|-1|2.5|X'00'
+2|x|5|2.5|X'01'
+1|none|-1|2.5|X'00'
+2|x|5|2.5|X'01'
+3|y|7|2.5|X'06'
+Error: UNIQUE constraint failed: u.x
+p|1
+q|2
+2|5
+1
+2
+3

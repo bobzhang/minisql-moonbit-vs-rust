@@ -1,0 +1,7 @@
+other failures (4): m02/printf_quoting m03/insert_default_values m04/group_by_order_limit m05/join_using_star
+m01: 26/26 passed
+m02: 33/34 passed
+m03: 27/28 passed
+m04: 25/26 passed
+m05: 27/28 passed
+TOTAL: 138/142 passed

@@ -1,0 +1,23 @@
+1
+2
+Error: near "SELECT": syntax error
+Error: incomplete input
+1
+2
+1
+2
+Error: near ")": syntax error
+2|y
+2
+4
+1|2
+5
+Error: duplicate WITH table name: C
+10
+20
+Error: circular reference: a
+Error: integer overflow
+9.223372036854776e+18
+3
+1
+2

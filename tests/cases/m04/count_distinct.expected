@@ -1,0 +1,15 @@
+6|10|12
+5
+2
+3
+2
+1
+2|2|3
+4|2
+0
+0
+a|2|3|3
+b|1|2|2
+c|0|0|1
+Error: near "*": syntax error
+Error: wrong number of arguments to function count()

@@ -1,0 +1,10 @@
+===== phase 1 (engine) =====
+===== phase 2 (sqlite) =====
+ok
+table|side
+table|t
+index|t_v
+1|a
+3|after rollback to b
+4|in begin
+side

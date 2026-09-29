@@ -1,0 +1,33 @@
+1|5|dflt|NULL
+2|10|integer|2.0|real
+3|20|integer|3.0|real
+10|10|10
+11|NULL|NULL
+ABC-3|3|1
+constant|NULL|2
+100|x
+200|y
+300|z
+1|300|z
+2|200|y
+3|100|x
+17|dflt
+1|5|updated
+50|50
+2|22|replaced|NULL
+Error: UNIQUE constraint failed: t.id
+1|5|updated|NULL
+2|22|replaced|NULL
+3|2|dflt|3.0
+10|7|seven|NULL
+11|NULL|NULL|NULL
+12|3|abc|NULL
+13|4|dflt|NULL
+14|100|x|NULL
+15|200|y|NULL
+16|300|z|NULL
+17|NULL|dflt|NULL
+50|50|dflt|NULL
+Error: no such column: nosuch
+Error: misuse of aggregate function count()
+50

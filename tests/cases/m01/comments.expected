@@ -1,0 +1,14 @@
+1
+2
+3
+4
+11
+8
+after multi-line comment
+-- not a comment|/* not a comment */
+a--b
+2|y
+1|x
+9
+1
+2

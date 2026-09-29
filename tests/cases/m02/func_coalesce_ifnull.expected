@@ -1,0 +1,24 @@
+1|1|NULL|c
+a|b|4
+2|3|NULL||0
+real|blob|text
+1|ok
+Error: integer overflow
+3|bc
+1|Al|5
+2|Bea|-1
+3|?|7
+4||0
+2
+4
+1|Al/Alan
+2|none/Bea
+3|none/none
+4|/Dee
+4
+1
+3
+2
+Error: wrong number of arguments to function coalesce()
+Error: wrong number of arguments to function ifnull()
+Error: wrong number of arguments to function ifnull()

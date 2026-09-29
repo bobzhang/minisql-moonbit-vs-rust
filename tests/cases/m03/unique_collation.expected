@@ -1,0 +1,22 @@
+Error: UNIQUE constraint failed: t.name
+Alice|t1
+alice |t3
+Error: UNIQUE constraint failed: r.s
+[  abc]
+[abc]
+[ABC]
+[abc]
+[abc ]
+Error: UNIQUE constraint failed: m.a, m.b
+X|Y
+x|y
+Error: UNIQUE constraint failed: t.name
+Alice|t1
+alice |t3
+Bob|t4
+Alice|t1
+alice |t3
+BOB|t4
+Error: UNIQUE constraint failed: k.code
+ab
+cd

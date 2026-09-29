@@ -1,0 +1,176 @@
+[18:33:19] moonbit-t1: workspace ready at /Users/dii/minisql-bench-runs/moonbit-t1/work
+[18:33:19] rust-t1: workspace ready at /Users/dii/minisql-bench-runs/rust-t1/work
+[18:33:19] moonbit-t1 m01: session 1 (initial) starting
+[18:33:19] rust-t1 m01: session 1 (initial) starting
+[18:44:11] moonbit-t1 m01: session 1 done: turns=33 out=71750 cache_read=3212762 cost=3.1852004 rl=False
+[18:44:24] moonbit-t1 m01: done: visible 27/27, hidden 26/26, main tokens 33081, compliance ok
+[18:44:24] moonbit-t1: trial finished
+[18:46:12] rust-t1 m01: session 1 done: turns=50 out=86595 cache_read=4969428 cost=3.8812416000000014 rl=False
+[18:46:32] rust-t1 m01: done: visible 27/27, hidden 26/26, main tokens 37156, compliance ok
+[18:46:32] rust-t1: trial finished
+[18:51:03] rust-t1 m02: session 1 (initial) starting
+[18:51:03] moonbit-t1 m02: session 1 (initial) starting
+[19:05:43] rust-t1 m02: session 1 done: turns=33 out=93392 cache_read=3559315 cost=4.011191 rl=False
+[19:05:55] rust-t1 m02: done: visible 61/61, hidden 59/60, main tokens 58627, compliance ok
+[19:05:56] rust-t1 m03: session 1 (initial) starting
+[19:07:13] moonbit-t1 m02: session 1 done: turns=43 out=104951 cache_read=5866888 cost=4.8621176 rl=False
+[19:07:31] moonbit-t1 m02: done: visible 61/61, hidden 59/60, main tokens 56637, compliance ok
+[19:07:31] moonbit-t1 m03: session 1 (initial) starting
+[19:15:36] rust-t1 m03: session 1 done: turns=48 out=62887 cache_read=4197378 cost=3.2103355999999996 rl=False
+[19:15:49] rust-t1 m03: done: visible 89/89, hidden 85/88, main tokens 71444, compliance ok
+[19:15:49] rust-t1 m04: session 1 (initial) starting
+[19:19:39] moonbit-t1 m03: session 1 done: turns=48 out=78402 cache_read=5594703 cost=4.0923886000000005 rl=False
+[19:19:53] moonbit-t1 m03: done: visible 89/89, hidden 85/88, main tokens 72166, compliance ok
+[19:19:53] moonbit-t1 m04: session 1 (initial) starting
+[19:31:02] rust-t1 m04: session 1 done: turns=46 out=79207 cache_read=4910642 cost=4.000796799999999 rl=False
+[19:31:14] rust-t1 m04: done: visible 116/116, hidden 111/114, main tokens 90594, compliance ok
+[19:31:14] rust-t1 m05: session 1 (initial) starting
+[19:32:51] moonbit-t1 m04: session 1 done: turns=34 out=64072 cache_read=3035199 cost=3.0861024 rl=False
+[19:33:10] moonbit-t1 m04: done: visible 116/116, hidden 111/114, main tokens 89662, compliance ok
+[19:33:10] moonbit-t1 m05: session 1 (initial) starting
+[19:47:26] rust-t1 m05: session 1 done: turns=48 out=106414 cache_read=5847404 cost=4.849728800000002 rl=False
+[19:47:43] rust-t1 m05: done: visible 144/144, hidden 137/142, main tokens 107615, compliance ok
+[19:47:43] rust-t1 m06: session 1 (initial) starting
+[19:49:30] moonbit-t1 m05: session 1 done: turns=55 out=98600 cache_read=7429795 cost=5.056831000000001 rl=False
+[19:49:50] moonbit-t1 m05: done: visible 144/144, hidden 137/142, main tokens 104363, compliance ok
+[19:49:50] moonbit-t1 m06: session 1 (initial) starting
+[20:16:45] moonbit-t1 m06: session 1 done: turns=74 out=125268 cache_read=12151457 cost=6.9833490000000005 rl=False
+[20:17:19] moonbit-t1 m06: done: visible 172/172, hidden 161/169, main tokens 129593, compliance ok
+[20:17:19] moonbit-t1 m07: session 1 (initial) starting
+[20:20:44] rust-t1 m06: session 1 done: turns=71 out=143748 cache_read=12727454 cost=7.597474799999997 rl=False
+[20:21:30] rust-t1 m06: done: visible 172/172, hidden 163/169, main tokens 138207, compliance ok
+[20:21:30] rust-t1 m07: session 1 (initial) starting
+[20:34:46] moonbit-t1 m07: session 1 done: turns=55 out=110676 cache_read=8306389 cost=5.9087178 rl=False
+[20:35:25] moonbit-t1 m07: done: visible 203/203, hidden 191/199, main tokens 148430, compliance ok
+[20:35:25] moonbit-t1 m08: session 1 (initial) starting
+[20:36:10] rust-t1 m07: session 1 done: turns=42 out=96368 cache_read=4771603 cost=4.5019846 rl=False
+[20:36:41] rust-t1 m07: done: visible 203/203, hidden 192/199, main tokens 160768, compliance ok
+[20:36:41] rust-t1 m08: session 1 (initial) starting
+[20:38:51] moonbit-t1 m08: session 1 done: turns=26 out=16321 cache_read=1272280 cost=1.128948 rl=False
+[20:39:07] rust-t1 m08: session 1 done: turns=19 out=14102 cache_read=720224 cost=0.8710928 rl=False
+[20:39:16] moonbit-t1 m08: done: visible 224/224, hidden 211/220, main tokens 152885, compliance ok
+[20:39:16] moonbit-t1 m09: session 1 (initial) starting
+[20:39:44] rust-t1 m08: done: visible 224/224, hidden 213/220, main tokens 165595, compliance ok
+[20:39:44] rust-t1 m09: session 1 (initial) starting
+[20:48:11] moonbit-t1 m09: session 1 done: turns=38 out=50194 cache_read=3218856 cost=2.6391792 rl=False
+[20:48:40] rust-t1 m09: session 1 done: turns=32 out=54705 cache_read=1883574 cost=2.3633748000000003 rl=False
+[20:48:56] moonbit-t1 m09: done: visible 247/247, hidden 232/242, main tokens 165827, compliance ok
+[20:48:56] moonbit-t1: trial finished
+[20:48:57] rust-t2: workspace ready at /Users/dii/minisql-bench-runs/rust-t2/work
+[20:48:57] rust-t2 m01: session 1 (initial) starting
+[20:49:07] rust-t1 m09: done: visible 247/247, hidden 234/242, main tokens 179323, compliance ok
+[20:49:07] rust-t1: trial finished
+[20:49:07] moonbit-t2: workspace ready at /Users/dii/minisql-bench-runs/moonbit-t2/work
+[20:49:07] moonbit-t2 m01: session 1 (initial) starting
+[20:58:22] rust-t2 m01: session 1 done: turns=23 out=67621 cache_read=1532058 cost=2.6038315999999995 rl=False
+[20:58:38] rust-t2 m01: done: visible 27/27, hidden 26/26, main tokens 35093, compliance ok
+[20:58:38] rust-t2 m02: session 1 (initial) starting
+[20:59:26] moonbit-t2 m01: session 1 done: turns=32 out=66116 cache_read=3041469 cost=2.9764217999999993 rl=False
+[20:59:45] moonbit-t2 m01: done: visible 27/27, hidden 26/26, main tokens 33642, compliance ok
+[20:59:45] moonbit-t2 m02: session 1 (initial) starting
+[21:12:29] rust-t2 m02: session 1 done: turns=36 out=88947 cache_read=3354429 cost=3.6828497999999996 rl=False
+[21:12:50] rust-t2 m02: done: visible 61/61, hidden 59/60, main tokens 55473, compliance ok
+[21:12:51] rust-t2 m03: session 1 (initial) starting
+[21:13:19] moonbit-t2 m02: session 1 done: turns=41 out=84342 cache_read=4024397 cost=3.8206393999999992 rl=False
+[21:13:47] moonbit-t2 m02: done: visible 61/61, hidden 60/60, main tokens 52272, compliance ok
+[21:13:47] moonbit-t2 m03: session 1 (initial) starting
+[21:23:47] moonbit-t2 m03: session 1 done: turns=52 out=60529 cache_read=5530483 cost=3.6220445999999993 rl=False
+[21:24:02] moonbit-t2 m03: done: visible 89/89, hidden 84/88, main tokens 69498, compliance ok
+[21:24:02] moonbit-t2 m04: session 1 (initial) starting
+[21:25:01] rust-t2 m03: session 1 done: turns=41 out=75790 cache_read=4211969 cost=3.6317858 rl=False
+[21:25:15] rust-t2 m03: done: visible 89/89, hidden 86/88, main tokens 71929, compliance ok
+[21:25:15] rust-t2 m04: session 1 (initial) starting
+[21:36:02] moonbit-t2 m04: session 1 done: turns=36 out=74277 cache_read=3035365 cost=3.304253 rl=False
+[21:36:18] rust-t2 m04: session 1 done: turns=32 out=73745 cache_read=2944136 cost=3.189551200000001 rl=False
+[21:36:27] moonbit-t2 m04: done: visible 116/116, hidden 110/114, main tokens 88961, compliance ok
+[21:36:27] moonbit-t2 m05: session 1 (initial) starting
+[21:36:41] rust-t2 m04: done: visible 116/116, hidden 111/114, main tokens 91070, compliance ok
+[21:36:41] rust-t2 m05: session 1 (initial) starting
+[21:49:50] moonbit-t2 m05: session 1 done: turns=38 out=83593 cache_read=4081739 cost=3.932839800000001 rl=False
+[21:50:10] moonbit-t2 m05: done: visible 144/144, hidden 135/142, main tokens 102652, compliance ok
+[21:50:10] moonbit-t2 m06: session 1 (initial) starting
+[21:59:08] rust-t2 m05: session 1 done: turns=58 out=143787 cache_read=9438874 cost=6.7756108 rl=False
+[21:59:28] rust-t2 m05: done: visible 144/144, hidden 138/142, main tokens 110606, compliance ok
+[21:59:28] rust-t2 m06: session 1 (initial) starting
+[22:25:37] rust-t2 m06: session 1 done: turns=73 out=141149 cache_read=13131396 cost=7.594139200000001 rl=False
+[22:26:07] rust-t2 m06: done: visible 172/172, hidden 162/169, main tokens 140124, compliance ok
+[22:26:07] rust-t2 m07: session 1 (initial) starting
+[22:31:05] moonbit-t2 m06: session 1 done: turns=145 out=224661 cache_read=39216018 cost=15.4751276 rl=False
+[22:31:39] moonbit-t2 m06: done: visible 172/172, hidden 161/169, main tokens 135759, compliance ok
+[22:31:39] moonbit-t2 m07: session 1 (initial) starting
+[22:48:22] rust-t2 m07: session 1 done: turns=49 out=110374 cache_read=7639468 cost=5.7819016 rl=False
+[22:49:01] rust-t2 m07: done: visible 203/203, hidden 192/199, main tokens 162294, compliance ok
+[22:49:01] rust-t2 m08: session 1 (initial) starting
+[22:51:46] rust-t2 m08: session 1 done: turns=18 out=14948 cache_read=634714 cost=0.8598067999999999 rl=False
+[22:52:32] moonbit-t2 m07: session 1 done: turns=50 out=102652 cache_read=6790184 cost=5.141188799999999 rl=False
+[22:52:34] rust-t2 m08: done: visible 224/224, hidden 212/220, main tokens 170831, compliance ok
+[22:52:34] rust-t2 m09: session 1 (initial) starting
+[22:53:03] moonbit-t2 m07: done: visible 203/203, hidden 189/199, main tokens 155896, compliance ok
+[22:53:04] moonbit-t2 m08: session 1 (initial) starting
+[22:55:36] moonbit-t2 m08: session 1 done: turns=21 out=13216 cache_read=824472 cost=0.9042703999999999 rl=False
+[22:55:59] moonbit-t2 m08: done: visible 224/224, hidden 210/220, main tokens 160073, compliance ok
+[22:55:59] moonbit-t2 m09: session 1 (initial) starting
+[23:03:57] rust-t2 m09: session 1 done: turns=52 out=63497 cache_read=4097586 cost=3.0465531999999986 rl=False
+[23:04:14] moonbit-t2 m09: session 1 done: turns=31 out=47225 cache_read=2233184 cost=2.2914887999999998 rl=False
+[23:04:32] rust-t2 m09: done: visible 247/247, hidden 235/242, main tokens 186200, compliance ok
+[23:04:32] rust-t2: trial finished
+[23:04:32] rust-t3: workspace ready at /Users/dii/minisql-bench-runs/rust-t3/work
+[23:04:32] rust-t3 m01: session 1 (initial) starting
+[23:04:44] moonbit-t2 m09: done: visible 247/247, hidden 231/242, main tokens 172786, compliance ok
+[23:04:44] moonbit-t2: trial finished
+[23:04:44] moonbit-t3: workspace ready at /Users/dii/minisql-bench-runs/moonbit-t3/work
+[23:04:44] moonbit-t3 m01: session 1 (initial) starting
+[23:15:59] rust-t3 m01: session 1 done: turns=31 out=77874 cache_read=2577648 cost=3.1206175999999997 rl=False
+[23:16:07] moonbit-t3 m01: session 1 done: turns=29 out=75545 cache_read=2690370 cost=3.1411420000000003 rl=False
+[23:16:29] rust-t3 m01: done: visible 27/27, hidden 26/26, main tokens 31811, compliance ok
+[23:16:29] rust-t3 m02: session 1 (initial) starting
+[23:16:37] moonbit-t3 m01: done: visible 27/27, hidden 26/26, main tokens 39440, compliance ok
+[23:16:37] moonbit-t3 m02: session 1 (initial) starting
+[23:29:09] moonbit-t3 m02: session 1 done: turns=43 out=78819 cache_read=4396155 cost=3.7192349999999994 rl=False
+[23:29:26] moonbit-t3 m02: done: visible 61/61, hidden 58/60, main tokens 59188, compliance ok
+[23:29:26] moonbit-t3 m03: session 1 (initial) starting
+[23:32:30] rust-t3 m02: session 1 done: turns=49 out=106661 cache_read=6025734 cost=4.853494800000002 rl=False
+[23:32:59] rust-t3 m02: done: visible 61/61, hidden 59/60, main tokens 56738, compliance ok
+[23:32:59] rust-t3 m03: session 1 (initial) starting
+[23:38:57] moonbit-t3 m03: session 1 done: turns=42 out=60619 cache_read=3809202 cost=3.0635243999999995 rl=False
+[23:39:11] moonbit-t3 m03: done: visible 89/89, hidden 84/88, main tokens 72009, compliance ok
+[23:39:11] moonbit-t3 m04: session 1 (initial) starting
+[23:43:21] rust-t3 m03: session 1 done: turns=34 out=69588 cache_read=3458111 cost=3.3111981999999998 rl=False
+[23:43:35] rust-t3 m03: done: visible 89/89, hidden 83/88, main tokens 73180, compliance ok
+[23:43:35] rust-t3 m04: session 1 (initial) starting
+[23:48:53] moonbit-t3 m04: session 1 done: turns=30 out=65455 cache_read=2486887 cost=2.9743893999999997 rl=False
+[23:49:11] moonbit-t3 m04: done: visible 116/116, hidden 110/114, main tokens 90690, compliance ok
+[23:49:11] moonbit-t3 m05: session 1 (initial) starting
+[23:55:12] rust-t3 m04: session 1 done: turns=34 out=78510 cache_read=3131053 cost=3.4556185999999998 rl=False
+[23:55:37] rust-t3 m04: done: visible 116/116, hidden 109/114, main tokens 94643, compliance ok
+[23:55:38] rust-t3 m05: session 1 (initial) starting
+[00:04:18] moonbit-t3 m05: session 1 done: turns=49 out=89920 cache_read=5584039 cost=4.296303800000001 rl=False
+[00:04:34] moonbit-t3 m05: done: visible 144/144, hidden 135/142, main tokens 102741, compliance ok
+[00:04:34] moonbit-t3 m06: session 1 (initial) starting
+[00:12:16] rust-t3 m05: session 1 done: turns=62 out=107696 cache_read=8360648 cost=5.565817600000001 rl=False
+[00:12:33] rust-t3 m05: done: visible 144/144, hidden 137/142, main tokens 113414, compliance ok
+[00:12:33] rust-t3 m06: session 1 (initial) starting
+[01:01:28] moonbit-t3 m06: session 1 done: turns=181 out=297912 cache_read=52063240 cost=20.19604800000002 rl=False
+[01:02:04] moonbit-t3 m06: done: visible 172/172, hidden 161/169, main tokens 144282, compliance ok
+[01:02:04] moonbit-t3 m07: session 1 (initial) starting
+[01:14:53] moonbit-t3 m07: session 1 done: turns=51 out=75545 cache_read=5676076 cost=4.1040672 rl=False
+[01:15:18] moonbit-t3 m07: done: visible 203/203, hidden 189/199, main tokens 158937, compliance ok
+[01:15:18] moonbit-t3 m08: session 1 (initial) starting
+[01:17:47] moonbit-t3 m08: session 1 done: turns=19 out=13044 cache_read=748072 cost=0.8759264000000002 rl=False
+[01:18:02] moonbit-t3 m08: done: visible 224/224, hidden 210/220, main tokens 162810, compliance ok
+[01:18:02] moonbit-t3 m09: session 1 (initial) starting
+[01:27:43] moonbit-t3 m09: session 1 done: turns=32 out=53078 cache_read=2345468 cost=2.4856855999999996 rl=False
+[01:28:08] moonbit-t3 m09: done: visible 247/247, hidden 231/242, main tokens 175977, compliance ok
+[01:28:08] moonbit-t3: trial finished
+[01:31:38] rust-t3 m06: session 1 done: turns=183 out=476466 cache_read=76751303 cost=30.177188599999994 rl=False
+[01:32:14] rust-t3 m06: done: visible 172/172, hidden 161/169, main tokens 178657, compliance ok
+[01:32:14] rust-t3 m07: session 1 (initial) starting
+[01:50:38] rust-t3 m07: session 1 done: turns=55 out=119263 cache_read=8640248 cost=6.088741600000001 rl=False
+[01:51:12] rust-t3 m07: done: visible 203/203, hidden 188/199, main tokens 202850, compliance ok
+[01:51:12] rust-t3 m08: session 1 (initial) starting
+[01:54:20] rust-t3 m08: session 1 done: turns=24 out=18283 cache_read=952438 cost=1.0424676 rl=False
+[01:54:45] rust-t3 m08: done: visible 224/224, hidden 209/220, main tokens 208030, compliance ok
+[01:54:45] rust-t3 m09: session 1 (initial) starting
+[02:00:19] rust-t3 m09: session 1 done: turns=26 out=31723 cache_read=1263693 cost=1.5023665999999998 rl=False
+[02:00:40] rust-t3 m09: done: visible 247/247, hidden 230/242, main tokens 216270, compliance ok
+[02:00:40] rust-t3: trial finished

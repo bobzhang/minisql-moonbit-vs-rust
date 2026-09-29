@@ -1,0 +1,17 @@
+1|pen
+2|cup
+1|pen
+2|cup
+2|cup
+1|pen
+integer|text
+pen
+cup
+cup
+1|pen
+2|cup
+3|box
+1|2
+7|7
+Error: no such column: itemnam
+Error: no such table: itemz

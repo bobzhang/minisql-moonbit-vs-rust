@@ -1,0 +1,18 @@
+===== phase 1 (sqlite) =====
+===== phase 2 (engine) =====
+table|new_name|new_name
+index|old_keep_idx|new_name
+index|sqlite_autoindex_new_name_1|new_name
+view|v|v
+1|one|1
+2|two|2
+3|three|3
+4|four|4
+3
+4
+two|2
+three|3
+four|4
+Error: no such table: old_name
+Error: no such column: old_col
+Error: no such column: junk

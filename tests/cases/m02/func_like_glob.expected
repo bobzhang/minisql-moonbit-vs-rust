@@ -1,0 +1,17 @@
+1|0|1|1
+1|0|0|1
+1|0|1
+NULL|NULL|NULL|NULL|NULL
+1|1
+1|1
+integer|integer
+1
+2
+4
+1|0|0
+2|1|1
+3|0|0
+4|0|0
+Error: ESCAPE expression must be a single character
+Error: wrong number of arguments to function like()
+Error: wrong number of arguments to function glob()

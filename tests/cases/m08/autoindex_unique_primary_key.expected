@@ -1,0 +1,32 @@
+===== phase 1 (sqlite) =====
+===== phase 2 (engine) =====
+table|nk|nk
+table|p|p
+table|pair|pair
+index|sqlite_autoindex_nk_1|nk
+index|sqlite_autoindex_p_1|p
+index|sqlite_autoindex_p_2|p
+index|sqlite_autoindex_p_3|p
+index|sqlite_autoindex_pair_1|pair
+5000|5000|12502500
+C00700|name-100|0|2|100
+C00229
+1667
+1000
+C00001
+C00002
+C00003
+C05002
+C05001
+C05000
+0
+A|1|A1
+a|1|a1
+a|2|a2
+b|1|b1
+a2
+-3.25|negative
+1.5|one and a half
+2.0|two
+two
+one and a half

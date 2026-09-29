@@ -1,0 +1,22 @@
+9223372036854775807|integer|max
+max
+second
+third
+max
+second
+third
+-9223372036854775808|min
+-9223372036854775807|next
+Error: datatype mismatch
+Error: datatype mismatch
+-9223372036854775808|min
+-9223372036854775807|next
+9223372036854775807|integer|text max
+after max
+text max
+Error: UNIQUE constraint failed: r.rowid
+after max
+text max
+Error: datatype mismatch
+after max
+text max

@@ -1,0 +1,18 @@
+1|10|10.0|10|10|10
+2|2|2.0|2|2.0|2.0
+3|2.5|2.5|2.5|2.5|2.5
+4|x|x|x|x|x
+5|X'41'|X'41'|X'41'|X'41'|X'41'
+6|NULL|NULL|NULL|NULL|NULL
+7|8|8.0|8| 8 | 8 
+8|0|0.0|-5|-5|-5
+1|integer|real|integer|text|text
+2|integer|real|integer|text|real
+3|real|real|real|text|text
+4|text|text|text|text|text
+5|blob|blob|blob|blob|blob
+6|null|null|null|null|null
+7|integer|real|integer|text|text
+8|integer|real|integer|text|integer
+9|integer|9.0|real|9|integer|9|text|9|text
+11|integer|10.0|real|1.5|real|12|text|12|integer

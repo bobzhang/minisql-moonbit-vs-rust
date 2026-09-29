@@ -1,0 +1,21 @@
+1|x|1.5
+2|y|2.5
+1|x|1.5
+2|y|2.5
+1|x|1.5|10
+2|y|2.5|20
+101|1|x|1.5
+102|2|y|2.5
+1|x|1.5|1|x|1.5
+2|y|2.5|2|y|2.5
+1|x|1.5|1
+2|y|2.5|2
+1|x|1.5
+2|y|2.5
+2|y|2.5|y
+1|x|1.5|x
+Error: no such table: t
+Error: no tables specified
+Error: no such table: nosuch
+only
+only|only!

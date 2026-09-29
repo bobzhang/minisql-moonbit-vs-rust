@@ -1,0 +1,19 @@
+1.0|0.0|0.0|0.0|0.0
+2.718281828459|0.367879441171|12.1824939607
+2.0|3.0|3.0|10.0|-3.0|-1.0
+2.302585092994|3.0|0.301029995664|1.584962500721
+2.0|3.0|10.0|4.0|NULL
+NULL|NULL|NULL|NULL|NULL|NULL|NULL|NULL
+Inf|0.0
+real|real|real
+NULL|NULL|NULL|NULL|2.0|NULL
+42.0|1.5
+-1.0|NULL|NULL|NULL
+0.0|NULL|NULL|NULL
+0.1|-2.302585093|-1.0|-3.3219280949
+1.0|0.0|0.0|0.0
+10.0|2.302585093|1.0|3.3219280949
+1000.0|6.907755279|3.0|9.9657842847
+Error: wrong number of arguments to function ln()
+Error: wrong number of arguments to function log()
+Error: wrong number of arguments to function exp()

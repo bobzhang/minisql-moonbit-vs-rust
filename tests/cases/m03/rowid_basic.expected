@@ -1,0 +1,35 @@
+1|1|1|a
+2|2|2|b
+3|3|3|c
+c|30
+b|20
+a|10
+2|2|2
+1|a
+2|b
+3|c
+integer
+b
+b
+c
+20
+40
+60
+c
+a
+-5|minus five
+0|zero
+10|ten
+Error: UNIQUE constraint failed: r.rowid
+Error: datatype mismatch
+-5|minus five
+0|zero
+10|ten
+20|text twenty
+30|real thirty
+custom|1|1|first
+other|2|2|second
+custom|first
+other|second
+30|real thirty
+20|text twenty

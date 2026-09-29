@@ -1,0 +1,7 @@
+other failures (5): m03/insert_default_values m03/rowid_allocation m03/rowid_max_value m03/upsert_multiple_clauses m05/join_using_star
+m01: 26/26 passed
+m02: 34/34 passed
+m03: 24/28 passed
+m04: 26/26 passed
+m05: 27/28 passed
+TOTAL: 137/142 passed

@@ -1,0 +1,23 @@
+1|ann
+2|bob
+Error: no such column: first
+10
+20
+3|5
+1|ann|10|x
+2|bob|20|NULL
+3|cy|5|NULL
+1|1
+2|2
+3|3
+4|di
+1
+x
+Error: no such column: "nosuch"
+Error: error in table t after rename: duplicate column name: qty
+Error: no such table: nosuch
+Error: CHECK constraint failed: bb > 0
+Error: UNIQUE constraint failed: c.a, c.bb
+Error: NOT NULL constraint failed: c.aa
+1|1
+1|2

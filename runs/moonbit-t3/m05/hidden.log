@@ -1,0 +1,7 @@
+other failures (7): m02/math_exp_log m02/printf_quoting m03/insert_default_values m03/upsert_multiple_clauses m05/correlated_where m05/join_ambiguous_columns m05/join_using_star
+m01: 26/26 passed
+m02: 32/34 passed
+m03: 26/28 passed
+m04: 26/26 passed
+m05: 25/28 passed
+TOTAL: 135/142 passed

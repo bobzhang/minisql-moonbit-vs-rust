@@ -1,0 +1,25 @@
+1
+Error: no such table: fresh
+Error: no such table: main.t
+1|a
+2|b
+2
+table|t|t
+index|t_name|t
+view|tv|tv
+3
+Error: no such table: tv2
+3
+3
+Error: no such table: t_renamed
+1|a|9
+2|b|9
+3|c|9
+1|a|e1
+2|b|e2
+3|c|e1
+1|0
+2|1
+3|0
+t_flag
+t_name

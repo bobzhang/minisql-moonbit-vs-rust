@@ -1,0 +1,21 @@
+Error: ON CONFLICT clause does not match any PRIMARY KEY or UNIQUE constraint
+Error: no such column: excluded.nosuch
+1|a|10|0
+2|b|20|0
+Error: NOT NULL constraint failed: c.n
+Error: CHECK constraint failed: n < 100
+x|1
+Error: CHECK constraint failed: n < 100
+x|1
+x|51
+x|51
+y|60
+Error: UNIQUE constraint failed: t.k
+1|a|10|0
+2|b|20|0
+1|a|10|0
+20|b|20|1
+1|a|99|0
+20|b|20|1
+1|a|99|7
+20|b|20|1

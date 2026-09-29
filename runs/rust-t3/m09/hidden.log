@@ -1,0 +1,11 @@
+other failures (12): m03/insert_default_values m03/rowid_allocation m03/rowid_max_value m03/upsert_multiple_clauses m05/join_using_star m06/alter_drop_column_errors m06/alter_rename_column m06/perf_order_by_limit m07/cte_errors m07/cte_multiple_chained m07/window_frame_errors m09/create_table_as_select_write
+m01: 26/26 passed
+m02: 34/34 passed
+m03: 24/28 passed
+m04: 26/26 passed
+m05: 27/28 passed
+m06: 24/27 passed
+m07: 27/30 passed
+m08: 21/21 passed
+m09: 21/22 passed
+TOTAL: 230/242 passed

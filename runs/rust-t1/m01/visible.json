@@ -1,0 +1,194 @@
+{
+ "build_ok": true,
+ "results": [
+  {
+   "case": "m01/affinity_type_name_rules",
+   "passed": true,
+   "error": null,
+   "seconds": 0.159,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/arithmetic_overflow",
+   "passed": true,
+   "error": null,
+   "seconds": 0.159,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/comparison_operators",
+   "passed": true,
+   "error": null,
+   "seconds": 0.159,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/create_table_basic",
+   "passed": true,
+   "error": null,
+   "seconds": 0.159,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/create_table_constraints_parse",
+   "passed": true,
+   "error": null,
+   "seconds": 0.005,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/create_table_types",
+   "passed": true,
+   "error": null,
+   "seconds": 0.005,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/double_quoted_strings",
+   "passed": true,
+   "error": null,
+   "seconds": 0.008,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/drop_table",
+   "passed": true,
+   "error": null,
+   "seconds": 0.008,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/identifiers_case",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/identifiers_quoted",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/insert_affinity_mix",
+   "passed": true,
+   "error": null,
+   "seconds": 0.005,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/insert_basic",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/insert_errors",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/is_null_operators",
+   "passed": true,
+   "error": null,
+   "seconds": 0.005,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/logic_truthiness",
+   "passed": true,
+   "error": null,
+   "seconds": 0.005,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/null_and_booleans",
+   "passed": true,
+   "error": null,
+   "seconds": 0.005,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/order_by_basic",
+   "passed": true,
+   "error": null,
+   "seconds": 0.005,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/order_by_mixed_types",
+   "passed": true,
+   "error": null,
+   "seconds": 0.005,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/order_by_multiple_keys",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/output_integers",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/output_reals",
+   "passed": true,
+   "error": null,
+   "seconds": 0.005,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/output_text_blob",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/select_literals",
+   "passed": true,
+   "error": null,
+   "seconds": 0.004,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/select_star",
+   "passed": true,
+   "error": null,
+   "seconds": 0.006,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/statement_splitting",
+   "passed": true,
+   "error": null,
+   "seconds": 0.004,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/typeof_function",
+   "passed": true,
+   "error": null,
+   "seconds": 0.004,
+   "similarity": 1.0
+  },
+  {
+   "case": "m01/unary_operators",
+   "passed": true,
+   "error": null,
+   "seconds": 0.004,
+   "similarity": 1.0
+  }
+ ]
+}

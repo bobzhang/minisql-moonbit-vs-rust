@@ -1,0 +1,19 @@
+X'414243'|X'4A4B'|X''|blob
+X'00FF'|X'DEADBEEF'
+NULL|NULL|NULL|NULL
+NULL|NULL
+X'414243'|X'4142'|X'414243'
+X'4142'|X'4142'
+NULL|NULL
+X'4142'|X'12'
+hello|é
+1|X'616263'|X'616263'
+2|NULL|NULL
+3|NULL|X'ABCD'
+4|NULL|NULL
+5|X''|X''
+2
+3
+4
+Error: wrong number of arguments to function unhex()
+Error: wrong number of arguments to function unhex()

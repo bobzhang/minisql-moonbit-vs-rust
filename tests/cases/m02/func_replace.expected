@@ -1,0 +1,21 @@
+heLLo|heo|hello
+bb|ba|baba
+hello||
+|abc
+Hello bye
+a -- b -- c|xxx
+NULL|NULL|NULL
+日X語|cafe|eee
+19391|1,5|text
+1|a\b\c
+2|\root\
+3|none
+4|NULL
+5|\\
+1|2
+2|2
+3|0
+4|NULL
+5|2
+1
+Error: wrong number of arguments to function replace()

@@ -1,0 +1,21 @@
+3|4|1|0
+1|0|1
+1|1|0
+0|1
+NULL|NULL|NULL
+3|3|2
+3|2|4
+3|0|2
+3|3
+1|4
+2|0
+3|1
+4|NULL
+5|4
+1
+3
+5
+1|ann
+5|zoé
+Error: wrong number of arguments to function instr()
+Error: wrong number of arguments to function instr()

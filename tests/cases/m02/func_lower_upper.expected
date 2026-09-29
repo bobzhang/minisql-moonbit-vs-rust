@@ -1,0 +1,24 @@
+hello|HELLO|mixed 123!|MIXED 123!
+||NULL|NULL
+ÀÉÎÕÜ|àéîõü|STRAßE|ΑΒΓ|ω
+CAFé|cafÉ
+123|text|1.5|text
+abc|text
+abc|ABC
+1
+2
+3
+1|ALICE|alice
+2|ALICE|alice
+3|ALICE|alice
+4|ÁLICE|Álice
+5|BOB|bob
+6|NULL|NULL
+6
+1
+2
+3
+5
+4
+Error: wrong number of arguments to function lower()
+Error: wrong number of arguments to function upper()

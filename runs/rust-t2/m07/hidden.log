@@ -1,0 +1,9 @@
+other failures (7): m02/printf_quoting m03/insert_default_values m04/group_by_order_limit m05/join_using_star m06/alter_drop_column m06/alter_drop_column_errors m06/perf_order_by_limit
+m01: 26/26 passed
+m02: 33/34 passed
+m03: 27/28 passed
+m04: 25/26 passed
+m05: 27/28 passed
+m06: 24/27 passed
+m07: 30/30 passed
+TOTAL: 192/199 passed

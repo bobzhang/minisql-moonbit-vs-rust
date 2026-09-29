@@ -1,0 +1,18 @@
+abc|a|x12.5-3
+ab|NULL||
+text|0
+ABC
+日本語!|éè
+a,b,c|1, 2, 3|xy
+a,b||only
+a--b|-
+NULL|null
+a0b|11.52
+text|text
+1|AdaLovelace|Ada Lovelace
+2|JohnRonaldTolkien|John Ronald Tolkien
+3||
+4|Cher|Cher 
+1
+Error: wrong number of arguments to function concat()
+Error: wrong number of arguments to function concat_ws()

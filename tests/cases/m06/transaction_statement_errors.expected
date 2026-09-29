@@ -1,0 +1,31 @@
+Error: UNIQUE constraint failed: t.u
+1
+2
+5
+Error: NOT NULL constraint failed: t.v
+Error: UNIQUE constraint failed: t.u
+1|changed|10
+5|e|50
+Error: NOT NULL constraint failed: t.v
+1|changed
+5|e
+1|1010
+5|1050
+1|10
+5|50
+Error: UNIQUE constraint failed: t.u
+Error: cannot commit - no transaction is active
+1
+5
+Error: UNIQUE constraint failed: t.u
+1
+5
+8
+Error: UNIQUE constraint failed: t.u
+1
+5
+8
+12
+Error: no such function: nosuchfunc
+Error: no such table: nosuch
+5

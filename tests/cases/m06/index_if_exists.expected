@@ -1,0 +1,15 @@
+table|t|t
+index|t_a|t
+Error: index t_a already exists
+Error: there is already a table named t
+0
+Error: no such index: t_a
+Error: UNIQUE constraint failed: t.b
+2
+1|one
+2|two
+1
+2
+table|t
+index|t_b
+0

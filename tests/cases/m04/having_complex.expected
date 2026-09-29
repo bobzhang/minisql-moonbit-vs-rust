@@ -1,0 +1,27 @@
+fruit
+misc|100
+fruit
+nuts
+veg
+nuts
+nuts
+fruit|3
+misc|1
+nuts|3
+fruit|1.9000000000000001
+veg|1.75
+fruit
+nuts
+fruit
+nuts
+veg
+misc|50.0
+nuts|33.0
+fruit|27.0
+fruit|3
+nuts|3
+fruit
+misc
+nuts
+veg
+Error: misuse of aggregate: count()

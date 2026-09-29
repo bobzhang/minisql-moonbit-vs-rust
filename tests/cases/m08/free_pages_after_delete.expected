@@ -1,0 +1,19 @@
+===== phase 1 (sqlite) =====
+===== phase 2 (engine) =====
+table|keep
+table|later
+table|shrink
+index|shrink_v
+500|10|5000
+keep10
+keep2500
+keep5000
+201|15000|3
+100|shrink100|5000
+4900|shrink4900|5000
+5000|shrink5000|5000
+4950
+13
+1|reused pages
+2|maybe
+Error: no such table: doomed

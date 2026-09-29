@@ -1,0 +1,141 @@
+{
+ "visible": {
+  "build_ok": true,
+  "passed": 27,
+  "total": 27,
+  "per_milestone": {
+   "m01": [
+    27,
+    27
+   ]
+  },
+  "similarity": 1.0
+ },
+ "hidden": {
+  "build_ok": true,
+  "passed": 26,
+  "total": 26,
+  "per_milestone": {
+   "m01": [
+    26,
+    26
+   ]
+  },
+  "similarity": 1.0
+ },
+ "code": {
+  "files": [
+   {
+    "lines": 8,
+    "nonblank": 7,
+    "comment": 1,
+    "code": 6,
+    "bytes": 146,
+    "words": 50,
+    "file": "cmd/main/main.mbt",
+    "tokens": 82,
+    "test": false
+   },
+   {
+    "lines": 128,
+    "nonblank": 116,
+    "comment": 15,
+    "code": 101,
+    "bytes": 2241,
+    "words": 578,
+    "file": "db/ast.mbt",
+    "tokens": 1216,
+    "test": false
+   },
+   {
+    "lines": 352,
+    "nonblank": 335,
+    "comment": 22,
+    "code": 313,
+    "bytes": 7941,
+    "words": 2327,
+    "file": "db/eval.mbt",
+    "tokens": 3473,
+    "test": false
+   },
+   {
+    "lines": 646,
+    "nonblank": 617,
+    "comment": 43,
+    "code": 574,
+    "bytes": 15110,
+    "words": 4457,
+    "file": "db/exec.mbt",
+    "tokens": 6331,
+    "test": false
+   },
+   {
+    "lines": 332,
+    "nonblank": 322,
+    "comment": 17,
+    "code": 305,
+    "bytes": 8909,
+    "words": 3024,
+    "file": "db/lexer.mbt",
+    "tokens": 4128,
+    "test": false
+   },
+   {
+    "lines": 1071,
+    "nonblank": 1011,
+    "comment": 66,
+    "code": 945,
+    "bytes": 24754,
+    "words": 7502,
+    "file": "db/parser.mbt",
+    "tokens": 11591,
+    "test": false
+   },
+   {
+    "lines": 605,
+    "nonblank": 569,
+    "comment": 60,
+    "code": 509,
+    "bytes": 13090,
+    "words": 4472,
+    "file": "db/value.mbt",
+    "tokens": 6260,
+    "test": false
+   }
+  ],
+  "all": {
+   "lines": 3142,
+   "nonblank": 2977,
+   "code": 2753,
+   "comment": 224,
+   "bytes": 72191,
+   "words": 22410,
+   "tokens": 33081,
+   "n_files": 7
+  },
+  "main": {
+   "lines": 3142,
+   "nonblank": 2977,
+   "code": 2753,
+   "comment": 224,
+   "bytes": 72191,
+   "words": 22410,
+   "tokens": 33081,
+   "n_files": 7
+  },
+  "test": {
+   "lines": 0,
+   "nonblank": 0,
+   "code": 0,
+   "comment": 0,
+   "bytes": 0,
+   "words": 0,
+   "tokens": 0,
+   "n_files": 0
+  }
+ },
+ "compliance": {
+  "ok": true,
+  "issues": []
+ }
+}

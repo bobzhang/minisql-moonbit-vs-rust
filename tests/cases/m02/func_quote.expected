@@ -1,0 +1,23 @@
+'abc'|'it''s'|''|''''
+1|-5|0|9223372036854775807
+1.5|-0.25|100.0|0.1
+NULL|text
+X'00FF'|X''|X'414243'
+text|text|text
+'café'|'日本'
+'say "hi"'
+1|'O''Reilly'
+2|42
+3|2.5
+4|NULL
+5|X'CAFE'
+6|''
+INSERT INTO t VALUES(1, 'O''Reilly');
+INSERT INTO t VALUES(2, 42);
+INSERT INTO t VALUES(3, 2.5);
+INSERT INTO t VALUES(4, NULL);
+INSERT INTO t VALUES(5, X'CAFE');
+INSERT INTO t VALUES(6, '');
+7|'7'
+Error: wrong number of arguments to function quote()
+Error: wrong number of arguments to function quote()

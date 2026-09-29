@@ -1,0 +1,32 @@
+1|a|10
+2|b|20
+3|c|30
+5|d|40
+1|a|10
+3|c|30
+5|d|40
+6|b|21
+1|a|10
+5|d|40
+6|b|21
+7|c|31
+1|d|41
+6|b|21
+7|c|31
+1|d
+6|b
+7|c
+1|b|41
+7|c|31
+Error: UNIQUE constraint failed: kv.k
+1|b
+7|c
+1|b|41
+7|c|32
+1|b|41
+7|c|32
+9|e|50
+9|e|500
+Error: ON CONFLICT clause does not match any PRIMARY KEY or UNIQUE constraint
+2
+5

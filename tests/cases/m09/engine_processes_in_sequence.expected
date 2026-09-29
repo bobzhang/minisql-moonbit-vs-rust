@@ -1,0 +1,31 @@
+===== phase 1 (engine) =====
+===== phase 2 (engine) =====
+1|first|10
+===== phase 3 (engine) =====
+3000|45015000
+x|1
+y|2
+===== phase 4 (engine) =====
+2900|44865500
+ROW1000
+ROW2000
+ROW3000
+x|first
+y|row2
+===== phase 5 (engine) =====
+table|t
+index|t_n
+view|tu
+1|first|10|e
+2|row2|20|e
+Error: no such table: main.u
+===== phase 6 (sqlite) =====
+ok
+table|t|t
+index|t_n|t
+view|tu|tu
+2900|44865500|2900
+2999
+ROW1000
+ROW2000
+ROW3000

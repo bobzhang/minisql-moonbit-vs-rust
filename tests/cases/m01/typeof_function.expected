@@ -1,0 +1,13 @@
+null|integer|integer|real|real
+text|text|blob|blob
+integer|integer|integer|real
+integer|real|integer|real|null
+text|text|text
+integer|null|integer|integer
+integer|real|text|integer|real
+text|integer!
+integer|real|text|text|integer
+real|text|blob|integer|real
+1.5
+x
+integer|text

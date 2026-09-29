@@ -1,0 +1,17 @@
+Di,al,bo,cy,mia,zoe
+zoe,mia,cy,bo,al,Di
+al,bo,Di,mia,zoe,cy
+cy,zoe,mia,Di,al,bo
+al,bo,Di,mia,zoe,cy
+al,bo,cy,Di,mia,zoe
+Di,al,bo,cy,mia,zoe
+6,3,7,4,1,5,2
+x|mia/al/bo
+y|cy/zoe/Di
+z|NULL
+29|6|1|zoe
+4.833333333333333|29.0
+z,y,x
+Di,bo,al,mia
+2-5-9-9-3-1
+Error: ORDER BY may not be used with non-aggregate upper()

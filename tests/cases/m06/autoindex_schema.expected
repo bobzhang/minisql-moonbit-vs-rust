@@ -1,0 +1,45 @@
+table|a|a
+table|b|b
+table|c|c
+table|d|d
+index|sqlite_autoindex_b_1|b
+index|sqlite_autoindex_b_2|b
+index|sqlite_autoindex_c_1|c
+index|sqlite_autoindex_c_2|c
+index|sqlite_autoindex_c_3|c
+index|sqlite_autoindex_d_1|d
+index|a_x|a
+index|b_name|b
+index|sqlite_autoindex_b_1|b
+index|sqlite_autoindex_b_2|b
+index|sqlite_autoindex_c_1|c
+index|sqlite_autoindex_c_2|c
+index|sqlite_autoindex_c_3|c
+index|sqlite_autoindex_d_1|d
+Error: index associated with UNIQUE or PRIMARY KEY constraint cannot be dropped
+Error: UNIQUE constraint failed: b.code
+Error: UNIQUE constraint failed: b.name
+Error: UNIQUE constraint failed: c.p, c.q
+Error: UNIQUE constraint failed: c.r
+1|1|r1
+2|1|r3
+index|b_name|bee
+table|bee|bee
+index|sqlite_autoindex_bee_1|bee
+index|sqlite_autoindex_bee_2|bee
+0
+table|a|a
+index|a_x|a
+index|b_name|bee
+table|bee|bee
+table|d|d
+index|sqlite_autoindex_bee_1|bee
+index|sqlite_autoindex_bee_2|bee
+index|sqlite_autoindex_d_1|d
+Error: object name reserved for internal use: sqlite_mytable
+Error: object name reserved for internal use: sqlite_autoindex_a_9
+k1|n1
+1
+1|integer
+2|integer
+3

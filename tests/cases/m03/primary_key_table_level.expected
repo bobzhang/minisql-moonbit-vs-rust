@@ -1,0 +1,33 @@
+Error: UNIQUE constraint failed: t.a, t.b
+1|x|r1
+1|y|r2
+2|x|r3
+1|r1
+2|r2
+3|r3
+Error: UNIQUE constraint failed: t.a, t.b
+1|y|r2
+1|z|r1
+2|x|r3
+NULL|x|n1
+NULL|x|n2
+1|1|auto1
+2|2|auto2
+10|10|ten
+11|11|auto3
+Error: UNIQUE constraint failed: s.id
+Error: datatype mismatch
+1|auto1
+2|auto2
+10|ten
+11|auto3
+Error: UNIQUE constraint failed: r.c, r.a
+1|1|1
+1|2|2
+2|1|1
+Error: UNIQUE constraint failed: d.a, d.b
+1|2
+1|3
+1|2
+1|3
+Error: no such column: nosuch

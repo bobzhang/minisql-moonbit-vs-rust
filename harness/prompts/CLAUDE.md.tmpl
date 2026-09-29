@@ -1,0 +1,26 @@
+# minisql
+
+You are implementing **minisql**, a SQLite-compatible SQL database engine, in
+{language}. The specification is `SPEC.md`; read the parts you need. The work
+is split into milestones; each session asks you to implement one.
+
+## Rules
+
+- Write the engine in {language} using only its standard library. No
+  third-party packages, no C code or FFI, no linking or embedding SQLite,
+  no spawning processes from the engine.
+- All process I/O goes through the provided io module (`{io_module}`). Do
+  not modify it.
+- Build: `{build}`. The engine binary is `{binary}`.
+- Tests: `python3 tools/run_tests.py --upto N` builds the engine and runs the
+  visible tests of milestones 1..N (`-k name` filters, `-v` shows full
+  diffs, `--help` for more). Cases are `tests/mNN/*.sql` with expected
+  output in `*.expected`. Do not modify anything in `tests/` or `tools/`.
+- Do not special-case test names or contents: a hidden test suite with
+  different cases checks the same features.
+- The `sqlite3` command is available if you want to check how SQLite
+  behaves.
+- Stay inside this directory. No web access.
+- Don't run git commands; the harness commits your work after each session.
+- How you structure the code is up to you.
+{primer_section}

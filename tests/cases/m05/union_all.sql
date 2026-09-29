@@ -1,0 +1,30 @@
+-- UNION ALL concatenates results and keeps every duplicate.
+CREATE TABLE a(v INTEGER);
+CREATE TABLE b(v INTEGER);
+INSERT INTO a VALUES (1), (2), (2);
+INSERT INTO b VALUES (2), (3), (NULL);
+
+SELECT v FROM a UNION ALL SELECT v FROM b ORDER BY v;
+SELECT count(*), count(v), sum(v) FROM (SELECT v FROM a UNION ALL SELECT v FROM b);
+-- A table with itself doubles every row.
+SELECT v, count(*) FROM (SELECT v FROM a UNION ALL SELECT v FROM a) GROUP BY v ORDER BY v;
+-- Constant rows.
+SELECT 1 UNION ALL SELECT 1 UNION ALL SELECT 1;
+SELECT count(*) FROM (SELECT 1 UNION ALL SELECT 1 UNION ALL SELECT 1);
+-- Tagging rows by origin.
+SELECT 'a', v FROM a UNION ALL SELECT 'b', v FROM b ORDER BY 1, 2;
+-- Empty sides.
+SELECT v FROM a WHERE v > 5 UNION ALL SELECT v FROM b WHERE v > 2;
+SELECT count(*) FROM (SELECT v FROM a WHERE 0 UNION ALL SELECT v FROM b WHERE 0);
+-- Many-way UNION ALL building a small table.
+SELECT x FROM (SELECT 5 AS x UNION ALL SELECT 3 UNION ALL SELECT 9 UNION ALL SELECT 1 UNION ALL SELECT 3) ORDER BY x DESC;
+-- UNION ALL of rows with different types keeps each value as is.
+SELECT v, typeof(v) FROM (SELECT 1 AS v UNION ALL SELECT '1' UNION ALL SELECT 1.0 UNION ALL SELECT NULL UNION ALL SELECT x'31') ORDER BY typeof(v);
+-- Aggregating over a UNION ALL.
+SELECT sum(v), avg(v), min(v), max(v) FROM (SELECT v FROM a UNION ALL SELECT v FROM b);
+-- UNION ALL inside INSERT ... SELECT.
+CREATE TABLE c(v INTEGER);
+INSERT INTO c SELECT v FROM a UNION ALL SELECT v FROM b;
+SELECT count(*), count(DISTINCT v) FROM c;
+-- DISTINCT on one side only.
+SELECT DISTINCT v FROM a UNION ALL SELECT v FROM a ORDER BY v;

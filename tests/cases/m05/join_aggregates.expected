@@ -1,0 +1,34 @@
+austen|2|650
+borges|2|350
+cortazar|1|600
+dickens|3|2000
+austen|2|650|650.0|1817
+borges|2|350|350.0|1949
+cortazar|1|600|600.0|1963
+dickens|3|2000|2000.0|1857
+eco|0|NULL|0.0|NULL
+ar|3|1944|1963
+uk|5|1815|1857
+ar|2|3
+uk|2|5
+austen
+cortazar
+dickens
+it
+8|3600|450.0
+9|8
+austen|emma, persuasion
+borges|ficciones, aleph
+cortazar|rayuela
+dickens|bleak house, hard times, dorrit
+austen|400|emma
+borges|200|ficciones
+cortazar|600|rayuela
+dickens|900|bleak house
+ar|0
+uk|5
+ar|2|3
+it|1|NULL
+uk|2|5
+21
+10

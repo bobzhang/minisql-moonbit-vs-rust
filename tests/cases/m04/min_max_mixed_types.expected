@@ -1,0 +1,12 @@
+-1|X'FF'|integer|blob
+-1|abc
+-1|10
+|abc
+X'00'|X'FF'
+9
+2.5|100|integer
+10|9|text
+x|1|one
+y|5.5|X'01'
+z||
+X''|X'0201'

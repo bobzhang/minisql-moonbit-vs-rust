@@ -1,0 +1,27 @@
+Error: UNIQUE constraint failed: t.a, t.b
+1|x|r1
+1|y|r2
+2|x|r3
+1|x|r1
+NULL|NULL|r10
+1|y|r2
+2|x|r3
+1|NULL|r5
+1|NULL|r6
+NULL|x|r7
+NULL|x|r8
+NULL|NULL|r9
+Error: UNIQUE constraint failed: t.a, t.b
+1|x|r1
+1|z|r2
+2|x|r3
+Error: UNIQUE constraint failed: u.p, u.q
+Error: UNIQUE constraint failed: u.r
+Error: UNIQUE constraint failed: u.q, u.r
+1|1|1
+1|2|2
+2|1|3
+Error: UNIQUE constraint failed: w.x, w.y, w.z
+1|2|3
+1|2|4
+1|3|3

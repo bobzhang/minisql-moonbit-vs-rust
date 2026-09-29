@@ -1,0 +1,29 @@
+1|apple|6
+2|PEAR|10
+42|integer
+fig:0
+1|apple|6
+2|PEAR|10
+3|plum|42
+4|fig|0
+2|-10
+3|-42
+1|apple|6
+2|PEAR|-10
+3|plum|-42
+4|fig|0
+40|40
+1|apple|6
+fig|0|40
+2|PEAR|-10
+3|plum|-42
+2
+3
+2|c
+Error: UNIQUE constraint failed: u.code
+1|a
+2|c
+Error: no such column: nosuch
+Error: misuse of aggregate function max()
+1|a
+2|c

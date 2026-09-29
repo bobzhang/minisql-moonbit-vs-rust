@@ -1,0 +1,22 @@
+-2|10
+a|-2|10|integer|integer
+b|2|2.5|integer|real
+c|7|7|integer|integer
+d|NULL|NULL|null|null
+NULL|NULL|null
+NULL
+|pear
+0|6
+-10|3
+10
+a|5|-2
+a|5|3
+a|10|5
+c|NULL|NULL
+c|7|5
+0
+0
+-9223372036854775808|9223372036854775807
+3.0|real|1.5|real
+Error: wrong number of arguments to function max()
+Error: wrong number of arguments to function min()

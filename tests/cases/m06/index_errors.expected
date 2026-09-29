@@ -1,0 +1,26 @@
+Error: index t_a already exists
+Error: index T_A already exists
+Error: there is already a table named u
+Error: there is already a table named v
+Error: there is already an index named t_a
+Error: no such table: main.nosuch
+Error: no such column: nosuch
+Error: views may not be indexed
+Error: no such index: nosuch
+table|t|t
+index|t_a|t
+table|u|u
+view|v|v
+1|p
+2|q
+2
+1
+7
+4
+i7|u
+i7|u
+t_a|u
+8
+0
+i7|t
+t_a|t

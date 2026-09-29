@@ -1,0 +1,29 @@
+5|5|0|integer
+2.5|2.5|0.0|real
+NULL|null
+9223372036854775807|9223372036854775807
+1.0e+300|Inf
+3.0|real|3.5|4.0|7.0
+0.0|real|12.0|0.0
+3.0|real
+Error: integer overflow
+Error: integer overflow
+9.223372036854776e+18
+1|10|integer
+2|3|integer
+3|0.5|real
+4|NULL|null
+5|8.0|real
+6|0|integer
+1
+2
+5
+4
+6
+3
+2
+5
+1
+1|2
+Error: wrong number of arguments to function abs()
+Error: wrong number of arguments to function abs()

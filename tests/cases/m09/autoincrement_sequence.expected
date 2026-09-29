@@ -1,0 +1,43 @@
+===== phase 1 (engine) =====
+a|3
+b|100
+===== phase 2 (sqlite) =====
+ok
+table|a|a
+table|b|b
+table|plain|plain
+table|sqlite_sequence|sqlite_sequence
+a|3
+b|100
+1|a1
+2|a2
+4|a-sqlite
+101|b-sqlite
+1|p1
+2|p-sqlite
+===== phase 3 (engine) =====
+1|a1
+2|a2
+4|a-sqlite
+5|a-engine
+50|b50
+101|b-sqlite
+102|b-engine
+a|5
+b|102
+===== phase 4 (sqlite) =====
+ok
+a|5
+b|102
+a|5
+b|102
+c|1
+===== phase 5 (engine) =====
+b|102
+c|2
+1|c1
+2|c2
+===== phase 6 (sqlite) =====
+ok
+b|102
+c|2

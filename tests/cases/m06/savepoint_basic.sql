@@ -1,0 +1,50 @@
+-- SAVEPOINT / RELEASE / ROLLBACK TO inside an explicit transaction.
+CREATE TABLE t(v INTEGER);
+INSERT INTO t VALUES (1);
+
+BEGIN;
+INSERT INTO t VALUES (2);
+SAVEPOINT sp1;
+INSERT INTO t VALUES (3);
+SELECT v FROM t ORDER BY v;
+-- ROLLBACK TO undoes changes after the savepoint only.
+ROLLBACK TO sp1;
+SELECT v FROM t ORDER BY v;
+INSERT INTO t VALUES (4);
+-- RELEASE keeps the changes and forgets the savepoint.
+RELEASE sp1;
+COMMIT;
+SELECT v FROM t ORDER BY v;
+-- Optional keywords: ROLLBACK TRANSACTION TO SAVEPOINT, RELEASE SAVEPOINT.
+BEGIN TRANSACTION;
+SAVEPOINT a;
+DELETE FROM t;
+ROLLBACK TRANSACTION TO SAVEPOINT a;
+SELECT count(*) FROM t;
+UPDATE t SET v = v * 10;
+RELEASE SAVEPOINT a;
+COMMIT;
+SELECT v FROM t ORDER BY v;
+-- ROLLBACK TO SAVEPOINT without TRANSACTION.
+BEGIN;
+SAVEPOINT b;
+INSERT INTO t VALUES (99);
+ROLLBACK TO SAVEPOINT b;
+RELEASE b;
+COMMIT;
+SELECT count(*) FROM t WHERE v = 99;
+-- Releasing a savepoint does not commit: the outer ROLLBACK still undoes its work.
+BEGIN;
+SAVEPOINT c;
+INSERT INTO t VALUES (500);
+RELEASE c;
+ROLLBACK;
+SELECT count(*) FROM t WHERE v = 500;
+-- Savepoint names are case-insensitive.
+BEGIN;
+SAVEPOINT MyPoint;
+INSERT INTO t VALUES (600);
+ROLLBACK TO mypoint;
+RELEASE MYPOINT;
+COMMIT;
+SELECT count(*) FROM t WHERE v = 600;

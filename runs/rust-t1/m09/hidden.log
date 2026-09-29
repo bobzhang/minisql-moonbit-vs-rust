@@ -1,0 +1,11 @@
+other failures (8): m02/math_exp_log m03/default_expressions m03/insert_default_values m05/join_using_star m05/left_join_basic m06/perf_order_by_limit m07/window_frame_errors m09/create_table_as_select_write
+m01: 26/26 passed
+m02: 33/34 passed
+m03: 26/28 passed
+m04: 26/26 passed
+m05: 26/28 passed
+m06: 26/27 passed
+m07: 29/30 passed
+m08: 21/21 passed
+m09: 21/22 passed
+TOTAL: 234/242 passed

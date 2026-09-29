@@ -1,0 +1,47 @@
+Error: UNIQUE constraint failed: t.u
+1|a|1
+2|b|2
+Error: NOT NULL constraint failed: t.n
+1|a|1
+2|b|2
+Error: CHECK constraint failed: n < 100
+1|a|1
+2|b|2
+Error: UNIQUE constraint failed: t.id
+1|a|1
+2|b|2
+Error: datatype mismatch
+1|a|1
+2|b|2
+1|a|1
+2|b|2
+3|k|10
+Error: CHECK constraint failed: n < 100
+1|a|1
+2|b|2
+3|k|10
+Error: CHECK constraint failed: n < 100
+1|a|1
+2|b|2
+3|k|10
+Error: UNIQUE constraint failed: t.u
+1|a|1
+2|b|2
+3|k|10
+Error: integer overflow
+1
+2
+2
+1|a|2
+2|b|3
+3|k|10
+1|a|2
+2|b|3
+1|a|2
+2|b|3
+3|c|3
+4|d|4
+1|a|2
+2|b|3
+3|x|1
+4|y|2

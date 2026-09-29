@@ -1,0 +1,23 @@
+Error: cannot drop PRIMARY KEY column: "id"
+Error: cannot drop UNIQUE column: "u"
+Error: error in index t_ix after drop column: no such column: ix
+Error: error in index t_part after drop column: no such column: px
+Error: error in table t after drop column: no such column: ck
+Error: error in view t_view after drop column: no such column: vw
+Error: no such column: "nosuch"
+1|u1|10|1|0|v1|f1
+1
+v1
+f2
+1|u1|0
+Error: CHECK constraint failed: ck >= 0
+1|u1|0
+2|u2|5
+index|sqlite_autoindex_t_1
+table|t
+Error: cannot drop column "x": no other columns exist
+only y
+Error: cannot drop column from view "v"
+1|2
+1
+3

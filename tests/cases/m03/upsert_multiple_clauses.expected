@@ -1,0 +1,27 @@
+1|a@x|ANN|1
+2|b@x|bob|0
+1|a@x|ANN|1
+2|b@x|bob|100
+1|a@x|ANN|1
+2|b@x|bob|110
+1|a@x|ANN|1
+2|b@x|bob|110
+4|d@x|dee|0
+Error: UNIQUE constraint failed: t.id
+1|a@x|ANN|1
+2|b@x|bob|110
+4|d@x|dee|0
+1|q@x|replaced|5
+2|b@x|bob|110
+4|d@x|dee|0
+1|q@x|replaced|5
+2|b@x|bob|110
+4|d@x|dee|77
+Error: UNIQUE constraint failed: t.email
+1|q@x|replaced|5
+2|b@x|bob|110
+4|d@x|dee|77
+Error: near "ON": syntax error
+1|q@x
+2|b@x
+4|d@x

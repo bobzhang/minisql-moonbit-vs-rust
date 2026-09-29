@@ -1,0 +1,23 @@
+42
+10
+NULL
+1|null
+30
+NULL
+c
+20
+NULL
+4|30|NULL|0
+NULL|1
+integer|text|real|blob
+1|0
+2|20
+3|10
+4|30
+2
+1
+0
+3
+21
+Error: sub-select returns 2 columns - expected 1
+Error: row value misused

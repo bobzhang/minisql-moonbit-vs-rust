@@ -1,0 +1,19 @@
+1024.0|1024.0|0.0625|0.5|2.25
+1.0|0.0|1.0|-8.0|4.0|1.414213562373
+NULL|Inf|Inf|NULL
+real|real
+4.0|1.4142135623730951|0.0|0.5|1.0e+50|NULL|NULL
+real
+1.0|-1.0|1.0|-1.0|1.5|1.5
+NULL|0.0|4.0|real
+1|1.0|1.0|1.5
+NULL|NULL|NULL|NULL|NULL
+8.0|4.0|1.0|NULL|NULL
+-3.0|2.0|9.0|-1.0|NULL
+2.0|3.0|8.0|2.0|1.4142135623730951
+5.0|-1.0|0.2|0.0|2.23606797749979
+9.0|2.0|81.0|1.0|3.0
+10.0|4.0|10000.0|2.0|3.1622776601683795
+Error: wrong number of arguments to function pow()
+Error: wrong number of arguments to function sqrt()
+Error: wrong number of arguments to function mod()

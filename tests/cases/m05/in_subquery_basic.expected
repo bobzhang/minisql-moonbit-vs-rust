@@ -1,0 +1,26 @@
+nail
+glue
+rope
+saw
+tape
+3
+glue
+nail
+nail
+rope
+0
+5
+nail|1|0
+saw|0|1
+glue|1|0
+tape|0|1
+rope|1|0
+1|0|1
+saw
+saw
+tape
+glue
+tape
+rope
+saw
+Error: sub-select returns 2 columns - expected 1

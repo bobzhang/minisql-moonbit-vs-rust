@@ -1,0 +1,5 @@
+other failures (2): m02/printf_quoting m03/insert_default_values
+m01: 26/26 passed
+m02: 33/34 passed
+m03: 27/28 passed
+TOTAL: 86/88 passed

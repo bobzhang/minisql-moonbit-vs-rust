@@ -1,0 +1,26 @@
+ann|120
+bob|100
+dee|95
+1|x|integer
+ops|160
+ops|190
+eng|200
+eng|240
+1|2
+3|4
+ann|120|110.0
+dee|95|87.5
+2|220|120
+0
+6
+2|bob
+4|dee
+ann
+bob
+4|3
+fay|NULL|null
+1|121|ANN
+2|101|BOB
+7
+Error: no such table: rich
+Error: no such column: salary

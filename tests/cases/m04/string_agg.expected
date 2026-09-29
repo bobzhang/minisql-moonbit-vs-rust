@@ -1,0 +1,14 @@
+red,green
+a|green; red
+b|blue
+c|NULL
+redgreenblue
+bluegreenred
+1
+NULL
+NULL|null
+-2 1.5 3
+30/15.0/-20
+Error: DISTINCT aggregates must have exactly one argument
+Error: wrong number of arguments to function string_agg()
+green,red

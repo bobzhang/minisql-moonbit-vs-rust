@@ -1,0 +1,376 @@
+{
+ "visible": {
+  "build_ok": true,
+  "passed": 203,
+  "total": 203,
+  "per_milestone": {
+   "m01": [
+    27,
+    27
+   ],
+   "m02": [
+    34,
+    34
+   ],
+   "m03": [
+    28,
+    28
+   ],
+   "m04": [
+    27,
+    27
+   ],
+   "m05": [
+    28,
+    28
+   ],
+   "m06": [
+    28,
+    28
+   ],
+   "m07": [
+    31,
+    31
+   ]
+  },
+  "similarity": 1.0
+ },
+ "hidden": {
+  "build_ok": true,
+  "passed": 189,
+  "total": 199,
+  "per_milestone": {
+   "m01": [
+    26,
+    26
+   ],
+   "m02": [
+    32,
+    34
+   ],
+   "m03": [
+    26,
+    28
+   ],
+   "m04": [
+    26,
+    26
+   ],
+   "m05": [
+    25,
+    28
+   ],
+   "m06": [
+    26,
+    27
+   ],
+   "m07": [
+    28,
+    30
+   ]
+  },
+  "similarity": 0.9967
+ },
+ "code": {
+  "files": [
+   {
+    "lines": 8,
+    "nonblank": 7,
+    "comment": 1,
+    "code": 6,
+    "bytes": 156,
+    "words": 55,
+    "file": "cmd/main/main.mbt",
+    "tokens": 80,
+    "test": false
+   },
+   {
+    "lines": 724,
+    "nonblank": 705,
+    "comment": 42,
+    "code": 663,
+    "bytes": 18838,
+    "words": 5308,
+    "file": "sql/aggregate.mbt",
+    "tokens": 8301,
+    "test": false
+   },
+   {
+    "lines": 317,
+    "nonblank": 306,
+    "comment": 17,
+    "code": 289,
+    "bytes": 8409,
+    "words": 2428,
+    "file": "sql/alter.mbt",
+    "tokens": 3777,
+    "test": false
+   },
+   {
+    "lines": 310,
+    "nonblank": 280,
+    "comment": 39,
+    "code": 241,
+    "bytes": 5935,
+    "words": 1478,
+    "file": "sql/ast.mbt",
+    "tokens": 3051,
+    "test": false
+   },
+   {
+    "lines": 84,
+    "nonblank": 76,
+    "comment": 13,
+    "code": 63,
+    "bytes": 1819,
+    "words": 559,
+    "file": "sql/collate.mbt",
+    "tokens": 905,
+    "test": false
+   },
+   {
+    "lines": 479,
+    "nonblank": 459,
+    "comment": 38,
+    "code": 421,
+    "bytes": 10706,
+    "words": 3005,
+    "file": "sql/cte.mbt",
+    "tokens": 4779,
+    "test": false
+   },
+   {
+    "lines": 1086,
+    "nonblank": 1046,
+    "comment": 62,
+    "code": 984,
+    "bytes": 23497,
+    "words": 7288,
+    "file": "sql/datetime.mbt",
+    "tokens": 11859,
+    "test": false
+   },
+   {
+    "lines": 713,
+    "nonblank": 678,
+    "comment": 59,
+    "code": 619,
+    "bytes": 17190,
+    "words": 4556,
+    "file": "sql/db.mbt",
+    "tokens": 7731,
+    "test": false
+   },
+   {
+    "lines": 595,
+    "nonblank": 575,
+    "comment": 32,
+    "code": 543,
+    "bytes": 14727,
+    "words": 3993,
+    "file": "sql/dml.mbt",
+    "tokens": 6377,
+    "test": false
+   },
+   {
+    "lines": 677,
+    "nonblank": 651,
+    "comment": 52,
+    "code": 599,
+    "bytes": 15733,
+    "words": 4447,
+    "file": "sql/eval.mbt",
+    "tokens": 7128,
+    "test": false
+   },
+   {
+    "lines": 648,
+    "nonblank": 630,
+    "comment": 23,
+    "code": 607,
+    "bytes": 14136,
+    "words": 4345,
+    "file": "sql/functions.mbt",
+    "tokens": 6646,
+    "test": false
+   },
+   {
+    "lines": 174,
+    "nonblank": 164,
+    "comment": 28,
+    "code": 136,
+    "bytes": 3988,
+    "words": 1160,
+    "file": "sql/index.mbt",
+    "tokens": 1800,
+    "test": false
+   },
+   {
+    "lines": 257,
+    "nonblank": 249,
+    "comment": 18,
+    "code": 231,
+    "bytes": 6977,
+    "words": 2449,
+    "file": "sql/lexer.mbt",
+    "tokens": 3247,
+    "test": false
+   },
+   {
+    "lines": 131,
+    "nonblank": 127,
+    "comment": 7,
+    "code": 120,
+    "bytes": 2807,
+    "words": 810,
+    "file": "sql/like.mbt",
+    "tokens": 1229,
+    "test": false
+   },
+   {
+    "lines": 1800,
+    "nonblank": 1723,
+    "comment": 95,
+    "code": 1628,
+    "bytes": 44757,
+    "words": 13430,
+    "file": "sql/parser.mbt",
+    "tokens": 20672,
+    "test": false
+   },
+   {
+    "lines": 1292,
+    "nonblank": 1258,
+    "comment": 114,
+    "code": 1144,
+    "bytes": 33358,
+    "words": 9665,
+    "file": "sql/plan.mbt",
+    "tokens": 15428,
+    "test": false
+   },
+   {
+    "lines": 672,
+    "nonblank": 662,
+    "comment": 24,
+    "code": 638,
+    "bytes": 15832,
+    "words": 4200,
+    "file": "sql/printf.mbt",
+    "tokens": 6935,
+    "test": false
+   },
+   {
+    "lines": 327,
+    "nonblank": 313,
+    "comment": 22,
+    "code": 291,
+    "bytes": 8445,
+    "words": 2617,
+    "file": "sql/rename.mbt",
+    "tokens": 3793,
+    "test": false
+   },
+   {
+    "lines": 465,
+    "nonblank": 450,
+    "comment": 25,
+    "code": 425,
+    "bytes": 10356,
+    "words": 2976,
+    "file": "sql/schema.mbt",
+    "tokens": 4763,
+    "test": false
+   },
+   {
+    "lines": 2013,
+    "nonblank": 1968,
+    "comment": 116,
+    "code": 1852,
+    "bytes": 53165,
+    "words": 13482,
+    "file": "sql/select.mbt",
+    "tokens": 21661,
+    "test": false
+   },
+   {
+    "lines": 267,
+    "nonblank": 252,
+    "comment": 27,
+    "code": 225,
+    "bytes": 5409,
+    "words": 1796,
+    "file": "sql/sorted.mbt",
+    "tokens": 2674,
+    "test": false
+   },
+   {
+    "lines": 96,
+    "nonblank": 94,
+    "comment": 5,
+    "code": 89,
+    "bytes": 2260,
+    "words": 658,
+    "file": "sql/split.mbt",
+    "tokens": 922,
+    "test": false
+   },
+   {
+    "lines": 643,
+    "nonblank": 604,
+    "comment": 79,
+    "code": 525,
+    "bytes": 14550,
+    "words": 4865,
+    "file": "sql/value.mbt",
+    "tokens": 6755,
+    "test": false
+   },
+   {
+    "lines": 758,
+    "nonblank": 741,
+    "comment": 37,
+    "code": 704,
+    "bytes": 19822,
+    "words": 5337,
+    "file": "sql/window.mbt",
+    "tokens": 8424,
+    "test": false
+   }
+  ],
+  "all": {
+   "lines": 14536,
+   "nonblank": 14018,
+   "code": 13043,
+   "comment": 975,
+   "bytes": 352872,
+   "words": 100907,
+   "tokens": 158937,
+   "n_files": 24
+  },
+  "main": {
+   "lines": 14536,
+   "nonblank": 14018,
+   "code": 13043,
+   "comment": 975,
+   "bytes": 352872,
+   "words": 100907,
+   "tokens": 158937,
+   "n_files": 24
+  },
+  "test": {
+   "lines": 0,
+   "nonblank": 0,
+   "code": 0,
+   "comment": 0,
+   "bytes": 0,
+   "words": 0,
+   "tokens": 0,
+   "n_files": 0
+  }
+ },
+ "compliance": {
+  "ok": true,
+  "issues": []
+ }
+}

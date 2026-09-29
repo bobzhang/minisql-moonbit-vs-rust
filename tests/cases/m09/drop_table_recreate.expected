@@ -1,0 +1,21 @@
+===== phase 1 (engine) =====
+===== phase 2 (sqlite) =====
+ok
+table|a|a
+table|b|b
+new|table
+1000|1001000
+===== phase 3 (engine) =====
+Error: no such table: b
+===== phase 4 (sqlite) =====
+ok
+table|a|a
+table|b|b
+index|sqlite_autoindex_b_1|b
+2000|again999
+1500
+===== phase 5 (engine) =====
+table|b|b
+index|sqlite_autoindex_b_1|b
+2000
+Error: no such table: a

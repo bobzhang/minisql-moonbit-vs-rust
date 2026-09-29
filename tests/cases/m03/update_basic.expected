@@ -1,0 +1,35 @@
+1|apple|11|0.5
+2|pear|0|0.75
+3|plum|7|NULL
+4|fig|NULL|2.0
+1|apple|11|0.5
+2|green pear|0|0.8
+3|plum|7|NULL
+4|fig|NULL|2.0
+1|12
+2|1
+3|8
+4|1
+1|12
+2|1
+3|8
+4|1
+1|apple
+2|green pear
+3|PLUM
+4|fig
+1|0.5
+2|0.8
+3|NULL
+4|NULL
+1|24
+2|2
+3|8
+4|1
+Error: no such column: nosuch
+Error: no such column: nosuch
+Error: no such table: nosuch
+1|apple|24|0.5
+2|green pear|2|0.8
+3|PLUM|8|NULL
+4|fig|1|NULL

@@ -1,0 +1,13 @@
+Error: table t already exists
+Error: table T already exists
+Error: table "t" already exists
+1|x
+1|x
+1|x
+2|y
+Error: no such column: completely
+5
+5
+5
+5
+6

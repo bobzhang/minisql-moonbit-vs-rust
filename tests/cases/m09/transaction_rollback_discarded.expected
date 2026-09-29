@@ -1,0 +1,15 @@
+===== phase 1 (engine) =====
+5010
+2000
+===== phase 2 (sqlite) =====
+ok
+table|t|t
+index|t_v|t
+2000|2001000|v1|v999
+1234
+===== phase 3 (engine) =====
+2000
+Error: no such table: tmp
+===== phase 4 (sqlite) =====
+ok
+3001|kept

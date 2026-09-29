@@ -1,0 +1,37 @@
+a
+b
+NULL
+b
+no
+no
+t|f|t
+1|text
+null
+safe
+y
+16
+ac
+ann|A
+bob|B
+cy|C
+di|F
+ed|F
+flo|A
+ann|pass
+bob|pass
+cy|pass
+di|absent
+ed|NULL
+flo|pass
+ann
+bob
+flo
+cy
+ann
+bob
+di
+ed
+flo
+top
+Error: incomplete input
+Error: near "ELSE": syntax error

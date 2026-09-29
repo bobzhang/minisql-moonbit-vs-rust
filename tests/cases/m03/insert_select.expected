@@ -1,0 +1,28 @@
+1|ann|9.5
+4|di|8.25
+ANN|10|dflt
+BOB|20|dflt
+CY|30|dflt
+DI|40|dflt
+lit|1|2
+1
+2
+3
+11
+12
+13
+ann|text|1|text|1.0|real
+7|integer|8|text|9.0|real
+1|ann
+2|di
+3|bob
+0
+1
+0
+1
+Error: table dst has 3 columns but 2 values were supplied
+Error: 2 values for 1 columns
+Error: no such table: nosuch
+Error: table dst has no column named nosuch
+1|ann|9.5
+4|di|8.25

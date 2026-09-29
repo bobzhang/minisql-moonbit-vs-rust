@@ -1,0 +1,43 @@
+amy|art|85
+amy|math|90
+ben|math|70
+cal|bio|88
+cal|law|60
+amy|art|prof y
+amy|math|prof x
+ben|math|prof x
+cal|bio|prof x
+amy|art|prof y
+amy|math|prof x
+ben|math|prof x
+cal|bio|prof x
+amy|art|prof y
+amy|math|prof x
+ben|NULL|NULL
+ben|math|prof x
+cal|bio|prof x
+cal|law|NULL
+dia|NULL|NULL
+amy|art
+amy|math
+ben|math
+cal|bio
+cal|law
+prof x|3
+prof y|1
+prof z|0
+ben|math
+cal|bio
+cal|law
+amy|art
+amy|math
+ben|math
+cal|bio
+cal|law
+prof x|82.66666666666667
+prof y|85.0
+amy|ben|math
+art|amy|85
+bio|cal|88
+law|cal|60
+math|amy|90

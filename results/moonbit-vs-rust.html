@@ -1,0 +1,301 @@
+<title>MoonBit vs Rust Token Bench</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --ink: #15171b;
+  --ink-2: #4f5563;
+  --muted: #7a8090;
+  --rule: #dfe2e8;
+  --grid: #eceef2;
+  --rust: #eb6834;
+  --rust-soft: #f6c3ad;
+  --moon: #2a78d6;
+  --moon-soft: #b7d3f6;
+  --good: #1b7f4d;
+  --tip-bg: #15171b;
+  --tip-ink: #ffffff;
+  --display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #111317; --surface: #191c21; --ink: #eef0f4; --ink-2: #b6bcc8; --muted: #8b92a0;
+    --rule: #2c3038; --grid: #23262d; --rust: #d95926; --rust-soft: #6b3a25; --moon: #3987e5; --moon-soft: #1f3e63;
+    --good: #4cc38a; --tip-bg: #eef0f4; --tip-ink: #111317;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #111317; --surface: #191c21; --ink: #eef0f4; --ink-2: #b6bcc8; --muted: #8b92a0;
+  --rule: #2c3038; --grid: #23262d; --rust: #d95926; --rust-soft: #6b3a25; --moon: #3987e5; --moon-soft: #1f3e63;
+  --good: #4cc38a; --tip-bg: #eef0f4; --tip-ink: #111317;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.6; margin: 0; }
+.wrap { max-width: 920px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 72px; display: grid; gap: 48px; }
+h1, h2, h3 { font-family: var(--display); line-height: 1.15; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2rem, 5vw, 3.1rem); font-weight: 800; letter-spacing: -0.02em; }
+h2 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.01em; }
+h3 { font-size: 1.05rem; font-weight: 600; }
+p { margin: 0; max-width: 68ch; }
+.eyebrow { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+section { display: grid; gap: 16px; }
+.lede { font-size: 1.15rem; color: var(--ink-2); }
+.key { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; white-space: nowrap; }
+.sw { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.sw.rust { background: var(--rust); } .sw.moon { background: var(--moon); }
+.verdict { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+.tile { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 16px; display: grid; gap: 4px; align-content: start; }
+.tile .num { font-family: var(--display); font-size: 2rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.tile .lab { font-size: 0.9rem; color: var(--ink-2); }
+.tile .sub { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); }
+.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 20px; display: grid; gap: 12px; }
+.legend { display: flex; flex-wrap: wrap; gap: 16px; font-size: 0.9rem; color: var(--ink-2); }
+.chart { width: 100%; overflow-x: auto; }
+.chart svg { display: block; width: 100%; height: auto; min-width: 520px; }
+.chart text { font-family: var(--body); font-size: 12px; fill: var(--ink-2); }
+.chart .axis { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
+.note { font-size: 0.9rem; color: var(--muted); }
+ul.findings { margin: 0; padding-left: 1.2em; display: grid; gap: 10px; max-width: 72ch; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; font-variant-numeric: tabular-nums; }
+.tablewrap { overflow-x: auto; }
+th, td { text-align: right; padding: 8px 10px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; white-space: normal; }
+thead th { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+td.r { font-family: var(--mono); }
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+.cols ul { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; font-size: 0.95rem; color: var(--ink-2); }
+code { font-family: var(--mono); font-size: 0.86em; background: var(--grid); padding: 1px 5px; border-radius: 4px; }
+pre { font-family: var(--mono); font-size: 0.85rem; background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 12px 14px; overflow-x: auto; margin: 0; }
+#tip { position: fixed; pointer-events: none; background: var(--tip-bg); color: var(--tip-ink); font-size: 0.8rem; line-height: 1.4; padding: 6px 9px; border-radius: 6px; max-width: 260px; z-index: 10; }
+.hit { cursor: default; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <header style="display:grid;gap:14px">
+    <div class="eyebrow">minisql benchmark · Claude Opus 5.5, effort high · 3 trials per language</div>
+    <h1>MoonBit vs Rust: a tie decided by how long the agent kept polishing</h1>
+    <p class="lede">An AI agent built the same SQLite-compatible database engine nine milestones deep, three times in <span class="key"><span class="sw rust"></span>Rust</span> and three times in <span class="key"><span class="sw moon"></span>MoonBit</span>. Across about 13,000 lines per run, the two languages cost within a few percent of each other. Run-to-run variation was larger than the language difference.</p>
+  </header>
+
+  <section aria-label="Headline numbers">
+    <div class="verdict" id="tiles"></div>
+    <p class="note">Ratios are MoonBit ÷ Rust, means over 3 complete trials. Below 1.0 means MoonBit used less. Cost is Claude Code's estimate at API list prices; the runs used a subscription.</p>
+  </section>
+
+  <section>
+    <div class="eyebrow">Per trial</div>
+    <h2>Every run, not just the average</h2>
+    <p>Each dot is one complete trial of all nine milestones. The spread inside a language is as large as the gap between languages. Rust's third trial and MoonBit's second each had one long milestone where the agent kept tuning after every test already passed.</p>
+    <div class="panel">
+      <div class="legend"><span class="key"><span class="sw rust"></span>Rust</span><span class="key"><span class="sw moon"></span>MoonBit</span><span>Tick = mean of 3 trials</span></div>
+      <div class="chart" id="strips"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Where the input tokens went</div>
+    <h2>Most tokens were spent after the tests were green</h2>
+    <p>Every session re-reads its whole context on each call, so input tokens dominate. Splitting each trial at the moment its visible tests first all passed shows that 47–82% of input came afterwards, as agents fuzzed against SQLite, profiled, and chased edge cases on their own initiative. Measured only up to first green, MoonBit used 9% more input than Rust. Its larger primer, re-read on every call, accounts for about 2.1M tokens per trial, which covers essentially all of that gap.</p>
+    <div class="panel">
+      <div class="legend"><span class="key"><span class="sw" style="background:var(--ink-2)"></span>Until first all-green</span><span class="key"><span class="sw" style="background:var(--rule);outline:1px solid var(--muted)"></span>After first all-green</span></div>
+      <div class="chart" id="stack"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">By milestone</div>
+    <h2>MoonBit wrote a little less at almost every step</h2>
+    <p>Output tokens (code plus reasoning) per milestone, MoonBit ÷ Rust, averaged over the three trials. MoonBit came in under Rust on eight of nine milestones, typically by 5–15%. Its compiler errors were more frequent at nearly every milestone and did not taper off, but each one cost only a quick fix.</p>
+    <div class="panel">
+      <div class="chart" id="ratio"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Findings</div>
+    <h2>What the data supports</h2>
+    <ul class="findings">
+      <li><strong>Agent cost is a draw.</strong> Mean estimated cost was $43.86 for Rust and $41.09 for MoonBit (0.94×), with standard deviations of $13.25 and $3.97. The gap is smaller than the noise.</li>
+      <li><strong>MoonBit produces slightly less.</strong> 12% fewer output tokens and 12% fewer source tokens in the finished engine, with no borrows, <code>Box</code>, <code>?</code> or cross-module <code>pub</code> to write. Line counts were about equal.</li>
+      <li><strong>Unfamiliarity shows up as compile errors, not cost.</strong> MoonBit's failed-build rate was 13% against Rust's 6%, and it stayed higher at nearly every milestone rather than declining. The 11.7k-token primer kept API lookups to 1.7% of tool calls.</li>
+      <li><strong>The primer is MoonBit's main overhead.</strong> Re-reading it on every call cost 4.9M input tokens per trial against 1.1M for Rust's primer.</li>
+      <li><strong>Quality is nearly equal.</strong> Hidden-test pass rates were 96.3% for Rust and 95.6% for MoonBit: Rust passed about two more of 242 held-out tests per trial.</li>
+      <li><strong>Stopping behavior is the biggest variable.</strong> When to stop polishing decided the cost ranking of individual trials more than the language did.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="eyebrow">Full table</div>
+    <h2>All metrics</h2>
+    <div class="tablewrap"><table id="table"></table></div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Method</div>
+    <h2>How the experiment was run</h2>
+    <div class="cols">
+      <div style="display:grid;gap:8px"><h3>The task</h3><ul>
+        <li>minisql: a CLI that runs SQL scripts, compatible with SQLite 3.53</li>
+        <li>Nine milestones, from the core pipeline to reading and writing real SQLite database files</li>
+        <li>489 conformance tests generated by real SQLite; half visible, half hidden</li>
+        <li>One fresh headless Claude Code session per milestone, same workspace</li>
+      </ul></div>
+      <div style="display:grid;gap:8px"><h3>Fairness controls</h3><ul>
+        <li>Identical spec, tests, prompts, model and effort; standard library only, no FFI</li>
+        <li>Identical five-function I/O module in both starter projects</li>
+        <li>Language primers with the same four sections, snippets compiled against the installed toolchains</li>
+        <li>No user settings, memory, skills, MCP servers or web access</li>
+        <li>Rust and MoonBit trials run in parallel pairs</li>
+      </ul></div>
+      <div style="display:grid;gap:8px"><h3>Limits</h3><ul>
+        <li>Three trials per language; one model; one kind of program</li>
+        <li>The project suits garbage-collected languages; it never tests concurrency or memory control</li>
+        <li>Output tokens can't be split at first green from the transcripts</li>
+        <li>Engines came out near 13k lines, below the 20k target</li>
+      </ul></div>
+    </div>
+    <p class="note">Audit: all 54 milestone snapshots passed the rule checks; no session touched the hidden tests or the network; no follow-up prompts or usage-limit interruptions occurred.</p>
+  </section>
+</div>
+<div id="tip" hidden></div>
+
+<script>
+const DATA = {"trials": [{"arm": "moonbit", "trial": 1.0, "cost_usd": 36.942834000000005, "output_tokens": 720234.0, "total_input_tokens": 51638016.0, "green_input_tokens": 23309687.0, "green_api_calls": 230.0, "api_calls": 385.0, "num_turns": 406.0, "wall_seconds": 7511.699999999999, "hidden_passed": 232.0, "hidden_total": 242.0, "src_tokens": 165827.0, "src_code_lines": 13441.0, "build_attempts": 117.0, "build_failures": 19.0, "primer_overhead_tokens": 4501805.0}, {"arm": "moonbit", "trial": 2.0, "cost_usd": 41.468274199999996, "output_tokens": 756611.0, "total_input_tokens": 70350305.0, "green_input_tokens": 24994087.0, "green_api_calls": 240.0, "api_calls": 420.0, "num_turns": 446.0, "wall_seconds": 7911.099999999999, "hidden_passed": 231.0, "hidden_total": 242.0, "src_tokens": 172786.0, "src_code_lines": 13880.0, "build_attempts": 113.0, "build_failures": 14.0, "primer_overhead_tokens": 4911060.0}, {"arm": "moonbit", "trial": 3.0, "cost_usd": 44.85632180000002, "output_tokens": 809937.0, "total_input_tokens": 81387176.0, "green_input_tokens": 22466186.0, "green_api_calls": 239.0, "api_calls": 456.0, "num_turns": 476.0, "wall_seconds": 8407.800000000001, "hidden_passed": 231.0, "hidden_total": 242.0, "src_tokens": 175977.0, "src_code_lines": 14205.0, "build_attempts": 146.0, "build_failures": 15.0, "primer_overhead_tokens": 5332008.0}, {"arm": "rust", "trial": 1.0, "cost_usd": 35.2872208, "output_tokens": 737418.0, "total_input_tokens": 45059900.0, "green_input_tokens": 23692379.0, "green_api_calls": 238.0, "api_calls": 362.0, "num_turns": 389.0, "wall_seconds": 7661.900000000001, "hidden_passed": 234.0, "hidden_total": 242.0, "src_tokens": 179323.0, "src_code_lines": 11900.0, "build_attempts": 82.0, "build_failures": 4.0, "primer_overhead_tokens": 1042198.0}, {"arm": "rust", "trial": 2.0, "cost_usd": 37.16603, "output_tokens": 779858.0, "total_input_tokens": 48506485.0, "green_input_tokens": 20941174.0, "green_api_calls": 218.0, "api_calls": 361.0, "num_turns": 382.0, "wall_seconds": 7889.099999999999, "hidden_passed": 235.0, "hidden_total": 242.0, "src_tokens": 186200.0, "src_code_lines": 13881.0, "build_attempts": 85.0, "build_failures": 5.0, "primer_overhead_tokens": 1039319.0}, {"arm": "rust", "trial": 3.0, "cost_usd": 59.117511199999996, "output_tokens": 1086064.0, "total_input_tokens": 113056854.0, "green_input_tokens": 20523128.0, "green_api_calls": 211.0, "api_calls": 471.0, "num_turns": 498.0, "wall_seconds": 10337.1, "hidden_passed": 230.0, "hidden_total": 242.0, "src_tokens": 216270.0, "src_code_lines": 14114.0, "build_attempts": 107.0, "build_failures": 7.0, "primer_overhead_tokens": 1356009.0}], "milestones": [{"arm": "moonbit", "trial": 1.0, "milestone": 1.0, "cost_usd": 3.1852004, "output_tokens": 71750.0, "total_input_tokens": 3351250.0, "green_input_tokens": 1221686.0, "hidden_this_rate": 1.0, "build_failures": 2.0, "api_calls": 32.0, "green_api_calls": 16.0}, {"arm": "moonbit", "trial": 1.0, "milestone": 2.0, "cost_usd": 4.8621176, "output_tokens": 104951.0, "total_input_tokens": 6065644.0, "green_input_tokens": 3128040.0, "hidden_this_rate": 0.9706, "build_failures": 2.0, "api_calls": 41.0, "green_api_calls": 26.0}, {"arm": "moonbit", "trial": 1.0, "milestone": 3.0, "cost_usd": 4.0923886000000005, "output_tokens": 78402.0, "total_input_tokens": 5770423.0, "green_input_tokens": 2527626.0, "hidden_this_rate": 0.9286, "build_failures": 2.0, "api_calls": 44.0, "green_api_calls": 25.0}, {"arm": "moonbit", "trial": 1.0, "milestone": 4.0, "cost_usd": 3.0861024, "output_tokens": 64072.0, "total_input_tokens": 3175526.0, "green_input_tokens": 2259342.0, "hidden_this_rate": 1.0, "build_failures": 1.0, "api_calls": 32.0, "green_api_calls": 25.0}, {"arm": "moonbit", "trial": 1.0, "milestone": 5.0, "cost_usd": 5.056831000000001, "output_tokens": 98600.0, "total_input_tokens": 7629706.0, "green_input_tokens": 2451606.0, "hidden_this_rate": 0.9286, "build_failures": 3.0, "api_calls": 52.0, "green_api_calls": 24.0}, {"arm": "moonbit", "trial": 1.0, "milestone": 6.0, "cost_usd": 6.9833490000000005, "output_tokens": 125268.0, "total_input_tokens": 12401140.0, "green_input_tokens": 4487469.0, "hidden_this_rate": 0.8889, "build_failures": 5.0, "api_calls": 72.0, "green_api_calls": 37.0}, {"arm": "moonbit", "trial": 1.0, "milestone": 7.0, "cost_usd": 5.9087178, "output_tokens": 110676.0, "total_input_tokens": 8560679.0, "green_input_tokens": 3992352.0, "hidden_this_rate": 1.0, "build_failures": 2.0, "api_calls": 50.0, "green_api_calls": 31.0}, {"arm": "moonbit", "trial": 1.0, "milestone": 8.0, "cost_usd": 1.128948, "output_tokens": 16321.0, "total_input_tokens": 1340814.0, "green_input_tokens": 654654.0, "hidden_this_rate": 1.0, "build_failures": 0.0, "api_calls": 25.0, "green_api_calls": 15.0}, {"arm": "moonbit", "trial": 1.0, "milestone": 9.0, "cost_usd": 2.6391792, "output_tokens": 50194.0, "total_input_tokens": 3342834.0, "green_input_tokens": 2586912.0, "hidden_this_rate": 0.9545, "build_failures": 2.0, "api_calls": 37.0, "green_api_calls": 31.0}, {"arm": "moonbit", "trial": 2.0, "milestone": 1.0, "cost_usd": 2.9764217999999993, "output_tokens": 66116.0, "total_input_tokens": 3172226.0, "green_input_tokens": 1230327.0, "hidden_this_rate": 1.0, "build_failures": 1.0, "api_calls": 31.0, "green_api_calls": 16.0}, {"arm": "moonbit", "trial": 2.0, "milestone": 2.0, "cost_usd": 3.8206393999999992, "output_tokens": 84342.0, "total_input_tokens": 4190549.0, "green_input_tokens": 2568049.0, "hidden_this_rate": 1.0, "build_failures": 1.0, "api_calls": 37.0, "green_api_calls": 27.0}, {"arm": "moonbit", "trial": 2.0, "milestone": 3.0, "cost_usd": 3.6220445999999993, "output_tokens": 60529.0, "total_input_tokens": 5693701.0, "green_input_tokens": 3139109.0, "hidden_this_rate": 0.8571, "build_failures": 3.0, "api_calls": 47.0, "green_api_calls": 31.0}, {"arm": "moonbit", "trial": 2.0, "milestone": 4.0, "cost_usd": 3.304253, "output_tokens": 74277.0, "total_input_tokens": 3186852.0, "green_input_tokens": 2420136.0, "hidden_this_rate": 1.0, "build_failures": 1.0, "api_calls": 32.0, "green_api_calls": 27.0}, {"arm": "moonbit", "trial": 2.0, "milestone": 5.0, "cost_usd": 3.932839800000001, "output_tokens": 83593.0, "total_input_tokens": 4262353.0, "green_input_tokens": 2999990.0, "hidden_this_rate": 0.8929, "build_failures": 2.0, "api_calls": 35.0, "green_api_calls": 28.0}, {"arm": "moonbit", "trial": 2.0, "milestone": 6.0, "cost_usd": 15.4751276, "output_tokens": 224661.0, "total_input_tokens": 39608498.0, "green_input_tokens": 5461474.0, "hidden_this_rate": 0.963, "build_failures": 3.0, "api_calls": 142.0, "green_api_calls": 36.0}, {"arm": "moonbit", "trial": 2.0, "milestone": 7.0, "cost_usd": 5.141188799999999, "output_tokens": 102652.0, "total_input_tokens": 7006496.0, "green_input_tokens": 4883746.0, "hidden_this_rate": 0.9333, "build_failures": 3.0, "api_calls": 48.0, "green_api_calls": 38.0}, {"arm": "moonbit", "trial": 2.0, "milestone": 8.0, "cost_usd": 0.9042703999999999, "output_tokens": 13216.0, "total_input_tokens": 883873.0, "green_input_tokens": 518269.0, "hidden_this_rate": 1.0, "build_failures": 0.0, "api_calls": 19.0, "green_api_calls": 13.0}, {"arm": "moonbit", "trial": 2.0, "milestone": 9.0, "cost_usd": 2.2914887999999998, "output_tokens": 47225.0, "total_input_tokens": 2345757.0, "green_input_tokens": 1772987.0, "hidden_this_rate": 0.9545, "build_failures": 0.0, "api_calls": 29.0, "green_api_calls": 24.0}, {"arm": "moonbit", "trial": 3.0, "milestone": 1.0, "cost_usd": 3.1411420000000003, "output_tokens": 75545.0, "total_input_tokens": 2826919.0, "green_input_tokens": 1337698.0, "hidden_this_rate": 1.0, "build_failures": 2.0, "api_calls": 28.0, "green_api_calls": 17.0}, {"arm": "moonbit", "trial": 3.0, "milestone": 2.0, "cost_usd": 3.7192349999999994, "output_tokens": 78819.0, "total_input_tokens": 4554150.0, "green_input_tokens": 2868428.0, "hidden_this_rate": 0.9412, "build_failures": 3.0, "api_calls": 42.0, "green_api_calls": 31.0}, {"arm": "moonbit", "trial": 3.0, "milestone": 3.0, "cost_usd": 3.0635243999999995, "output_tokens": 60619.0, "total_input_tokens": 3945405.0, "green_input_tokens": 2062088.0, "hidden_this_rate": 0.9286, "build_failures": 0.0, "api_calls": 40.0, "green_api_calls": 26.0}, {"arm": "moonbit", "trial": 3.0, "milestone": 4.0, "cost_usd": 2.9743893999999997, "output_tokens": 65455.0, "total_input_tokens": 2632903.0, "green_input_tokens": 1761815.0, "hidden_this_rate": 1.0, "build_failures": 2.0, "api_calls": 27.0, "green_api_calls": 21.0}, {"arm": "moonbit", "trial": 3.0, "milestone": 5.0, "cost_usd": 4.296303800000001, "output_tokens": 89920.0, "total_input_tokens": 5756722.0, "green_input_tokens": 2469778.0, "hidden_this_rate": 0.8929, "build_failures": 1.0, "api_calls": 46.0, "green_api_calls": 26.0}, {"arm": "moonbit", "trial": 3.0, "milestone": 6.0, "cost_usd": 20.19604800000002, "output_tokens": 297912.0, "total_input_tokens": 52541564.0, "green_input_tokens": 4814423.0, "hidden_this_rate": 0.963, "build_failures": 7.0, "api_calls": 179.0, "green_api_calls": 39.0}, {"arm": "moonbit", "trial": 3.0, "milestone": 7.0, "cost_usd": 4.1040672, "output_tokens": 75545.0, "total_input_tokens": 5858368.0, "green_input_tokens": 4771456.0, "hidden_this_rate": 0.9333, "build_failures": 0.0, "api_calls": 48.0, "green_api_calls": 42.0}, {"arm": "moonbit", "trial": 3.0, "milestone": 8.0, "cost_usd": 0.8759264000000002, "output_tokens": 13044.0, "total_input_tokens": 806268.0, "green_input_tokens": 501043.0, "hidden_this_rate": 1.0, "build_failures": 0.0, "api_calls": 17.0, "green_api_calls": 12.0}, {"arm": "moonbit", "trial": 3.0, "milestone": 9.0, "cost_usd": 2.4856855999999996, "output_tokens": 53078.0, "total_input_tokens": 2464877.0, "green_input_tokens": 1879457.0, "hidden_this_rate": 0.9545, "build_failures": 0.0, "api_calls": 29.0, "green_api_calls": 25.0}, {"arm": "rust", "trial": 1.0, "milestone": 1.0, "cost_usd": 3.8812416000000014, "output_tokens": 86595.0, "total_input_tokens": 5113908.0, "green_input_tokens": 1990260.0, "hidden_this_rate": 1.0, "build_failures": 1.0, "api_calls": 48.0, "green_api_calls": 25.0}, {"arm": "rust", "trial": 1.0, "milestone": 2.0, "cost_usd": 4.011191, "output_tokens": 93392.0, "total_input_tokens": 3738281.0, "green_input_tokens": 2146145.0, "hidden_this_rate": 0.9706, "build_failures": 0.0, "api_calls": 30.0, "green_api_calls": 21.0}, {"arm": "rust", "trial": 1.0, "milestone": 3.0, "cost_usd": 3.2103355999999996, "output_tokens": 62887.0, "total_input_tokens": 4336562.0, "green_input_tokens": 1996885.0, "hidden_this_rate": 0.9286, "build_failures": 0.0, "api_calls": 44.0, "green_api_calls": 26.0}, {"arm": "rust", "trial": 1.0, "milestone": 4.0, "cost_usd": 4.000796799999999, "output_tokens": 79207.0, "total_input_tokens": 5084834.0, "green_input_tokens": 2661264.0, "hidden_this_rate": 1.0, "build_failures": 1.0, "api_calls": 43.0, "green_api_calls": 28.0}, {"arm": "rust", "trial": 1.0, "milestone": 5.0, "cost_usd": 4.849728800000002, "output_tokens": 106414.0, "total_input_tokens": 6041445.0, "green_input_tokens": 2073763.0, "hidden_this_rate": 0.9286, "build_failures": 0.0, "api_calls": 45.0, "green_api_calls": 23.0}, {"arm": "rust", "trial": 1.0, "milestone": 6.0, "cost_usd": 7.597474799999997, "output_tokens": 143748.0, "total_input_tokens": 12999651.0, "green_input_tokens": 7667147.0, "hidden_this_rate": 0.963, "build_failures": 0.0, "api_calls": 68.0, "green_api_calls": 48.0}, {"arm": "rust", "trial": 1.0, "milestone": 7.0, "cost_usd": 4.5019846, "output_tokens": 96368.0, "total_input_tokens": 4974179.0, "green_input_tokens": 3172510.0, "hidden_this_rate": 0.9667, "build_failures": 1.0, "api_calls": 38.0, "green_api_calls": 29.0}, {"arm": "rust", "trial": 1.0, "milestone": 8.0, "cost_usd": 0.8710928, "output_tokens": 14102.0, "total_input_tokens": 775868.0, "green_input_tokens": 657758.0, "hidden_this_rate": 1.0, "build_failures": 0.0, "api_calls": 18.0, "green_api_calls": 16.0}, {"arm": "rust", "trial": 1.0, "milestone": 9.0, "cost_usd": 2.3633748000000003, "output_tokens": 54705.0, "total_input_tokens": 1995172.0, "green_input_tokens": 1326647.0, "hidden_this_rate": 0.9545, "build_failures": 1.0, "api_calls": 28.0, "green_api_calls": 22.0}, {"arm": "rust", "trial": 2.0, "milestone": 1.0, "cost_usd": 2.6038315999999995, "output_tokens": 67621.0, "total_input_tokens": 1650203.0, "green_input_tokens": 1050912.0, "hidden_this_rate": 1.0, "build_failures": 0.0, "api_calls": 20.0, "green_api_calls": 15.0}, {"arm": "rust", "trial": 2.0, "milestone": 2.0, "cost_usd": 3.6828497999999996, "output_tokens": 88947.0, "total_input_tokens": 3508590.0, "green_input_tokens": 1442359.0, "hidden_this_rate": 0.9706, "build_failures": 1.0, "api_calls": 33.0, "green_api_calls": 19.0}, {"arm": "rust", "trial": 2.0, "milestone": 3.0, "cost_usd": 3.6317858, "output_tokens": 75790.0, "total_input_tokens": 4371206.0, "green_input_tokens": 2169040.0, "hidden_this_rate": 0.9643, "build_failures": 1.0, "api_calls": 38.0, "green_api_calls": 24.0}, {"arm": "rust", "trial": 2.0, "milestone": 4.0, "cost_usd": 3.189551200000001, "output_tokens": 73745.0, "total_input_tokens": 3084893.0, "green_input_tokens": 1553555.0, "hidden_this_rate": 0.9615, "build_failures": 1.0, "api_calls": 29.0, "green_api_calls": 18.0}, {"arm": "rust", "trial": 2.0, "milestone": 5.0, "cost_usd": 6.7756108, "output_tokens": 143787.0, "total_input_tokens": 9690443.0, "green_input_tokens": 2667708.0, "hidden_this_rate": 0.9643, "build_failures": 0.0, "api_calls": 57.0, "green_api_calls": 26.0}, {"arm": "rust", "trial": 2.0, "milestone": 6.0, "cost_usd": 7.594139200000001, "output_tokens": 141149.0, "total_input_tokens": 13399576.0, "green_input_tokens": 4023127.0, "hidden_this_rate": 0.8889, "build_failures": 1.0, "api_calls": 70.0, "green_api_calls": 31.0}, {"arm": "rust", "trial": 2.0, "milestone": 7.0, "cost_usd": 5.7819016, "output_tokens": 110374.0, "total_input_tokens": 7895332.0, "green_input_tokens": 4881710.0, "hidden_this_rate": 1.0, "build_failures": 1.0, "api_calls": 47.0, "green_api_calls": 36.0}, {"arm": "rust", "trial": 2.0, "milestone": 8.0, "cost_usd": 0.8598067999999999, "output_tokens": 14948.0, "total_input_tokens": 688969.0, "green_input_tokens": 356205.0, "hidden_this_rate": 0.9524, "build_failures": 0.0, "api_calls": 17.0, "green_api_calls": 11.0}, {"arm": "rust", "trial": 2.0, "milestone": 9.0, "cost_usd": 3.0465531999999986, "output_tokens": 63497.0, "total_input_tokens": 4217273.0, "green_input_tokens": 2796558.0, "hidden_this_rate": 0.9545, "build_failures": 0.0, "api_calls": 50.0, "green_api_calls": 38.0}, {"arm": "rust", "trial": 3.0, "milestone": 1.0, "cost_usd": 3.1206175999999997, "output_tokens": 77874.0, "total_input_tokens": 2708627.0, "green_input_tokens": 1166293.0, "hidden_this_rate": 1.0, "build_failures": 0.0, "api_calls": 28.0, "green_api_calls": 16.0}, {"arm": "rust", "trial": 3.0, "milestone": 2.0, "cost_usd": 4.853494800000002, "output_tokens": 106661.0, "total_input_tokens": 6215169.0, "green_input_tokens": 2264704.0, "hidden_this_rate": 0.9706, "build_failures": 1.0, "api_calls": 44.0, "green_api_calls": 22.0}, {"arm": "rust", "trial": 3.0, "milestone": 3.0, "cost_usd": 3.3111981999999998, "output_tokens": 69588.0, "total_input_tokens": 3611620.0, "green_input_tokens": 1242084.0, "hidden_this_rate": 0.8571, "build_failures": 1.0, "api_calls": 32.0, "green_api_calls": 16.0}, {"arm": "rust", "trial": 3.0, "milestone": 4.0, "cost_usd": 3.4556185999999998, "output_tokens": 78510.0, "total_input_tokens": 3288486.0, "green_input_tokens": 2339200.0, "hidden_this_rate": 1.0, "build_failures": 0.0, "api_calls": 32.0, "green_api_calls": 26.0}, {"arm": "rust", "trial": 3.0, "milestone": 5.0, "cost_usd": 5.565817600000001, "output_tokens": 107696.0, "total_input_tokens": 8578175.0, "green_input_tokens": 3346883.0, "hidden_this_rate": 0.9643, "build_failures": 2.0, "api_calls": 56.0, "green_api_calls": 30.0}, {"arm": "rust", "trial": 3.0, "milestone": 6.0, "cost_usd": 30.177188599999994, "output_tokens": 476466.0, "total_input_tokens": 77413682.0, "green_input_tokens": 4628467.0, "hidden_this_rate": 0.8889, "build_failures": 1.0, "api_calls": 178.0, "green_api_calls": 33.0}, {"arm": "rust", "trial": 3.0, "milestone": 7.0, "cost_usd": 6.088741600000001, "output_tokens": 119263.0, "total_input_tokens": 8887229.0, "green_input_tokens": 4096316.0, "hidden_this_rate": 0.9, "build_failures": 2.0, "api_calls": 52.0, "green_api_calls": 32.0}, {"arm": "rust", "trial": 3.0, "milestone": 8.0, "cost_usd": 1.0424676, "output_tokens": 18283.0, "total_input_tokens": 1013251.0, "green_input_tokens": 822075.0, "hidden_this_rate": 1.0, "build_failures": 0.0, "api_calls": 23.0, "green_api_calls": 20.0}, {"arm": "rust", "trial": 3.0, "milestone": 9.0, "cost_usd": 1.5023665999999998, "output_tokens": 31723.0, "total_input_tokens": 1340615.0, "green_input_tokens": 617106.0, "hidden_this_rate": 0.9545, "build_failures": 0.0, "api_calls": 26.0, "green_api_calls": 16.0}]};
+const T = DATA.trials, M = DATA.milestones;
+const LANG = { rust: { name: "Rust", color: "var(--rust)", soft: "var(--rust-soft)" }, moonbit: { name: "MoonBit", color: "var(--moon)", soft: "var(--moon-soft)" } };
+const mean = a => a.reduce((s, x) => s + x, 0) / a.length;
+const sd = a => { const m = mean(a); return Math.sqrt(a.reduce((s, x) => s + (x - m) ** 2, 0) / (a.length - 1)); };
+const by = (arm, k) => T.filter(t => t.arm === arm).sort((a, b) => a.trial - b.trial).map(t => t[k]);
+const fmtM = x => (x / 1e6).toFixed(1) + "M";
+const fmtK = x => Math.round(x / 1e3) + "k";
+const fmt$ = x => "$" + x.toFixed(2);
+const pct = x => (100 * x).toFixed(1) + "%";
+const NS = "http://www.w3.org/2000/svg";
+function el(tag, attrs, parent) { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
+const tip = document.getElementById("tip");
+function hover(node, html) {
+  node.classList.add("hit");
+  node.addEventListener("mousemove", e => { tip.innerHTML = html; tip.hidden = false; tip.style.left = Math.min(e.clientX + 14, innerWidth - 270) + "px"; tip.style.top = (e.clientY + 14) + "px"; });
+  node.addEventListener("mouseleave", () => { tip.hidden = true; });
+}
+function niceTicks(lo, hi, n) { const step0 = (hi - lo) / n, mag = 10 ** Math.floor(Math.log10(step0)); const step = [1, 2, 2.5, 5, 10].map(m => m * mag).find(s => s >= step0); const out = []; for (let v = Math.ceil(lo / step) * step; v <= hi + 1e-9; v += step) out.push(v); return out; }
+
+// Headline tiles
+const ratio = k => mean(by("moonbit", k)) / mean(by("rust", k));
+const tiles = [
+  { num: ratio("cost_usd").toFixed(2) + "×", lab: "Estimated cost", sub: fmt$(mean(by("rust","cost_usd"))) + " Rust · " + fmt$(mean(by("moonbit","cost_usd"))) + " MoonBit" },
+  { num: ratio("output_tokens").toFixed(2) + "×", lab: "Output tokens", sub: fmtK(mean(by("rust","output_tokens"))) + " · " + fmtK(mean(by("moonbit","output_tokens"))) },
+  { num: ratio("green_input_tokens").toFixed(2) + "×", lab: "Input until tests first all pass", sub: fmtM(mean(by("rust","green_input_tokens"))) + " · " + fmtM(mean(by("moonbit","green_input_tokens"))) },
+  { num: pct(mean(by("moonbit","hidden_passed")) / 242), lab: "MoonBit hidden tests passed", sub: "Rust " + pct(mean(by("rust","hidden_passed")) / 242) + " of 242" },
+];
+document.getElementById("tiles").innerHTML = tiles.map(t => `<div class="tile"><div class="num">${t.num}</div><div class="lab">${t.lab}</div><div class="sub">${t.sub}</div></div>`).join("");
+
+// Dot strips: one row per metric, two lanes
+(function () {
+  const metrics = [
+    { k: "cost_usd", label: "Estimated cost (USD)", f: fmt$, tick: v => "$" + v },
+    { k: "output_tokens", label: "Output tokens", f: fmtK, tick: v => (v / 1e3) + "k" },
+    { k: "green_input_tokens", label: "Input until first all-green", f: fmtM, tick: v => (v / 1e6) + "M" },
+    { k: "total_input_tokens", label: "Total input tokens", f: fmtM, tick: v => (v / 1e6) + "M" },
+  ];
+  const W = 860, L = 200, R = 30, rowH = 86, H = metrics.length * rowH + 10;
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Per-trial values for four metrics, Rust and MoonBit" });
+  metrics.forEach((m, i) => {
+    const y0 = i * rowH + 10;
+    const vals = T.map(t => t[m.k]);
+    let lo = Math.min(...vals), hi = Math.max(...vals); const pad = (hi - lo) * 0.12; lo = Math.max(0, lo - pad); hi += pad;
+    const ticks = niceTicks(lo, hi, 4); lo = Math.min(lo, ticks[0]); hi = Math.max(hi, ticks[ticks.length - 1]);
+    const x = v => L + (v - lo) / (hi - lo) * (W - L - R);
+    el("text", { x: 0, y: y0 + 30, "font-weight": 600, fill: "var(--ink)" }, svg).textContent = m.label;
+    ticks.forEach(v => { el("line", { x1: x(v), x2: x(v), y1: y0 + 8, y2: y0 + 58, stroke: "var(--grid)", "stroke-width": 1 }, svg); const t = el("text", { x: x(v), y: y0 + 74, "text-anchor": "middle", class: "axis" }, svg); t.textContent = m.tick(+v.toPrecision(6)); });
+    ["rust", "moonbit"].forEach((arm, j) => {
+      const yy = y0 + 20 + j * 26;
+      el("text", { x: L - 12, y: yy + 4, "text-anchor": "end", class: "axis" }, svg).textContent = LANG[arm].name;
+      el("line", { x1: L, x2: W - R, y1: yy, y2: yy, stroke: "var(--rule)", "stroke-width": 1 }, svg);
+      const vs = by(arm, m.k), mu = mean(vs);
+      el("line", { x1: x(mu), x2: x(mu), y1: yy - 9, y2: yy + 9, stroke: LANG[arm].color, "stroke-width": 2 }, svg);
+      vs.forEach((v, n) => {
+        const c = el("circle", { cx: x(v), cy: yy, r: 6, fill: LANG[arm].color, stroke: "var(--surface)", "stroke-width": 2 }, svg);
+        hover(c, `<b>${LANG[arm].name}, trial ${n + 1}</b><br>${m.label}: ${m.f(v)}<br>Mean: ${m.f(mu)}`);
+      });
+    });
+  });
+  document.getElementById("strips").appendChild(svg);
+})();
+
+// Stacked bars: input before/after first green, per trial
+(function () {
+  const rows = [];
+  ["rust", "moonbit"].forEach(arm => by(arm, "total_input_tokens").forEach((tot, n) => rows.push({ arm, n: n + 1, green: by(arm, "green_input_tokens")[n], tot })));
+  const W = 860, L = 130, R = 70, bh = 22, gap = 12, H = rows.length * (bh + gap) + 40;
+  const hi = Math.max(...rows.map(r => r.tot)) * 1.02, ticks = niceTicks(0, hi, 5);
+  const x = v => L + v / ticks[ticks.length - 1] * (W - L - R);
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Input tokens per trial split at first all-green" });
+  ticks.forEach(v => { el("line", { x1: x(v), x2: x(v), y1: 0, y2: H - 30, stroke: "var(--grid)" }, svg); el("text", { x: x(v), y: H - 12, "text-anchor": "middle", class: "axis" }, svg).textContent = v / 1e6 + "M"; });
+  rows.forEach((r, i) => {
+    const y = i * (bh + gap) + 4;
+    el("text", { x: L - 12, y: y + bh / 2 + 4, "text-anchor": "end" }, svg).textContent = `${LANG[r.arm].name} · trial ${r.n}`;
+    const a = el("rect", { x: x(0), y, width: x(r.green) - x(0) - 1, height: bh, rx: 4, fill: LANG[r.arm].color }, svg);
+    const b = el("rect", { x: x(r.green) + 1, y, width: Math.max(0, x(r.tot) - x(r.green) - 1), height: bh, rx: 4, fill: LANG[r.arm].soft }, svg);
+    const after = 1 - r.green / r.tot;
+    el("text", { x: x(r.tot) + 8, y: y + bh / 2 + 4, class: "axis" }, svg).textContent = fmtM(r.tot);
+    hover(a, `<b>${LANG[r.arm].name}, trial ${r.n}</b><br>Until first all-green: ${fmtM(r.green)}`);
+    hover(b, `<b>${LANG[r.arm].name}, trial ${r.n}</b><br>After first all-green: ${fmtM(r.tot - r.green)} (${Math.round(after * 100)}% of input)`);
+  });
+  document.getElementById("stack").appendChild(svg);
+})();
+
+// Per-milestone output ratio
+(function () {
+  const names = ["Core pipeline", "Expressions", "DML & constraints", "Aggregation", "Joins & subqueries", "Indexes & transactions", "CTEs & windows", "Read SQLite files", "Write SQLite files"];
+  const W = 860, L = 190, R = 60, bh = 20, gap = 10, H = 9 * (bh + gap) + 40;
+  const lo = 0.6, hi = 1.2; const x = v => L + (v - lo) / (hi - lo) * (W - L - R);
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Output token ratio MoonBit over Rust by milestone" });
+  [0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2].forEach(v => { el("line", { x1: x(v), x2: x(v), y1: 0, y2: H - 30, stroke: v === 1 ? "var(--muted)" : "var(--grid)", "stroke-width": v === 1 ? 1.5 : 1 }, svg); el("text", { x: x(v), y: H - 12, "text-anchor": "middle", class: "axis" }, svg).textContent = v.toFixed(1) + "×"; });
+  for (let m = 1; m <= 9; m++) {
+    const r = M.filter(d => d.arm === "rust" && d.milestone === m).map(d => d.output_tokens);
+    const b = M.filter(d => d.arm === "moonbit" && d.milestone === m).map(d => d.output_tokens);
+    const q = mean(b) / mean(r), y = (m - 1) * (bh + gap) + 4;
+    el("text", { x: L - 12, y: y + bh / 2 + 4, "text-anchor": "end" }, svg).textContent = `M${m} ${names[m - 1]}`;
+    const x1 = Math.min(x(q), x(1)), w = Math.abs(x(q) - x(1));
+    const bar = el("rect", { x: x1, y, width: Math.max(w, 2), height: bh, rx: 4, fill: q < 1 ? "var(--moon)" : "var(--rust)" }, svg);
+    el("text", { x: q < 1 ? x(1) + 8 : x(q) + 8, y: y + bh / 2 + 4, class: "axis" }, svg).textContent = q.toFixed(2) + "×";
+    hover(bar, `<b>M${m} ${names[m - 1]}</b><br>Rust mean: ${fmtK(mean(r))}<br>MoonBit mean: ${fmtK(mean(b))}<br>Ratio: ${q.toFixed(2)}× ${q < 1 ? "(MoonBit wrote less)" : "(Rust wrote less)"}`);
+  }
+  document.getElementById("ratio").appendChild(svg);
+})();
+
+// Full table
+(function () {
+  const rows = [
+    ["Estimated cost", "cost_usd", fmt$],
+    ["Output tokens", "output_tokens", fmtK],
+    ["Total input tokens", "total_input_tokens", fmtM],
+    ["Input until first all-green", "green_input_tokens", fmtM],
+    ["Primer re-reads", "primer_overhead_tokens", fmtM],
+    ["API calls", "api_calls", v => Math.round(v)],
+    ["API calls until first all-green", "green_api_calls", v => Math.round(v)],
+    ["Turns", "num_turns", v => Math.round(v)],
+    ["Wall time (h)", "wall_seconds", v => (v / 3600).toFixed(2)],
+    ["Build attempts", "build_attempts", v => Math.round(v)],
+    ["Failed builds", "build_failures", v => v.toFixed(1)],
+    ["Hidden tests passed (of 242)", "hidden_passed", v => v.toFixed(1)],
+    ["Final source tokens", "src_tokens", fmtK],
+    ["Final code lines", "src_code_lines", v => Math.round(v).toLocaleString()],
+  ];
+  let h = `<thead><tr><th>Metric</th><th>Rust mean ± sd</th><th>MoonBit mean ± sd</th><th>MoonBit ÷ Rust</th><th>Rust trials</th><th>MoonBit trials</th></tr></thead><tbody>`;
+  rows.forEach(([lab, k, f]) => {
+    const r = by("rust", k), b = by("moonbit", k);
+    h += `<tr><td>${lab}</td><td class="r">${f(mean(r))} ± ${f(sd(r))}</td><td class="r">${f(mean(b))} ± ${f(sd(b))}</td><td class="r">${(mean(b) / mean(r)).toFixed(2)}</td><td class="r">${r.map(f).join(" · ")}</td><td class="r">${b.map(f).join(" · ")}</td></tr>`;
+  });
+  document.getElementById("table").innerHTML = h + "</tbody>";
+})();
+</script>

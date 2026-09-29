@@ -1,0 +1,22 @@
+only,q,x,y,z
+a|x,y,z
+b|only
+c|NULL
+d|q
+a|text
+b|text
+c|null
+d|text
+NULL|null
+1,2.5,-3,100,0.125
+text
+2,5.0,-6,200,0.25
+1|text
+,,a,
+4
+[]
+é,中文,😀
+6
+1:1,2:2.5,3:-3,4:100,5:0.125
+Z,Y,X
+Error: wrong number of arguments to function group_concat()

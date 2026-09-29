@@ -1,0 +1,6 @@
+other failures (3): m02/printf_quoting m03/insert_default_values m04/group_by_order_limit
+m01: 26/26 passed
+m02: 33/34 passed
+m03: 27/28 passed
+m04: 25/26 passed
+TOTAL: 111/114 passed

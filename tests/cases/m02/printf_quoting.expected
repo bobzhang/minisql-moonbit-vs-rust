@@ -1,0 +1,14 @@
+it''s|plain|''''|
+'it''s'|'plain'|''|NULL
+a""b|say ""hi""|it's
+(NULL)|(NULL)
+5|'5'|'1.5'|'-3'
+INSERT INTO t VALUES('O''Brien', NULL);
+SELECT "col""1" FROM "tab";
+abc|'ab'
+[    'ab']|[a''b    ]
+'café'|l''été
+1|x|'x'|x
+2|don''t|'don''t'|don't
+3|(NULL)|NULL|(NULL)
+4||''|

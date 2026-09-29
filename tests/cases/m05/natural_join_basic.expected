@@ -1,0 +1,24 @@
+ann|oslo|2020
+bo|rome|2022
+2
+ann|oslo|2020
+bo|rome|2022
+0
+ann|blue
+ann|red
+bo|blue
+bo|red
+cy|blue
+cy|red
+6
+ann|2020
+bo|2022
+1|1|1|oslo
+2|2|2|rome
+ann|t1
+bo|t2
+bo|50
+ann|1
+bo|1
+Error: a NATURAL join may not have an ON or USING clause
+Error: a NATURAL join may not have an ON or USING clause

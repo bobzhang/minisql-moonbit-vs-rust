@@ -1,0 +1,19 @@
+hello|ello|o|
+he|ell|lo|
+o|llo|ll|h
+hello||he
+hello|h|
+he|h||ll
+ell|lo
+本語テ|é|ab
+X'0203'|X'05'|blob
+234|-1|text
+he|el
+NULL|NULL|NULL
+1|AB|1234|34
+2|XY|99|99
+3|Z||Z
+4|NULL|NULL|NULL
+2
+Error: wrong number of arguments to function substr()
+Error: wrong number of arguments to function substr()

@@ -1,0 +1,22 @@
+1|a|1
+1|a|1
+5|e|5
+8|h|8
+2
+20|dup|1
+31|x|1
+33|z|3
+34|auto
+Error: table t has 3 columns but 2 values were supplied
+Error: datatype mismatch
+Error: no such table: nosuch
+1|a|1
+5|e|5
+8|h|8
+20|dup|1
+31|x|1
+33|z|3
+34|auto|0
+1
+2
+3

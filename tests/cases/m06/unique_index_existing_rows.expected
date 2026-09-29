@@ -1,0 +1,17 @@
+Error: UNIQUE constraint failed: t.a
+0
+5
+t_a
+Error: UNIQUE constraint failed: t.a
+1|x
+2|y
+3|x
+1
+3
+Error: UNIQUE constraint failed: t.b
+Error: UNIQUE constraint failed: t.a, t.b
+4
+Error: UNIQUE constraint failed: n.v
+0
+Error: UNIQUE constraint failed: r.v
+0

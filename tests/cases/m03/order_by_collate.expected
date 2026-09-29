@@ -1,0 +1,78 @@
+A
+B
+_x
+a
+b
+c
+_x|6
+A|2
+a|3
+b|1
+B|4
+c|5
+c|5
+b|1
+B|4
+A|2
+a|3
+_x|6
+_x|6
+A|2
+a|3
+b|1
+B|4
+C|5
+C|5
+B|4
+b|1
+a|3
+A|2
+_x|6
+A|2
+B|4
+C|5
+_x|6
+a|3
+b|1
+[a  ]|2
+[a]|3
+[a ]|4
+[b]|1
+[b ]|6
+[c]|5
+[a]|3
+[a ]|4
+[a  ]|2
+[b]|1
+[b ]|6
+[c]|5
+_x|6
+A|2
+a|3
+b|1
+B|4
+C|5
+_x|6
+a|3
+A|2
+B|4
+b|1
+C|5
+A|2
+B|4
+C|5
+_x|6
+a|3
+b|1
+0|_x
+0|A
+0|B
+1|a
+1|b
+1|c
+E
+e
+f
+É
+é
+Error: no such collation sequence: nosuchcoll

@@ -1,0 +1,27 @@
+Error: UNIQUE constraint failed: acct.username
+1|kim|1
+2|kim|0
+3|kim|0
+4|kim|0
+5|lee|1
+Error: UNIQUE constraint failed: acct.username
+2
+3
+1|kim|0
+3|kim|0
+4|kim|0
+8|kim|1
+5
+6
+7
+10
+5|1
+6|NULL
+7|NULL
+10|0
+12|0
+Error: UNIQUE constraint failed: tags.name
+Error: UNIQUE constraint failed: tags.name
+x|2
+y|3
+z|1

@@ -1,0 +1,24 @@
+===== phase 1 (sqlite) =====
+===== phase 2 (engine) =====
+302
+index|150
+table|151
+view|1
+long_sql|tbl_149
+tbl_077
+1|0|row one of 0
+2|0|row two of 0
+1|149|row one of 149
+2|298|row two of 149
+row two of 75
+1|the default for b
+2|the default for b
+30|3150
+130|130
+130|260
+140|140
+140|280
+row one of 10|row one of 120
+row two of 10|row two of 120
+447
+Error: no such table: tbl_150

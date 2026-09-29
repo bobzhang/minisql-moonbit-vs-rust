@@ -1,0 +1,206 @@
+{
+ "visible": {
+  "build_ok": true,
+  "passed": 144,
+  "total": 144,
+  "per_milestone": {
+   "m01": [
+    27,
+    27
+   ],
+   "m02": [
+    34,
+    34
+   ],
+   "m03": [
+    28,
+    28
+   ],
+   "m04": [
+    27,
+    27
+   ],
+   "m05": [
+    28,
+    28
+   ]
+  },
+  "similarity": 1.0
+ },
+ "hidden": {
+  "build_ok": true,
+  "passed": 138,
+  "total": 142,
+  "per_milestone": {
+   "m01": [
+    26,
+    26
+   ],
+   "m02": [
+    33,
+    34
+   ],
+   "m03": [
+    27,
+    28
+   ],
+   "m04": [
+    25,
+    26
+   ],
+   "m05": [
+    27,
+    28
+   ]
+  },
+  "similarity": 0.9984
+ },
+ "code": {
+  "files": [
+   {
+    "lines": 354,
+    "nonblank": 330,
+    "comment": 14,
+    "code": 316,
+    "bytes": 10665,
+    "words": 2610,
+    "file": "src/agg.rs",
+    "tokens": 4087,
+    "test": false
+   },
+   {
+    "lines": 275,
+    "nonblank": 246,
+    "comment": 12,
+    "code": 234,
+    "bytes": 6108,
+    "words": 1612,
+    "file": "src/ast.rs",
+    "tokens": 3093,
+    "test": false
+   },
+   {
+    "lines": 939,
+    "nonblank": 900,
+    "comment": 19,
+    "code": 881,
+    "bytes": 26126,
+    "words": 7852,
+    "file": "src/datetime.rs",
+    "tokens": 11840,
+    "test": false
+   },
+   {
+    "lines": 2152,
+    "nonblank": 2050,
+    "comment": 92,
+    "code": 1958,
+    "bytes": 78161,
+    "words": 20992,
+    "file": "src/engine.rs",
+    "tokens": 30864,
+    "test": false
+   },
+   {
+    "lines": 1010,
+    "nonblank": 957,
+    "comment": 49,
+    "code": 908,
+    "bytes": 35405,
+    "words": 10178,
+    "file": "src/engine/query.rs",
+    "tokens": 14436,
+    "test": false
+   },
+   {
+    "lines": 1367,
+    "nonblank": 1301,
+    "comment": 17,
+    "code": 1284,
+    "bytes": 41482,
+    "words": 12224,
+    "file": "src/func.rs",
+    "tokens": 17137,
+    "test": false
+   },
+   {
+    "lines": 308,
+    "nonblank": 300,
+    "comment": 8,
+    "code": 292,
+    "bytes": 10022,
+    "words": 2827,
+    "file": "src/lexer.rs",
+    "tokens": 3727,
+    "test": false
+   },
+   {
+    "lines": 38,
+    "nonblank": 36,
+    "comment": 0,
+    "code": 36,
+    "bytes": 1004,
+    "words": 249,
+    "file": "src/main.rs",
+    "tokens": 356,
+    "test": false
+   },
+   {
+    "lines": 1413,
+    "nonblank": 1341,
+    "comment": 19,
+    "code": 1322,
+    "bytes": 48593,
+    "words": 11943,
+    "file": "src/parser.rs",
+    "tokens": 18537,
+    "test": false
+   },
+   {
+    "lines": 518,
+    "nonblank": 485,
+    "comment": 29,
+    "code": 456,
+    "bytes": 14741,
+    "words": 4468,
+    "file": "src/value.rs",
+    "tokens": 6529,
+    "test": false
+   }
+  ],
+  "all": {
+   "lines": 8374,
+   "nonblank": 7946,
+   "code": 7687,
+   "comment": 259,
+   "bytes": 272307,
+   "words": 74955,
+   "tokens": 110606,
+   "n_files": 10
+  },
+  "main": {
+   "lines": 8374,
+   "nonblank": 7946,
+   "code": 7687,
+   "comment": 259,
+   "bytes": 272307,
+   "words": 74955,
+   "tokens": 110606,
+   "n_files": 10
+  },
+  "test": {
+   "lines": 0,
+   "nonblank": 0,
+   "code": 0,
+   "comment": 0,
+   "bytes": 0,
+   "words": 0,
+   "tokens": 0,
+   "n_files": 0
+  }
+ },
+ "compliance": {
+  "ok": true,
+  "issues": []
+ }
+}

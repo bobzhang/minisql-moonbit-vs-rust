@@ -1,0 +1,33 @@
+===== phase 1 (engine) =====
+ann|eng
+bob|ops
+cy|NULL
+===== phase 2 (sqlite) =====
+ok
+table|dept|dept
+table|emp|emp
+index|emp_dept|emp
+index|emp_name_salary|emp
+view|emp_view|emp_view
+index|sqlite_autoindex_dept_1|dept
+index|sqlite_autoindex_emp_1|emp
+1|ann|1|1500.5|Ann@x.org
+2|bob|2|900.0|bob@x.org
+3|cy|NULL|1000.0|NULL
+ann|eng
+bob|ops
+cy|NULL
+bob
+ann
+Error: UNIQUE constraint failed: emp.email
+Error: UNIQUE constraint failed: dept.name
+Error: CHECK constraint failed: salary >= 0
+ok
+===== phase 3 (engine) =====
+1|ann|1|1500.5|Ann@x.org
+2|bob|2|900.0|bob@x.org
+3|cy|NULL|1000.0|NULL
+6|dee|2|1000.0|dee@x.org
+NULL|1
+eng|1
+ops|2

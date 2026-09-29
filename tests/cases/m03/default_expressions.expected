@@ -1,0 +1,16 @@
+3|integer|-5|integer|3.5|real|txt|X'0102'|NULL
+1|integer|12|integer|7|text|3z|-16
+2.0|real|ABcd|0|1000.0|real|1
+row1|3|3z
+row2|3|3z
+row1|3|-5
+row2|3|-5
+row3|given|99
+1|yes
+3|integer|0x10|text
+row1|NULL
+row2|3
+row3|given
+Error: default value of column [b] is not constant
+Error: near "+": syntax error
+Error: no such table: bad

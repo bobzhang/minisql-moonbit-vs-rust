@@ -1,0 +1,5 @@
+other failures (4): m02/math_exp_log m02/printf_quoting m03/insert_default_values m03/upsert_multiple_clauses
+m01: 26/26 passed
+m02: 32/34 passed
+m03: 26/28 passed
+TOTAL: 84/88 passed

@@ -1,0 +1,34 @@
+1|ok
+Error: table t has 2 columns but 1 values were supplied
+Error: table t has 2 columns but 3 values were supplied
+1|ok
+Error: 2 values for 1 columns
+1|ok
+1|ok
+5|NULL
+Error: all VALUES must have the same number of terms
+1|ok
+5|NULL
+Error: no such table: nosuch
+Error: table t has no column named zzz
+1|ok
+5|NULL
+Error: no such column: a
+1|ok
+5|NULL
+11|eleven
+12|twelve
+13|thirteen
+13|thirteen
+12|twelve
+11|eleven
+5|NULL
+1|ok
+thirteen
+5
+12
+thirteen
+fourteen
+1|ok
+5|NULL
+ok!

@@ -1,0 +1,18 @@
+===== phase 1 (engine) =====
+===== phase 2 (sqlite) =====
+ok
+1|one|64|127|128|last|NULL
+2|NULL|NULL|NULL|NULL|NULL|NULL
+3|NULL|NULL|NULL|NULL|only last|NULL
+1
+===== phase 3 (engine) =====
+1|added|one
+2|added|NULL
+3|added|NULL
+===== phase 4 (sqlite) =====
+ok
+1|3000|forty|last|added
+2|NULL|NULL|NULL|added
+3|NULL|NULL|only last|added
+4|7|NULL|NULL|added
+3000|eee|hundred

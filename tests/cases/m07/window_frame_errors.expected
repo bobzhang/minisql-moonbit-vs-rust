@@ -1,0 +1,48 @@
+Error: unsupported frame specification
+1|10
+2|30
+3|50
+1|30
+2|50
+3|30
+Error: unsupported frame specification
+1|10
+2|20
+3|30
+Error: near "FOLLOWING": syntax error
+1|60
+2|60
+3|60
+Error: frame starting offset must be a non-negative integer
+Error: frame starting offset must be a non-negative integer
+1|10
+2|30
+3|60
+1|10
+2|30
+3|50
+Error: frame starting offset must be a non-negative integer
+1|3
+2|3
+3|3
+1|60|60
+2|60|60
+3|60|60
+1|50
+2|30
+3|NULL
+1|50
+2|30
+3|NULL
+1|30
+2|60
+3|50
+1|20
+2|40
+3|20
+1|1|1
+2|2|1
+3|3|2
+1|10
+2|20
+3|30
