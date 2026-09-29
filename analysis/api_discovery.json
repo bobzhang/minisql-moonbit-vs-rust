@@ -1,0 +1,352 @@
+[
+ {
+  "trial": "moonbit-t1",
+  "m": "m01",
+  "step": 8,
+  "kind": "scratch_moon_project",
+  "query": "",
+  "found": null,
+  "cmd": "cat > /tmp/t.mbt <<'EOF'\nEOF\nmkdir -p /private/tmp/claude-501/scratch && cd /private/tmp/claude-501/scratch && rm -rf p && mkdir p && cd p && cat > moon.mod <<'EOF'\nname = \"x/p\"\npreferred_target = \"native\"\nEOF\nmkdir m && cat > m/moon.pkg <<'EOF'\nimport {\n  \"moonbitlang/core/string\",\n}\nEOF\ncat > m/a_",
+  "out_head": "Warning: [0029]\n   \u256d\u2500[ /private/tmp/claude-501/scratch/p/m/moon.pkg:2:3 ]\n   \u2502\n 2 \u2502   \"moonbitlang/core/string\",\n   \u2502   \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500  \n   \u2502               \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 Warning (unused_package): Unused package 'moonbitlang/core/string'\n\u2500\u2500\u2500\u256f\n5. -> 5\n.5 -> 0.5\n1e400 ERR Failure(value out of range)\n1e-400 -> 0\n4.9e-324 -> 5e-324\n0.1 -> 0.1\n12345678901234567890.0 -> 12345678901234567000\n"
+ },
+ {
+  "trial": "moonbit-t1",
+  "m": "m02",
+  "step": 12,
+  "kind": "ide_doc",
+  "query": "@math",
+  "found": true,
+  "cmd": "moon ide doc \"@math\" 2>&1 | grep -E \"^(pub )?fn\" | head -60; moon ide doc \"Double::*\" 2>&1 | grep -E \"fn\" | head -60",
+  "out_head": "pub fn acos(Double) -> Double\npub fn acosf(Float) -> Float\npub fn acosh(Double) -> Double\npub fn acoshf(Float) -> Float\npub fn asin(Double) -> Double\npub fn asinf(Float) -> Float\npub fn asinh(Double) -> Double\npub fn asinhf(Float) -> Float\npub fn atan(Double) -> Double\npub fn atan2(Double, Double) -> Double\npub fn atan2f(Float, Float) -> Float\npub fn atanf(Float) -> Float\npub fn atanh(Double) -> D"
+ },
+ {
+  "trial": "moonbit-t1",
+  "m": "m02",
+  "step": 12,
+  "kind": "ide_doc",
+  "query": "Double::*",
+  "found": true,
+  "cmd": "moon ide doc \"@math\" 2>&1 | grep -E \"^(pub )?fn\" | head -60; moon ide doc \"Double::*\" 2>&1 | grep -E \"fn\" | head -60",
+  "out_head": "pub fn acos(Double) -> Double\npub fn acosf(Float) -> Float\npub fn acosh(Double) -> Double\npub fn acoshf(Float) -> Float\npub fn asin(Double) -> Double\npub fn asinf(Float) -> Float\npub fn asinh(Double) -> Double\npub fn asinhf(Float) -> Float\npub fn atan(Double) -> Double\npub fn atan2(Double, Double) -> Double\npub fn atan2f(Float, Float) -> Float\npub fn atanf(Float) -> Float\npub fn atanh(Double) -> D"
+ },
+ {
+  "trial": "moonbit-t1",
+  "m": "m03",
+  "step": 6,
+  "kind": "ide_outline",
+  "query": "",
+  "found": null,
+  "cmd": "moon ide outline db 2>/dev/null | head -150; cat cmd/main/main.mbt db/moon.pkg",
+  "out_head": "value.mbt:\n  2 |pub(all) enum Value {\n    |...\n 11 |pub suberror SqlError {\n    |...\n 16 |fn sql_err(msg : String) -> SqlError {\n    |...\n 21 |pub(all) enum Affinity {\n    |...\n 31 |fn affinity_of_type(t : String) -> Affinity {\n    |...\n 47 |fn Value::type_name(self : Value) -> String {\n    |...\n 58 |fn Value::is_null(self : Value) -> Bool {\n    |...\n 68 |pub fn format_real(d : Double) -> String {"
+ },
+ {
+  "trial": "moonbit-t1",
+  "m": "m03",
+  "step": 11,
+  "kind": "ide_doc",
+  "query": "@sorted_map.SortedMap::*",
+  "found": true,
+  "cmd": "sed -n 198,304p SPEC.md; moon ide doc \"@sorted_map.SortedMap::*\" 2>&1 | head -80",
+  "out_head": "### M4 \u2014 Aggregation and date/time\n\n* Aggregates: `count(*)`, `count(x)`, `sum`, `total`, `avg`, `min`, `max`,\n  `group_concat(x [, sep])`, `string_agg(x, sep)`; `DISTINCT` inside\n  aggregates; `FILTER (WHERE ...)`; `ORDER BY` inside aggregate arguments.\n* `GROUP BY` (expressions, aliases, ordinals), `HAVING`, aggregates without\n  `GROUP BY`, SQLite's bare-column rule (a bare column in a `min()`/`"
+ },
+ {
+  "trial": "moonbit-t1",
+  "m": "m03",
+  "step": 21,
+  "kind": "ide_doc",
+  "query": "Array::rev*",
+  "found": true,
+  "cmd": "moon ide doc \"Array::rev*\" 2>&1 | head; grep -n \"^// Name resolution\" -A 3 db/exec.mbt; grep -n \"^// Statements\" db/exec.mbt",
+  "out_head": "package \"moonbitlang/core/array\"\npub fn[T] Array::rev(Self[T]) -> Self[T]\npub fn[T] Array::rev_each(Self[T], (T) -> Unit raise?) -> Unit raise?\npub fn[T] Array::rev_eachi(Self[T], (Int, T) -> Unit raise?) -> Unit raise?\n#alias(fold_right, deprecated)\npub fn[A, B] Array::rev_fold(Self[A], init~ : B, (B, A) -> B raise?) -> B raise?\n#alias(fold_righti, deprecated)\npub fn[A, B] Array::rev_foldi(Self[A"
+ },
+ {
+  "trial": "moonbit-t1",
+  "m": "m05",
+  "step": 14,
+  "kind": "ide_doc",
+  "query": "Debug",
+  "found": true,
+  "cmd": "moon ide doc \"Debug\" 2>&1 | head -30; grep -n 'pub ' db/*.mbt | grep -v '^db/ast' | head -20",
+  "out_head": "package \"moonbitlang/core/debug\"\ntrait Debug { ... }\n  pub impl[T : Debug] Debug for Array[T]\n  pub impl[T : Debug] Debug for ArrayView[T]\n  pub impl[T : Debug] Debug for FixedArray[T]\n  pub impl[T : Debug] Debug for MutArrayView[T]\n  pub impl[T : Debug] Debug for ReadOnlyArray[T]\n  pub impl Debug for Bool\n  pub impl Debug for ArgsLoc\n  pub impl Debug for BenchError\n  pub impl Debug for Failure\n  "
+ },
+ {
+  "trial": "moonbit-t1",
+  "m": "m08",
+  "step": 5,
+  "kind": "ide_outline",
+  "query": "",
+  "found": null,
+  "cmd": "cat cmd/main/main.mbt db/moon.pkg cmd/main/moon.pkg && moon ide outline db/schema.mbt && sed -n 1,200p db/schema.mbt",
+  "out_head": "///|\nfn main {\n  let input = @io.read_stdin()\n  let db = @db.Database::new()\n  @io.write_stdout(@db.run_script(db, input))\n  @io.flush_stdout()\n}\nimport {\n  \"moonbitlang/core/string\",\n  \"moonbitlang/core/double\",\n  \"moonbitlang/core/int64\",\n  \"moonbitlang/core/encoding/utf8\",\n  \"moonbitlang/core/buffer\",\n  \"moonbitlang/core/math\",\n}\n\nwarnings = \"-implicit_impl_as_method\"\nimport {\n  \"bench/minisql/"
+ },
+ {
+  "trial": "moonbit-t1",
+  "m": "m08",
+  "step": 7,
+  "kind": "ide_outline",
+  "query": "",
+  "found": null,
+  "cmd": "moon ide outline db/ddl.mbt db/exec.mbt && grep -n \"rowid_alias\" db/*.mbt | head -40",
+  "out_head": "Exit code 1\nError: only one path is supported currently"
+ },
+ {
+  "trial": "moonbit-t1",
+  "m": "m08",
+  "step": 8,
+  "kind": "ide_outline",
+  "query": "",
+  "found": null,
+  "cmd": "moon ide outline db/ddl.mbt; moon ide outline db/exec.mbt; grep -n \"rowid_alias\" db/*.mbt | head -40",
+  "out_head": "  5 |fn check_reserved(name : String) -> Unit raise SqlError {\n    |...\n 12 |fn Database::run_ddl(self : Database, st : Stmt) -> Unit raise SqlError {\n    |...\n305 |fn Database::alter_target(\n306 |  self : Database,\n307 |  name : String,\n308 |  what : String,\n309 |) -> Table raise SqlError {\n    |...\n326 |fn index_defs(t : Table) -> Array[(String, IndexDef, Bool, Int)] {\n    |...\n339 |fn rebuild_t"
+ },
+ {
+  "trial": "moonbit-t1",
+  "m": "m08",
+  "step": 8,
+  "kind": "ide_outline",
+  "query": "",
+  "found": null,
+  "cmd": "moon ide outline db/ddl.mbt; moon ide outline db/exec.mbt; grep -n \"rowid_alias\" db/*.mbt | head -40",
+  "out_head": "  5 |fn check_reserved(name : String) -> Unit raise SqlError {\n    |...\n 12 |fn Database::run_ddl(self : Database, st : Stmt) -> Unit raise SqlError {\n    |...\n305 |fn Database::alter_target(\n306 |  self : Database,\n307 |  name : String,\n308 |  what : String,\n309 |) -> Table raise SqlError {\n    |...\n326 |fn index_defs(t : Table) -> Array[(String, IndexDef, Bool, Int)] {\n    |...\n339 |fn rebuild_t"
+ },
+ {
+  "trial": "moonbit-t1",
+  "m": "m09",
+  "step": 4,
+  "kind": "ide_outline",
+  "query": "",
+  "found": null,
+  "cmd": "cat cmd/main/main.mbt db/moon.pkg && cat db/fileread.mbt && moon ide outline db | head -400",
+  "out_head": "///|\nfn main {\n  let input = @io.read_stdin()\n  let db = @db.Database::new()\n  let args = @io.args()\n  let mut prefix = \"\"\n  if args.length() > 0 {\n    match @io.read_file(args[0]) {\n      Some(data) =>\n        db.load_file(data) catch {\n          @db.SqlError(msg) => prefix = \"Error: \\{msg}\\n\"\n        }\n      None => ()\n    }\n  }\n  @io.write_stdout(prefix + @db.run_script(db, input))\n  @io.flush_"
+ },
+ {
+  "trial": "moonbit-t2",
+  "m": "m01",
+  "step": 7,
+  "kind": "ide_doc",
+  "query": "@sorted_map.SortedMap",
+  "found": true,
+  "cmd": "cd /tmp && cat > /private/tmp/claude-501/-Users-dii-minisql-bench-runs-moonbit-t2-work/188b4142-f203-4ec1-83ef-95b1ec03f0d4/scratchpad/t.mbt <<'EOF'\nEOF\ncd /Users/dii/minisql-bench-runs/moonbit-t2/work && moon ide doc \"@sorted_map.SortedMap\" | head -60; moon ide doc \"Bytes::lexical_compare\"; moon id",
+  "out_head": "package \"moonbitlang/core/sorted_map\"\ntype SortedMap[K, V]\n\n  #alias(from_array)\n  #as_free_fn(from_array)\n  pub fn[K : Compare, V] SortedMap::SortedMap(ArrayView[(K, V)]) -> Self[K, V]\n  #alias(\"_[_]\")\n  pub fn[K : Compare, V] SortedMap::at(Self[K, V], K) -> V\n  pub fn[K, V] SortedMap::clear(Self[K, V]) -> Unit\n  pub fn[K : Compare, V] SortedMap::contains(Self[K, V], K) -> Bool\n  pub fn[K, V] Sor"
+ },
+ {
+  "trial": "moonbit-t2",
+  "m": "m01",
+  "step": 7,
+  "kind": "ide_doc",
+  "query": "Bytes::lexical_compare",
+  "found": true,
+  "cmd": "cd /tmp && cat > /private/tmp/claude-501/-Users-dii-minisql-bench-runs-moonbit-t2-work/188b4142-f203-4ec1-83ef-95b1ec03f0d4/scratchpad/t.mbt <<'EOF'\nEOF\ncd /Users/dii/minisql-bench-runs/moonbit-t2/work && moon ide doc \"@sorted_map.SortedMap\" | head -60; moon ide doc \"Bytes::lexical_compare\"; moon id",
+  "out_head": "package \"moonbitlang/core/sorted_map\"\ntype SortedMap[K, V]\n\n  #alias(from_array)\n  #as_free_fn(from_array)\n  pub fn[K : Compare, V] SortedMap::SortedMap(ArrayView[(K, V)]) -> Self[K, V]\n  #alias(\"_[_]\")\n  pub fn[K : Compare, V] SortedMap::at(Self[K, V], K) -> V\n  pub fn[K, V] SortedMap::clear(Self[K, V]) -> Unit\n  pub fn[K : Compare, V] SortedMap::contains(Self[K, V], K) -> Bool\n  pub fn[K, V] Sor"
+ },
+ {
+  "trial": "moonbit-t2",
+  "m": "m01",
+  "step": 7,
+  "kind": "ide_doc",
+  "query": "@string.parse_double",
+  "found": true,
+  "cmd": "cd /tmp && cat > /private/tmp/claude-501/-Users-dii-minisql-bench-runs-moonbit-t2-work/188b4142-f203-4ec1-83ef-95b1ec03f0d4/scratchpad/t.mbt <<'EOF'\nEOF\ncd /Users/dii/minisql-bench-runs/moonbit-t2/work && moon ide doc \"@sorted_map.SortedMap\" | head -60; moon ide doc \"Bytes::lexical_compare\"; moon id",
+  "out_head": "package \"moonbitlang/core/sorted_map\"\ntype SortedMap[K, V]\n\n  #alias(from_array)\n  #as_free_fn(from_array)\n  pub fn[K : Compare, V] SortedMap::SortedMap(ArrayView[(K, V)]) -> Self[K, V]\n  #alias(\"_[_]\")\n  pub fn[K : Compare, V] SortedMap::at(Self[K, V], K) -> V\n  pub fn[K, V] SortedMap::clear(Self[K, V]) -> Unit\n  pub fn[K : Compare, V] SortedMap::contains(Self[K, V], K) -> Bool\n  pub fn[K, V] Sor"
+ },
+ {
+  "trial": "moonbit-t2",
+  "m": "m01",
+  "step": 11,
+  "kind": "ide_doc",
+  "query": "String::equal_ignore_ascii_case",
+  "found": true,
+  "cmd": "moon ide doc \"String::equal_ignore_ascii_case\"; moon ide doc \"StringView::equal_ignore_ascii_case\" | head -5",
+  "out_head": "package \"moonbitlang/core/string\"\npub fn String::equal_ignore_ascii_case(String, String) -> Bool\n  Tests two strings for equality, treating ASCII letters as case-insensitive.\n   ASCII `'A'..'Z'` are folded onto `'a'..'z'` before comparison; all other\n   code units (including non-ASCII letters like `'\u00c4'`) are compared by their\n   raw UTF-16 value. Use this for ASCII-only protocol text \u2014 HTTP header"
+ },
+ {
+  "trial": "moonbit-t2",
+  "m": "m01",
+  "step": 11,
+  "kind": "ide_doc",
+  "query": "StringView::equal_ignore_ascii_case",
+  "found": true,
+  "cmd": "moon ide doc \"String::equal_ignore_ascii_case\"; moon ide doc \"StringView::equal_ignore_ascii_case\" | head -5",
+  "out_head": "package \"moonbitlang/core/string\"\npub fn String::equal_ignore_ascii_case(String, String) -> Bool\n  Tests two strings for equality, treating ASCII letters as case-insensitive.\n   ASCII `'A'..'Z'` are folded onto `'a'..'z'` before comparison; all other\n   code units (including non-ASCII letters like `'\u00c4'`) are compared by their\n   raw UTF-16 value. Use this for ASCII-only protocol text \u2014 HTTP header"
+ },
+ {
+  "trial": "moonbit-t2",
+  "m": "m02",
+  "step": 24,
+  "kind": "ide_doc",
+  "query": "@math",
+  "found": true,
+  "cmd": "moon ide doc \"@math\" 2>&1 | grep -o \"fn [a-z0-9_]*\" | tr '\\n' ' '; moon ide doc \"Array::rev*\"; moon ide doc \"Int::unsafe_to_char\"",
+  "out_head": "Exit code 1\nfn acos fn acosf fn acosh fn acoshf fn asin fn asinf fn asinh fn asinhf fn atan fn atan2 fn atan2f fn atanf fn atanh fn atanhf fn cbrt fn cbrtf fn ceil fn cos fn cosf fn cosh fn coshf fn exp fn expf fn expm1 fn expm1f fn floor fn hypot fn hypotf fn is_probable_prime fn ln fn ln_1p fn ln_1pf fn lnf fn log10 fn log2 fn pow fn powf fn probable_prime fn round fn scalbn fn scalbnf fn sin fn"
+ },
+ {
+  "trial": "moonbit-t2",
+  "m": "m02",
+  "step": 24,
+  "kind": "ide_doc",
+  "query": "Array::rev*",
+  "found": true,
+  "cmd": "moon ide doc \"@math\" 2>&1 | grep -o \"fn [a-z0-9_]*\" | tr '\\n' ' '; moon ide doc \"Array::rev*\"; moon ide doc \"Int::unsafe_to_char\"",
+  "out_head": "Exit code 1\nfn acos fn acosf fn acosh fn acoshf fn asin fn asinf fn asinh fn asinhf fn atan fn atan2 fn atan2f fn atanf fn atanh fn atanhf fn cbrt fn cbrtf fn ceil fn cos fn cosf fn cosh fn coshf fn exp fn expf fn expm1 fn expm1f fn floor fn hypot fn hypotf fn is_probable_prime fn ln fn ln_1p fn ln_1pf fn lnf fn log10 fn log2 fn pow fn powf fn probable_prime fn round fn scalbn fn scalbnf fn sin fn"
+ },
+ {
+  "trial": "moonbit-t2",
+  "m": "m02",
+  "step": 24,
+  "kind": "ide_doc",
+  "query": "Int::unsafe_to_char",
+  "found": false,
+  "cmd": "moon ide doc \"@math\" 2>&1 | grep -o \"fn [a-z0-9_]*\" | tr '\\n' ' '; moon ide doc \"Array::rev*\"; moon ide doc \"Int::unsafe_to_char\"",
+  "out_head": "Exit code 1\nfn acos fn acosf fn acosh fn acoshf fn asin fn asinf fn asinh fn asinhf fn atan fn atan2 fn atan2f fn atanf fn atanh fn atanhf fn cbrt fn cbrtf fn ceil fn cos fn cosf fn cosh fn coshf fn exp fn expf fn expm1 fn expm1f fn floor fn hypot fn hypotf fn is_probable_prime fn ln fn ln_1p fn ln_1pf fn lnf fn log10 fn log2 fn pow fn powf fn probable_prime fn round fn scalbn fn scalbnf fn sin fn"
+ },
+ {
+  "trial": "moonbit-t2",
+  "m": "m03",
+  "step": 14,
+  "kind": "ide_doc",
+  "query": "@sorted_map.SortedMap::*",
+  "found": true,
+  "cmd": "moon ide doc \"@sorted_map.SortedMap::*\" 2>&1 | head -80",
+  "out_head": "package \"moonbitlang/core/sorted_map\"\n#alias(from_array)\n#alias(of, deprecated)\n#as_free_fn(of, deprecated)\n#as_free_fn(from_array)\npub fn[K : Compare, V] SortedMap::SortedMap(ArrayView[(K, V)]) -> Self[K, V]\n#alias(\"_[_]\")\npub fn[K : Compare, V] SortedMap::at(Self[K, V], K) -> V\npub fn[K, V] SortedMap::clear(Self[K, V]) -> Unit\npub fn[K : Compare, V] SortedMap::contains(Self[K, V], K) -> Bool\n#al"
+ },
+ {
+  "trial": "moonbit-t2",
+  "m": "m06",
+  "step": 25,
+  "kind": "ide_doc",
+  "query": "Map::from_array",
+  "found": true,
+  "cmd": "moon ide doc \"Map::from_array\" 2>&1 | head; moon ide doc \"Map::to_array\" 2>&1 | head -5; moon ide doc \"Map::Map\" 2>&1 | head -5",
+  "out_head": "package \"moonbitlang/core/builtin\"\n#alias(from_array)\npub fn[K : Hash + Eq, V] Map::Map(ArrayView[(K, V)], capacity? : Int) -> Self[K, V]\n  Create a hash map from an array.\n   The optional `capacity` is treated as a minimum initial capacity and will be\n   rounded up to the smallest power of 2 that can hold the requested capacity.\n// target is:\n\npackage \"moonbitlang/core/builtin\"\n#alias(from_array)"
+ },
+ {
+  "trial": "moonbit-t2",
+  "m": "m06",
+  "step": 25,
+  "kind": "ide_doc",
+  "query": "Map::to_array",
+  "found": true,
+  "cmd": "moon ide doc \"Map::from_array\" 2>&1 | head; moon ide doc \"Map::to_array\" 2>&1 | head -5; moon ide doc \"Map::Map\" 2>&1 | head -5",
+  "out_head": "package \"moonbitlang/core/builtin\"\n#alias(from_array)\npub fn[K : Hash + Eq, V] Map::Map(ArrayView[(K, V)], capacity? : Int) -> Self[K, V]\n  Create a hash map from an array.\n   The optional `capacity` is treated as a minimum initial capacity and will be\n   rounded up to the smallest power of 2 that can hold the requested capacity.\n// target is:\n\npackage \"moonbitlang/core/builtin\"\n#alias(from_array)"
+ },
+ {
+  "trial": "moonbit-t2",
+  "m": "m06",
+  "step": 25,
+  "kind": "ide_doc",
+  "query": "Map::Map",
+  "found": true,
+  "cmd": "moon ide doc \"Map::from_array\" 2>&1 | head; moon ide doc \"Map::to_array\" 2>&1 | head -5; moon ide doc \"Map::Map\" 2>&1 | head -5",
+  "out_head": "package \"moonbitlang/core/builtin\"\n#alias(from_array)\npub fn[K : Hash + Eq, V] Map::Map(ArrayView[(K, V)], capacity? : Int) -> Self[K, V]\n  Create a hash map from an array.\n   The optional `capacity` is treated as a minimum initial capacity and will be\n   rounded up to the smallest power of 2 that can hold the requested capacity.\n// target is:\n\npackage \"moonbitlang/core/builtin\"\n#alias(from_array)"
+ },
+ {
+  "trial": "moonbit-t3",
+  "m": "m03",
+  "step": 18,
+  "kind": "ide_doc",
+  "query": "@sorted_map.SortedMap::*",
+  "found": true,
+  "cmd": "moon ide doc \"@sorted_map.SortedMap::*\" 2>&1 | grep -o \"fn.*\" | head -50",
+  "out_head": "fn(of, deprecated)\nfn(from_array)\nfn[K : Compare, V] SortedMap::SortedMap(ArrayView[(K, V)]) -> Self[K, V]\nfn[K : Compare, V] SortedMap::at(Self[K, V], K) -> V\nfn[K, V] SortedMap::clear(Self[K, V]) -> Unit\nfn[K : Compare, V] SortedMap::contains(Self[K, V], K) -> Bool\nfn[K, V] SortedMap::copy(Self[K, V]) -> Self[K, V]\nfn[K, V] SortedMap::each(Self[K, V], (K, V) -> Unit raise?) -> Unit raise?\nfn[K, "
+ },
+ {
+  "trial": "moonbit-t3",
+  "m": "m04",
+  "step": 12,
+  "kind": "ide_doc",
+  "query": "Double::to_int",
+  "found": true,
+  "cmd": "grep -n 'Param(' sql/*.mbt | head; grep -n 'filter\\|order_by' sql/parser.mbt | head -30; moon ide doc \"Double::to_int\" 2>&1 | head -5",
+  "out_head": "sql/ast.mbt:54:  Param(String)\nsql/lexer.mbt:14:  Param(String)\nsql/lexer.mbt:214:        toks.push({ tok: Param(s[i:j].to_owned()), pos: start, })\nsql/lexer.mbt:225:        toks.push({ tok: Param(s[i:j].to_owned()), pos: start, })\nsql/parser.mbt:1475:    Param(p) => {\nsql/parser.mbt:1477:      Param(p)\nsql/select.mbt:113:    Lit(_) | Param(_) => true\n426:                  filter: None,\n427:      "
+ },
+ {
+  "trial": "moonbit-t3",
+  "m": "m06",
+  "step": 17,
+  "kind": "ide_doc",
+  "query": "@sorted_map.SortedMap::*",
+  "found": true,
+  "cmd": "moon ide doc \"@sorted_map.SortedMap::*\" 2>&1 | head -80",
+  "out_head": "package \"moonbitlang/core/sorted_map\"\n#alias(from_array)\n#alias(of, deprecated)\n#as_free_fn(of, deprecated)\n#as_free_fn(from_array)\npub fn[K : Compare, V] SortedMap::SortedMap(ArrayView[(K, V)]) -> Self[K, V]\n#alias(\"_[_]\")\npub fn[K : Compare, V] SortedMap::at(Self[K, V], K) -> V\npub fn[K, V] SortedMap::clear(Self[K, V]) -> Unit\npub fn[K : Compare, V] SortedMap::contains(Self[K, V], K) -> Bool\n#al"
+ },
+ {
+  "trial": "moonbit-t3",
+  "m": "m06",
+  "step": 18,
+  "kind": "read_core_source",
+  "query": "sorted_map",
+  "found": null,
+  "cmd": "cd ~/.moon/lib/core/sorted_map 2>/dev/null && ls && grep -n \"fn.*range\" -A40 *.mbt | head -80",
+  "out_head": "README.mbt.md\ndebug.mbt\ndeprecated.mbt\nextends.mbt\ninvariant_wbtest.mbt\nmap.mbt\nmap_test.mbt\nmoon.pkg\npkg.generated.mbti\nquickcheck_property_test.mbt\ntypes.mbt\nutils.mbt\nmap.mbt:378:pub fn[K : Compare, V] SortedMap::range(\nmap.mbt-379-  self : SortedMap[K, V],\nmap.mbt-380-  low : K,\nmap.mbt-381-  high : K,\nmap.mbt-382-) -> Iter2[K, V] {\nmap.mbt-383-  let todo_list = []\nmap.mbt-384-  let mut next_n"
+ },
+ {
+  "trial": "moonbit-t3",
+  "m": "m06",
+  "step": 33,
+  "kind": "ide_doc",
+  "query": "Array::search*",
+  "found": true,
+  "cmd": "moon ide doc \"Array::search*\"; moon ide doc \"physical_equal\"; moon ide doc \"Array::retain*\" ",
+  "out_head": "package \"moonbitlang/core/array\"\npub fn[T : Eq] Array::search(Self[T], T) -> Int?\n#alias(find_index, deprecated)\npub fn[T] Array::search_by(Self[T], (T) -> Bool raise?) -> Int? raise?\npackage \"moonbitlang/core/builtin\"\npub fn[T] physical_equal(T, T) -> Bool\n\npackage \"moonbitlang/core/prelude\"\npub fn[T] physical_equal(T, T) -> Bool\npackage \"moonbitlang/core/array\"\npub fn[T] Array::retain(Self[T], ("
+ },
+ {
+  "trial": "moonbit-t3",
+  "m": "m06",
+  "step": 33,
+  "kind": "ide_doc",
+  "query": "physical_equal",
+  "found": true,
+  "cmd": "moon ide doc \"Array::search*\"; moon ide doc \"physical_equal\"; moon ide doc \"Array::retain*\" ",
+  "out_head": "package \"moonbitlang/core/array\"\npub fn[T : Eq] Array::search(Self[T], T) -> Int?\n#alias(find_index, deprecated)\npub fn[T] Array::search_by(Self[T], (T) -> Bool raise?) -> Int? raise?\npackage \"moonbitlang/core/builtin\"\npub fn[T] physical_equal(T, T) -> Bool\n\npackage \"moonbitlang/core/prelude\"\npub fn[T] physical_equal(T, T) -> Bool\npackage \"moonbitlang/core/array\"\npub fn[T] Array::retain(Self[T], ("
+ },
+ {
+  "trial": "moonbit-t3",
+  "m": "m06",
+  "step": 33,
+  "kind": "ide_doc",
+  "query": "Array::retain*",
+  "found": true,
+  "cmd": "moon ide doc \"Array::search*\"; moon ide doc \"physical_equal\"; moon ide doc \"Array::retain*\" ",
+  "out_head": "package \"moonbitlang/core/array\"\npub fn[T : Eq] Array::search(Self[T], T) -> Int?\n#alias(find_index, deprecated)\npub fn[T] Array::search_by(Self[T], (T) -> Bool raise?) -> Int? raise?\npackage \"moonbitlang/core/builtin\"\npub fn[T] physical_equal(T, T) -> Bool\n\npackage \"moonbitlang/core/prelude\"\npub fn[T] physical_equal(T, T) -> Bool\npackage \"moonbitlang/core/array\"\npub fn[T] Array::retain(Self[T], ("
+ },
+ {
+  "trial": "moonbit-t3",
+  "m": "m06",
+  "step": 148,
+  "kind": "ide_doc",
+  "query": "Iter2::new",
+  "found": true,
+  "cmd": "moon ide doc \"Iter2::new\" 2>&1 | head; moon ide doc \"Iter::new\" 2>&1 | head; moon ide doc \"Iter2\" 2>&1 | head -30",
+  "out_head": "package \"moonbitlang/core/builtin\"\npub fn[X, Y] Iter2::new(() -> (X, Y)?, size_hint? : Int) -> Self[X, Y]\n  Construct an `Iter2` from a pair-producing function.\n   If the number of remaining pairs is known, pass it as `size_hint`.\npackage \"moonbitlang/core/builtin\"\npub fn[X] Iter::new(() -> X?, size_hint? : Int) -> Self[X]\n  Create a new iterator by supplying a `next` function directly.\n   The sup"
+ },
+ {
+  "trial": "moonbit-t3",
+  "m": "m06",
+  "step": 148,
+  "kind": "ide_doc",
+  "query": "Iter::new",
+  "found": true,
+  "cmd": "moon ide doc \"Iter2::new\" 2>&1 | head; moon ide doc \"Iter::new\" 2>&1 | head; moon ide doc \"Iter2\" 2>&1 | head -30",
+  "out_head": "package \"moonbitlang/core/builtin\"\npub fn[X, Y] Iter2::new(() -> (X, Y)?, size_hint? : Int) -> Self[X, Y]\n  Construct an `Iter2` from a pair-producing function.\n   If the number of remaining pairs is known, pass it as `size_hint`.\npackage \"moonbitlang/core/builtin\"\npub fn[X] Iter::new(() -> X?, size_hint? : Int) -> Self[X]\n  Create a new iterator by supplying a `next` function directly.\n   The sup"
+ },
+ {
+  "trial": "moonbit-t3",
+  "m": "m06",
+  "step": 148,
+  "kind": "ide_doc",
+  "query": "Iter2",
+  "found": true,
+  "cmd": "moon ide doc \"Iter2::new\" 2>&1 | head; moon ide doc \"Iter::new\" 2>&1 | head; moon ide doc \"Iter2\" 2>&1 | head -30",
+  "out_head": "package \"moonbitlang/core/builtin\"\npub fn[X, Y] Iter2::new(() -> (X, Y)?, size_hint? : Int) -> Self[X, Y]\n  Construct an `Iter2` from a pair-producing function.\n   If the number of remaining pairs is known, pass it as `size_hint`.\npackage \"moonbitlang/core/builtin\"\npub fn[X] Iter::new(() -> X?, size_hint? : Int) -> Self[X]\n  Create a new iterator by supplying a `next` function directly.\n   The sup"
+ },
+ {
+  "trial": "moonbit-t3",
+  "m": "m07",
+  "step": 5,
+  "kind": "ide_outline",
+  "query": "",
+  "found": null,
+  "cmd": "moon ide outline sql 2>/dev/null | grep -v \"^\\s*$\" | head -400",
+  "out_head": "value.mbt:\n  3 |pub(all) enum Value {\n    |...\n 12 |pub(all) enum Affinity {\n    |...\n 21 |pub suberror SqlError {\n    |...\n 26 |pub fn err(msg : String) -> SqlError {\n    |...\n 31 |pub fn Value::type_name(self : Value) -> String {\n    |...\n 42 |pub fn Value::is_null(self : Value) -> Bool {\n    |...\n 48 |pub fn affinity_of_type(type_name : String) -> Affinity {\n    |...\n 70 |fn decompose_double(x "
+ }
+]

@@ -1,0 +1,86 @@
+{
+ "rust-t1": {
+  "clean_release_build_s": 3.1876680850982666,
+  "clean_release_build_runs": [
+   3.5785021781921387,
+   3.1876680850982666,
+   3.181118965148926
+  ],
+  "touched_file": "src/value.rs",
+  "incremental_release_build_s": 3.1616530418395996,
+  "incremental_check_s": 0.17808985710144043,
+  "binary_bytes": 1908672,
+  "binary_bytes_stripped": 1635712,
+  "clean_full_check_s": 1.14
+ },
+ "rust-t2": {
+  "clean_release_build_s": 3.9704041481018066,
+  "clean_release_build_runs": [
+   3.9610180854797363,
+   3.9704041481018066,
+   4.051894187927246
+  ],
+  "touched_file": "src/value.rs",
+  "incremental_release_build_s": 3.927518129348755,
+  "incremental_check_s": 0.16719794273376465,
+  "binary_bytes": 1948352,
+  "binary_bytes_stripped": 1699632,
+  "clean_full_check_s": 0.76
+ },
+ "rust-t3": {
+  "clean_release_build_s": 3.8840489387512207,
+  "clean_release_build_runs": [
+   3.868788957595825,
+   3.961026191711426,
+   3.8840489387512207
+  ],
+  "touched_file": "src/value.rs",
+  "incremental_release_build_s": 3.8718621730804443,
+  "incremental_check_s": 0.18517184257507324,
+  "binary_bytes": 2225344,
+  "binary_bytes_stripped": 1915792,
+  "clean_full_check_s": 0.94
+ },
+ "moonbit-t1": {
+  "clean_release_build_s": 7.1566431522369385,
+  "clean_release_build_runs": [
+   7.137574911117554,
+   7.183000802993774,
+   7.1566431522369385
+  ],
+  "touched_file": "db/value.mbt",
+  "incremental_release_build_s": 7.083079814910889,
+  "incremental_check_s": 0.19578289985656738,
+  "binary_bytes": 1506312,
+  "binary_bytes_stripped": 1270864,
+  "clean_full_check_s": 0.21
+ },
+ "moonbit-t2": {
+  "clean_release_build_s": 8.618963241577148,
+  "clean_release_build_runs": [
+   8.511077165603638,
+   8.618963241577148,
+   8.688467025756836
+  ],
+  "touched_file": "engine/value.mbt",
+  "incremental_release_build_s": 8.52388882637024,
+  "incremental_check_s": 0.18892288208007812,
+  "binary_bytes": 1794904,
+  "binary_bytes_stripped": 1512592,
+  "clean_full_check_s": 0.21
+ },
+ "moonbit-t3": {
+  "clean_release_build_s": 8.375811100006104,
+  "clean_release_build_runs": [
+   8.375811100006104,
+   8.490178108215332,
+   8.364473104476929
+  ],
+  "touched_file": "sql/value.mbt",
+  "incremental_release_build_s": 8.354655981063843,
+  "incremental_check_s": 0.23169279098510742,
+  "binary_bytes": 1748904,
+  "binary_bytes_stripped": 1470896,
+  "clean_full_check_s": 0.23
+ }
+}

@@ -1,0 +1,25 @@
+category,trial,lines,chars,approx_tokens,items
+ordered_map,moonbit-t1,254,5832,1458,db/ptree.mbt
+ordered_map,moonbit-t2,316,7561,1890,engine/ordmap.mbt
+ordered_map,moonbit-t3,252,5409,1352,sql/sorted.mbt
+exact_float_digits,moonbit-t1,83,2351,588,hi_part dekker_mul2
+exact_float_digits,moonbit-t2,74,1951,488,exact_decimal
+exact_float_digits,moonbit-t3,76,1927,482,limbs_to_digits limbs_mul_small exact_decimal
+checked_int64,moonbit-t1,22,512,128,mul_checked
+checked_int64,moonbit-t2,30,540,135,add_checked sub_checked mul_checked
+checked_int64,moonbit-t3,22,512,128,mul_checked
+utf8_order_compare,moonbit-t1,34,753,188,compare_text fix_cu compare_bytes
+utf8_order_compare,moonbit-t2,25,488,122,text_compare utf16_fix
+utf8_order_compare,moonbit-t3,32,766,192,compare_text map_code_unit compare_bytes
+code_unit_ascii_classes,moonbit-t1,36,657,164,is_space_cu is_digit_cu ascii_lower_cu lower_ascii is_digit_i is_space_i
+code_unit_ascii_classes,moonbit-t2,34,696,174,is_space_cu is_digit_cu is_space_at is_digit_at is_hex_cu fold_ascii lower_ascii_char
+code_unit_ascii_classes,moonbit-t3,25,450,112,is_space_code is_digit fold_ascii like_fold
+stable_sort_by,moonbit-t1,44,892,223,stable_sort
+stable_sort_by,moonbit-t2,0,0,0,
+stable_sort_by,moonbit-t3,0,0,0,
+zero_padded_ints,moonbit-t1,22,438,110,pad_int space_pad
+zero_padded_ints,moonbit-t2,15,536,134,pad_int
+zero_padded_ints,moonbit-t3,26,505,126,zpad zpad_signed spad
+big_endian_ints,moonbit-t1,25,789,197,Pager::u16 Pager::u32 hdr_u32 put_u16 put_u32
+big_endian_ints,moonbit-t2,31,972,243,DbFile::u16 DbFile::u32 put_u16 put_u32 u32_prefix get_u32
+big_endian_ints,moonbit-t3,29,887,222,Pager::u16 Pager::u32 put_u16 put_u32 header_u32

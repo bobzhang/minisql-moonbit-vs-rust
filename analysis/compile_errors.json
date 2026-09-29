@@ -1,0 +1,3330 @@
+{
+ "categories": {
+  "reserved_word": [
+   "lang",
+   "Identifier is a (reserved) keyword: `using` error; renames forced by `alias` warnings"
+  ],
+  "tuple_mut_pattern": [
+   "lang",
+   "`let (mut a, b) = ...` is not valid syntax (Rust habit)"
+  ],
+  "ctor_dotdot_positional": [
+   "lang",
+   "`C(..)` wildcard rejected for constructors with positional args"
+  ],
+  "error_effect": [
+   "lang",
+   "raise/effect typing: missing `raise` in signature, non-raising fn where raising fn type expected"
+  ],
+  "closure_effect_syntax": [
+   "lang",
+   "`fn(x) raise E -> T` instead of `fn(x) -> T raise E`"
+  ],
+  "loop_value_nobreak": [
+   "lang",
+   "`while true { return ... }` in value position needs `nobreak`"
+  ],
+  "old_generic_syntax": [
+   "lang",
+   "`fn f[T]` instead of `fn[T] f` (removed syntax)"
+  ],
+  "unknown_core_api": [
+   "lang",
+   "non-existent / wrong core API (map_raise, StringView vs String result)"
+  ],
+  "int_width_numeric": [
+   "lang",
+   "Int vs Int64 mixing / wrong conversion method"
+  ],
+  "ambiguous_constructor": [
+   "lang",
+   "same constructor name in two enums in one package"
+  ],
+  "field_fn_call": [
+   "lang",
+   "calling a closure-typed struct field as a method (needs `(x.f)(...)`)"
+  ],
+  "pkg_import": [
+   "lang",
+   "package used without import in moon.pkg / module file missing"
+  ],
+  "unused_mut_is_error": [
+   "lang",
+   "warning 0015 (unused mut field) is a hard error"
+  ],
+  "for_in_custom_type": [
+   "lang",
+   "`for x in y` on a user type without `iter()`"
+  ],
+  "borrow_checker": [
+   "lang",
+   "Rust ownership/borrowing (E0502/E0506/E0507/E0521)"
+  ],
+  "rust_type_inference": [
+   "lang",
+   "Rust closure/Result type annotations needed (E0282/E0283)"
+  ],
+  "rust_immutable_binding": [
+   "lang",
+   "assign to non-mut binding (E0384)"
+  ],
+  "rust_missing_trait_impl": [
+   "lang",
+   "operator on type without PartialEq derive (E0369)"
+  ],
+  "exhaustiveness": [
+   "neutral",
+   "new enum variant not handled in existing matches"
+  ],
+  "refactor_ripple": [
+   "neutral",
+   "signature/struct/constructor changed, call sites not yet updated"
+  ],
+  "work_in_progress": [
+   "neutral",
+   "checked before the referenced code was written / typo"
+  ],
+  "error_hidden_by_output_filter": [
+   "lang",
+   "error not visible because output was piped through tail/grep and warnings buried it (needed a re-run)"
+  ]
+ },
+ "attempts": [
+  {
+   "trial": "moonbit-t1",
+   "lang": "moonbit",
+   "m": "m01",
+   "session": "session-1.jsonl",
+   "step": 14,
+   "primary": "unknown_core_api",
+   "secondary": [],
+   "kind": "lang",
+   "n_errors": 2,
+   "codes": [
+    "4015"
+   ],
+   "diagnostics": [
+    {
+     "code": "4015",
+     "msg": "Type Array[Expr] has no method map_raise.",
+     "file": "exec.mbt",
+     "line": 466,
+     "src": "let vals = exprs.map_raise(e => eval(e, row))"
+    },
+    {
+     "code": "4015",
+     "msg": "Type Array[Expr] has no method map_raise.",
+     "file": "exec.mbt",
+     "line": 467,
+     "src": "let keys = order_keys.map_raise(e => eval(e, row))"
+    }
+   ],
+   "calls_to_green_build": 1,
+   "assistant_chars_to_green_build": 391,
+   "context_tokens": 116714,
+   "calls_to_next_build": 1,
+   "assistant_chars_to_next_build": 391
+  },
+  {
+   "trial": "moonbit-t1",
+   "lang": "moonbit",
+   "m": "m01",
+   "session": "session-1.jsonl",
+   "step": 29,
+   "primary": "unknown_core_api",
+   "secondary": [],
+   "kind": "lang",
+   "n_errors": 2,
+   "codes": [
+    "4014"
+   ],
+   "diagnostics": [
+    {
+     "code": "4014",
+     "msg": "Expr Type Mismatch",
+     "file": "lexer.mbt",
+     "line": 168,
+     "src": "mk_tok(TInteger, s[start:i].replace_all(old=\"_\", new=\"\"), start),"
+    },
+    {
+     "code": "4014",
+     "msg": "Expr Type Mismatch",
+     "file": "lexer.mbt",
+     "line": 196,
+     "src": "s[start:i].replace_all(old=\"_\", new=\"\"),"
+    }
+   ],
+   "calls_to_green_build": 2,
+   "assistant_chars_to_green_build": 1679,
+   "context_tokens": 139856,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 1679
+  },
+  {
+   "trial": "moonbit-t1",
+   "lang": "moonbit",
+   "m": "m02",
+   "session": "session-1.jsonl",
+   "step": 24,
+   "primary": "work_in_progress",
+   "secondary": [],
+   "kind": "neutral",
+   "n_errors": 4,
+   "codes": [
+    "4014",
+    "4015",
+    "4021"
+   ],
+   "diagnostics": [
+    {
+     "code": "4014",
+     "msg": "Expr Type Mismatch",
+     "file": "eval.mbt",
+     "line": 466,
+     "src": "let r = like_values(glob, pv, xv, ev)"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier call_function is unbound.",
+     "file": "eval.mbt",
+     "line": 496,
+     "src": "Func(name~, args~, coll~, ..) => call_function(name, args, coll, row)"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier check_function is unbound.",
+     "file": "exec.mbt",
+     "line": 227,
+     "src": "check_function(name, args, star)"
+    },
+    {
+     "code": "4015",
+     "msg": "",
+     "file": "ops.mbt",
+     "line": 113,
+     "src": ""
+    }
+   ],
+   "calls_to_green_build": 2,
+   "assistant_chars_to_green_build": 16086,
+   "context_tokens": 174172,
+   "calls_to_next_build": 1,
+   "assistant_chars_to_next_build": 15941
+  },
+  {
+   "trial": "moonbit-t1",
+   "lang": "moonbit",
+   "m": "m02",
+   "session": "session-1.jsonl",
+   "step": 25,
+   "primary": "old_generic_syntax",
+   "secondary": [],
+   "kind": "lang",
+   "n_errors": 1,
+   "codes": [
+    "3002"
+   ],
+   "diagnostics": [
+    {
+     "code": "3002",
+     "msg": "Parse error, unexpected `fn f[T]`, you may expect `fn[T] f`.",
+     "file": "funcs.mbt",
+     "line": 317,
+     "src": "fn find_sub[T : Eq](hay : ArrayView[T], needle : ArrayView[T]) -> Int {"
+    }
+   ],
+   "calls_to_green_build": 1,
+   "assistant_chars_to_green_build": 305,
+   "context_tokens": 182245,
+   "calls_to_next_build": 1,
+   "assistant_chars_to_next_build": 305
+  },
+  {
+   "trial": "moonbit-t1",
+   "lang": "moonbit",
+   "m": "m03",
+   "session": "session-1.jsonl",
+   "step": 19,
+   "primary": "exhaustiveness",
+   "secondary": [],
+   "kind": "neutral",
+   "n_errors": 1,
+   "codes": [
+    "0011"
+   ],
+   "diagnostics": [
+    {
+     "code": "0011",
+     "msg": "",
+     "file": null,
+     "line": null,
+     "src": ""
+    }
+   ],
+   "calls_to_green_build": 8,
+   "assistant_chars_to_green_build": 37609,
+   "context_tokens": 152353,
+   "calls_to_next_build": 7,
+   "assistant_chars_to_next_build": 37480
+  },
+  {
+   "trial": "moonbit-t1",
+   "lang": "moonbit",
+   "m": "m03",
+   "session": "session-1.jsonl",
+   "step": 27,
+   "primary": "refactor_ripple",
+   "secondary": [],
+   "kind": "neutral",
+   "n_errors": 1,
+   "codes": [
+    "4044"
+   ],
+   "diagnostics": [
+    {
+     "code": "4044",
+     "msg": "Record fields hidden are undefined for type Source",
+     "file": "schema.mbt",
+     "line": 245,
+     "src": "sources: [{ name, table: t, offset: 0 }],"
+    }
+   ],
+   "calls_to_green_build": 1,
+   "assistant_chars_to_green_build": 332,
+   "context_tokens": 160346,
+   "calls_to_next_build": 1,
+   "assistant_chars_to_next_build": 332
+  },
+  {
+   "trial": "moonbit-t1",
+   "lang": "moonbit",
+   "m": "m04",
+   "session": "session-1.jsonl",
+   "step": 24,
+   "primary": "tuple_mut_pattern",
+   "secondary": [],
+   "kind": "lang",
+   "n_errors": 9,
+   "codes": [
+    "3002",
+    "4021"
+   ],
+   "diagnostics": [
+    {
+     "code": "3002",
+     "msg": "Parse error, unexpected token `mut`, you may expect simple pattern.",
+     "file": "datetime.mbt",
+     "line": 218,
+     "src": "let (mut y, mut m, d) = if p.valid_ymd { (p.y, p.mo, p.d) } else { (2000, 1, 1) }"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier y is unbound.",
+     "file": "datetime.mbt",
+     "line": 219,
+     "src": "if y < -4713 || y > 9999 || p.raw_s {"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier y is unbound.",
+     "file": "datetime.mbt",
+     "line": 219,
+     "src": "if y < -4713 || y > 9999 || p.raw_s {"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier m is unbound.",
+     "file": "datetime.mbt",
+     "line": 223,
+     "src": "if m <= 2 {"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier y is unbound.",
+     "file": "datetime.mbt",
+     "line": 224,
+     "src": "y -= 1"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier m is unbound.",
+     "file": "datetime.mbt",
+     "line": 225,
+     "src": "m += 12"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier y is unbound.",
+     "file": "datetime.mbt",
+     "line": 227,
+     "src": "let a = (y + 4800) / 100"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier y is unbound.",
+     "file": "datetime.mbt",
+     "line": 229,
+     "src": "let x1 = 36525 * (y + 4716) / 100"
+    },
+    {
+     "code": "4021",
+     "msg": "",
+     "file": "datetime.mbt",
+     "line": 230,
+     "src": "let x2 = 306001 * (m + 1) / 10000"
+    }
+   ],
+   "calls_to_green_build": 1,
+   "assistant_chars_to_green_build": 514,
+   "context_tokens": 143906,
+   "calls_to_next_build": 1,
+   "assistant_chars_to_next_build": 514
+  },
+  {
+   "trial": "moonbit-t1",
+   "lang": "moonbit",
+   "m": "m05",
+   "session": "session-1.jsonl",
+   "step": 23,
+   "primary": "reserved_word",
+   "secondary": [],
+   "kind": "lang",
+   "n_errors": 11,
+   "codes": [
+    "3002",
+    "4020",
+    "4041"
+   ],
+   "diagnostics": [
+    {
+     "code": "4041",
+     "msg": "Partial type is not allowed in toplevel declarations.",
+     "file": "ast.mbt",
+     "line": 135,
+     "src": "\u256d\u2500\u25b6   on : Expr?"
+    },
+    {
+     "code": "3002",
+     "msg": "Parse error, unexpected token `using`, you may expect id (lowercase start).",
+     "file": "ast.mbt",
+     "line": 136,
+     "src": "using : Array[String]?"
+    },
+    {
+     "code": "4020",
+     "msg": "Package \"?PACKAGE_NAME\" not found in the loaded packages.",
+     "file": "ast.mbt",
+     "line": 136,
+     "src": "using : Array[String]?"
+    },
+    {
+     "code": "3002",
+     "msg": "Parse error, unexpected token `:`, you may expect package name.",
+     "file": "ast.mbt",
+     "line": 136,
+     "src": "using : Array[String]?"
+    },
+    {
+     "code": "3002",
+     "msg": "Parse error, unexpected token `using`, you may expect id (lowercase start).",
+     "file": "parser.mbt",
+     "line": 952,
+     "src": "let mut using : Array[String]? = None"
+    },
+    {
+     "code": "4020",
+     "msg": "Package \"?PACKAGE_NAME\" not found in the loaded packages.",
+     "file": "parser.mbt",
+     "line": 952,
+     "src": "let mut using : Array[String]? = None"
+    },
+    {
+     "code": "3002",
+     "msg": "Parse error, unexpected token `:`, you may expect package name.",
+     "file": "parser.mbt",
+     "line": 952,
+     "src": "let mut using : Array[String]? = None"
+    },
+    {
+     "code": "4020",
+     "msg": "Package \"?PACKAGE_NAME\" not found in the loaded packages.",
+     "file": "parser.mbt",
+     "line": 957,
+     "src": "using = Some(self.parse_name_list())"
+    },
+    {
+     "code": "3002",
+     "msg": "Parse error, unexpected token `=`, you may expect package name.",
+     "file": "parser.mbt",
+     "line": 957,
+     "src": "using = Some(self.parse_name_list())"
+    },
+    {
+     "code": "4020",
+     "msg": "Package \"?PACKAGE_NAME\" not found in the loaded packages.",
+     "file": "parser.mbt",
+     "line": 959,
+     "src": "if natural && (on is Some(_) || using is Some(_)) {"
+    },
+    {
+     "code": "3002",
+     "msg": "",
+     "file": "parser.mbt",
+     "line": 959,
+     "src": ""
+    }
+   ],
+   "calls_to_green_build": 2,
+   "assistant_chars_to_green_build": 580,
+   "context_tokens": 160317,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 514
+  },
+  {
+   "trial": "moonbit-t1",
+   "lang": "moonbit",
+   "m": "m05",
+   "session": "session-1.jsonl",
+   "step": 24,
+   "primary": "reserved_word",
+   "secondary": [],
+   "kind": "lang",
+   "n_errors": 11,
+   "codes": [
+    "3002",
+    "4020",
+    "4041"
+   ],
+   "diagnostics": [
+    {
+     "code": "4041",
+     "msg": "Partial type is not allowed in toplevel declarations.",
+     "file": "ast.mbt",
+     "line": 135,
+     "src": "\u256d\u2500\u25b6   on : Expr?"
+    },
+    {
+     "code": "3002",
+     "msg": "Parse error, unexpected token `using`, you may expect id (lowercase start).",
+     "file": "ast.mbt",
+     "line": 136,
+     "src": "using : Array[String]?"
+    },
+    {
+     "code": "4020",
+     "msg": "Package \"?PACKAGE_NAME\" not found in the loaded packages.",
+     "file": "ast.mbt",
+     "line": 136,
+     "src": "using : Array[String]?"
+    },
+    {
+     "code": "3002",
+     "msg": "Parse error, unexpected token `:`, you may expect package name.",
+     "file": "ast.mbt",
+     "line": 136,
+     "src": "using : Array[String]?"
+    },
+    {
+     "code": "3002",
+     "msg": "Parse error, unexpected token `using`, you may expect id (lowercase start).",
+     "file": "parser.mbt",
+     "line": 952,
+     "src": "let mut using : Array[String]? = None"
+    },
+    {
+     "code": "4020",
+     "msg": "Package \"?PACKAGE_NAME\" not found in the loaded packages.",
+     "file": "parser.mbt",
+     "line": 952,
+     "src": "let mut using : Array[String]? = None"
+    },
+    {
+     "code": "3002",
+     "msg": "Parse error, unexpected token `:`, you may expect package name.",
+     "file": "parser.mbt",
+     "line": 952,
+     "src": "let mut using : Array[String]? = None"
+    },
+    {
+     "code": "4020",
+     "msg": "Package \"?PACKAGE_NAME\" not found in the loaded packages.",
+     "file": "parser.mbt",
+     "line": 957,
+     "src": "using = Some(self.parse_name_list())"
+    },
+    {
+     "code": "3002",
+     "msg": "Parse error, unexpected token `=`, you may expect package name.",
+     "file": "parser.mbt",
+     "line": 957,
+     "src": "using = Some(self.parse_name_list())"
+    },
+    {
+     "code": "4020",
+     "msg": "Package \"?PACKAGE_NAME\" not found in the loaded packages.",
+     "file": "parser.mbt",
+     "line": 959,
+     "src": "if natural && (on is Some(_) || using is Some(_)) {"
+    },
+    {
+     "code": "3002",
+     "msg": "",
+     "file": "parser.mbt",
+     "line": 959,
+     "src": ""
+    }
+   ],
+   "calls_to_green_build": 1,
+   "assistant_chars_to_green_build": 268,
+   "context_tokens": 160317,
+   "calls_to_next_build": 1,
+   "assistant_chars_to_next_build": 268
+  },
+  {
+   "trial": "moonbit-t1",
+   "lang": "moonbit",
+   "m": "m05",
+   "session": "session-1.jsonl",
+   "step": 51,
+   "primary": "work_in_progress",
+   "secondary": [],
+   "kind": "neutral",
+   "n_errors": 4,
+   "codes": [
+    "4021"
+   ],
+   "diagnostics": [
+    {
+     "code": "4021",
+     "msg": "The value identifier texts is unbound.",
+     "file": "select.mbt",
+     "line": 577,
+     "src": "texts.push(\"\")"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier texts is unbound.",
+     "file": "select.mbt",
+     "line": 589,
+     "src": "texts.push(\"\")"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier texts is unbound.",
+     "file": "select.mbt",
+     "line": 601,
+     "src": "texts.push(norm_text(text))"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier texts is unbound.",
+     "file": "select.mbt",
+     "line": 712,
+     "src": "texts,"
+    }
+   ],
+   "calls_to_green_build": 3,
+   "assistant_chars_to_green_build": 638,
+   "context_tokens": 203134,
+   "calls_to_next_build": 3,
+   "assistant_chars_to_next_build": 638
+  },
+  {
+   "trial": "moonbit-t1",
+   "lang": "moonbit",
+   "m": "m06",
+   "session": "session-1.jsonl",
+   "step": 23,
+   "primary": "error_hidden_by_output_filter",
+   "secondary": [
+    "exhaustiveness"
+   ],
+   "kind": "lang",
+   "n_errors": 0,
+   "codes": [],
+   "diagnostics": [],
+   "calls_to_green_build": 12,
+   "assistant_chars_to_green_build": 56998,
+   "context_tokens": 150896,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 407
+  },
+  {
+   "trial": "moonbit-t1",
+   "lang": "moonbit",
+   "m": "m06",
+   "session": "session-1.jsonl",
+   "step": 24,
+   "primary": "exhaustiveness",
+   "secondary": [],
+   "kind": "neutral",
+   "n_errors": 1,
+   "codes": [
+    "0011"
+   ],
+   "diagnostics": [
+    {
+     "code": "0011",
+     "msg": "Error Warning (partial_match): Partial match, some hints:",
+     "file": "exec.mbt",
+     "line": 404,
+     "src": "match st {"
+    }
+   ],
+   "calls_to_green_build": 11,
+   "assistant_chars_to_green_build": 56787,
+   "context_tokens": 169015,
+   "calls_to_next_build": 5,
+   "assistant_chars_to_next_build": 18124
+  },
+  {
+   "trial": "moonbit-t1",
+   "lang": "moonbit",
+   "m": "m06",
+   "session": "session-1.jsonl",
+   "step": 28,
+   "primary": "refactor_ripple",
+   "secondary": [
+    "error_effect"
+   ],
+   "kind": "neutral",
+   "n_errors": 4,
+   "codes": [
+    "4014",
+    "4080",
+    "4122"
+   ],
+   "diagnostics": [
+    {
+     "code": "4122",
+     "msg": "Function with error can only be used inside a function with error types in its signature. Please fix the return type of this function.",
+     "file": "dml.mbt",
+     "line": 74,
+     "src": "t.indexes[c].find_conflict(vals, old)"
+    },
+    {
+     "code": "4080",
+     "msg": "This function has type (Index, Array[Value], Int64, Int64?) -> Int64? raise SqlError, which requires 4 arguments, but is given 3 arguments.",
+     "file": "dml.mbt",
+     "line": 74,
+     "src": "t.indexes[c].find_conflict(vals, old)"
+    },
+    {
+     "code": "4014",
+     "msg": "Expr Type Mismatch",
+     "file": "dml.mbt",
+     "line": 74,
+     "src": "t.indexes[c].find_conflict(vals, old)"
+    },
+    {
+     "code": "4080",
+     "msg": "This function has type (String, Array[ColumnDef], Array[TableConstraint], String, Int) -> Table raise SqlError, which requires 5 arguments, but is given 4 arguments.",
+     "file": "exec.mbt",
+     "line": 414,
+     "src": "self.tables[key_of(name)] = build_table(name, cols, constraints, sql)"
+    }
+   ],
+   "calls_to_green_build": 7,
+   "assistant_chars_to_green_build": 40087,
+   "context_tokens": 179319,
+   "calls_to_next_build": 6,
+   "assistant_chars_to_next_build": 38398
+  },
+  {
+   "trial": "moonbit-t1",
+   "lang": "moonbit",
+   "m": "m06",
+   "session": "session-1.jsonl",
+   "step": 33,
+   "primary": "refactor_ripple",
+   "secondary": [],
+   "kind": "neutral",
+   "n_errors": 1,
+   "codes": [
+    "4080"
+   ],
+   "diagnostics": [
+    {
+     "code": "4080",
+     "msg": "This function has type (String, Array[ColumnDef], Array[TableConstraint], String, Int) -> Table raise SqlError, which requires 5 arguments, but is given 4 arguments.",
+     "file": "exec.mbt",
+     "line": 414,
+     "src": "self.tables[key_of(name)] = build_table(name, cols, constraints, sql)"
+    }
+   ],
+   "calls_to_green_build": 2,
+   "assistant_chars_to_green_build": 20582,
+   "context_tokens": 192604,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 20582
+  },
+  {
+   "trial": "moonbit-t1",
+   "lang": "moonbit",
+   "m": "m06",
+   "session": "session-1.jsonl",
+   "step": 52,
+   "primary": "refactor_ripple",
+   "secondary": [],
+   "kind": "neutral",
+   "n_errors": 2,
+   "codes": [
+    "4080"
+   ],
+   "diagnostics": [
+    {
+     "code": "4080",
+     "msg": "This function has type (Table, Int, Array[Expr], OrderHint?, Array[Bool]?) -> Access, which requires 5 arguments, but is given 3 arguments.",
+     "file": "dml.mbt",
+     "line": 582,
+     "src": "let acc = choose_access(t, 0, parts)"
+    },
+    {
+     "code": "4080",
+     "msg": "This function has type (Table, Int, Array[Expr], OrderHint?, Array[Bool]?) -> Access, which requires 5 arguments, but is given 3 arguments.",
+     "file": "select.mbt",
+     "line": 767,
+     "src": "choose_access(t, s.offset, cands)"
+    }
+   ],
+   "calls_to_green_build": 2,
+   "assistant_chars_to_green_build": 3849,
+   "context_tokens": 236440,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 3849
+  },
+  {
+   "trial": "moonbit-t1",
+   "lang": "moonbit",
+   "m": "m07",
+   "session": "session-1.jsonl",
+   "step": 29,
+   "primary": "exhaustiveness",
+   "secondary": [],
+   "kind": "neutral",
+   "n_errors": 3,
+   "codes": [
+    "0011"
+   ],
+   "diagnostics": [
+    {
+     "code": "0011",
+     "msg": "Error Warning (partial_match): Partial match, some hints:",
+     "file": "eval.mbt",
+     "line": 382,
+     "src": "match e {"
+    },
+    {
+     "code": "0011",
+     "msg": "Error Warning (partial_match): Partial match, some hints:",
+     "file": "exec.mbt",
+     "line": 272,
+     "src": "match e {"
+    },
+    {
+     "code": "0011",
+     "msg": "Error Warning (partial_match): Partial match, some hints:",
+     "file": "select.mbt",
+     "line": 217,
+     "src": "match q {"
+    }
+   ],
+   "calls_to_green_build": 6,
+   "assistant_chars_to_green_build": 43321,
+   "context_tokens": 221616,
+   "calls_to_next_build": 5,
+   "assistant_chars_to_next_build": 43160
+  },
+  {
+   "trial": "moonbit-t1",
+   "lang": "moonbit",
+   "m": "m07",
+   "session": "session-1.jsonl",
+   "step": 33,
+   "primary": "work_in_progress",
+   "secondary": [],
+   "kind": "neutral",
+   "n_errors": 7,
+   "codes": [
+    "4014",
+    "4021",
+    "4032"
+   ],
+   "diagnostics": [
+    {
+     "code": "4021",
+     "msg": "The value identifier cte_stack is unbound.",
+     "file": "exec.mbt",
+     "line": 422,
+     "src": "cte_stack.clear()"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier push_ctes is unbound.",
+     "file": "exec.mbt",
+     "line": 425,
+     "src": "let base = push_ctes(ctes)"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier cte_stack is unbound.",
+     "file": "exec.mbt",
+     "line": 428,
+     "src": "cte_stack.truncate(base)"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier cte_stack is unbound.",
+     "file": "exec.mbt",
+     "line": 432,
+     "src": "cte_stack.truncate(base)"
+    },
+    {
+     "code": "4032",
+     "msg": "The type RecPlan is undefined.",
+     "file": "select.mbt",
+     "line": 148,
+     "src": "PRec(RecPlan)"
+    },
+    {
+     "code": "4014",
+     "msg": "Expr Type Mismatch",
+     "file": "select.mbt",
+     "line": 181,
+     "src": "PRec(r) => r.cols"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier push_ctes is unbound.",
+     "file": "select.mbt",
+     "line": 283,
+     "src": "let base = push_ctes(ctes)"
+    }
+   ],
+   "calls_to_green_build": 2,
+   "assistant_chars_to_green_build": 10449,
+   "context_tokens": 226465,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 10449
+  },
+  {
+   "trial": "moonbit-t1",
+   "lang": "moonbit",
+   "m": "m09",
+   "session": "session-1.jsonl",
+   "step": 16,
+   "primary": "error_hidden_by_output_filter",
+   "secondary": [
+    "pkg_import"
+   ],
+   "kind": "lang",
+   "n_errors": 0,
+   "codes": [],
+   "diagnostics": [],
+   "calls_to_green_build": 2,
+   "assistant_chars_to_green_build": 1836,
+   "context_tokens": 94792,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 1616
+  },
+  {
+   "trial": "moonbit-t1",
+   "lang": "moonbit",
+   "m": "m09",
+   "session": "session-1.jsonl",
+   "step": 17,
+   "primary": "pkg_import",
+   "secondary": [],
+   "kind": "lang",
+   "n_errors": 1,
+   "codes": [
+    "4020"
+   ],
+   "diagnostics": [
+    {
+     "code": "4020",
+     "msg": "Package \"io\" not found in the loaded packages.",
+     "file": "filewrite.mbt",
+     "line": 690,
+     "src": "ignore(@io.write_file(path, image))"
+    }
+   ],
+   "calls_to_green_build": 1,
+   "assistant_chars_to_green_build": 1768,
+   "context_tokens": 94792,
+   "calls_to_next_build": 1,
+   "assistant_chars_to_next_build": 1768
+  },
+  {
+   "trial": "moonbit-t2",
+   "lang": "moonbit",
+   "m": "m01",
+   "session": "session-1.jsonl",
+   "step": 30,
+   "primary": "reserved_word",
+   "secondary": [],
+   "kind": "lang",
+   "n_errors": 3,
+   "codes": [
+    "4021",
+    "4085",
+    "4086"
+   ],
+   "diagnostics": [
+    {
+     "code": "4086",
+     "msg": "The labels as_name~ are required by this function, but not supplied.",
+     "file": "parser.mbt",
+     "line": 696,
+     "src": "TableRef(name~, alias~)"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier alias is unbound.",
+     "file": "parser.mbt",
+     "line": 696,
+     "src": "TableRef(name~, alias~)"
+    },
+    {
+     "code": "4085",
+     "msg": "This constructor has no parameter with label alias~.",
+     "file": "parser.mbt",
+     "line": 696,
+     "src": "TableRef(name~, alias~)"
+    }
+   ],
+   "calls_to_green_build": 2,
+   "assistant_chars_to_green_build": 2364,
+   "context_tokens": 134613,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 2364
+  },
+  {
+   "trial": "moonbit-t2",
+   "lang": "moonbit",
+   "m": "m02",
+   "session": "session-1.jsonl",
+   "step": 27,
+   "primary": "int_width_numeric",
+   "secondary": [],
+   "kind": "lang",
+   "n_errors": 5,
+   "codes": [
+    "4014",
+    "4015"
+   ],
+   "diagnostics": [
+    {
+     "code": "4014",
+     "msg": "Expr Type Mismatch",
+     "file": "functions.mbt",
+     "line": 284,
+     "src": "let s = if p1 > total { total } else { p1 }"
+    },
+    {
+     "code": "4014",
+     "msg": "Expr Type Mismatch",
+     "file": "functions.mbt",
+     "line": 285,
+     "src": "let e0 = if p2 > total - s { total } else { s + p2 }"
+    },
+    {
+     "code": "4014",
+     "msg": "Expr Type Mismatch",
+     "file": "functions.mbt",
+     "line": 285,
+     "src": "let e0 = if p2 > total - s { total } else { s + p2 }"
+    },
+    {
+     "code": "4015",
+     "msg": "Type Int has no method to_int.",
+     "file": "functions.mbt",
+     "line": 286,
+     "src": "let st = s.to_int()"
+    },
+    {
+     "code": "4015",
+     "msg": "Type Int has no method to_int.",
+     "file": "functions.mbt",
+     "line": 287,
+     "src": "let en = e0.to_int()"
+    }
+   ],
+   "calls_to_green_build": 2,
+   "assistant_chars_to_green_build": 880,
+   "context_tokens": 145445,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 880
+  },
+  {
+   "trial": "moonbit-t2",
+   "lang": "moonbit",
+   "m": "m03",
+   "session": "session-1.jsonl",
+   "step": 28,
+   "primary": "work_in_progress",
+   "secondary": [
+    "reserved_word",
+    "refactor_ripple",
+    "for_in_custom_type"
+   ],
+   "kind": "neutral",
+   "n_errors": 6,
+   "codes": [
+    "4015",
+    "4028",
+    "4044"
+   ],
+   "diagnostics": [
+    {
+     "code": "4015",
+     "msg": "Type Database has no method insert.",
+     "file": "exec.mbt",
+     "line": 163,
+     "src": "InsertStmt(ins) => self.run_dml(() => self.insert(ins))"
+    },
+    {
+     "code": "4015",
+     "msg": "Type Database has no method update.",
+     "file": "exec.mbt",
+     "line": 164,
+     "src": "UpdateStmt(up) => self.run_dml(() => self.update(up))"
+    },
+    {
+     "code": "4015",
+     "msg": "Type Database has no method delete.",
+     "file": "exec.mbt",
+     "line": 165,
+     "src": "DeleteStmt(del) => self.run_dml(() => self.delete(del))"
+    },
+    {
+     "code": "4044",
+     "msg": "Record fields aliases are undefined for type Scope",
+     "file": "exec.mbt",
+     "line": 408,
+     "src": "let scope : Scope = { sources, parent: None, }"
+    },
+    {
+     "code": "4015",
+     "msg": "Type OrdMap[Int64, Array[Value]] has no method iter.",
+     "file": "exec.mbt",
+     "line": 507,
+     "src": "for row in t.rows {"
+    },
+    {
+     "code": "4028",
+     "msg": "This expression has type _/0, which is a unknown type and not a struct.",
+     "file": "exec.mbt",
+     "line": 510,
+     "src": "r[i] = row.vals[i]"
+    }
+   ],
+   "calls_to_green_build": 8,
+   "assistant_chars_to_green_build": 28898,
+   "context_tokens": 131862,
+   "calls_to_next_build": 1,
+   "assistant_chars_to_next_build": 8217
+  },
+  {
+   "trial": "moonbit-t2",
+   "lang": "moonbit",
+   "m": "m03",
+   "session": "session-1.jsonl",
+   "step": 29,
+   "primary": "reserved_word",
+   "secondary": [
+    "work_in_progress"
+   ],
+   "kind": "lang",
+   "n_errors": 6,
+   "codes": [
+    "4015",
+    "4044",
+    "4091"
+   ],
+   "diagnostics": [
+    {
+     "code": "4015",
+     "msg": "Type Database has no method insert.",
+     "file": "exec.mbt",
+     "line": 163,
+     "src": "InsertStmt(ins) => self.run_dml(() => self.insert(ins))"
+    },
+    {
+     "code": "4015",
+     "msg": "Type Database has no method update.",
+     "file": "exec.mbt",
+     "line": 164,
+     "src": "UpdateStmt(up) => self.run_dml(() => self.update(up))"
+    },
+    {
+     "code": "4015",
+     "msg": "Type Database has no method delete.",
+     "file": "exec.mbt",
+     "line": 165,
+     "src": "DeleteStmt(del) => self.run_dml(() => self.delete(del))"
+    },
+    {
+     "code": "4044",
+     "msg": "Record fields as_name are undefined for type Insert",
+     "file": "parser.mbt",
+     "line": 628,
+     "src": "{ or_conflict, table, alias, columns, source, upsert, returning }"
+    },
+    {
+     "code": "4091",
+     "msg": "The fields alias is not defined in the record type Insert.",
+     "file": "parser.mbt",
+     "line": 628,
+     "src": "{ or_conflict, table, alias, columns, source, upsert, returning }"
+    },
+    {
+     "code": "4044",
+     "msg": "",
+     "file": "parser.mbt",
+     "line": 699,
+     "src": "{ or_conflict, table, alias, sets, where_, returning }"
+    }
+   ],
+   "calls_to_green_build": 7,
+   "assistant_chars_to_green_build": 20980,
+   "context_tokens": 137340,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 1085
+  },
+  {
+   "trial": "moonbit-t2",
+   "lang": "moonbit",
+   "m": "m03",
+   "session": "session-1.jsonl",
+   "step": 30,
+   "primary": "work_in_progress",
+   "secondary": [],
+   "kind": "neutral",
+   "n_errors": 3,
+   "codes": [
+    "4015"
+   ],
+   "diagnostics": [
+    {
+     "code": "4015",
+     "msg": "Type Database has no method insert.",
+     "file": "exec.mbt",
+     "line": 163,
+     "src": "InsertStmt(ins) => self.run_dml(() => self.insert(ins))"
+    },
+    {
+     "code": "4015",
+     "msg": "Type Database has no method update.",
+     "file": "exec.mbt",
+     "line": 164,
+     "src": "UpdateStmt(up) => self.run_dml(() => self.update(up))"
+    },
+    {
+     "code": "4015",
+     "msg": "Type Database has no method delete.",
+     "file": "exec.mbt",
+     "line": 165,
+     "src": "DeleteStmt(del) => self.run_dml(() => self.delete(del))"
+    }
+   ],
+   "calls_to_green_build": 6,
+   "assistant_chars_to_green_build": 20681,
+   "context_tokens": 150740,
+   "calls_to_next_build": 6,
+   "assistant_chars_to_next_build": 20681
+  },
+  {
+   "trial": "moonbit-t2",
+   "lang": "moonbit",
+   "m": "m04",
+   "session": "session-1.jsonl",
+   "step": 23,
+   "primary": "refactor_ripple",
+   "secondary": [],
+   "kind": "neutral",
+   "n_errors": 3,
+   "codes": [
+    "4080"
+   ],
+   "diagnostics": [
+    {
+     "code": "4080",
+     "msg": "This function has type (Array[ResultCol], Scope, AggCtx?) -> (Array[Expr], Array[String?]) raise SqlError, which requires 3 arguments, but is given 2 arguments.",
+     "file": "dml.mbt",
+     "line": 403,
+     "src": "let (ret_exprs, _) = expand_result_cols(ins.returning, ret_scope)"
+    },
+    {
+     "code": "4080",
+     "msg": "This function has type (Array[ResultCol], Scope, AggCtx?) -> (Array[Expr], Array[String?]) raise SqlError, which requires 3 arguments, but is given 2 arguments.",
+     "file": "dml.mbt",
+     "line": 555,
+     "src": "let (ret_exprs, _) = expand_result_cols(up.returning, scope)"
+    },
+    {
+     "code": "4080",
+     "msg": "This function has type (Array[ResultCol], Scope, AggCtx?) -> (Array[Expr], Array[String?]) raise SqlError, which requires 3 arguments, but is given 2 arguments.",
+     "file": "dml.mbt",
+     "line": 615,
+     "src": "let (ret_exprs, _) = expand_result_cols(del.returning, scope)"
+    }
+   ],
+   "calls_to_green_build": 2,
+   "assistant_chars_to_green_build": 1211,
+   "context_tokens": 126364,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 1211
+  },
+  {
+   "trial": "moonbit-t2",
+   "lang": "moonbit",
+   "m": "m05",
+   "session": "session-1.jsonl",
+   "step": 25,
+   "primary": "reserved_word",
+   "secondary": [
+    "ctor_dotdot_positional",
+    "field_fn_call",
+    "loop_value_nobreak"
+   ],
+   "kind": "lang",
+   "n_errors": 11,
+   "codes": [
+    "3001",
+    "3002",
+    "4015",
+    "4020",
+    "4041",
+    "4080",
+    "4108"
+   ],
+   "diagnostics": [
+    {
+     "code": "4041",
+     "msg": "Partial type is not allowed in toplevel declarations.",
+     "file": "ast.mbt",
+     "line": 116,
+     "src": "\u256d\u2500\u25b6     on~ : Expr?,"
+    },
+    {
+     "code": "3002",
+     "msg": "Parse error, unexpected token `using`, you may expect type.",
+     "file": "ast.mbt",
+     "line": 117,
+     "src": "using~ : Array[String]?"
+    },
+    {
+     "code": "3001",
+     "msg": "Lexing error: unrecognized character \"~\" (U+007E)",
+     "file": "ast.mbt",
+     "line": 117,
+     "src": "using~ : Array[String]?"
+    },
+    {
+     "code": "4020",
+     "msg": "Package \"?PACKAGE_NAME\" not found in the loaded packages.",
+     "file": "ast.mbt",
+     "line": 117,
+     "src": "using~ : Array[String]?"
+    },
+    {
+     "code": "3002",
+     "msg": "Parse error, unexpected token `:`, you may expect package name.",
+     "file": "ast.mbt",
+     "line": 117,
+     "src": "using~ : Array[String]?"
+    },
+    {
+     "code": "4080",
+     "msg": "The constructor InSelect requires 3 arguments, but is given 0 arguments.",
+     "file": "eval.mbt",
+     "line": 461,
+     "src": "Subquery(_) | Exists(_) | InSelect(..) =>"
+    },
+    {
+     "code": "4080",
+     "msg": "The constructor InSelect requires 3 arguments, but is given 0 arguments.",
+     "file": "eval.mbt",
+     "line": 561,
+     "src": "Subquery(_) | Exists(_) | InSelect(..) | ScalarQ(_) | ExistsQ(_) | InQ(..) =>"
+    },
+    {
+     "code": "4080",
+     "msg": "The constructor InQ requires 3 arguments, but is given 0 arguments.",
+     "file": "eval.mbt",
+     "line": 561,
+     "src": "Subquery(_) | Exists(_) | InSelect(..) | ScalarQ(_) | ExistsQ(_) | InQ(..) =>"
+    },
+    {
+     "code": "4080",
+     "msg": "The constructor InQ requires 3 arguments, but is given 0 arguments.",
+     "file": "exec.mbt",
+     "line": 214,
+     "src": "ScalarQ(_) | ExistsQ(_) | InQ(..) => e"
+    },
+    {
+     "code": "4015",
+     "msg": "Type Prepared has no method run.",
+     "file": "exec.mbt",
+     "line": 251,
+     "src": "SelectStmt(sel) => self.prepare_query(sel, None).run(empty_env)"
+    },
+    {
+     "code": "4108",
+     "msg": "The while loop is expected to yield a value of type FromItem, please add a `nobreak` block.",
+     "file": "parser.mbt",
+     "line": 914,
+     "src": "\u256d\u2500\u25b6   while true {"
+    }
+   ],
+   "calls_to_green_build": 2,
+   "assistant_chars_to_green_build": 1522,
+   "context_tokens": 164816,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 1404
+  },
+  {
+   "trial": "moonbit-t2",
+   "lang": "moonbit",
+   "m": "m05",
+   "session": "session-1.jsonl",
+   "step": 26,
+   "primary": "ctor_dotdot_positional",
+   "secondary": [
+    "reserved_word"
+   ],
+   "kind": "lang",
+   "n_errors": 12,
+   "codes": [
+    "3002",
+    "4020",
+    "4041",
+    "4080",
+    "4091"
+   ],
+   "diagnostics": [
+    {
+     "code": "4080",
+     "msg": "The constructor InSelect requires 3 arguments, but is given 0 arguments.",
+     "file": "eval.mbt",
+     "line": 461,
+     "src": "Subquery(_) | Exists(_) | InSelect(..) =>"
+    },
+    {
+     "code": "4080",
+     "msg": "The constructor InSelect requires 3 arguments, but is given 0 arguments.",
+     "file": "eval.mbt",
+     "line": 561,
+     "src": "Subquery(_) | Exists(_) | InSelect(..) | ScalarQ(_) | ExistsQ(_) | InQ(..) =>"
+    },
+    {
+     "code": "4080",
+     "msg": "The constructor InQ requires 3 arguments, but is given 0 arguments.",
+     "file": "eval.mbt",
+     "line": 561,
+     "src": "Subquery(_) | Exists(_) | InSelect(..) | ScalarQ(_) | ExistsQ(_) | InQ(..) =>"
+    },
+    {
+     "code": "4080",
+     "msg": "The constructor InQ requires 3 arguments, but is given 0 arguments.",
+     "file": "exec.mbt",
+     "line": 214,
+     "src": "ScalarQ(_) | ExistsQ(_) | InQ(..) => e"
+    },
+    {
+     "code": "4080",
+     "msg": "The constructor InQ requires 3 arguments, but is given 0 arguments.",
+     "file": "query.mbt",
+     "line": 176,
+     "src": "ScalarQ(_) | ExistsQ(_) | InQ(..) => None"
+    },
+    {
+     "code": "4041",
+     "msg": "Partial type is not allowed in toplevel declarations.",
+     "file": "query.mbt",
+     "line": 299,
+     "src": "mut using : Array[String]?"
+    },
+    {
+     "code": "3002",
+     "msg": "Parse error, unexpected token `using`, you may expect id (lowercase start).",
+     "file": "query.mbt",
+     "line": 299,
+     "src": "mut using : Array[String]?"
+    },
+    {
+     "code": "4020",
+     "msg": "Package \"?PACKAGE_NAME\" not found in the loaded packages.",
+     "file": "query.mbt",
+     "line": 299,
+     "src": "mut using : Array[String]?"
+    },
+    {
+     "code": "3002",
+     "msg": "Parse error, unexpected token `:`, you may expect package name.",
+     "file": "query.mbt",
+     "line": 299,
+     "src": "mut using : Array[String]?"
+    },
+    {
+     "code": "4091",
+     "msg": "The type FromLeaf has no field using.",
+     "file": "query.mbt",
+     "line": 312,
+     "src": "leaf.using = using_cols"
+    },
+    {
+     "code": "3002",
+     "msg": "Parse error, unexpected token `using`, you may expect id (lowercase start).",
+     "file": "query.mbt",
+     "line": 325,
+     "src": "_ => out.push({ item, kind: JInner, natural: false, on: None, using: None })"
+    },
+    {
+     "code": "4020",
+     "msg": "",
+     "file": "query.mbt",
+     "line": 325,
+     "src": ""
+    }
+   ],
+   "calls_to_green_build": 1,
+   "assistant_chars_to_green_build": 551,
+   "context_tokens": 164816,
+   "calls_to_next_build": 1,
+   "assistant_chars_to_next_build": 551
+  },
+  {
+   "trial": "moonbit-t2",
+   "lang": "moonbit",
+   "m": "m06",
+   "session": "session-1.jsonl",
+   "step": 33,
+   "primary": "error_effect",
+   "secondary": [],
+   "kind": "lang",
+   "n_errors": 1,
+   "codes": [
+    "4122"
+   ],
+   "diagnostics": [
+    {
+     "code": "4122",
+     "msg": "Function with error can only be used inside a function with error types in its signature. Please fix the return type of this function.",
+     "file": "dml.mbt",
+     "line": 193,
+     "src": "self.insert_row(t, rowid, vals)"
+    }
+   ],
+   "calls_to_green_build": 3,
+   "assistant_chars_to_green_build": 735,
+   "context_tokens": 241826,
+   "calls_to_next_build": 3,
+   "assistant_chars_to_next_build": 670
+  },
+  {
+   "trial": "moonbit-t2",
+   "lang": "moonbit",
+   "m": "m06",
+   "session": "session-1.jsonl",
+   "step": 35,
+   "primary": "closure_effect_syntax",
+   "secondary": [],
+   "kind": "lang",
+   "n_errors": 11,
+   "codes": [
+    "3002",
+    "4014",
+    "4021",
+    "4074"
+   ],
+   "diagnostics": [
+    {
+     "code": "3002",
+     "msg": "Parse error, unexpected token `->`, you may expect `{`.",
+     "file": "planner.mbt",
+     "line": 711,
+     "src": "let bound = fn(b : RangeB?) raise SqlError -> ((Value, Bool)?, Bool) {"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier r is unbound.",
+     "file": "planner.mbt",
+     "line": 714,
+     "src": "let v = apply_cmp_affinity(eval(r.expr, env), r.aff)"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier r is unbound.",
+     "file": "planner.mbt",
+     "line": 714,
+     "src": "let v = apply_cmp_affinity(eval(r.expr, env), r.aff)"
+    },
+    {
+     "code": "4014",
+     "msg": "Type Mismatch",
+     "file": "planner.mbt",
+     "line": 716,
+     "src": "(None, false)"
+    },
+    {
+     "code": "4014",
+     "msg": "Type Mismatch",
+     "file": "planner.mbt",
+     "line": 718,
+     "src": "(Some((v, r.incl)), true)"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier r is unbound.",
+     "file": "planner.mbt",
+     "line": 718,
+     "src": "(Some((v, r.incl)), true)"
+    },
+    {
+     "code": "3002",
+     "msg": "Parse error, unexpected token id (uppercase start), you may expect `pub`, `priv`, `type`, `suberror`, `extenum`, `async`, `fn`, `struct`, `enum`, `let`, `const`, `extern`, `test`, `impl`, `trait`, `en",
+     "file": "planner.mbt",
+     "line": 721,
+     "src": "None => (None, true)"
+    },
+    {
+     "code": "4074",
+     "msg": "Cannot infer the type of variable , please add more type annotation.",
+     "file": "planner.mbt",
+     "line": 724,
+     "src": "let (lo_v0, ok1) = bound(lo)"
+    },
+    {
+     "code": "3002",
+     "msg": "Parse error, unexpected token `(`, you may expect id (lowercase start).",
+     "file": "planner.mbt",
+     "line": 724,
+     "src": "let (lo_v0, ok1) = bound(lo)"
+    },
+    {
+     "code": "4074",
+     "msg": "Cannot infer the type of variable , please add more type annotation.",
+     "file": "planner.mbt",
+     "line": 725,
+     "src": "let (hi_v, ok2) = bound(hi)"
+    },
+    {
+     "code": "3002",
+     "msg": "Parse error, unexpected token `(`, you may expect id (lowercase start).",
+     "file": "planner.mbt",
+     "line": 725,
+     "src": "let (hi_v, ok2) = bound(hi)"
+    }
+   ],
+   "calls_to_green_build": 1,
+   "assistant_chars_to_green_build": 348,
+   "context_tokens": 241826,
+   "calls_to_next_build": 1,
+   "assistant_chars_to_next_build": 348
+  },
+  {
+   "trial": "moonbit-t2",
+   "lang": "moonbit",
+   "m": "m06",
+   "session": "session-1.jsonl",
+   "step": 123,
+   "primary": "exhaustiveness",
+   "secondary": [],
+   "kind": "neutral",
+   "n_errors": 2,
+   "codes": [
+    "0011"
+   ],
+   "diagnostics": [
+    {
+     "code": "0011",
+     "msg": "Error Warning (partial_match): Partial match, some hints:",
+     "file": "eval.mbt",
+     "line": 521,
+     "src": "match affinity_of_type(ty) {"
+    },
+    {
+     "code": "0011",
+     "msg": "Error Warning (partial_match): Partial match, some hints:",
+     "file": "numeric.mbt",
+     "line": 197,
+     "src": "match aff {"
+    }
+   ],
+   "calls_to_green_build": 1,
+   "assistant_chars_to_green_build": 1281,
+   "context_tokens": 370347,
+   "calls_to_next_build": 1,
+   "assistant_chars_to_next_build": 1281
+  },
+  {
+   "trial": "moonbit-t2",
+   "lang": "moonbit",
+   "m": "m07",
+   "session": "session-1.jsonl",
+   "step": 23,
+   "primary": "exhaustiveness",
+   "secondary": [],
+   "kind": "neutral",
+   "n_errors": 5,
+   "codes": [
+    "0011"
+   ],
+   "diagnostics": [
+    {
+     "code": "0011",
+     "msg": "Error Warning (partial_match): Partial match, some hints:",
+     "file": "aggregate.mbt",
+     "line": 21,
+     "src": "match self {"
+    },
+    {
+     "code": "0011",
+     "msg": "Error Warning (partial_match): Partial match, some hints:",
+     "file": "collate.mbt",
+     "line": 69,
+     "src": "match e {"
+    },
+    {
+     "code": "0011",
+     "msg": "Error Warning (partial_match): Partial match, some hints:",
+     "file": "eval.mbt",
+     "line": 277,
+     "src": "match e {"
+    },
+    {
+     "code": "0011",
+     "msg": "Error Warning (partial_match): Partial match, some hints:",
+     "file": "eval.mbt",
+     "line": 564,
+     "src": "match e {"
+    },
+    {
+     "code": "0011",
+     "msg": "Error Warning (partial_match): Partial match, some hints:",
+     "file": "exec.mbt",
+     "line": 146,
+     "src": "match e {"
+    }
+   ],
+   "calls_to_green_build": 9,
+   "assistant_chars_to_green_build": 18469,
+   "context_tokens": 156630,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 2155
+  },
+  {
+   "trial": "moonbit-t2",
+   "lang": "moonbit",
+   "m": "m07",
+   "session": "session-1.jsonl",
+   "step": 25,
+   "primary": "ctor_dotdot_positional",
+   "secondary": [],
+   "kind": "lang",
+   "n_errors": 2,
+   "codes": [
+    "4080"
+   ],
+   "diagnostics": [
+    {
+     "code": "4080",
+     "msg": "The constructor WinFunc requires 2 arguments, but is given 0 arguments.",
+     "file": "collate.mbt",
+     "line": 71,
+     "src": "Lit(_) | Col(..) | Slot(..) | WinFunc(..) => None"
+    },
+    {
+     "code": "4080",
+     "msg": "The constructor WinFunc requires 2 arguments, but is given 0 arguments.",
+     "file": "eval.mbt",
+     "line": 567,
+     "src": "Col(..) | Slot(..) | AggRef(..) | WinFunc(..) => false"
+    }
+   ],
+   "calls_to_green_build": 7,
+   "assistant_chars_to_green_build": 16438,
+   "context_tokens": 159175,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 363
+  },
+  {
+   "trial": "moonbit-t2",
+   "lang": "moonbit",
+   "m": "m07",
+   "session": "session-1.jsonl",
+   "step": 26,
+   "primary": "exhaustiveness",
+   "secondary": [],
+   "kind": "neutral",
+   "n_errors": 1,
+   "codes": [
+    "0011"
+   ],
+   "diagnostics": [
+    {
+     "code": "0011",
+     "msg": "Error Warning (partial_match): Partial match, some hints:",
+     "file": "exec.mbt",
+     "line": 253,
+     "src": "match st {"
+    }
+   ],
+   "calls_to_green_build": 6,
+   "assistant_chars_to_green_build": 16187,
+   "context_tokens": 171963,
+   "calls_to_next_build": 6,
+   "assistant_chars_to_next_build": 16187
+  },
+  {
+   "trial": "moonbit-t3",
+   "lang": "moonbit",
+   "m": "m01",
+   "session": "session-1.jsonl",
+   "step": 12,
+   "primary": "reserved_word",
+   "secondary": [
+    "loop_value_nobreak"
+   ],
+   "kind": "lang",
+   "n_errors": 7,
+   "codes": [
+    "3002",
+    "4020",
+    "4108"
+   ],
+   "diagnostics": [
+    {
+     "code": "4108",
+     "msg": "The while loop is expected to yield a value of type FromItem, please add a `nobreak` block.",
+     "file": "parser.mbt",
+     "line": 852,
+     "src": "\u256d\u2500\u25b6   while true {"
+    },
+    {
+     "code": "3002",
+     "msg": "Parse error, unexpected token `using`, you may expect id (lowercase start).",
+     "file": "parser.mbt",
+     "line": 884,
+     "src": "let mut using : Array[String]? = None"
+    },
+    {
+     "code": "4020",
+     "msg": "Package \"?PACKAGE_NAME\" not found in the loaded packages.",
+     "file": "parser.mbt",
+     "line": 884,
+     "src": "let mut using : Array[String]? = None"
+    },
+    {
+     "code": "3002",
+     "msg": "Parse error, unexpected token `:`, you may expect package name.",
+     "file": "parser.mbt",
+     "line": 884,
+     "src": "let mut using : Array[String]? = None"
+    },
+    {
+     "code": "4020",
+     "msg": "Package \"?PACKAGE_NAME\" not found in the loaded packages.",
+     "file": "parser.mbt",
+     "line": 888,
+     "src": "using = Some(self.name_list())"
+    },
+    {
+     "code": "3002",
+     "msg": "Parse error, unexpected token `=`, you may expect package name.",
+     "file": "parser.mbt",
+     "line": 888,
+     "src": "using = Some(self.name_list())"
+    },
+    {
+     "code": "4020",
+     "msg": "",
+     "file": "parser.mbt",
+     "line": 890,
+     "src": "left = Join(left, right, kind.unwrap_or(Inner), natural, on, using)"
+    }
+   ],
+   "calls_to_green_build": 2,
+   "assistant_chars_to_green_build": 9890,
+   "context_tokens": 111820,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 9890
+  },
+  {
+   "trial": "moonbit-t3",
+   "lang": "moonbit",
+   "m": "m01",
+   "session": "session-1.jsonl",
+   "step": 15,
+   "primary": "work_in_progress",
+   "secondary": [],
+   "kind": "neutral",
+   "n_errors": 5,
+   "codes": [
+    "4014",
+    "4015",
+    "4021",
+    "4024"
+   ],
+   "diagnostics": [
+    {
+     "code": "4015",
+     "msg": "Type Database has no method run_select.",
+     "file": "db.mbt",
+     "line": 91,
+     "src": "SelectStmt(sel) => self.run_select(sel)"
+    },
+    {
+     "code": "4024",
+     "msg": "The type/trait Scope is not found.",
+     "file": "db.mbt",
+     "line": 140,
+     "src": "let scope = Scope::empty()"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier bind_expr is unbound.",
+     "file": "db.mbt",
+     "line": 154,
+     "src": "let bound = r.map(e => bind_expr(self, scope, e))"
+    },
+    {
+     "code": "4015",
+     "msg": "Type Database has no method run_select.",
+     "file": "db.mbt",
+     "line": 160,
+     "src": "let res = self.run_select(sel)"
+    },
+    {
+     "code": "4014",
+     "msg": "Expr Type Mismatch",
+     "file": "db.mbt",
+     "line": 166,
+     "src": "res.rows"
+    }
+   ],
+   "calls_to_green_build": 2,
+   "assistant_chars_to_green_build": 10280,
+   "context_tokens": 126585,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 10280
+  },
+  {
+   "trial": "moonbit-t3",
+   "lang": "moonbit",
+   "m": "m02",
+   "session": "session-1.jsonl",
+   "step": 24,
+   "primary": "error_hidden_by_output_filter",
+   "secondary": [
+    "ambiguous_constructor"
+   ],
+   "kind": "lang",
+   "n_errors": 0,
+   "codes": [],
+   "diagnostics": [],
+   "calls_to_green_build": 3,
+   "assistant_chars_to_green_build": 1307,
+   "context_tokens": 123777,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 760
+  },
+  {
+   "trial": "moonbit-t3",
+   "lang": "moonbit",
+   "m": "m02",
+   "session": "session-1.jsonl",
+   "step": 25,
+   "primary": "ambiguous_constructor",
+   "secondary": [],
+   "kind": "lang",
+   "n_errors": 1,
+   "codes": [
+    "4124"
+   ],
+   "diagnostics": [
+    {
+     "code": "4124",
+     "msg": "The constructor Binary is ambiguous: it may come from type Coll or Expr.",
+     "file": "select.mbt",
+     "line": 196,
+     "src": "let mut coll = Binary"
+    }
+   ],
+   "calls_to_green_build": 2,
+   "assistant_chars_to_green_build": 1257,
+   "context_tokens": 124469,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 1257
+  },
+  {
+   "trial": "moonbit-t3",
+   "lang": "moonbit",
+   "m": "m02",
+   "session": "session-1.jsonl",
+   "step": 30,
+   "primary": "error_effect",
+   "secondary": [],
+   "kind": "lang",
+   "n_errors": 4,
+   "codes": [
+    "4014"
+   ],
+   "diagnostics": [
+    {
+     "code": "4014",
+     "msg": "Expr Type Mismatch",
+     "file": "functions.mbt",
+     "line": 439,
+     "src": "m[\"instr\"] = { min_args: 2, max_args: 2, f: instr_func }"
+    },
+    {
+     "code": "4014",
+     "msg": "Expr Type Mismatch",
+     "file": "functions.mbt",
+     "line": 516,
+     "src": "m[\"substr\"] = { min_args: 2, max_args: 3, f: substr_func }"
+    },
+    {
+     "code": "4014",
+     "msg": "Expr Type Mismatch",
+     "file": "functions.mbt",
+     "line": 517,
+     "src": "m[\"substring\"] = { min_args: 2, max_args: 3, f: substr_func }"
+    },
+    {
+     "code": "4014",
+     "msg": "Expr Type Mismatch",
+     "file": "functions.mbt",
+     "line": 518,
+     "src": "m[\"unhex\"] = { min_args: 1, max_args: 2, f: unhex_func }"
+    }
+   ],
+   "calls_to_green_build": 2,
+   "assistant_chars_to_green_build": 979,
+   "context_tokens": 142736,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 979
+  },
+  {
+   "trial": "moonbit-t3",
+   "lang": "moonbit",
+   "m": "m04",
+   "session": "session-1.jsonl",
+   "step": 16,
+   "primary": "error_hidden_by_output_filter",
+   "secondary": [
+    "work_in_progress"
+   ],
+   "kind": "lang",
+   "n_errors": 0,
+   "codes": [],
+   "diagnostics": [],
+   "calls_to_green_build": 2,
+   "assistant_chars_to_green_build": 14035,
+   "context_tokens": 120352,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 14035
+  },
+  {
+   "trial": "moonbit-t3",
+   "lang": "moonbit",
+   "m": "m04",
+   "session": "session-1.jsonl",
+   "step": 22,
+   "primary": "tuple_mut_pattern",
+   "secondary": [],
+   "kind": "lang",
+   "n_errors": 10,
+   "codes": [
+    "3002",
+    "4021"
+   ],
+   "diagnostics": [
+    {
+     "code": "3002",
+     "msg": "Parse error, unexpected token `mut`, you may expect simple pattern.",
+     "file": "datetime.mbt",
+     "line": 200,
+     "src": "let (mut y, mut m, d) = if self.valid_ymd {"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier y is unbound.",
+     "file": "datetime.mbt",
+     "line": 205,
+     "src": "if y < -4713 || y > 9999 || self.raw_s {"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier y is unbound.",
+     "file": "datetime.mbt",
+     "line": 205,
+     "src": "if y < -4713 || y > 9999 || self.raw_s {"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier m is unbound.",
+     "file": "datetime.mbt",
+     "line": 209,
+     "src": "if m <= 2 {"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier y is unbound.",
+     "file": "datetime.mbt",
+     "line": 210,
+     "src": "y -= 1"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier m is unbound.",
+     "file": "datetime.mbt",
+     "line": 211,
+     "src": "m += 12"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier y is unbound.",
+     "file": "datetime.mbt",
+     "line": 213,
+     "src": "let a = y / 100"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier y is unbound.",
+     "file": "datetime.mbt",
+     "line": 215,
+     "src": "let x1 = 36525 * (y + 4716) / 100"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier m is unbound.",
+     "file": "datetime.mbt",
+     "line": 216,
+     "src": "let x2 = 306001 * (m + 1) / 10000"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier d is unbound.",
+     "file": "datetime.mbt",
+     "line": 217,
+     "src": "self.ijd = ((x1 + x2 + d + b).to_double() - 1524.5) * 86400000.0 |> double_to_int64"
+    }
+   ],
+   "calls_to_green_build": 1,
+   "assistant_chars_to_green_build": 768,
+   "context_tokens": 138681,
+   "calls_to_next_build": 1,
+   "assistant_chars_to_next_build": 768
+  },
+  {
+   "trial": "moonbit-t3",
+   "lang": "moonbit",
+   "m": "m05",
+   "session": "session-1.jsonl",
+   "step": 21,
+   "primary": "refactor_ripple",
+   "secondary": [
+    "reserved_word"
+   ],
+   "kind": "neutral",
+   "n_errors": 11,
+   "codes": [
+    "3002",
+    "4020",
+    "4021",
+    "4044",
+    "4074"
+   ],
+   "diagnostics": [
+    {
+     "code": "4044",
+     "msg": "Record fields hidden, partners are undefined for type ScopeTable",
+     "file": "db.mbt",
+     "line": 414,
+     "src": "\u256d\u2500\u25b6   let st : ScopeTable = {"
+    },
+    {
+     "code": "4044",
+     "msg": "Record fields parent, corr are undefined for type Scope",
+     "file": "db.mbt",
+     "line": 421,
+     "src": "let scope : Scope = { tables: [st], width: columns.length() + 1, }"
+    },
+    {
+     "code": "4044",
+     "msg": "Record fields hidden, partners are undefined for type ScopeTable",
+     "file": "dml.mbt",
+     "line": 13,
+     "src": "\u256d\u2500\u25b6   {"
+    },
+    {
+     "code": "4044",
+     "msg": "Record fields parent, corr are undefined for type Scope",
+     "file": "dml.mbt",
+     "line": 24,
+     "src": "{ tables: [table_scope_entry(t, name, 0)], width: t.columns.length() + 1, }"
+    },
+    {
+     "code": "4044",
+     "msg": "Record fields parent, corr are undefined for type Scope",
+     "file": "dml.mbt",
+     "line": 359,
+     "src": "\u256d\u2500\u25b6   let up_scope : Scope = {"
+    },
+    {
+     "code": "3002",
+     "msg": "Parse error, unexpected token `using`, you may expect simple pattern.",
+     "file": "select.mbt",
+     "line": 684,
+     "src": "Join(l, r, kind, natural, on, using) => {"
+    },
+    {
+     "code": "4020",
+     "msg": "Package \"?PACKAGE_NAME\" not found in the loaded packages.",
+     "file": "select.mbt",
+     "line": 684,
+     "src": "Join(l, r, kind, natural, on, using) => {"
+    },
+    {
+     "code": "3002",
+     "msg": "Parse error, unexpected token `)`, you may expect package name.",
+     "file": "select.mbt",
+     "line": 684,
+     "src": "Join(l, r, kind, natural, on, using) => {"
+    },
+    {
+     "code": "4074",
+     "msg": "Cannot infer the type of variable ls, please add more type annotation.",
+     "file": "select.mbt",
+     "line": 685,
+     "src": "let ls = self.compile_from(l, offset, outer, corr, chain)"
+    },
+    {
+     "code": "4021",
+     "msg": "The value identifier self is unbound.",
+     "file": "select.mbt",
+     "line": 685,
+     "src": "let ls = self.compile_from(l, offset, outer, corr, chain)"
+    },
+    {
+     "code": "4021",
+     "msg": "",
+     "file": "select.mbt",
+     "line": 685,
+     "src": "let ls = self.compile_from(l, offset, outer, corr, chain)"
+    }
+   ],
+   "calls_to_green_build": 2,
+   "assistant_chars_to_green_build": 2009,
+   "context_tokens": 136645,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 2009
+  },
+  {
+   "trial": "moonbit-t3",
+   "lang": "moonbit",
+   "m": "m06",
+   "session": "session-1.jsonl",
+   "step": 34,
+   "primary": "work_in_progress",
+   "secondary": [],
+   "kind": "neutral",
+   "n_errors": 1,
+   "codes": [
+    "4015"
+   ],
+   "diagnostics": [
+    {
+     "code": "4015",
+     "msg": "Type Database has no method alter_table.",
+     "file": "db.mbt",
+     "line": 337,
+     "src": "AlterStmt(name, action) => self.alter_table(name, action)"
+    }
+   ],
+   "calls_to_green_build": 4,
+   "assistant_chars_to_green_build": 29541,
+   "context_tokens": 183996,
+   "calls_to_next_build": 4,
+   "assistant_chars_to_next_build": 29541
+  },
+  {
+   "trial": "moonbit-t3",
+   "lang": "moonbit",
+   "m": "m06",
+   "session": "session-1.jsonl",
+   "step": 66,
+   "primary": "refactor_ripple",
+   "secondary": [],
+   "kind": "neutral",
+   "n_errors": 2,
+   "codes": [
+    "4044"
+   ],
+   "diagnostics": [
+    {
+     "code": "4044",
+     "msg": "Record fields table are undefined for type Source",
+     "file": "select.mbt",
+     "line": 856,
+     "src": "\u256d\u2500\u25b6       let src : Source = {"
+    },
+    {
+     "code": "4044",
+     "msg": "Record fields table are undefined for type Source",
+     "file": "select.mbt",
+     "line": 1034,
+     "src": "\u256d\u2500\u25b6   let src : Source = {"
+    }
+   ],
+   "calls_to_green_build": 3,
+   "assistant_chars_to_green_build": 5499,
+   "context_tokens": 239084,
+   "calls_to_next_build": 3,
+   "assistant_chars_to_next_build": 5499
+  },
+  {
+   "trial": "moonbit-t3",
+   "lang": "moonbit",
+   "m": "m06",
+   "session": "session-1.jsonl",
+   "step": 151,
+   "primary": "tuple_mut_pattern",
+   "secondary": [
+    "refactor_ripple"
+   ],
+   "kind": "lang",
+   "n_errors": 4,
+   "codes": [
+    "3002",
+    "4015",
+    "4028"
+   ],
+   "diagnostics": [
+    {
+     "code": "4015",
+     "msg": "Type SortedChunks[Int64, Array[Value]] has no method range.",
+     "file": "plan.mbt",
+     "line": 591,
+     "src": "for id, r in t.rows.range(low, high) {"
+    },
+    {
+     "code": "4015",
+     "msg": "Type SortedChunks[IKey, Array[Value]] has no method range.",
+     "file": "plan.mbt",
+     "line": 647,
+     "src": "for k, r in idx.tree.range(low, high) {"
+    },
+    {
+     "code": "4028",
+     "msg": "This expression has type _/0, which is a unknown type and not a struct.",
+     "file": "plan.mbt",
+     "line": 648,
+     "src": "out.push((k.rowid, r))"
+    },
+    {
+     "code": "3002",
+     "msg": "",
+     "file": "sorted.mbt",
+     "line": 190,
+     "src": ""
+    }
+   ],
+   "calls_to_green_build": 10,
+   "assistant_chars_to_green_build": 17984,
+   "context_tokens": 439681,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 1499
+  },
+  {
+   "trial": "moonbit-t3",
+   "lang": "moonbit",
+   "m": "m06",
+   "session": "session-1.jsonl",
+   "step": 152,
+   "primary": "tuple_mut_pattern",
+   "secondary": [],
+   "kind": "lang",
+   "n_errors": 1,
+   "codes": [
+    "4021"
+   ],
+   "diagnostics": [
+    {
+     "code": "4021",
+     "msg": "The value identifier ci is unbound.",
+     "file": "sorted.mbt",
+     "line": 200,
+     "src": "while ci < n {"
+    }
+   ],
+   "calls_to_green_build": 9,
+   "assistant_chars_to_green_build": 17860,
+   "context_tokens": 445640,
+   "calls_to_next_build": 3,
+   "assistant_chars_to_next_build": 6613
+  },
+  {
+   "trial": "moonbit-t3",
+   "lang": "moonbit",
+   "m": "m06",
+   "session": "session-1.jsonl",
+   "step": 154,
+   "primary": "refactor_ripple",
+   "secondary": [],
+   "kind": "neutral",
+   "n_errors": 5,
+   "codes": [
+    "4014",
+    "4015",
+    "4080"
+   ],
+   "diagnostics": [
+    {
+     "code": "4080",
+     "msg": "This function has type:",
+     "file": "select.mbt",
+     "line": 726,
+     "src": "let entries = run_index_plan(t, p)"
+    },
+    {
+     "code": "4015",
+     "msg": "Type Unit has no method rev_in_place.",
+     "file": "select.mbt",
+     "line": 728,
+     "src": "entries.rev_in_place()"
+    },
+    {
+     "code": "4015",
+     "msg": "Type Unit has no method iter.",
+     "file": "select.mbt",
+     "line": 730,
+     "src": "for e in entries {"
+    },
+    {
+     "code": "4014",
+     "msg": "Type Mismatch",
+     "file": "select.mbt",
+     "line": 735,
+     "src": "for v in e.1 {"
+    },
+    {
+     "code": "4014",
+     "msg": "",
+     "file": "select.mbt",
+     "line": 738,
+     "src": "row.push(Int(e.0))"
+    }
+   ],
+   "calls_to_green_build": 7,
+   "assistant_chars_to_green_build": 11292,
+   "context_tokens": 446873,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 4319
+  },
+  {
+   "trial": "moonbit-t3",
+   "lang": "moonbit",
+   "m": "m06",
+   "session": "session-1.jsonl",
+   "step": 156,
+   "primary": "refactor_ripple",
+   "secondary": [
+    "unused_mut_is_error"
+   ],
+   "kind": "neutral",
+   "n_errors": 5,
+   "codes": [
+    "0015",
+    "4014",
+    "4015",
+    "4044",
+    "4080"
+   ],
+   "diagnostics": [
+    {
+     "code": "4044",
+     "msg": "Record fields limit, nonnull are undefined for type OrderHint",
+     "file": "aggregate.mbt",
+     "line": 528,
+     "src": "\u256d\u2500\u25b6     order_ctx.hint = Some({"
+    },
+    {
+     "code": "0015",
+     "msg": "Error Warning (unused_mut): The mutability of field 'filtered_later' is never used, try remove `mut`.",
+     "file": "plan.mbt",
+     "line": 809,
+     "src": "mut filtered_later : Bool"
+    },
+    {
+     "code": "4080",
+     "msg": "This function has type:",
+     "file": "select.mbt",
+     "line": 957,
+     "src": "for e in run_index_plan(lt, p, row=rrow) {"
+    },
+    {
+     "code": "4015",
+     "msg": "Type Unit has no method iter.",
+     "file": "select.mbt",
+     "line": 957,
+     "src": "for e in run_index_plan(lt, p, row=rrow) {"
+    },
+    {
+     "code": "4014",
+     "msg": "",
+     "file": null,
+     "line": null,
+     "src": ""
+    }
+   ],
+   "calls_to_green_build": 5,
+   "assistant_chars_to_green_build": 7019,
+   "context_tokens": 453187,
+   "calls_to_next_build": 3,
+   "assistant_chars_to_next_build": 3031
+  },
+  {
+   "trial": "moonbit-t3",
+   "lang": "moonbit",
+   "m": "m06",
+   "session": "session-1.jsonl",
+   "step": 158,
+   "primary": "refactor_ripple",
+   "secondary": [
+    "unused_mut_is_error"
+   ],
+   "kind": "neutral",
+   "n_errors": 5,
+   "codes": [
+    "0015",
+    "4044"
+   ],
+   "diagnostics": [
+    {
+     "code": "4044",
+     "msg": "Record fields limit, nonnull are undefined for type OrderHint",
+     "file": "aggregate.mbt",
+     "line": 528,
+     "src": "\u256d\u2500\u25b6     order_ctx.hint = Some({"
+    },
+    {
+     "code": "0015",
+     "msg": "Error Warning (unused_mut): The mutability of field 'filtered_later' is never used, try remove `mut`.",
+     "file": "plan.mbt",
+     "line": 809,
+     "src": "mut filtered_later : Bool"
+    },
+    {
+     "code": "4044",
+     "msg": "Record fields filtered_later are undefined for type OrderCtx",
+     "file": "select.mbt",
+     "line": 1783,
+     "src": "let order_ctx : OrderCtx = { hint: None, satisfied: false, }"
+    },
+    {
+     "code": "4044",
+     "msg": "Record fields limit, nonnull are undefined for type OrderHint",
+     "file": "select.mbt",
+     "line": 1831,
+     "src": "\u256d\u2500\u25b6     order_ctx.hint = Some({"
+    },
+    {
+     "code": "4044",
+     "msg": "",
+     "file": null,
+     "line": null,
+     "src": ""
+    }
+   ],
+   "calls_to_green_build": 3,
+   "assistant_chars_to_green_build": 4124,
+   "context_tokens": 456078,
+   "calls_to_next_build": 3,
+   "assistant_chars_to_next_build": 4124
+  },
+  {
+   "trial": "rust-t1",
+   "lang": "rust",
+   "m": "m01",
+   "session": "session-1.jsonl",
+   "step": 30,
+   "primary": "rust_immutable_binding",
+   "secondary": [],
+   "kind": "lang",
+   "n_errors": 1,
+   "codes": [
+    "E0384"
+   ],
+   "diagnostics": [
+    {
+     "code": "E0384",
+     "msg": "cannot assign twice to immutable variable `j`",
+     "file": "lexer.rs",
+     "line": 158,
+     "src": "let j = scan_digits(b, i + 2, true);"
+    }
+   ],
+   "calls_to_green_build": 2,
+   "assistant_chars_to_green_build": 2320,
+   "context_tokens": 127000,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 2320
+  },
+  {
+   "trial": "rust-t1",
+   "lang": "rust",
+   "m": "m04",
+   "session": "session-1.jsonl",
+   "step": 18,
+   "primary": "refactor_ripple",
+   "secondary": [],
+   "kind": "neutral",
+   "n_errors": 6,
+   "codes": [
+    "E0063"
+   ],
+   "diagnostics": [
+    {
+     "code": "E0063",
+     "msg": "missing field `allow_agg` in initializer of `eval::Scope`",
+     "file": "exec.rs",
+     "line": 309,
+     "src": "let scope = Scope { sources: vec![table_source(&table, None, 0)], aliases: vec![] };"
+    },
+    {
+     "code": "E0063",
+     "msg": "missing field `allow_agg` in initializer of `eval::Scope`",
+     "file": "exec.rs",
+     "line": 523,
+     "src": "let scope = Scope { sources: vec![table_source(t, None, 0)], aliases: vec![] };"
+    },
+    {
+     "code": "E0063",
+     "msg": "missing field `allow_agg` in initializer of `eval::Scope`",
+     "file": "exec.rs",
+     "line": 530,
+     "src": "let scope = Scope { sources: vec![table_source(t, None, 0)], aliases: vec![] };"
+    },
+    {
+     "code": "E0063",
+     "msg": "missing field `allow_agg` in initializer of `eval::Scope`",
+     "file": "exec.rs",
+     "line": 719,
+     "src": "let scope = Scope { sources: vec![table_source(t, ins.alias.as_deref(), 0), ex], aliases: vec![] };"
+    },
+    {
+     "code": "E0063",
+     "msg": "missing field `allow_agg` in initializer of `eval::Scope`",
+     "file": "exec.rs",
+     "line": 738,
+     "src": "let scope = Scope { sources: vec![table_source(t, upd.alias.as_deref(), 0)], aliases: vec![] };"
+    },
+    {
+     "code": "E0063",
+     "msg": "missing field `allow_agg` in initializer of `eval::Scope`",
+     "file": "exec.rs",
+     "line": 771,
+     "src": "let scope = Scope { sources: vec![table_source(t, del.alias.as_deref(), 0)], aliases: vec![] };"
+    }
+   ],
+   "calls_to_green_build": 2,
+   "assistant_chars_to_green_build": 13831,
+   "context_tokens": 114769,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 13831
+  },
+  {
+   "trial": "rust-t1",
+   "lang": "rust",
+   "m": "m07",
+   "session": "session-1.jsonl",
+   "step": 24,
+   "primary": "refactor_ripple",
+   "secondary": [
+    "exhaustiveness"
+   ],
+   "kind": "neutral",
+   "n_errors": 9,
+   "codes": [
+    "E0004",
+    "E0063"
+   ],
+   "diagnostics": [
+    {
+     "code": "E0063",
+     "msg": "missing field `with` in initializer of `ast::Delete`",
+     "file": "parser.rs",
+     "line": 249,
+     "src": "return Ok(Stmt::Delete(Delete { table, alias, where_, returning }));"
+    },
+    {
+     "code": "E0063",
+     "msg": "missing field `with` in initializer of `ast::Insert`",
+     "file": "parser.rs",
+     "line": 734,
+     "src": "Ok(Stmt::Insert(Insert { or, table, alias, columns, source, upserts, returning }))"
+    },
+    {
+     "code": "E0063",
+     "msg": "missing field `with` in initializer of `ast::Update`",
+     "file": "parser.rs",
+     "line": 800,
+     "src": "Ok(Stmt::Update(Update { or, table, alias, sets, where_, returning }))"
+    },
+    {
+     "code": "E0063",
+     "msg": "missing field `with` in initializer of `ast::Select`",
+     "file": "parser.rs",
+     "line": 837,
+     "src": "let mut sel = Select { first, rest, order_by: vec![], limit: None, offset: None };"
+    },
+    {
+     "code": "E0063",
+     "msg": "missing field `windows` in initializer of `ast::SelectCore`",
+     "file": "parser.rs",
+     "line": 900,
+     "src": "Ok(Core::Select(SelectCore { distinct, columns, from, where_, group_by, having }))"
+    },
+    {
+     "code": "E0004",
+     "msg": "non-exhaustive patterns: `&mut ast::Expr::Window { .. }` not covered",
+     "file": "agg.rs",
+     "line": 88,
+     "src": "match e {"
+    },
+    {
+     "code": "E0004",
+     "msg": "non-exhaustive patterns: `&ast::Expr::Window { .. }` not covered",
+     "file": "eval.rs",
+     "line": 237,
+     "src": "Ok(match e {"
+    },
+    {
+     "code": "E0004",
+     "msg": "non-exhaustive patterns: `&ast::Expr::Window { .. }` not covered",
+     "file": "eval.rs",
+     "line": 429,
+     "src": "match e {"
+    },
+    {
+     "code": "E0004",
+     "msg": "non-exhaustive patterns: `&ast::Expr::Window { .. }` not covered",
+     "file": "eval.rs",
+     "line": 677,
+     "src": "Ok(match e {"
+    }
+   ],
+   "calls_to_green_build": 6,
+   "assistant_chars_to_green_build": 69731,
+   "context_tokens": 188366,
+   "calls_to_next_build": 6,
+   "assistant_chars_to_next_build": 69731
+  },
+  {
+   "trial": "rust-t1",
+   "lang": "rust",
+   "m": "m09",
+   "session": "session-1.jsonl",
+   "step": 25,
+   "primary": "borrow_checker",
+   "secondary": [
+    "rust_missing_trait_impl"
+   ],
+   "kind": "lang",
+   "n_errors": 2,
+   "codes": [
+    "E0369",
+    "E0507"
+   ],
+   "diagnostics": [
+    {
+     "code": "E0369",
+     "msg": "binary operation `!=` cannot be applied to type `Vec<Vec<Value>>`",
+     "file": "exec.rs",
+     "line": 192,
+     "src": "let changed = self.schema_signature() != self.file_schema;"
+    },
+    {
+     "code": "E0507",
+     "msg": "cannot move out of `*v` which is behind a mutable reference",
+     "file": "write.rs",
+     "line": 463,
+     "src": "...                   *v = v.apply_affinity(a);"
+    }
+   ],
+   "calls_to_green_build": 2,
+   "assistant_chars_to_green_build": 5041,
+   "context_tokens": 105735,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 5041
+  },
+  {
+   "trial": "rust-t2",
+   "lang": "rust",
+   "m": "m02",
+   "session": "session-1.jsonl",
+   "step": 17,
+   "primary": "refactor_ripple",
+   "secondary": [],
+   "kind": "neutral",
+   "n_errors": 3,
+   "codes": [
+    "E0061",
+    "E0063"
+   ],
+   "diagnostics": [
+    {
+     "code": "E0063",
+     "msg": "missing field `colls` in initializer of `Source`",
+     "file": "engine.rs",
+     "line": 807,
+     "src": "scope.sources.push(Source {"
+    },
+    {
+     "code": "E0061",
+     "msg": "this enum variant takes 3 arguments but 2 arguments were supplied",
+     "file": "engine.rs",
+     "line": 827,
+     "src": "...                   outs.push((BExpr::Col(s.offset + i, s.affinities[i]), Some(c.clone())));"
+    },
+    {
+     "code": "E0061",
+     "msg": "this enum variant takes 3 arguments but 2 arguments were supplied",
+     "file": "engine.rs",
+     "line": 839,
+     "src": "outs.push((BExpr::Col(s.offset + i, s.affinities[i]), Some(c.clone())));"
+    }
+   ],
+   "calls_to_green_build": 2,
+   "assistant_chars_to_green_build": 2407,
+   "context_tokens": 124491,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 2407
+  },
+  {
+   "trial": "rust-t2",
+   "lang": "rust",
+   "m": "m03",
+   "session": "session-1.jsonl",
+   "step": 30,
+   "primary": "borrow_checker",
+   "secondary": [],
+   "kind": "lang",
+   "n_errors": 1,
+   "codes": [
+    "E0506"
+   ],
+   "diagnostics": [
+    {
+     "code": "E0506",
+     "msg": "cannot assign to `self.started` because it is borrowed",
+     "file": "engine.rs",
+     "line": 1420,
+     "src": "let t = self.table(&ins.table)?;"
+    }
+   ],
+   "calls_to_green_build": 2,
+   "assistant_chars_to_green_build": 2123,
+   "context_tokens": 154504,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 2123
+  },
+  {
+   "trial": "rust-t2",
+   "lang": "rust",
+   "m": "m04",
+   "session": "session-1.jsonl",
+   "step": 20,
+   "primary": "rust_type_inference",
+   "secondary": [],
+   "kind": "lang",
+   "n_errors": 6,
+   "codes": [
+    "E0282",
+    "E0283"
+   ],
+   "diagnostics": [
+    {
+     "code": "E0282",
+     "msg": "type annotations needed for `Result<AggCall, _>`",
+     "file": "engine.rs",
+     "line": 367,
+     "src": "let r = (|| {"
+    },
+    {
+     "code": "E0283",
+     "msg": "type annotations needed for `Result<AggCall, _>`",
+     "file": "engine.rs",
+     "line": 367,
+     "src": "let r = (|| {"
+    },
+    {
+     "code": "E0283",
+     "msg": "type annotations needed for `Result<AggCall, _>`",
+     "file": "engine.rs",
+     "line": 367,
+     "src": "let r = (|| {"
+    },
+    {
+     "code": "E0283",
+     "msg": "type annotations needed for `Result<AggCall, _>`",
+     "file": "engine.rs",
+     "line": 367,
+     "src": "let r = (|| {"
+    },
+    {
+     "code": "E0283",
+     "msg": "type annotations needed for `Result<AggCall, _>`",
+     "file": "engine.rs",
+     "line": 367,
+     "src": "let r = (|| {"
+    },
+    {
+     "code": "E0283",
+     "msg": "type annotations needed for `Result<AggCall, _>`",
+     "file": "engine.rs",
+     "line": 367,
+     "src": "let r = (|| {"
+    }
+   ],
+   "calls_to_green_build": 2,
+   "assistant_chars_to_green_build": 2732,
+   "context_tokens": 131451,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 2732
+  },
+  {
+   "trial": "rust-t2",
+   "lang": "rust",
+   "m": "m06",
+   "session": "session-1.jsonl",
+   "step": 26,
+   "primary": "work_in_progress",
+   "secondary": [],
+   "kind": "neutral",
+   "n_errors": 1,
+   "codes": [
+    "E0583"
+   ],
+   "diagnostics": [
+    {
+     "code": "E0583",
+     "msg": "file not found for module `access`",
+     "file": "engine.rs",
+     "line": 8,
+     "src": "mod access;"
+    }
+   ],
+   "calls_to_green_build": 2,
+   "assistant_chars_to_green_build": 260,
+   "context_tokens": 184616,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 260
+  },
+  {
+   "trial": "rust-t2",
+   "lang": "rust",
+   "m": "m07",
+   "session": "session-1.jsonl",
+   "step": 34,
+   "primary": "borrow_checker",
+   "secondary": [],
+   "kind": "lang",
+   "n_errors": 1,
+   "codes": [
+    "E0521"
+   ],
+   "diagnostics": [
+    {
+     "code": "E0521",
+     "msg": "borrowed data escapes outside of function",
+     "file": "query.rs",
+     "line": 458,
+     "src": "fn exec_rec(p: &RecPlan, cx: Cx) -> Result<Vec<Row>, String> {"
+    }
+   ],
+   "calls_to_green_build": 2,
+   "assistant_chars_to_green_build": 5902,
+   "context_tokens": 237994,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 5902
+  },
+  {
+   "trial": "rust-t3",
+   "lang": "rust",
+   "m": "m02",
+   "session": "session-1.jsonl",
+   "step": 35,
+   "primary": "work_in_progress",
+   "secondary": [],
+   "kind": "neutral",
+   "n_errors": 3,
+   "codes": [
+    "E0308",
+    "E0425"
+   ],
+   "diagnostics": [
+    {
+     "code": "E0425",
+     "msg": "cannot find value `touched` in this scope",
+     "file": "printf.rs",
+     "line": 78,
+     "src": "if !touched {"
+    },
+    {
+     "code": "E0308",
+     "msg": "mismatched types",
+     "file": "printf.rs",
+     "line": 79,
+     "src": "pub fn format_float(r: f64, prec: usize) -> String {"
+    },
+    {
+     "code": "E0308",
+     "msg": "mismatched types",
+     "file": "printf.rs",
+     "line": 81,
+     "src": "pub fn format_float(r: f64, prec: usize) -> String {"
+    }
+   ],
+   "calls_to_green_build": 3,
+   "assistant_chars_to_green_build": 3445,
+   "context_tokens": 178407,
+   "calls_to_next_build": 3,
+   "assistant_chars_to_next_build": 3445
+  },
+  {
+   "trial": "rust-t3",
+   "lang": "rust",
+   "m": "m03",
+   "session": "session-1.jsonl",
+   "step": 17,
+   "primary": "borrow_checker",
+   "secondary": [],
+   "kind": "lang",
+   "n_errors": 2,
+   "codes": [
+    "E0502"
+   ],
+   "diagnostics": [
+    {
+     "code": "E0502",
+     "msg": "cannot borrow `order` as mutable because it is also borrowed as immutable",
+     "file": "exec.rs",
+     "line": 414,
+     "src": "order.extend(all.iter().copied().filter(|&c| !order.contains(&c) && mode_of(c) != Conflict::Replace));"
+    },
+    {
+     "code": "E0502",
+     "msg": "cannot borrow `order` as mutable because it is also borrowed as immutable",
+     "file": "exec.rs",
+     "line": 415,
+     "src": "order.extend(all.iter().copied().filter(|&c| !order.contains(&c)));"
+    }
+   ],
+   "calls_to_green_build": 2,
+   "assistant_chars_to_green_build": 1236,
+   "context_tokens": 139934,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 1236
+  },
+  {
+   "trial": "rust-t3",
+   "lang": "rust",
+   "m": "m05",
+   "session": "session-1.jsonl",
+   "step": 30,
+   "primary": "refactor_ripple",
+   "secondary": [],
+   "kind": "neutral",
+   "n_errors": 17,
+   "codes": [
+    "E0023",
+    "E0061",
+    "E0425",
+    "E0432"
+   ],
+   "diagnostics": [
+    {
+     "code": "E0432",
+     "msg": "unresolved imports `crate::query`, `crate::query`",
+     "file": "eval.rs",
+     "line": 11,
+     "src": "use crate::query::{self, QueryPlan};"
+    },
+    {
+     "code": "E0432",
+     "msg": "unresolved imports `crate::query`, `crate::query`",
+     "file": "exec.rs",
+     "line": 11,
+     "src": "use crate::query::{self, plan_query, run_query, table_scope, table_source, Rows};"
+    },
+    {
+     "code": "E0061",
+     "msg": "this function takes 3 arguments but 2 arguments were supplied",
+     "file": "exec.rs",
+     "line": 172,
+     "src": "bind(&c.expr, &scope)?;"
+    },
+    {
+     "code": "E0061",
+     "msg": "this function takes 3 arguments but 2 arguments were supplied",
+     "file": "exec.rs",
+     "line": 176,
+     "src": "if bind(d, &Scope::empty()).is_err() {"
+    },
+    {
+     "code": "E0061",
+     "msg": "this function takes 3 arguments but 2 arguments were supplied",
+     "file": "exec.rs",
+     "line": 284,
+     "src": "checks.push((c.name.clone(), bind(&c.expr, &scope)?));"
+    },
+    {
+     "code": "E0061",
+     "msg": "this function takes 3 arguments but 2 arguments were supplied",
+     "file": "exec.rs",
+     "line": 289,
+     "src": "Some(d) => Some(bind(d, &empty)?),"
+    },
+    {
+     "code": "E0061",
+     "msg": "this function takes 3 arguments but 2 arguments were supplied",
+     "file": "exec.rs",
+     "line": 307,
+     "src": "Some(d) => eval(d, &[])?,"
+    },
+    {
+     "code": "E0061",
+     "msg": "this function takes 3 arguments but 2 arguments were supplied",
+     "file": "exec.rs",
+     "line": 380,
+     "src": "if eval(e, &row)?.truth() == Some(false) {"
+    },
+    {
+     "code": "E0061",
+     "msg": "this function takes 3 arguments but 2 arguments were supplied",
+     "file": "exec.rs",
+     "line": 453,
+     "src": "if eval(w, &row)?.truth() != Some(true) {"
+    },
+    {
+     "code": "E0061",
+     "msg": "this function takes 3 arguments but 2 arguments were supplied",
+     "file": "exec.rs",
+     "line": 475,
+     "src": "let v = eval(e, row)?;"
+    },
+    {
+     "code": "E0061",
+     "msg": "this function takes 3 arguments but 2 arguments were supplied",
+     "file": "exec.rs",
+     "line": 491,
+     "src": "out.push((tg, bind(e, scope)?));"
+    },
+    {
+     "code": "E0023",
+     "msg": "this pattern has 2 fields, but the corresponding tuple variant has 3 fields",
+     "file": "exec.rs",
+     "line": 520,
+     "src": "ResultColumn::Expr(e, alias) => {"
+    },
+    {
+     "code": "E0061",
+     "msg": "this function takes 3 arguments but 2 arguments were supplied",
+     "file": "exec.rs",
+     "line": 521,
+     "src": "outs.push(bind(e, scope)?);"
+    },
+    {
+     "code": "E0061",
+     "msg": "this function takes 3 arguments but 2 arguments were supplied",
+     "file": "exec.rs",
+     "line": 530,
+     "src": "exprs.iter().map(|e| eval(e, row)).collect()"
+    },
+    {
+     "code": "E0061",
+     "msg": "this function takes 3 arguments but 2 arguments were supplied",
+     "file": "exec.rs",
+     "line": 576,
+     "src": "Some(w) => Some(bind(w, &us)?),"
+    },
+    {
+     "code": "E0061",
+     "msg": "this function takes 3 arguments but 2 arguments were supplied",
+     "file": "exec.rs",
+     "line": 604,
+     "src": "br.push(bind(e, &empty)?);"
+    },
+    {
+     "code": "E0425",
+     "msg": "cannot find function `select` in this scope",
+     "file": "exec.rs",
+     "line": 611,
+     "src": ""
+    }
+   ],
+   "calls_to_green_build": 2,
+   "assistant_chars_to_green_build": 5274,
+   "context_tokens": 176362,
+   "calls_to_next_build": 1,
+   "assistant_chars_to_next_build": 5222
+  },
+  {
+   "trial": "rust-t3",
+   "lang": "rust",
+   "m": "m05",
+   "session": "session-1.jsonl",
+   "step": 31,
+   "primary": "refactor_ripple",
+   "secondary": [],
+   "kind": "neutral",
+   "n_errors": 3,
+   "codes": [
+    "E0061",
+    "E0603"
+   ],
+   "diagnostics": [
+    {
+     "code": "E0603",
+     "msg": "function `make_cmp` is private",
+     "file": "query.rs",
+     "line": 12,
+     "src": "affinity, bind, check_coll, eval, expr_coll, make_cmp, outer_agg_level, resolves_column, source_col, BExpr, Env,"
+    },
+    {
+     "code": "E0061",
+     "msg": "this function takes 3 arguments but 2 arguments were supplied",
+     "file": "exec.rs",
+     "line": 737,
+     "src": "Some(w) => Some(bind(w, &scope)?),"
+    },
+    {
+     "code": "E0061",
+     "msg": "this function takes 3 arguments but 2 arguments were supplied",
+     "file": "exec.rs",
+     "line": 763,
+     "src": "Some(w) => Some(bind(w, &scope)?),"
+    }
+   ],
+   "calls_to_green_build": 1,
+   "assistant_chars_to_green_build": 293,
+   "context_tokens": 179615,
+   "calls_to_next_build": 1,
+   "assistant_chars_to_next_build": 293
+  },
+  {
+   "trial": "rust-t3",
+   "lang": "rust",
+   "m": "m06",
+   "session": "session-1.jsonl",
+   "step": 178,
+   "primary": "refactor_ripple",
+   "secondary": [],
+   "kind": "neutral",
+   "n_errors": 2,
+   "codes": [
+    "E0609"
+   ],
+   "diagnostics": [
+    {
+     "code": "E0609",
+     "msg": "no field `seq` on type `Table`",
+     "file": "ddl.rs",
+     "line": 447,
+     "src": "t.seq = old.seq;"
+    },
+    {
+     "code": "E0609",
+     "msg": "no field `seq` on type `&Table`",
+     "file": "ddl.rs",
+     "line": 447,
+     "src": "t.seq = old.seq;"
+    }
+   ],
+   "calls_to_green_build": 2,
+   "assistant_chars_to_green_build": 3216,
+   "context_tokens": 663586,
+   "calls_to_next_build": 2,
+   "assistant_chars_to_next_build": 3216
+  },
+  {
+   "trial": "rust-t3",
+   "lang": "rust",
+   "m": "m07",
+   "session": "session-1.jsonl",
+   "step": 25,
+   "primary": "refactor_ripple",
+   "secondary": [
+    "exhaustiveness"
+   ],
+   "kind": "neutral",
+   "n_errors": 3,
+   "codes": [
+    "E0004",
+    "E0063"
+   ],
+   "diagnostics": [
+    {
+     "code": "E0063",
+     "msg": "missing field `over` in initializer of `ast::FuncCall`",
+     "file": "agg.rs",
+     "line": 94,
+     "src": "Expr::Function(Box::new(FuncCall {"
+    },
+    {
+     "code": "E0063",
+     "msg": "missing field `windows` in initializer of `ast::SelectBody`",
+     "file": "flatten.rs",
+     "line": 494,
+     "src": "let body = SelectBody {"
+    },
+    {
+     "code": "E0004",
+     "msg": "non-exhaustive patterns: `&ast::Expr::WinRef(_)` not covered",
+     "file": "eval.rs",
+     "line": 208,
+     "src": "Ok(match e {"
+    }
+   ],
+   "calls_to_green_build": 10,
+   "assistant_chars_to_green_build": 68942,
+   "context_tokens": 196640,
+   "calls_to_next_build": 5,
+   "assistant_chars_to_next_build": 31554
+  },
+  {
+   "trial": "rust-t3",
+   "lang": "rust",
+   "m": "m07",
+   "session": "session-1.jsonl",
+   "step": 29,
+   "primary": "exhaustiveness",
+   "secondary": [],
+   "kind": "neutral",
+   "n_errors": 1,
+   "codes": [
+    "E0004"
+   ],
+   "diagnostics": [
+    {
+     "code": "E0004",
+     "msg": "non-exhaustive patterns: `&ast::Expr::WinRef(_)` not covered",
+     "file": "eval.rs",
+     "line": 208,
+     "src": "Ok(match e {"
+    }
+   ],
+   "calls_to_green_build": 6,
+   "assistant_chars_to_green_build": 38927,
+   "context_tokens": 225721,
+   "calls_to_next_build": 6,
+   "assistant_chars_to_next_build": 38927
+  }
+ ]
+}

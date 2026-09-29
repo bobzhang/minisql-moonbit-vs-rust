@@ -1,0 +1,65 @@
+lang,trial,milestone,step,primary,secondary,kind,n_errors,codes,calls_to_next_build,assistant_chars_to_next_build,calls_to_green_build,assistant_chars_to_green_build,context_tokens,first_error
+moonbit,moonbit-t1,m01,14,unknown_core_api,,lang,2,4015,1,391,1,391,116714,[4015] Type Array[Expr] has no method map_raise.
+moonbit,moonbit-t1,m01,29,unknown_core_api,,lang,2,4014,2,1679,2,1679,139856,[4014] Expr Type Mismatch
+moonbit,moonbit-t1,m02,24,work_in_progress,,neutral,4,4014 4015 4021,1,15941,2,16086,174172,[4014] Expr Type Mismatch
+moonbit,moonbit-t1,m02,25,old_generic_syntax,,lang,1,3002,1,305,1,305,182245,"[3002] Parse error, unexpected `fn f[T]`, you may expect `fn[T] f`."
+moonbit,moonbit-t1,m03,19,exhaustiveness,,neutral,1,0011,7,37480,8,37609,152353,[0011] 
+moonbit,moonbit-t1,m03,27,refactor_ripple,,neutral,1,4044,1,332,1,332,160346,[4044] Record fields hidden are undefined for type Source
+moonbit,moonbit-t1,m04,24,tuple_mut_pattern,,lang,9,3002 4021,1,514,1,514,143906,"[3002] Parse error, unexpected token `mut`, you may expect simple pattern."
+moonbit,moonbit-t1,m05,23,reserved_word,,lang,11,3002 4020 4041,2,514,2,580,160317,[4041] Partial type is not allowed in toplevel declarations.
+moonbit,moonbit-t1,m05,24,reserved_word,,lang,11,3002 4020 4041,1,268,1,268,160317,[4041] Partial type is not allowed in toplevel declarations.
+moonbit,moonbit-t1,m05,51,work_in_progress,,neutral,4,4021,3,638,3,638,203134,[4021] The value identifier texts is unbound.
+moonbit,moonbit-t1,m06,23,error_hidden_by_output_filter,exhaustiveness,lang,0,,2,407,12,56998,150896,[] 
+moonbit,moonbit-t1,m06,24,exhaustiveness,,neutral,1,0011,5,18124,11,56787,169015,"[0011] Error Warning (partial_match): Partial match, some hints:"
+moonbit,moonbit-t1,m06,28,refactor_ripple,error_effect,neutral,4,4014 4080 4122,6,38398,7,40087,179319,[4122] Function with error can only be used inside a function with error types in its signature. Please fix the return type of 
+moonbit,moonbit-t1,m06,33,refactor_ripple,,neutral,1,4080,2,20582,2,20582,192604,"[4080] This function has type (String, Array[ColumnDef], Array[TableConstraint], String, Int) -> Table raise SqlError, which re"
+moonbit,moonbit-t1,m06,52,refactor_ripple,,neutral,2,4080,2,3849,2,3849,236440,"[4080] This function has type (Table, Int, Array[Expr], OrderHint?, Array[Bool]?) -> Access, which requires 5 arguments, but is"
+moonbit,moonbit-t1,m07,29,exhaustiveness,,neutral,3,0011,5,43160,6,43321,221616,"[0011] Error Warning (partial_match): Partial match, some hints:"
+moonbit,moonbit-t1,m07,33,work_in_progress,,neutral,7,4014 4021 4032,2,10449,2,10449,226465,[4021] The value identifier cte_stack is unbound.
+moonbit,moonbit-t1,m09,16,error_hidden_by_output_filter,pkg_import,lang,0,,2,1616,2,1836,94792,[] 
+moonbit,moonbit-t1,m09,17,pkg_import,,lang,1,4020,1,1768,1,1768,94792,"[4020] Package ""io"" not found in the loaded packages."
+moonbit,moonbit-t2,m01,30,reserved_word,,lang,3,4021 4085 4086,2,2364,2,2364,134613,"[4086] The labels as_name~ are required by this function, but not supplied."
+moonbit,moonbit-t2,m02,27,int_width_numeric,,lang,5,4014 4015,2,880,2,880,145445,[4014] Expr Type Mismatch
+moonbit,moonbit-t2,m03,28,work_in_progress,reserved_word;refactor_ripple;for_in_custom_type,neutral,6,4015 4028 4044,1,8217,8,28898,131862,[4015] Type Database has no method insert.
+moonbit,moonbit-t2,m03,29,reserved_word,work_in_progress,lang,6,4015 4044 4091,2,1085,7,20980,137340,[4015] Type Database has no method insert.
+moonbit,moonbit-t2,m03,30,work_in_progress,,neutral,3,4015,6,20681,6,20681,150740,[4015] Type Database has no method insert.
+moonbit,moonbit-t2,m04,23,refactor_ripple,,neutral,3,4080,2,1211,2,1211,126364,"[4080] This function has type (Array[ResultCol], Scope, AggCtx?) -> (Array[Expr], Array[String?]) raise SqlError, which require"
+moonbit,moonbit-t2,m05,25,reserved_word,ctor_dotdot_positional;field_fn_call;loop_value_nobreak,lang,11,3001 3002 4015 4020 4041 4080 4108,2,1404,2,1522,164816,[4041] Partial type is not allowed in toplevel declarations.
+moonbit,moonbit-t2,m05,26,ctor_dotdot_positional,reserved_word,lang,12,3002 4020 4041 4080 4091,1,551,1,551,164816,"[4080] The constructor InSelect requires 3 arguments, but is given 0 arguments."
+moonbit,moonbit-t2,m06,33,error_effect,,lang,1,4122,3,670,3,735,241826,[4122] Function with error can only be used inside a function with error types in its signature. Please fix the return type of 
+moonbit,moonbit-t2,m06,35,closure_effect_syntax,,lang,11,3002 4014 4021 4074,1,348,1,348,241826,"[3002] Parse error, unexpected token `->`, you may expect `{`."
+moonbit,moonbit-t2,m06,123,exhaustiveness,,neutral,2,0011,1,1281,1,1281,370347,"[0011] Error Warning (partial_match): Partial match, some hints:"
+moonbit,moonbit-t2,m07,23,exhaustiveness,,neutral,5,0011,2,2155,9,18469,156630,"[0011] Error Warning (partial_match): Partial match, some hints:"
+moonbit,moonbit-t2,m07,25,ctor_dotdot_positional,,lang,2,4080,2,363,7,16438,159175,"[4080] The constructor WinFunc requires 2 arguments, but is given 0 arguments."
+moonbit,moonbit-t2,m07,26,exhaustiveness,,neutral,1,0011,6,16187,6,16187,171963,"[0011] Error Warning (partial_match): Partial match, some hints:"
+moonbit,moonbit-t3,m01,12,reserved_word,loop_value_nobreak,lang,7,3002 4020 4108,2,9890,2,9890,111820,"[4108] The while loop is expected to yield a value of type FromItem, please add a `nobreak` block."
+moonbit,moonbit-t3,m01,15,work_in_progress,,neutral,5,4014 4015 4021 4024,2,10280,2,10280,126585,[4015] Type Database has no method run_select.
+moonbit,moonbit-t3,m02,24,error_hidden_by_output_filter,ambiguous_constructor,lang,0,,2,760,3,1307,123777,[] 
+moonbit,moonbit-t3,m02,25,ambiguous_constructor,,lang,1,4124,2,1257,2,1257,124469,[4124] The constructor Binary is ambiguous: it may come from type Coll or Expr.
+moonbit,moonbit-t3,m02,30,error_effect,,lang,4,4014,2,979,2,979,142736,[4014] Expr Type Mismatch
+moonbit,moonbit-t3,m04,16,error_hidden_by_output_filter,work_in_progress,lang,0,,2,14035,2,14035,120352,[] 
+moonbit,moonbit-t3,m04,22,tuple_mut_pattern,,lang,10,3002 4021,1,768,1,768,138681,"[3002] Parse error, unexpected token `mut`, you may expect simple pattern."
+moonbit,moonbit-t3,m05,21,refactor_ripple,reserved_word,neutral,11,3002 4020 4021 4044 4074,2,2009,2,2009,136645,"[4044] Record fields hidden, partners are undefined for type ScopeTable"
+moonbit,moonbit-t3,m06,34,work_in_progress,,neutral,1,4015,4,29541,4,29541,183996,[4015] Type Database has no method alter_table.
+moonbit,moonbit-t3,m06,66,refactor_ripple,,neutral,2,4044,3,5499,3,5499,239084,[4044] Record fields table are undefined for type Source
+moonbit,moonbit-t3,m06,151,tuple_mut_pattern,refactor_ripple,lang,4,3002 4015 4028,2,1499,10,17984,439681,"[4015] Type SortedChunks[Int64, Array[Value]] has no method range."
+moonbit,moonbit-t3,m06,152,tuple_mut_pattern,,lang,1,4021,3,6613,9,17860,445640,[4021] The value identifier ci is unbound.
+moonbit,moonbit-t3,m06,154,refactor_ripple,,neutral,5,4014 4015 4080,2,4319,7,11292,446873,[4080] This function has type:
+moonbit,moonbit-t3,m06,156,refactor_ripple,unused_mut_is_error,neutral,5,0015 4014 4015 4044 4080,3,3031,5,7019,453187,"[4044] Record fields limit, nonnull are undefined for type OrderHint"
+moonbit,moonbit-t3,m06,158,refactor_ripple,unused_mut_is_error,neutral,5,0015 4044,3,4124,3,4124,456078,"[4044] Record fields limit, nonnull are undefined for type OrderHint"
+rust,rust-t1,m01,30,rust_immutable_binding,,lang,1,E0384,2,2320,2,2320,127000,[E0384] cannot assign twice to immutable variable `j`
+rust,rust-t1,m04,18,refactor_ripple,,neutral,6,E0063,2,13831,2,13831,114769,[E0063] missing field `allow_agg` in initializer of `eval::Scope`
+rust,rust-t1,m07,24,refactor_ripple,exhaustiveness,neutral,9,E0004 E0063,6,69731,6,69731,188366,[E0063] missing field `with` in initializer of `ast::Delete`
+rust,rust-t1,m09,25,borrow_checker,rust_missing_trait_impl,lang,2,E0369 E0507,2,5041,2,5041,105735,[E0369] binary operation `!=` cannot be applied to type `Vec<Vec<Value>>`
+rust,rust-t2,m02,17,refactor_ripple,,neutral,3,E0061 E0063,2,2407,2,2407,124491,[E0063] missing field `colls` in initializer of `Source`
+rust,rust-t2,m03,30,borrow_checker,,lang,1,E0506,2,2123,2,2123,154504,[E0506] cannot assign to `self.started` because it is borrowed
+rust,rust-t2,m04,20,rust_type_inference,,lang,6,E0282 E0283,2,2732,2,2732,131451,"[E0282] type annotations needed for `Result<AggCall, _>`"
+rust,rust-t2,m06,26,work_in_progress,,neutral,1,E0583,2,260,2,260,184616,[E0583] file not found for module `access`
+rust,rust-t2,m07,34,borrow_checker,,lang,1,E0521,2,5902,2,5902,237994,[E0521] borrowed data escapes outside of function
+rust,rust-t3,m02,35,work_in_progress,,neutral,3,E0308 E0425,3,3445,3,3445,178407,[E0425] cannot find value `touched` in this scope
+rust,rust-t3,m03,17,borrow_checker,,lang,2,E0502,2,1236,2,1236,139934,[E0502] cannot borrow `order` as mutable because it is also borrowed as immutable
+rust,rust-t3,m05,30,refactor_ripple,,neutral,17,E0023 E0061 E0425 E0432,1,5222,2,5274,176362,"[E0432] unresolved imports `crate::query`, `crate::query`"
+rust,rust-t3,m05,31,refactor_ripple,,neutral,3,E0061 E0603,1,293,1,293,179615,[E0603] function `make_cmp` is private
+rust,rust-t3,m06,178,refactor_ripple,,neutral,2,E0609,2,3216,2,3216,663586,[E0609] no field `seq` on type `Table`
+rust,rust-t3,m07,25,refactor_ripple,exhaustiveness,neutral,3,E0004 E0063,5,31554,10,68942,196640,[E0063] missing field `over` in initializer of `ast::FuncCall`
+rust,rust-t3,m07,29,exhaustiveness,,neutral,1,E0004,6,38927,6,38927,225721,[E0004] non-exhaustive patterns: `&ast::Expr::WinRef(_)` not covered

@@ -1,0 +1,397 @@
+<title>minisql Field Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg: #f5f6f8; --surface: #ffffff; --ink: #15171b; --ink-2: #4f5563; --muted: #7a8090;
+  --rule: #dfe2e8; --grid: #eceef2; --rust: #eb6834; --rust-soft: #f6c3ad; --moon: #2a78d6; --moon-soft: #b7d3f6;
+  --tip-bg: #15171b; --tip-ink: #ffffff; --hi: #eef4fd;
+  --display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #111317; --surface: #191c21; --ink: #eef0f4; --ink-2: #b6bcc8; --muted: #8b92a0;
+    --rule: #2c3038; --grid: #23262d; --rust: #d95926; --rust-soft: #6b3a25; --moon: #3987e5; --moon-soft: #1f3e63;
+    --tip-bg: #eef0f4; --tip-ink: #111317; --hi: #17263a;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #111317; --surface: #191c21; --ink: #eef0f4; --ink-2: #b6bcc8; --muted: #8b92a0;
+  --rule: #2c3038; --grid: #23262d; --rust: #d95926; --rust-soft: #6b3a25; --moon: #3987e5; --moon-soft: #1f3e63;
+  --tip-bg: #eef0f4; --tip-ink: #111317; --hi: #17263a;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.6; margin: 0; }
+.wrap { max-width: 940px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 80px; display: grid; gap: 56px; }
+h1, h2, h3 { font-family: var(--display); line-height: 1.15; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; letter-spacing: -0.02em; }
+h2 { font-size: 1.55rem; font-weight: 800; letter-spacing: -0.01em; }
+h3 { font-size: 1.05rem; font-weight: 600; }
+p { margin: 0; max-width: 70ch; }
+.eyebrow { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+section { display: grid; gap: 16px; }
+.lede { font-size: 1.15rem; color: var(--ink-2); }
+.key { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; white-space: nowrap; }
+.sw { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.sw.rust { background: var(--rust); } .sw.moon { background: var(--moon); }
+nav.toc { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 0.92rem; }
+nav.toc a { color: var(--ink-2); text-decoration: none; border-bottom: 1px solid var(--rule); }
+nav.toc a:hover, nav.toc a:focus-visible { color: var(--ink); border-color: var(--ink); outline: none; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+.tile { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 16px; display: grid; gap: 4px; align-content: start; }
+.tile .num { font-family: var(--display); font-size: 2rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.tile .lab { font-size: 0.9rem; color: var(--ink-2); }
+.tile .sub { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); }
+.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 20px; display: grid; gap: 12px; }
+.legend { display: flex; flex-wrap: wrap; gap: 16px; font-size: 0.9rem; color: var(--ink-2); }
+.chart { width: 100%; overflow-x: auto; }
+.chart svg { display: block; width: 100%; height: auto; min-width: 540px; }
+.chart text { font-family: var(--body); font-size: 12px; fill: var(--ink-2); }
+.chart .axis { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
+.note { font-size: 0.9rem; color: var(--muted); }
+ul.list { margin: 0; padding-left: 1.2em; display: grid; gap: 8px; max-width: 72ch; }
+.tablewrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; }
+table { border-collapse: collapse; width: 100%; font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+td.n, th.n { text-align: right; white-space: nowrap; font-family: var(--mono); font-size: 0.84rem; }
+thead th { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+tr.total td { font-weight: 600; }
+code { font-family: var(--mono); font-size: 0.86em; background: var(--grid); padding: 1px 5px; border-radius: 4px; }
+pre { font-family: var(--mono); font-size: 0.84rem; background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 12px 14px; overflow-x: auto; margin: 0; }
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+.cols ul { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; font-size: 0.95rem; color: var(--ink-2); }
+ol.recs { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; counter-reset: rec; }
+ol.recs > li { counter-increment: rec; background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 16px 18px 16px 58px; position: relative; display: grid; gap: 6px; }
+ol.recs > li::before { content: counter(rec); position: absolute; left: 18px; top: 14px; font-family: var(--display); font-weight: 800; font-size: 1.4rem; color: var(--moon); }
+.rec-meta { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-family: var(--mono); font-size: 0.72rem; padding: 2px 8px; border-radius: 999px; background: var(--hi); color: var(--ink-2); white-space: nowrap; }
+.rec-body { font-size: 0.95rem; color: var(--ink-2); display: grid; gap: 4px; }
+.callout { background: var(--hi); border-radius: 12px; padding: 16px 18px; display: grid; gap: 6px; }
+#tip { position: fixed; pointer-events: none; background: var(--tip-bg); color: var(--tip-ink); font-size: 0.8rem; line-height: 1.4; padding: 6px 9px; border-radius: 6px; max-width: 280px; z-index: 10; }
+a { color: var(--moon); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <header style="display:grid;gap:14px">
+    <div class="eyebrow">Field report · Claude Opus 5.5 (effort high) · Claude Code 2.1.281 · moon 0.1.20260920 · cargo 1.89</div>
+    <h1>MoonBit and Rust building the same database engine</h1>
+    <p class="lede">An AI coding agent built a SQLite-compatible SQL engine nine milestones deep, three times in <span class="key"><span class="sw rust"></span>Rust</span> and three times in <span class="key"><span class="sw moon"></span>MoonBit</span>. This report covers how the experiment was run, what it found, and where MoonBit could remove the extra cost it still pays.</p>
+    <nav class="toc" aria-label="Contents">
+      <a href="#summary">Summary</a><a href="#experiment">The experiment</a><a href="#results">Results</a><a href="#time">Time</a><a href="#extra">Where MoonBit paid extra</a><a href="#errors">Compile errors</a><a href="#core">Missing in core</a><a href="#runtime">Runtime and builds</a><a href="#well">What worked well</a><a href="#recs">Recommendations</a><a href="#limits">Limits and next steps</a>
+    </nav>
+  </header>
+
+  <section id="summary">
+    <div class="eyebrow">Summary</div>
+    <h2>Parity on agent cost, less code in MoonBit, and a clear list of fixable frictions</h2>
+    <div class="tiles" id="tiles"></div>
+    <ul class="list">
+      <li><strong>Agent cost is a draw.</strong> MoonBit's mean cost was 0.94× Rust's and its median 1.12×. Three trials cannot separate the two languages; run-to-run variation is larger than the language difference.</li>
+      <li><strong>MoonBit writes less.</strong> 12% fewer output tokens and 12% fewer source tokens for the same test results, mostly because it needs no borrows, <code>?</code>, <code>Result</code> wrapping or cross-module <code>pub</code>.</li>
+      <li><strong>Its extra costs are small and identifiable.</strong> The primer re-read on every call (about $1.40 per trial), language-specific compile errors (about 11 extra calls per trial), and about 500 lines per trial of helpers that Rust's standard library provides, led by an ordered map.</li>
+      <li><strong>Most of those costs can be removed</strong> by core-library additions, a few targeted compiler messages, and a compact official guide for agents. Section <a href="#recs">Recommendations</a> ranks them with evidence.</li>
+    </ul>
+  </section>
+
+  <section id="experiment">
+    <div class="eyebrow">The experiment</div>
+    <h2>One spec, one test suite, two languages</h2>
+    <p>The task was <strong>minisql</strong>: a command-line engine that reads a SQL script on stdin and prints results, matching SQLite 3.53. It had to reach about 20,000 lines so that the one-time cost of an unfamiliar language would be spread over real work; the finished engines came out at about 13,000 lines.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Milestone</th><th>Scope</th><th class="n">Tests</th></tr></thead>
+      <tbody>
+        <tr><td>M1 Core pipeline</td><td>Lexer, parser, CREATE/INSERT/SELECT, affinity, output format</td><td class="n">53</td></tr>
+        <tr><td>M2 Expressions</td><td>CASE, CAST, LIKE/GLOB, collations, about 60 scalar and math functions, printf</td><td class="n">68</td></tr>
+        <tr><td>M3 DML and constraints</td><td>ORDER BY/LIMIT, UPDATE/DELETE, conflict clauses, upsert, RETURNING, rowids</td><td class="n">56</td></tr>
+        <tr><td>M4 Aggregation</td><td>Aggregates, GROUP BY/HAVING, date and time functions</td><td class="n">53</td></tr>
+        <tr><td>M5 Joins and subqueries</td><td>All join types, correlated subqueries, compound queries</td><td class="n">56</td></tr>
+        <tr><td>M6 Schema and transactions</td><td>Indexes, views, ALTER TABLE, savepoints, performance tests</td><td class="n">55</td></tr>
+        <tr><td>M7 CTEs and windows</td><td>Recursive CTEs, window functions with every frame type</td><td class="n">61</td></tr>
+        <tr><td>M8 Read SQLite files</td><td>Real SQLite database files: b-trees, records, overflow pages</td><td class="n">42</td></tr>
+        <tr><td>M9 Write SQLite files</td><td>Files that SQLite's integrity check accepts</td><td class="n">45</td></tr>
+        <tr class="total"><td>Total</td><td>Expected outputs generated by real SQLite; half visible to the agent, half hidden</td><td class="n">489</td></tr>
+      </tbody>
+    </table></div>
+    <div class="cols">
+      <div style="display:grid;gap:8px"><h3>How sessions ran</h3><ul>
+        <li>One fresh headless <code>claude -p</code> session per milestone, in the same workspace</li>
+        <li>Tools: Bash, Read, Edit, Write only; no web, memory, skills or MCP servers</li>
+        <li>Up to 2 follow-up prompts if visible tests still failed (never needed)</li>
+        <li>Rust and MoonBit trials ran in parallel pairs</li>
+      </ul></div>
+      <div style="display:grid;gap:8px"><h3>Fairness controls</h3><ul>
+        <li>Identical spec, tests, prompts, model and effort</li>
+        <li>Standard library only; no FFI, no C, no SQLite; checked after every milestone</li>
+        <li>Identical five-function I/O module in both starter projects, since MoonBit core has no stdin or file access</li>
+        <li>Primers with the same four sections: 11.7k tokens for MoonBit, 2.9k for Rust</li>
+      </ul></div>
+      <div style="display:grid;gap:8px"><h3>What was measured</h3><ul>
+        <li>Tokens by type, estimated cost, calls, turns and wall time</li>
+        <li>Tokens until the visible tests first all passed</li>
+        <li>Hidden-test pass rate after every milestone</li>
+        <li>Source size in the model's own tokenizer; compile errors from transcripts</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section id="results">
+    <div class="eyebrow">Results</div>
+    <h2>Every trial, not just the averages</h2>
+    <p>Each dot is one complete nine-milestone trial; the tick is the mean. The spread within a language is as large as the gap between them. The largest single swing is when an agent kept hardening its engine after every test had passed: 47–82% of each trial's input tokens came after that point. Rust's third trial and MoonBit's second each contained one very long session of this kind.</p>
+    <div class="panel">
+      <div class="legend"><span class="key"><span class="sw rust"></span>Rust</span><span class="key"><span class="sw moon"></span>MoonBit</span><span>Tick = mean of 3 trials</span></div>
+      <div class="chart" id="strips"></div>
+    </div>
+    <div class="tablewrap"><table id="table"></table></div>
+    <p class="note">Cost is Claude Code's estimate at API list prices; the runs used a subscription. Fitted effective prices per million tokens: cache reads $0.20, cache writes $8.05, output $19.92 (max error $0.07 across 54 sessions).</p>
+  </section>
+
+  <section id="time">
+    <div class="eyebrow">Time</div>
+    <h2>Wall time follows output tokens, not compile speed</h2>
+    <p>About 93% of every trial's wall time was the model generating text. Builds, tests and every other command took 8–14 minutes of 2–3 hours. The middle trials make the point: Rust t2 produced 780k output tokens in 2.04 h of model time; MoonBit t2 produced 757k in 2.03 h; both took 2.19 h of wall time. On this project MoonBit's native release build was slower than Rust's (7–9 s vs 3–4 s), while <code>moon check</code> was faster than <code>cargo check</code> (0.2 s vs about 1 s). Neither difference moved the totals.</p>
+  </section>
+
+  <section id="extra">
+    <div class="eyebrow">Where MoonBit paid extra</div>
+    <h2>The extra costs are small, and mostly outside the language itself</h2>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Item, per trial</th><th>Evidence</th><th class="n">Est. cost</th></tr></thead>
+      <tbody>
+        <tr><td>Primer re-read on every call</td><td>11.7k vs 2.9k tokens × about 400 calls: 4.9M vs 1.1M cached input tokens</td><td class="n">+$1.39</td></tr>
+        <tr><td>Language-specific compile errors</td><td>25 of MoonBit's 48 failed builds vs 6 of Rust's 16 (3 trials); net about 11 calls and 1.9M input tokens per trial</td><td class="n">+$0.43</td></tr>
+        <tr><td>Helpers that Rust std provides</td><td>460–525 lines per trial (about 2.9k source tokens, about 13k output tokens)</td><td class="n">+$0.26</td></tr>
+        <tr><td>Less code written overall</td><td>105k fewer output tokens per trial on average, helpers included</td><td class="n">−$2.10</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">Estimates use the fitted prices above. The helper cost is already inside the output-token total; it is listed separately to show what core-library additions would save.</p>
+  </section>
+
+  <section id="errors">
+    <div class="eyebrow">Compile errors</div>
+    <h2>What MoonBit's agents got wrong, by cause</h2>
+    <p>Every failed build across the six trials was labelled by hand with one primary cause. About half of MoonBit's failures were language-neutral: the primer told agents to run <code>moon check</code> after every edit, so they checked half-written code (198 checks against 3 <code>cargo check</code> runs). The language-specific causes are below.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Cause</th><th>Example</th><th class="n">Failed builds</th><th class="n">Trials</th></tr></thead>
+      <tbody>
+        <tr><td><code>using</code> is a keyword; renames forced by <code>alias</code> warnings</td><td><code>let mut using : Array[String]? = None</code> → parse error plus a misleading <code>Package "?PACKAGE_NAME" not found</code> cascade</td><td class="n">6 (9 involved)</td><td class="n">3 of 3</td></tr>
+        <tr><td>Tuple pattern with <code>mut</code></td><td><code>let (mut y, mut m, d) = …</code> → parse error, then 8 "unbound" errors</td><td class="n">4</td><td class="n">2 of 3</td></tr>
+        <tr><td>Error hidden by output filtering</td><td><code>moon check | tail -30</code> showed only warnings; the error was above</td><td class="n">4</td><td class="n">2 of 3</td></tr>
+        <tr><td>Error-effect typing</td><td>A non-raising function rejected where <code>(T) -> U raise E</code> is expected; fixed by eta-expansion</td><td class="n">2 (3 involved)</td><td class="n">3 of 3</td></tr>
+        <tr><td><code>C(..)</code> on a positional constructor</td><td><code>WinFunc(..)</code> → "requires 2 arguments"; accepted for labelled payloads</td><td class="n">2 (3 involved)</td><td class="n">1 of 3</td></tr>
+        <tr><td>Invented core API</td><td><code>map_raise</code> (core higher-order functions already accept raising closures)</td><td class="n">2</td><td class="n">1 of 3</td></tr>
+        <tr><td>Other</td><td>Old <code>fn f[T]</code> syntax, <code>fn(x) raise E -> T</code> order, Int/Int64 mixing, a missing package import, a constructor name shared by two enums; <code>while true</code> needing <code>nobreak</code> and <code>unused_mut</code> on a field were contributing causes</td><td class="n">5</td><td class="n">3 of 3</td></tr>
+        <tr class="total"><td>Rust, for comparison</td><td>Borrow checker (4), type annotations (1), immutable binding (1)</td><td class="n">6</td><td class="n"></td></tr>
+      </tbody>
+    </table></div>
+    <p>The primer's list of removed syntax worked: none of <code>f!(x)</code>, <code>try?</code>, <code>loop</code>, <code>derive(Show)</code>, <code>T::new()</code> or <code>view.to_string()</code> appeared in any diagnostic. Every language-specific failure above involved something the primer did not mention.</p>
+  </section>
+
+  <section id="core">
+    <div class="eyebrow">Missing in core</div>
+    <h2>About 500 lines per trial of what Rust's standard library provides</h2>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Helper written by hand</th><th class="n">Lines t1 / t2 / t3</th><th>Rust used</th><th>Why it was needed</th></tr></thead>
+      <tbody>
+        <tr><td>Ordered map with range, reverse and seek</td><td class="n">254 / 316 / 252</td><td><code>BTreeMap</code> with <code>range</code>, <code>.rev()</code>, <code>first/last</code></td><td><code>@sorted_map</code> has only an inclusive forward <code>range(lo, hi)</code>; no reverse iteration, bounds, first/last or custom comparator. One agent replaced it after ORDER BY … LIMIT took over 10 s.</td></tr>
+        <tr><td>Exact decimal digits of a double</td><td class="n">83 / 74 / 76</td><td><code>format!("{:.29e}", r)</code></td><td>No precision or exponent float formatting in core.</td></tr>
+        <tr><td>Big-endian reads at an offset</td><td class="n">25 / 31 / 29</td><td><code>from_be_bytes</code></td><td>Bitstring patterns and <code>@buffer</code> writers exist, but not random-access reads.</td></tr>
+        <tr><td>ASCII tests on UTF-16 code units</td><td class="n">36 / 34 / 25</td><td><code>u8::is_ascii_digit</code> etc.</td><td><code>UInt16</code> has no ASCII predicates; lexers compare with <code>'a'.to_int()</code> (56 conversions in one lexer).</td></tr>
+        <tr><td>Code-point order string compare</td><td class="n">34 / 25 / 32</td><td><code>str::cmp</code></td><td><code>&lt;</code> is shortlex; <code>lexical_compare</code> orders by UTF-16 code unit.</td></tr>
+        <tr><td>Checked Int64 arithmetic</td><td class="n">22 / 30 / 22</td><td><code>checked_add/sub/mul</code></td><td>Not in core; the primer supplied the helper.</td></tr>
+        <tr><td>Integer padding</td><td class="n">22 / 15 / 26</td><td><code>{:02}</code>, <code>{:&gt;w$}</code></td><td>No width specifiers; <code>pad_start</code> exists but was never used.</td></tr>
+        <tr><td>Stable sort with a comparator</td><td class="n">44 / 0 / 0</td><td><code>sort_by</code></td><td><code>stable_sort</code> requires <code>T : Compare</code>; two trials used index tie-breakers instead.</td></tr>
+        <tr class="total"><td>Total</td><td class="n">520 / 525 / 462</td><td colspan="2">About 2.9k source tokens, 13k output tokens, 1.7% of MoonBit output per trial</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="runtime">
+    <div class="eyebrow">Runtime and builds</div>
+    <h2>MoonBit engines ran 1.25× Rust's time and used far less memory</h2>
+    <p>Ten controlled workloads were run on all six finished engines (5 runs each; every output matched SQLite). Bars show MoonBit's time ÷ Rust's, averaged over the three trial pairs, for the whole workload including a shared 300k-row setup. MoonBit was faster on string functions and printf and slowest on index builds and text sorting.</p>
+    <div class="panel">
+      <div class="legend"><span class="key"><span class="sw moon"></span>MoonBit faster</span><span class="key"><span class="sw rust"></span>Rust faster</span></div>
+      <div class="chart" id="bench"></div>
+    </div>
+    <div class="tablewrap"><table>
+      <thead><tr><th></th><th class="n">Rust t1 / t2 / t3</th><th class="n">MoonBit t1 / t2 / t3</th></tr></thead>
+      <tbody>
+        <tr><td>Release build, clean or incremental</td><td class="n">3.2 / 4.0 / 3.9 s</td><td class="n">7.2 / 8.6 / 8.4 s</td></tr>
+        <tr><td>Full type check from clean</td><td class="n">1.14 / 0.76 / 0.94 s</td><td class="n">0.21 / 0.21 / 0.23 s</td></tr>
+        <tr><td>Stripped binary</td><td class="n">1.64 / 1.70 / 1.92 MB</td><td class="n">1.27 / 1.51 / 1.47 MB</td></tr>
+        <tr><td>Peak memory, index workload</td><td class="n">601 MB</td><td class="n">170 MB</td></tr>
+      </tbody>
+    </table></div>
+    <p>A profile of the index build (MoonBit 5.1 s vs Rust 2.4 s) put about 35% of MoonBit's time in memory management, 22% in reference-count release alone, and about half in the agents' hand-written AVL tree with closure comparators. The slowdown traces mostly to the missing ordered map, not to code generation. Two MoonBit engines implemented index-ordered LIMIT pushdown on their custom trees and were the only engines to pass <code>perf_order_by_limit</code>; all three Rust engines timed out on it.</p>
+  </section>
+
+  <section id="well">
+    <div class="eyebrow">What worked well</div>
+    <h2>Where MoonBit's design paid off</h2>
+    <ul class="list">
+      <li><strong>Error effects shrink error-heavy code.</strong> The SQLite file reader was 39% fewer tokens than Rust's: <code>raise</code> in 12 signatures replaced 14 <code>?</code>, 12 <code>Ok</code>/<code>Err</code>, 7 <code>Result</code> types, 43 borrows and 7 lifetimes.</li>
+      <li><strong>No ownership errors.</strong> Rust lost 4 builds and 8 calls to the borrow checker; MoonBit has no equivalent class of error.</li>
+      <li><strong>Fast checks and good lookups.</strong> <code>moon check</code> in 0.2 s made check-after-every-edit cheap, and <code>moon ide doc</code> answered 25 of 26 queries.</li>
+      <li><strong>Helpful deprecation messages.</strong> Every deprecation named its replacement, and no deprecated API remained in any final workspace.</li>
+      <li><strong>Lean binaries.</strong> 20–25% smaller binaries and 3.5× lower peak memory on the index workload; string-heavy code ran faster than Rust's.</li>
+    </ul>
+  </section>
+
+  <section id="recs">
+    <div class="eyebrow">Recommendations</div>
+    <h2>Where MoonBit can improve, ranked by measured impact</h2>
+    <p>Savings are per nine-milestone trial, estimated from this run. One API call costs about 150–250k cached input tokens plus 0.5–1.5k output tokens.</p>
+    <ol class="recs">
+      <li><h3>A complete ordered map in core</h3>
+        <div class="rec-meta"><span class="chip">core library</span><span class="chip">≈7k output tokens</span><span class="chip">up to 3× faster index work</span></div>
+        <div class="rec-body"><p>Add open, exclusive and unbounded ranges, reverse iteration, lower/upper bound or seek, first/last and pop_first/pop_last, and a comparator constructor (or a documented key newtype). A B-tree implementation would help cache locality.</p><p><em>Evidence:</em> all 3 trials wrote a 252–316-line map; <code>SortedMap::*</code> was queried 5 times for methods that don't exist; about half of index-build time was in the hand-written tree.</p></div></li>
+      <li><h3>Targeted messages for common foreign-language forms</h3>
+        <div class="rec-meta"><span class="chip">compiler</span><span class="chip">≈6 calls, ≈1M input tokens</span></div>
+        <div class="rec-body"><p>Say "<code>using</code> is a keyword; rename it" and suppress the package-not-found cascade; suggest a fix for <code>let (mut a, b)</code> or accept it; for <code>fn(x) raise E -> T</code>, say "write <code>-> T raise E</code>".</p><p><em>Evidence:</em> 11 primary failures and 19 calls, in every trial.</p></div></li>
+      <li><h3>Accept <code>C(..)</code> for positional constructors, and coerce non-raising functions to raising function types</h3>
+        <div class="rec-meta"><span class="chip">language</span><span class="chip">≈2–3 calls</span></div>
+        <div class="rec-body"><p><code>B(..)</code> already works for labelled payloads, and eta-expansion is always valid, so both would remove surprises without changing meaning.</p><p><em>Evidence:</em> 5 involved failed builds.</p></div></li>
+      <li><h3>Float formatting with precision and exponent, plus integer width padding</h3>
+        <div class="rec-meta"><span class="chip">core library</span><span class="chip">≈3k output tokens</span><span class="chip">removes a rounding risk</span></div>
+        <div class="rec-body"><p>For example <code>Double::to_fixed(p)</code>, <code>to_exponential(p)</code>, or a small format with width and precision.</p><p><em>Evidence:</em> 74–83 lines of digit generation per trial (double-double or bignum), where Rust used one line.</p></div></li>
+      <li><h3>An official, compact, versioned guide for agents, and current training data</h3>
+        <div class="rec-meta"><span class="chip">docs</span><span class="chip">≈2M input tokens if halved</span></div>
+        <div class="rec-body"><p>Cover the pitfalls this primer missed (<code>using</code>, tuple <code>mut</code>, <code>C(..)</code>, effect order, raise-polymorphic higher-order functions) and keep it short. A stable syntax matters as much as more data, because mixed old and new forms in training data lead models to write removed forms.</p><p><em>Evidence:</em> the 11.7k-token primer cost 3.8M extra input tokens per trial, more than all compile errors; its stale-syntax list prevented every error it named.</p></div></li>
+      <li><h3>Diagnostics that survive filtering</h3>
+        <div class="rec-meta"><span class="chip">toolchain</span><span class="chip">≈3 calls</span></div>
+        <div class="rec-body"><p>Print errors after warnings or add an errors-only mode; end with a one-line summary of the first error; collapse long help texts such as <code>fragile_catch_all</code>'s 12 lines; reconsider the <code>reserved_keyword</code> warning for <code>alias</code> and <code>local</code>.</p><p><em>Evidence:</em> agents filtered 368 of 376 build outputs through <code>grep</code>/<code>tail</code>; 4 errors were hidden; <code>alias</code> warnings at 46 sites prompted renames that broke 3 builds.</p></div></li>
+      <li><h3>Small adapters around the UTF-16 and integer design</h3>
+        <div class="rec-meta"><span class="chip">core library</span><span class="chip">≈2k output tokens</span></div>
+        <div class="rec-body"><p><code>UInt16</code> ASCII predicates, a code-point-order string compare (or clear docs that <code>lexical_compare</code> is by code unit), <code>Int64</code> checked or overflowing arithmetic, and <code>stable_sort_by</code>. UTF-16 strings and wrapping integers are reasonable designs, and string-heavy code ran fast; the cost here is only the missing adapters.</p><p><em>Evidence:</em> 100–150 hand-written lines per trial.</p></div></li>
+      <li><h3>Less reference-counting overhead on hot paths</h3>
+        <div class="rec-meta"><span class="chip">runtime</span><span class="chip">1.4–3.4× on index, sort and window work</span></div>
+        <div class="rec-body"><p>Borrowed parameters or elided drops for comparator arguments, and cheaper comparisons of array keys, while keeping the low memory use.</p><p><em>Evidence:</em> 22% of samples in <code>moonbit_drop_object</code> and about 35% in memory management on the index workload.</p></div></li>
+    </ol>
+    <div class="callout">
+      <h3>Smaller items</h3>
+      <p>Make <code>unused_mut</code> on a field a warning rather than an error; let <code>while true</code> without <code>break</code> diverge so no <code>nobreak</code> is needed; let <code>moon ide outline</code> accept several paths; print <code>#alias(..., deprecated)</code> attribute lines after signatures in <code>moon ide doc</code>; and look at native release build time, which was about twice cargo's here.</p>
+    </div>
+  </section>
+
+  <section id="limits">
+    <div class="eyebrow">Limits and next steps</div>
+    <h2>What this does not show, and how to firm it up</h2>
+    <div class="cols">
+      <div style="display:grid;gap:8px"><h3>Limits</h3><ul>
+        <li>Three trials per language; mean and median disagree on which language cost less</li>
+        <li>One model, one harness, one kind of program</li>
+        <li>A single-threaded, data-structure-heavy engine suits garbage-collected languages; concurrency and memory control were not tested</li>
+        <li>Compile-error causes were labelled by hand</li>
+        <li>Output tokens cannot be split at the first-green point from the transcripts</li>
+      </ul></div>
+      <div style="display:grid;gap:8px"><h3>Next steps</h3><ul>
+        <li>Three more trials per language to roughly halve the uncertainty</li>
+        <li>One MoonBit trial without the primer, to measure what current models know unaided</li>
+        <li>Rerun the same benchmark on each new model generation and track the ratio</li>
+        <li>Rerun after core-library additions to measure recommendations 1, 4 and 7 directly</li>
+      </ul></div>
+      <div style="display:grid;gap:8px"><h3>Data</h3><ul>
+        <li>Everything is in the private repo <a href="https://github.com/bobzhang/minisql-moonbit-vs-rust">bobzhang/minisql-moonbit-vs-rust</a>: spec, tests, harness, primers, all six engines with per-milestone history, transcripts, and the analysis scripts</li>
+      </ul></div>
+    </div>
+    <pre>python3 harness/experiment.py batch --arms rust,moonbit --trials 4-6 --parallel 2
+python3 harness/experiment.py batch --arms moonbit-noprimer --trials 1 --upto 3
+python3 harness/report.py</pre>
+  </section>
+</div>
+<div id="tip" hidden></div>
+
+<script>
+const DATA = {"trials": [{"arm": "moonbit", "trial": 1.0, "cost_usd": 36.942834000000005, "output_tokens": 720234.0, "total_input_tokens": 51638016.0, "green_input_tokens": 23309687.0, "green_api_calls": 230.0, "api_calls": 385.0, "num_turns": 406.0, "wall_seconds": 7511.699999999999, "hidden_passed": 232.0, "hidden_total": 242.0, "src_tokens": 165827.0, "src_code_lines": 13441.0, "build_attempts": 117.0, "build_failures": 19.0, "primer_overhead_tokens": 4501805.0}, {"arm": "moonbit", "trial": 2.0, "cost_usd": 41.468274199999996, "output_tokens": 756611.0, "total_input_tokens": 70350305.0, "green_input_tokens": 24994087.0, "green_api_calls": 240.0, "api_calls": 420.0, "num_turns": 446.0, "wall_seconds": 7911.099999999999, "hidden_passed": 231.0, "hidden_total": 242.0, "src_tokens": 172786.0, "src_code_lines": 13880.0, "build_attempts": 113.0, "build_failures": 14.0, "primer_overhead_tokens": 4911060.0}, {"arm": "moonbit", "trial": 3.0, "cost_usd": 44.85632180000002, "output_tokens": 809937.0, "total_input_tokens": 81387176.0, "green_input_tokens": 22466186.0, "green_api_calls": 239.0, "api_calls": 456.0, "num_turns": 476.0, "wall_seconds": 8407.800000000001, "hidden_passed": 231.0, "hidden_total": 242.0, "src_tokens": 175977.0, "src_code_lines": 14205.0, "build_attempts": 146.0, "build_failures": 15.0, "primer_overhead_tokens": 5332008.0}, {"arm": "rust", "trial": 1.0, "cost_usd": 35.2872208, "output_tokens": 737418.0, "total_input_tokens": 45059900.0, "green_input_tokens": 23692379.0, "green_api_calls": 238.0, "api_calls": 362.0, "num_turns": 389.0, "wall_seconds": 7661.900000000001, "hidden_passed": 234.0, "hidden_total": 242.0, "src_tokens": 179323.0, "src_code_lines": 11900.0, "build_attempts": 82.0, "build_failures": 4.0, "primer_overhead_tokens": 1042198.0}, {"arm": "rust", "trial": 2.0, "cost_usd": 37.16603, "output_tokens": 779858.0, "total_input_tokens": 48506485.0, "green_input_tokens": 20941174.0, "green_api_calls": 218.0, "api_calls": 361.0, "num_turns": 382.0, "wall_seconds": 7889.099999999999, "hidden_passed": 235.0, "hidden_total": 242.0, "src_tokens": 186200.0, "src_code_lines": 13881.0, "build_attempts": 85.0, "build_failures": 5.0, "primer_overhead_tokens": 1039319.0}, {"arm": "rust", "trial": 3.0, "cost_usd": 59.117511199999996, "output_tokens": 1086064.0, "total_input_tokens": 113056854.0, "green_input_tokens": 20523128.0, "green_api_calls": 211.0, "api_calls": 471.0, "num_turns": 498.0, "wall_seconds": 10337.1, "hidden_passed": 230.0, "hidden_total": 242.0, "src_tokens": 216270.0, "src_code_lines": 14114.0, "build_attempts": 107.0, "build_failures": 7.0, "primer_overhead_tokens": 1356009.0}], "milestones": [{"arm": "moonbit", "trial": 1.0, "milestone": 1.0, "cost_usd": 3.1852004, "output_tokens": 71750.0, "total_input_tokens": 3351250.0, "green_input_tokens": 1221686.0, "hidden_this_rate": 1.0, "build_failures": 2.0, "api_calls": 32.0, "green_api_calls": 16.0}, {"arm": "moonbit", "trial": 1.0, "milestone": 2.0, "cost_usd": 4.8621176, "output_tokens": 104951.0, "total_input_tokens": 6065644.0, "green_input_tokens": 3128040.0, "hidden_this_rate": 0.9706, "build_failures": 2.0, "api_calls": 41.0, "green_api_calls": 26.0}, {"arm": "moonbit", "trial": 1.0, "milestone": 3.0, "cost_usd": 4.0923886000000005, "output_tokens": 78402.0, "total_input_tokens": 5770423.0, "green_input_tokens": 2527626.0, "hidden_this_rate": 0.9286, "build_failures": 2.0, "api_calls": 44.0, "green_api_calls": 25.0}, {"arm": "moonbit", "trial": 1.0, "milestone": 4.0, "cost_usd": 3.0861024, "output_tokens": 64072.0, "total_input_tokens": 3175526.0, "green_input_tokens": 2259342.0, "hidden_this_rate": 1.0, "build_failures": 1.0, "api_calls": 32.0, "green_api_calls": 25.0}, {"arm": "moonbit", "trial": 1.0, "milestone": 5.0, "cost_usd": 5.056831000000001, "output_tokens": 98600.0, "total_input_tokens": 7629706.0, "green_input_tokens": 2451606.0, "hidden_this_rate": 0.9286, "build_failures": 3.0, "api_calls": 52.0, "green_api_calls": 24.0}, {"arm": "moonbit", "trial": 1.0, "milestone": 6.0, "cost_usd": 6.9833490000000005, "output_tokens": 125268.0, "total_input_tokens": 12401140.0, "green_input_tokens": 4487469.0, "hidden_this_rate": 0.8889, "build_failures": 5.0, "api_calls": 72.0, "green_api_calls": 37.0}, {"arm": "moonbit", "trial": 1.0, "milestone": 7.0, "cost_usd": 5.9087178, "output_tokens": 110676.0, "total_input_tokens": 8560679.0, "green_input_tokens": 3992352.0, "hidden_this_rate": 1.0, "build_failures": 2.0, "api_calls": 50.0, "green_api_calls": 31.0}, {"arm": "moonbit", "trial": 1.0, "milestone": 8.0, "cost_usd": 1.128948, "output_tokens": 16321.0, "total_input_tokens": 1340814.0, "green_input_tokens": 654654.0, "hidden_this_rate": 1.0, "build_failures": 0.0, "api_calls": 25.0, "green_api_calls": 15.0}, {"arm": "moonbit", "trial": 1.0, "milestone": 9.0, "cost_usd": 2.6391792, "output_tokens": 50194.0, "total_input_tokens": 3342834.0, "green_input_tokens": 2586912.0, "hidden_this_rate": 0.9545, "build_failures": 2.0, "api_calls": 37.0, "green_api_calls": 31.0}, {"arm": "moonbit", "trial": 2.0, "milestone": 1.0, "cost_usd": 2.9764217999999993, "output_tokens": 66116.0, "total_input_tokens": 3172226.0, "green_input_tokens": 1230327.0, "hidden_this_rate": 1.0, "build_failures": 1.0, "api_calls": 31.0, "green_api_calls": 16.0}, {"arm": "moonbit", "trial": 2.0, "milestone": 2.0, "cost_usd": 3.8206393999999992, "output_tokens": 84342.0, "total_input_tokens": 4190549.0, "green_input_tokens": 2568049.0, "hidden_this_rate": 1.0, "build_failures": 1.0, "api_calls": 37.0, "green_api_calls": 27.0}, {"arm": "moonbit", "trial": 2.0, "milestone": 3.0, "cost_usd": 3.6220445999999993, "output_tokens": 60529.0, "total_input_tokens": 5693701.0, "green_input_tokens": 3139109.0, "hidden_this_rate": 0.8571, "build_failures": 3.0, "api_calls": 47.0, "green_api_calls": 31.0}, {"arm": "moonbit", "trial": 2.0, "milestone": 4.0, "cost_usd": 3.304253, "output_tokens": 74277.0, "total_input_tokens": 3186852.0, "green_input_tokens": 2420136.0, "hidden_this_rate": 1.0, "build_failures": 1.0, "api_calls": 32.0, "green_api_calls": 27.0}, {"arm": "moonbit", "trial": 2.0, "milestone": 5.0, "cost_usd": 3.932839800000001, "output_tokens": 83593.0, "total_input_tokens": 4262353.0, "green_input_tokens": 2999990.0, "hidden_this_rate": 0.8929, "build_failures": 2.0, "api_calls": 35.0, "green_api_calls": 28.0}, {"arm": "moonbit", "trial": 2.0, "milestone": 6.0, "cost_usd": 15.4751276, "output_tokens": 224661.0, "total_input_tokens": 39608498.0, "green_input_tokens": 5461474.0, "hidden_this_rate": 0.963, "build_failures": 3.0, "api_calls": 142.0, "green_api_calls": 36.0}, {"arm": "moonbit", "trial": 2.0, "milestone": 7.0, "cost_usd": 5.141188799999999, "output_tokens": 102652.0, "total_input_tokens": 7006496.0, "green_input_tokens": 4883746.0, "hidden_this_rate": 0.9333, "build_failures": 3.0, "api_calls": 48.0, "green_api_calls": 38.0}, {"arm": "moonbit", "trial": 2.0, "milestone": 8.0, "cost_usd": 0.9042703999999999, "output_tokens": 13216.0, "total_input_tokens": 883873.0, "green_input_tokens": 518269.0, "hidden_this_rate": 1.0, "build_failures": 0.0, "api_calls": 19.0, "green_api_calls": 13.0}, {"arm": "moonbit", "trial": 2.0, "milestone": 9.0, "cost_usd": 2.2914887999999998, "output_tokens": 47225.0, "total_input_tokens": 2345757.0, "green_input_tokens": 1772987.0, "hidden_this_rate": 0.9545, "build_failures": 0.0, "api_calls": 29.0, "green_api_calls": 24.0}, {"arm": "moonbit", "trial": 3.0, "milestone": 1.0, "cost_usd": 3.1411420000000003, "output_tokens": 75545.0, "total_input_tokens": 2826919.0, "green_input_tokens": 1337698.0, "hidden_this_rate": 1.0, "build_failures": 2.0, "api_calls": 28.0, "green_api_calls": 17.0}, {"arm": "moonbit", "trial": 3.0, "milestone": 2.0, "cost_usd": 3.7192349999999994, "output_tokens": 78819.0, "total_input_tokens": 4554150.0, "green_input_tokens": 2868428.0, "hidden_this_rate": 0.9412, "build_failures": 3.0, "api_calls": 42.0, "green_api_calls": 31.0}, {"arm": "moonbit", "trial": 3.0, "milestone": 3.0, "cost_usd": 3.0635243999999995, "output_tokens": 60619.0, "total_input_tokens": 3945405.0, "green_input_tokens": 2062088.0, "hidden_this_rate": 0.9286, "build_failures": 0.0, "api_calls": 40.0, "green_api_calls": 26.0}, {"arm": "moonbit", "trial": 3.0, "milestone": 4.0, "cost_usd": 2.9743893999999997, "output_tokens": 65455.0, "total_input_tokens": 2632903.0, "green_input_tokens": 1761815.0, "hidden_this_rate": 1.0, "build_failures": 2.0, "api_calls": 27.0, "green_api_calls": 21.0}, {"arm": "moonbit", "trial": 3.0, "milestone": 5.0, "cost_usd": 4.296303800000001, "output_tokens": 89920.0, "total_input_tokens": 5756722.0, "green_input_tokens": 2469778.0, "hidden_this_rate": 0.8929, "build_failures": 1.0, "api_calls": 46.0, "green_api_calls": 26.0}, {"arm": "moonbit", "trial": 3.0, "milestone": 6.0, "cost_usd": 20.19604800000002, "output_tokens": 297912.0, "total_input_tokens": 52541564.0, "green_input_tokens": 4814423.0, "hidden_this_rate": 0.963, "build_failures": 7.0, "api_calls": 179.0, "green_api_calls": 39.0}, {"arm": "moonbit", "trial": 3.0, "milestone": 7.0, "cost_usd": 4.1040672, "output_tokens": 75545.0, "total_input_tokens": 5858368.0, "green_input_tokens": 4771456.0, "hidden_this_rate": 0.9333, "build_failures": 0.0, "api_calls": 48.0, "green_api_calls": 42.0}, {"arm": "moonbit", "trial": 3.0, "milestone": 8.0, "cost_usd": 0.8759264000000002, "output_tokens": 13044.0, "total_input_tokens": 806268.0, "green_input_tokens": 501043.0, "hidden_this_rate": 1.0, "build_failures": 0.0, "api_calls": 17.0, "green_api_calls": 12.0}, {"arm": "moonbit", "trial": 3.0, "milestone": 9.0, "cost_usd": 2.4856855999999996, "output_tokens": 53078.0, "total_input_tokens": 2464877.0, "green_input_tokens": 1879457.0, "hidden_this_rate": 0.9545, "build_failures": 0.0, "api_calls": 29.0, "green_api_calls": 25.0}, {"arm": "rust", "trial": 1.0, "milestone": 1.0, "cost_usd": 3.8812416000000014, "output_tokens": 86595.0, "total_input_tokens": 5113908.0, "green_input_tokens": 1990260.0, "hidden_this_rate": 1.0, "build_failures": 1.0, "api_calls": 48.0, "green_api_calls": 25.0}, {"arm": "rust", "trial": 1.0, "milestone": 2.0, "cost_usd": 4.011191, "output_tokens": 93392.0, "total_input_tokens": 3738281.0, "green_input_tokens": 2146145.0, "hidden_this_rate": 0.9706, "build_failures": 0.0, "api_calls": 30.0, "green_api_calls": 21.0}, {"arm": "rust", "trial": 1.0, "milestone": 3.0, "cost_usd": 3.2103355999999996, "output_tokens": 62887.0, "total_input_tokens": 4336562.0, "green_input_tokens": 1996885.0, "hidden_this_rate": 0.9286, "build_failures": 0.0, "api_calls": 44.0, "green_api_calls": 26.0}, {"arm": "rust", "trial": 1.0, "milestone": 4.0, "cost_usd": 4.000796799999999, "output_tokens": 79207.0, "total_input_tokens": 5084834.0, "green_input_tokens": 2661264.0, "hidden_this_rate": 1.0, "build_failures": 1.0, "api_calls": 43.0, "green_api_calls": 28.0}, {"arm": "rust", "trial": 1.0, "milestone": 5.0, "cost_usd": 4.849728800000002, "output_tokens": 106414.0, "total_input_tokens": 6041445.0, "green_input_tokens": 2073763.0, "hidden_this_rate": 0.9286, "build_failures": 0.0, "api_calls": 45.0, "green_api_calls": 23.0}, {"arm": "rust", "trial": 1.0, "milestone": 6.0, "cost_usd": 7.597474799999997, "output_tokens": 143748.0, "total_input_tokens": 12999651.0, "green_input_tokens": 7667147.0, "hidden_this_rate": 0.963, "build_failures": 0.0, "api_calls": 68.0, "green_api_calls": 48.0}, {"arm": "rust", "trial": 1.0, "milestone": 7.0, "cost_usd": 4.5019846, "output_tokens": 96368.0, "total_input_tokens": 4974179.0, "green_input_tokens": 3172510.0, "hidden_this_rate": 0.9667, "build_failures": 1.0, "api_calls": 38.0, "green_api_calls": 29.0}, {"arm": "rust", "trial": 1.0, "milestone": 8.0, "cost_usd": 0.8710928, "output_tokens": 14102.0, "total_input_tokens": 775868.0, "green_input_tokens": 657758.0, "hidden_this_rate": 1.0, "build_failures": 0.0, "api_calls": 18.0, "green_api_calls": 16.0}, {"arm": "rust", "trial": 1.0, "milestone": 9.0, "cost_usd": 2.3633748000000003, "output_tokens": 54705.0, "total_input_tokens": 1995172.0, "green_input_tokens": 1326647.0, "hidden_this_rate": 0.9545, "build_failures": 1.0, "api_calls": 28.0, "green_api_calls": 22.0}, {"arm": "rust", "trial": 2.0, "milestone": 1.0, "cost_usd": 2.6038315999999995, "output_tokens": 67621.0, "total_input_tokens": 1650203.0, "green_input_tokens": 1050912.0, "hidden_this_rate": 1.0, "build_failures": 0.0, "api_calls": 20.0, "green_api_calls": 15.0}, {"arm": "rust", "trial": 2.0, "milestone": 2.0, "cost_usd": 3.6828497999999996, "output_tokens": 88947.0, "total_input_tokens": 3508590.0, "green_input_tokens": 1442359.0, "hidden_this_rate": 0.9706, "build_failures": 1.0, "api_calls": 33.0, "green_api_calls": 19.0}, {"arm": "rust", "trial": 2.0, "milestone": 3.0, "cost_usd": 3.6317858, "output_tokens": 75790.0, "total_input_tokens": 4371206.0, "green_input_tokens": 2169040.0, "hidden_this_rate": 0.9643, "build_failures": 1.0, "api_calls": 38.0, "green_api_calls": 24.0}, {"arm": "rust", "trial": 2.0, "milestone": 4.0, "cost_usd": 3.189551200000001, "output_tokens": 73745.0, "total_input_tokens": 3084893.0, "green_input_tokens": 1553555.0, "hidden_this_rate": 0.9615, "build_failures": 1.0, "api_calls": 29.0, "green_api_calls": 18.0}, {"arm": "rust", "trial": 2.0, "milestone": 5.0, "cost_usd": 6.7756108, "output_tokens": 143787.0, "total_input_tokens": 9690443.0, "green_input_tokens": 2667708.0, "hidden_this_rate": 0.9643, "build_failures": 0.0, "api_calls": 57.0, "green_api_calls": 26.0}, {"arm": "rust", "trial": 2.0, "milestone": 6.0, "cost_usd": 7.594139200000001, "output_tokens": 141149.0, "total_input_tokens": 13399576.0, "green_input_tokens": 4023127.0, "hidden_this_rate": 0.8889, "build_failures": 1.0, "api_calls": 70.0, "green_api_calls": 31.0}, {"arm": "rust", "trial": 2.0, "milestone": 7.0, "cost_usd": 5.7819016, "output_tokens": 110374.0, "total_input_tokens": 7895332.0, "green_input_tokens": 4881710.0, "hidden_this_rate": 1.0, "build_failures": 1.0, "api_calls": 47.0, "green_api_calls": 36.0}, {"arm": "rust", "trial": 2.0, "milestone": 8.0, "cost_usd": 0.8598067999999999, "output_tokens": 14948.0, "total_input_tokens": 688969.0, "green_input_tokens": 356205.0, "hidden_this_rate": 0.9524, "build_failures": 0.0, "api_calls": 17.0, "green_api_calls": 11.0}, {"arm": "rust", "trial": 2.0, "milestone": 9.0, "cost_usd": 3.0465531999999986, "output_tokens": 63497.0, "total_input_tokens": 4217273.0, "green_input_tokens": 2796558.0, "hidden_this_rate": 0.9545, "build_failures": 0.0, "api_calls": 50.0, "green_api_calls": 38.0}, {"arm": "rust", "trial": 3.0, "milestone": 1.0, "cost_usd": 3.1206175999999997, "output_tokens": 77874.0, "total_input_tokens": 2708627.0, "green_input_tokens": 1166293.0, "hidden_this_rate": 1.0, "build_failures": 0.0, "api_calls": 28.0, "green_api_calls": 16.0}, {"arm": "rust", "trial": 3.0, "milestone": 2.0, "cost_usd": 4.853494800000002, "output_tokens": 106661.0, "total_input_tokens": 6215169.0, "green_input_tokens": 2264704.0, "hidden_this_rate": 0.9706, "build_failures": 1.0, "api_calls": 44.0, "green_api_calls": 22.0}, {"arm": "rust", "trial": 3.0, "milestone": 3.0, "cost_usd": 3.3111981999999998, "output_tokens": 69588.0, "total_input_tokens": 3611620.0, "green_input_tokens": 1242084.0, "hidden_this_rate": 0.8571, "build_failures": 1.0, "api_calls": 32.0, "green_api_calls": 16.0}, {"arm": "rust", "trial": 3.0, "milestone": 4.0, "cost_usd": 3.4556185999999998, "output_tokens": 78510.0, "total_input_tokens": 3288486.0, "green_input_tokens": 2339200.0, "hidden_this_rate": 1.0, "build_failures": 0.0, "api_calls": 32.0, "green_api_calls": 26.0}, {"arm": "rust", "trial": 3.0, "milestone": 5.0, "cost_usd": 5.565817600000001, "output_tokens": 107696.0, "total_input_tokens": 8578175.0, "green_input_tokens": 3346883.0, "hidden_this_rate": 0.9643, "build_failures": 2.0, "api_calls": 56.0, "green_api_calls": 30.0}, {"arm": "rust", "trial": 3.0, "milestone": 6.0, "cost_usd": 30.177188599999994, "output_tokens": 476466.0, "total_input_tokens": 77413682.0, "green_input_tokens": 4628467.0, "hidden_this_rate": 0.8889, "build_failures": 1.0, "api_calls": 178.0, "green_api_calls": 33.0}, {"arm": "rust", "trial": 3.0, "milestone": 7.0, "cost_usd": 6.088741600000001, "output_tokens": 119263.0, "total_input_tokens": 8887229.0, "green_input_tokens": 4096316.0, "hidden_this_rate": 0.9, "build_failures": 2.0, "api_calls": 52.0, "green_api_calls": 32.0}, {"arm": "rust", "trial": 3.0, "milestone": 8.0, "cost_usd": 1.0424676, "output_tokens": 18283.0, "total_input_tokens": 1013251.0, "green_input_tokens": 822075.0, "hidden_this_rate": 1.0, "build_failures": 0.0, "api_calls": 23.0, "green_api_calls": 20.0}, {"arm": "rust", "trial": 3.0, "milestone": 9.0, "cost_usd": 1.5023665999999998, "output_tokens": 31723.0, "total_input_tokens": 1340615.0, "green_input_tokens": 617106.0, "hidden_this_rate": 0.9545, "build_failures": 0.0, "api_calls": 26.0, "green_api_calls": 16.0}]};
+const T = DATA.trials;
+const BENCH = [
+  ["CREATE INDEX ×2, 300k rows", 1.92], ["UPDATE + DELETE", 1.34], ["Window functions", 1.32], ["ORDER BY text, 100k rows", 1.29],
+  ["GROUP BY / DISTINCT", 1.27], ["INSERT 300k rows", 1.18], ["Scan + filter", 1.18], ["printf, 30k rows", 1.16],
+  ["REAL output, 60k rows", 1.14], ["String functions", 0.91]
+];
+const LANG = { rust: { name: "Rust", color: "var(--rust)" }, moonbit: { name: "MoonBit", color: "var(--moon)" } };
+const mean = a => a.reduce((s, x) => s + x, 0) / a.length;
+const median = a => [...a].sort((x, y) => x - y)[1];
+const sd = a => { const m = mean(a); return Math.sqrt(a.reduce((s, x) => s + (x - m) ** 2, 0) / (a.length - 1)); };
+const by = (arm, k) => T.filter(t => t.arm === arm).sort((a, b) => a.trial - b.trial).map(t => t[k]);
+const fmtM = x => (x / 1e6).toFixed(1) + "M", fmtK = x => Math.round(x / 1e3) + "k", fmt$ = x => "$" + x.toFixed(2), pct = x => (100 * x).toFixed(1) + "%";
+const NS = "http://www.w3.org/2000/svg";
+function el(tag, attrs, parent) { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
+const tip = document.getElementById("tip");
+function hover(node, html) {
+  node.addEventListener("mousemove", e => { tip.innerHTML = html; tip.hidden = false; tip.style.left = Math.min(e.clientX + 14, innerWidth - 290) + "px"; tip.style.top = (e.clientY + 14) + "px"; });
+  node.addEventListener("mouseleave", () => { tip.hidden = true; });
+}
+function niceTicks(lo, hi, n) { const s0 = (hi - lo) / n, mag = 10 ** Math.floor(Math.log10(s0)); const step = [1, 2, 2.5, 5, 10].map(m => m * mag).find(s => s >= s0); const out = []; for (let v = Math.ceil(lo / step) * step; v <= hi + 1e-9; v += step) out.push(+v.toPrecision(8)); return out; }
+const ratio = k => mean(by("moonbit", k)) / mean(by("rust", k));
+
+document.getElementById("tiles").innerHTML = [
+  { num: ratio("cost_usd").toFixed(2) + "×", lab: "Estimated cost, MoonBit ÷ Rust", sub: "mean · median " + (median(by("moonbit","cost_usd")) / median(by("rust","cost_usd"))).toFixed(2) + "×" },
+  { num: ratio("output_tokens").toFixed(2) + "×", lab: "Output tokens", sub: fmtK(mean(by("rust","output_tokens"))) + " Rust · " + fmtK(mean(by("moonbit","output_tokens"))) + " MoonBit" },
+  { num: ratio("src_tokens").toFixed(2) + "×", lab: "Final source size", sub: fmtK(mean(by("rust","src_tokens"))) + " · " + fmtK(mean(by("moonbit","src_tokens"))) + " tokens" },
+  { num: pct(mean(by("moonbit","hidden_passed")) / 242), lab: "MoonBit hidden tests passed", sub: "Rust " + pct(mean(by("rust","hidden_passed")) / 242) + " of 242" },
+].map(t => `<div class="tile"><div class="num">${t.num}</div><div class="lab">${t.lab}</div><div class="sub">${t.sub}</div></div>`).join("");
+
+(function () {
+  const metrics = [
+    { k: "cost_usd", label: "Estimated cost", f: fmt$, tick: v => "$" + v },
+    { k: "output_tokens", label: "Output tokens", f: fmtK, tick: v => (v / 1e3) + "k" },
+    { k: "green_input_tokens", label: "Input until first all-green", f: fmtM, tick: v => (v / 1e6) + "M" },
+    { k: "src_tokens", label: "Final source tokens", f: fmtK, tick: v => (v / 1e3) + "k" },
+  ];
+  const W = 880, L = 210, R = 30, rowH = 86, H = metrics.length * rowH + 10;
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Per-trial values for four metrics" });
+  metrics.forEach((m, i) => {
+    const y0 = i * rowH + 10, vals = T.map(t => t[m.k]);
+    let lo = Math.min(...vals), hi = Math.max(...vals); const pad = (hi - lo) * 0.12; lo = Math.max(0, lo - pad); hi += pad;
+    const ticks = niceTicks(lo, hi, 4); lo = Math.min(lo, ticks[0]); hi = Math.max(hi, ticks[ticks.length - 1]);
+    const x = v => L + (v - lo) / (hi - lo) * (W - L - R);
+    el("text", { x: 0, y: y0 + 30, "font-weight": 600, fill: "var(--ink)" }, svg).textContent = m.label;
+    ticks.forEach(v => { el("line", { x1: x(v), x2: x(v), y1: y0 + 8, y2: y0 + 58, stroke: "var(--grid)" }, svg); el("text", { x: x(v), y: y0 + 74, "text-anchor": "middle", class: "axis" }, svg).textContent = m.tick(v); });
+    ["rust", "moonbit"].forEach((arm, j) => {
+      const yy = y0 + 20 + j * 26;
+      el("text", { x: L - 12, y: yy + 4, "text-anchor": "end", class: "axis" }, svg).textContent = LANG[arm].name;
+      el("line", { x1: L, x2: W - R, y1: yy, y2: yy, stroke: "var(--rule)" }, svg);
+      const vs = by(arm, m.k), mu = mean(vs);
+      el("line", { x1: x(mu), x2: x(mu), y1: yy - 9, y2: yy + 9, stroke: LANG[arm].color, "stroke-width": 2 }, svg);
+      vs.forEach((v, n) => hover(el("circle", { cx: x(v), cy: yy, r: 6, fill: LANG[arm].color, stroke: "var(--surface)", "stroke-width": 2 }, svg), `<b>${LANG[arm].name}, trial ${n + 1}</b><br>${m.label}: ${m.f(v)}<br>Mean: ${m.f(mu)}`));
+    });
+  });
+  document.getElementById("strips").appendChild(svg);
+})();
+
+(function () {
+  const rows = [
+    ["Estimated cost", "cost_usd", fmt$], ["Output tokens", "output_tokens", fmtK], ["Total input tokens", "total_input_tokens", fmtM],
+    ["Input until first all-green", "green_input_tokens", fmtM], ["Primer re-reads", "primer_overhead_tokens", fmtM], ["API calls", "api_calls", v => Math.round(v)],
+    ["Wall time (h)", "wall_seconds", v => (v / 3600).toFixed(2)], ["Failed builds", "build_failures", v => v.toFixed(1)],
+    ["Hidden tests passed (of 242)", "hidden_passed", v => v.toFixed(1)], ["Final source tokens", "src_tokens", fmtK], ["Final code lines", "src_code_lines", v => Math.round(v).toLocaleString()],
+  ];
+  let h = `<thead><tr><th>Metric</th><th class="n">Rust mean ± sd</th><th class="n">MoonBit mean ± sd</th><th class="n">Ratio</th><th class="n">Rust t1 · t2 · t3</th><th class="n">MoonBit t1 · t2 · t3</th></tr></thead><tbody>`;
+  rows.forEach(([lab, k, f]) => { const r = by("rust", k), b = by("moonbit", k); h += `<tr><td>${lab}</td><td class="n">${f(mean(r))} ± ${f(sd(r))}</td><td class="n">${f(mean(b))} ± ${f(sd(b))}</td><td class="n">${(mean(b) / mean(r)).toFixed(2)}</td><td class="n">${r.map(f).join(" · ")}</td><td class="n">${b.map(f).join(" · ")}</td></tr>`; });
+  document.getElementById("table").innerHTML = h + "</tbody>";
+})();
+
+(function () {
+  const W = 880, L = 210, R = 60, bh = 20, gap = 10, H = BENCH.length * (bh + gap) + 40, lo = 0.6, hi = 2.0;
+  const x = v => L + (v - lo) / (hi - lo) * (W - L - R);
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "MoonBit time divided by Rust time per workload" });
+  [0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0].forEach(v => { el("line", { x1: x(v), x2: x(v), y1: 0, y2: H - 30, stroke: v === 1 ? "var(--muted)" : "var(--grid)", "stroke-width": v === 1 ? 1.5 : 1 }, svg); el("text", { x: x(v), y: H - 12, "text-anchor": "middle", class: "axis" }, svg).textContent = v.toFixed(1) + "×"; });
+  BENCH.forEach(([name, q], i) => {
+    const y = i * (bh + gap) + 4;
+    el("text", { x: L - 12, y: y + bh / 2 + 4, "text-anchor": "end" }, svg).textContent = name;
+    const bar = el("rect", { x: Math.min(x(q), x(1)), y, width: Math.max(Math.abs(x(q) - x(1)), 2), height: bh, rx: 4, fill: q < 1 ? "var(--moon)" : "var(--rust)" }, svg);
+    el("text", { x: Math.max(x(q), x(1)) + 8, y: y + bh / 2 + 4, class: "axis" }, svg).textContent = q.toFixed(2) + "×";
+    hover(bar, `<b>${name}</b><br>MoonBit time ÷ Rust time: ${q.toFixed(2)}×<br>${q < 1 ? "MoonBit faster" : "Rust faster"}`);
+  });
+  document.getElementById("bench").appendChild(svg);
+})();
+</script>

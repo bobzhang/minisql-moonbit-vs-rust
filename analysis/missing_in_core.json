@@ -1,0 +1,306 @@
+{
+ "ordered_map": {
+  "rust_std": "std::collections::BTreeMap: range(lo..hi) with Bound, .rev(), first/last_key_value, custom Ord on key type",
+  "why": "@sorted_map has no reverse or open-ended range iteration, no lower_bound/seek, no first/last, no custom comparator; t1 also wanted cheap persistent snapshots",
+  "per_trial": {
+   "moonbit-t1": {
+    "lines": 254,
+    "chars": 5832,
+    "approx_tokens": 1458,
+    "items": [
+     "db/ptree.mbt"
+    ]
+   },
+   "moonbit-t2": {
+    "lines": 316,
+    "chars": 7561,
+    "approx_tokens": 1890,
+    "items": [
+     "engine/ordmap.mbt"
+    ]
+   },
+   "moonbit-t3": {
+    "lines": 252,
+    "chars": 5409,
+    "approx_tokens": 1352,
+    "items": [
+     "sql/sorted.mbt"
+    ]
+   }
+  },
+  "mean_lines": 274.0,
+  "mean_tokens": 1567
+ },
+ "exact_float_digits": {
+  "rust_std": "format!(\"{:.29e}\", x) / format!(\"{:.40e}\", x) (1 line) inside fp_decode",
+  "why": "no precision/exponent float formatting in core (Double::to_string is shortest round-trip only)",
+  "per_trial": {
+   "moonbit-t1": {
+    "lines": 83,
+    "chars": 2351,
+    "approx_tokens": 588,
+    "items": [
+     "hi_part",
+     "dekker_mul2"
+    ]
+   },
+   "moonbit-t2": {
+    "lines": 74,
+    "chars": 1951,
+    "approx_tokens": 488,
+    "items": [
+     "exact_decimal"
+    ]
+   },
+   "moonbit-t3": {
+    "lines": 76,
+    "chars": 1927,
+    "approx_tokens": 482,
+    "items": [
+     "limbs_to_digits",
+     "limbs_mul_small",
+     "exact_decimal"
+    ]
+   }
+  },
+  "mean_lines": 77.7,
+  "mean_tokens": 519
+ },
+ "checked_int64": {
+  "rust_std": "i64::checked_add/checked_sub/checked_mul (12-15 call sites per trial)",
+  "why": "no checked/overflowing integer ops in core (primer supplied the snippet)",
+  "per_trial": {
+   "moonbit-t1": {
+    "lines": 22,
+    "chars": 512,
+    "approx_tokens": 128,
+    "items": [
+     "mul_checked"
+    ]
+   },
+   "moonbit-t2": {
+    "lines": 30,
+    "chars": 540,
+    "approx_tokens": 135,
+    "items": [
+     "add_checked",
+     "sub_checked",
+     "mul_checked"
+    ]
+   },
+   "moonbit-t3": {
+    "lines": 22,
+    "chars": 512,
+    "approx_tokens": 128,
+    "items": [
+     "mul_checked"
+    ]
+   }
+  },
+  "mean_lines": 24.7,
+  "mean_tokens": 130
+ },
+ "utf8_order_compare": {
+  "rust_std": "a.cmp(b) on &str / &[u8] (byte-wise = code point order)",
+  "why": "String compare is shortlex; lexical_compare is by UTF-16 code unit, which differs from UTF-8/code-point order for U+E000..U+FFFF vs surrogates; Bytes::lexical_compare exists but was not used",
+  "per_trial": {
+   "moonbit-t1": {
+    "lines": 34,
+    "chars": 753,
+    "approx_tokens": 188,
+    "items": [
+     "compare_text",
+     "fix_cu",
+     "compare_bytes"
+    ]
+   },
+   "moonbit-t2": {
+    "lines": 25,
+    "chars": 488,
+    "approx_tokens": 122,
+    "items": [
+     "text_compare",
+     "utf16_fix"
+    ]
+   },
+   "moonbit-t3": {
+    "lines": 32,
+    "chars": 766,
+    "approx_tokens": 192,
+    "items": [
+     "compare_text",
+     "map_code_unit",
+     "compare_bytes"
+    ]
+   }
+  },
+  "mean_lines": 30.3,
+  "mean_tokens": 167
+ },
+ "code_unit_ascii_classes": {
+  "rust_std": "u8::is_ascii_digit / is_ascii_whitespace / is_ascii_alphanumeric / to_ascii_lowercase",
+  "why": "s[i] is UInt16; the ASCII predicates exist on Char only, so agents wrote UInt16/Int versions",
+  "per_trial": {
+   "moonbit-t1": {
+    "lines": 36,
+    "chars": 657,
+    "approx_tokens": 164,
+    "items": [
+     "is_space_cu",
+     "is_digit_cu",
+     "ascii_lower_cu",
+     "lower_ascii",
+     "is_digit_i",
+     "is_space_i"
+    ]
+   },
+   "moonbit-t2": {
+    "lines": 34,
+    "chars": 696,
+    "approx_tokens": 174,
+    "items": [
+     "is_space_cu",
+     "is_digit_cu",
+     "is_space_at",
+     "is_digit_at",
+     "is_hex_cu",
+     "fold_ascii",
+     "lower_ascii_char"
+    ]
+   },
+   "moonbit-t3": {
+    "lines": 25,
+    "chars": 450,
+    "approx_tokens": 112,
+    "items": [
+     "is_space_code",
+     "is_digit",
+     "fold_ascii",
+     "like_fold"
+    ]
+   }
+  },
+  "mean_lines": 31.7,
+  "mean_tokens": 150
+ },
+ "stable_sort_by": {
+  "rust_std": "slice::sort_by (stable)",
+  "why": "Array::sort_by is unstable; stable_sort exists only for T : Compare (no comparator variant)",
+  "per_trial": {
+   "moonbit-t1": {
+    "lines": 44,
+    "chars": 892,
+    "approx_tokens": 223,
+    "items": [
+     "stable_sort"
+    ]
+   },
+   "moonbit-t2": {
+    "lines": 0,
+    "chars": 0,
+    "approx_tokens": 0,
+    "items": []
+   },
+   "moonbit-t3": {
+    "lines": 0,
+    "chars": 0,
+    "approx_tokens": 0,
+    "items": []
+   }
+  },
+  "mean_lines": 14.7,
+  "mean_tokens": 74
+ },
+ "zero_padded_ints": {
+  "rust_std": "format!(\"{:02}\") / {:04} / {:>w$} (43-47 width specifiers per trial)",
+  "why": "no width/precision format specifiers; String::pad_start exists but was never used",
+  "per_trial": {
+   "moonbit-t1": {
+    "lines": 22,
+    "chars": 438,
+    "approx_tokens": 110,
+    "items": [
+     "pad_int",
+     "space_pad"
+    ]
+   },
+   "moonbit-t2": {
+    "lines": 15,
+    "chars": 536,
+    "approx_tokens": 134,
+    "items": [
+     "pad_int"
+    ]
+   },
+   "moonbit-t3": {
+    "lines": 26,
+    "chars": 505,
+    "approx_tokens": 126,
+    "items": [
+     "zpad",
+     "zpad_signed",
+     "spad"
+    ]
+   }
+  },
+  "mean_lines": 21.0,
+  "mean_tokens": 123
+ },
+ "big_endian_ints": {
+  "rust_std": "u16/u32::from_be_bytes, to_be_bytes (21-26 uses per trial)",
+  "why": "helpers exist (@buffer write_*_be, bitstring patterns u16be/u32be) but random-access reads at an offset have no direct API",
+  "per_trial": {
+   "moonbit-t1": {
+    "lines": 25,
+    "chars": 789,
+    "approx_tokens": 197,
+    "items": [
+     "Pager::u16",
+     "Pager::u32",
+     "hdr_u32",
+     "put_u16",
+     "put_u32"
+    ]
+   },
+   "moonbit-t2": {
+    "lines": 31,
+    "chars": 972,
+    "approx_tokens": 243,
+    "items": [
+     "DbFile::u16",
+     "DbFile::u32",
+     "put_u16",
+     "put_u32",
+     "u32_prefix",
+     "get_u32"
+    ]
+   },
+   "moonbit-t3": {
+    "lines": 29,
+    "chars": 887,
+    "approx_tokens": 222,
+    "items": [
+     "Pager::u16",
+     "Pager::u32",
+     "put_u16",
+     "put_u32",
+     "header_u32"
+    ]
+   }
+  },
+  "mean_lines": 28.3,
+  "mean_tokens": 221
+ },
+ "_total": {
+  "lines": {
+   "moonbit-t1": 520,
+   "moonbit-t2": 525,
+   "moonbit-t3": 462
+  },
+  "approx_tokens": {
+   "moonbit-t1": 3056,
+   "moonbit-t2": 3186,
+   "moonbit-t3": 2614
+  }
+ }
+}
