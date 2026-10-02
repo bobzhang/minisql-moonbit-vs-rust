@@ -4,3 +4,4 @@ __pycache__/
 target/
 _build/
 .mooncakes/
+paper/.chrome-profile/

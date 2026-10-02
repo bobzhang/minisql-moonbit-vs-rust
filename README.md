@@ -1,4 +1,6 @@
-# MoonBit vs Rust: agent token efficiency on a 20k-line project
+# MoonBit vs Rust: AI agent token efficiency on a SQLite-compatible engine
+
+**Summary:** [gist](https://gist.github.com/bobzhang/cbbfc96423a23212d24847a485f1a86d) · **Paper:** [preprint PDF](paper/moonbit-agent-friendly.pdf) · **Results:** [report](results/report.md) · **Library follow-up:** [moonbitlang/core#4333](https://github.com/moonbitlang/core/pull/4333)
 
 This experiment measures how many tokens an AI coding agent (Claude Opus 5.5,
 effort `high`, driven by headless Claude Code) spends to build the **same
@@ -167,3 +169,17 @@ whole pipeline with a zero-cost fake agent.
   everything; hidden tests guard against overfitting to the visible half.
 - **Tokenizer counts** are measured through the CLI with ±3 tokens of noise
   per file; negligible at this scale.
+
+## Citing
+
+If you use this benchmark or its data, please cite:
+
+```bibtex
+@misc{minisql_moonbit_vs_rust_2026,
+  title        = {Agent-Friendly by Design: An Empirical Comparison of MoonBit and Rust in AI-Driven Software Construction},
+  author       = {{minisql-moonbit-vs-rust contributors}},
+  year         = {2026},
+  howpublished = {\url{https://github.com/bobzhang/minisql-moonbit-vs-rust}},
+  note         = {Benchmark, data and preprint. Summary: https://gist.github.com/bobzhang/cbbfc96423a23212d24847a485f1a86d}
+}
+```
