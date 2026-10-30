@@ -6,9 +6,9 @@
 fn index_cmp(
   colls : Array[String],
   descs : Array[Bool],
-) -> (Array[Value], Array[Value]) -> Int {
+) -> (Array[Value], Array[Value]) -> Int32 {
   let n = colls.length()
-  fn(a : Array[Value], b : Array[Value]) -> Int {
+  fn(a : Array[Value], b : Array[Value]) -> Int32 {
     for i in 0..<n {
       let c = value_compare_coll(a[i], b[i], colls[i])
       if c != 0 {
@@ -25,9 +25,9 @@ fn index_cmp(
 fn Index::probe_cmp(
   self : Index,
   parts : Array[Value],
-  bias : Int,
+  bias : Int32,
   key : Array[Value],
-) -> Int {
+) -> Int32 {
   for i in 0..<parts.length() {
     let c = value_compare_coll(parts[i], key[i], self.colls[i])
     if c != 0 {
@@ -109,7 +109,7 @@ fn Index::scan(
   lo : (Value, Bool)?,
   hi : (Value, Bool)?,
   f : (Int64, Array[Value]) -> Bool raise SqlError,
-  reverse? : Bool = false,
+  reverse~ : Bool = false,
 ) -> Unit raise SqlError {
   let n = self.cols.length()
   let m = prefix.length()
@@ -207,12 +207,12 @@ fn build_index(
   t : Table,
   name : String,
   unique~ : Bool,
-  origin~ : Int,
+  origin~ : Int32,
   conflict~ : Conflict,
   parts~ : Array[IndexPart],
   where_src~ : Expr?,
   sql~ : String?,
-  seq~ : Int,
+  seq~ : Int32,
 ) -> Index raise SqlError {
   for p in parts {
     if find_aggregate_name(p.expr) is Some(f) {
@@ -232,7 +232,7 @@ fn build_index(
   }
   let scope = new_scope([new_source(t.name, t, 0)], None)
   let ncols = t.columns.length()
-  let cols : Array[Int] = []
+  let cols : Array[Int32] = []
   let exprs : Array[Expr] = []
   let colls : Array[String] = []
   let descs : Array[Bool] = []

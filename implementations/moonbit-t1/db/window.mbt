@@ -16,7 +16,7 @@ priv struct WinFn {
 /// Window functions of a SELECT and its named window definitions.
 priv struct WinCtx {
   fns : Array[WinFn]
-  base : Ref[Int] // slot of the first window result in the extended row
+  base : Ref[Int32] // slot of the first window result in the extended row
   defs : Array[(String, WinDef)]
 }
 
@@ -30,7 +30,7 @@ fn contains_win(e : Expr) -> Bool {
 
 ///|
 /// Argument count range of a built-in window-only function.
-fn window_only_arity(name : String) -> (Int, Int)? {
+fn window_only_arity(name : String) -> (Int32, Int32)? {
   match name {
     "ROW_NUMBER" | "RANK" | "DENSE_RANK" | "PERCENT_RANK" | "CUME_DIST" =>
       Some((0, 0))
@@ -46,7 +46,7 @@ fn window_only_arity(name : String) -> (Int, Int)? {
 fn lookup_window(
   name : String,
   defs : Array[(String, WinDef)],
-  depth : Int,
+  depth : Int32,
 ) -> WinDef raise SqlError {
   for i = defs.length() - 1; i >= 0; i = i - 1 {
     if same_name(defs[i].0, name) {
@@ -61,7 +61,7 @@ fn lookup_window(
 fn merge_windef(
   d : WinDef,
   defs : Array[(String, WinDef)],
-  depth : Int,
+  depth : Int32,
 ) -> WinDef raise SqlError {
   match d.base {
     None => d
@@ -308,7 +308,7 @@ fn num_offset(e : Expr, start : Bool) -> Value raise SqlError {
 }
 
 ///|
-fn clamp_pos(x : Int64, m : Int) -> Int {
+fn clamp_pos(x : Int64, m : Int32) -> Int32 {
   if x < 0L {
     0
   } else if x > m.to_int64() {
@@ -325,14 +325,14 @@ fn clamp_pos(x : Int64, m : Int) -> Int {
 fn WinFn::compute(
   self : WinFn,
   rows : Array[Array[Value]],
-  input : Array[Int],
-) -> (Array[Value], Array[Int]) raise SqlError {
+  input : Array[Int32],
+) -> (Array[Value], Array[Int32]) raise SqlError {
   let n = rows.length()
   let pk = rows.map(r => self.partition.map(e => eval(e, r)))
   let ok = rows.map(r => self.order.map(o => eval(o.key, r)))
   let pcolls = self.pcolls
   let order = self.order
-  let pcmp = (a : Int, b : Int) => {
+  let pcmp = (a : Int32, b : Int32) => {
     let x = pk[a]
     let y = pk[b]
     for i in 0..<x.length() {
@@ -343,7 +343,7 @@ fn WinFn::compute(
     }
     0
   }
-  let ocmp = (a : Int, b : Int) => {
+  let ocmp = (a : Int32, b : Int32) => {
     let x = ok[a]
     let y = ok[b]
     for i, o in order {
@@ -418,9 +418,9 @@ fn WinFn::run_partition(
   self : WinFn,
   rows : Array[Array[Value]],
   ok : Array[Array[Value]],
-  part : Array[Int],
+  part : Array[Int32],
   res : Array[Value],
-  ocmp : (Int, Int) -> Int,
+  ocmp : (Int32, Int32) -> Int32,
   soff_i : Int64,
   eoff_i : Int64,
   soff_v : Value,
@@ -428,9 +428,9 @@ fn WinFn::run_partition(
 ) -> Unit raise SqlError {
   let m = part.length()
   // peer groups
-  let peer : Array[Int] = Array::make(m, 0)
-  let gstart : Array[Int] = []
-  let gend : Array[Int] = []
+  let peer : Array[Int32] = Array::make(m, 0)
+  let gstart : Array[Int32] = []
+  let gend : Array[Int32] = []
   for j in 0..<m {
     if j == 0 || ocmp(part[j - 1], part[j]) != 0 {
       if j > 0 {
@@ -442,7 +442,7 @@ fn WinFn::run_partition(
   }
   gend.push(m)
   let ng = gstart.length()
-  let row_at = (j : Int) => rows[part[j]]
+  let row_at = (j : Int32) => rows[part[j]]
   match self.name {
     "ROW_NUMBER" => {
       for j in 0..<m {
@@ -569,7 +569,7 @@ fn WinFn::run_partition(
   }
   let desc = self.order.length() > 0 && self.order[0].desc
   // first position in [nlo, nhi) whose key satisfies the bound
-  let range_pos = (j : Int, off : Value, pre : Bool, is_start : Bool) => {
+  let range_pos = (j : Int32, off : Value, pre : Bool, is_start : Bool) => {
     let k = ok[part[j]][0]
     if k is Null {
       return if is_start { gstart[peer[j]] } else { gend[peer[j]] }
@@ -579,7 +579,7 @@ fn WinFn::run_partition(
     } else {
       arith(Add, k, off)
     }
-    let sat = (p : Int) => {
+    let sat = (p : Int32) => {
       let c = compare_values(ok[part[p]][0], target)
       match (desc, is_start) {
         (false, true) => c >= 0
@@ -600,7 +600,7 @@ fn WinFn::run_partition(
     }
     lo
   }
-  let bounds = (j : Int) => {
+  let bounds = (j : Int32) => {
     let g = peer[j]
     let jj = j.to_int64()
     let (fs, fe) = match f.unit {
@@ -680,7 +680,7 @@ fn WinFn::run_partition(
     }
     (fs, if fe < fs { fs } else { fe })
   }
-  let excluded = (p : Int, j : Int) => {
+  let excluded = (p : Int32, j : Int32) => {
     match f.exclude {
       ExNone => false
       ExCurrent => p == j
@@ -823,15 +823,15 @@ fn compute_windows(
 fn WinFn::minmax_partition(
   self : WinFn,
   spec : AggSpec,
-  part : Array[Int],
+  part : Array[Int32],
   rows : Array[Array[Value]],
   res : Array[Value],
-  bounds : (Int) -> (Int, Int),
+  bounds : (Int32) -> (Int32, Int32),
 ) -> Unit raise SqlError {
   ignore(self)
   let is_max = spec.name == "MAX"
   let coll = spec.coll
-  let dpos : Array[Int] = []
+  let dpos : Array[Int32] = []
   let dval : Array[Value] = []
   let mut head = 0
   let mut a = 0

@@ -17,7 +17,7 @@ pub(all) struct Table {
   mut max_rowid : Int64
   mut max_dirty : Bool
   /// Column index of the INTEGER PRIMARY KEY (rowid alias), or -1.
-  ipk : Int
+  ipk : Int32
   ipk_conflict : String?
   autoinc : Bool
   mut seq : Int64
@@ -28,9 +28,9 @@ pub(all) struct Table {
   checks : Array[(String, BExpr)]
   defaults : Array[BExpr?]
   /// Bumped on every row change (invalidates cached automatic indexes).
-  mut version : Int
+  mut version : Int32
   /// Position in sqlite_schema.
-  mut schema_seq : Int
+  mut schema_seq : Int32
   mut sql : String?
 }
 
@@ -40,7 +40,7 @@ pub(all) struct View {
   temp : Bool
   columns : Array[String]
   mut select : Select
-  seq : Int
+  seq : Int32
   mut sql : String?
 }
 
@@ -57,12 +57,12 @@ pub(all) struct Database {
   tables : Map[String, Table]
   views : Map[String, View]
   indexes : Map[String, Index]
-  mut schema_seq : Int
+  mut schema_seq : Int32
   priv undo : Array[Undo]
   mut in_txn : Bool
   /// The transaction was opened by SAVEPOINT (RELEASE of the last one commits).
   mut txn_by_savepoint : Bool
-  savepoints : Array[(String, Int)]
+  savepoints : Array[(String, Int32)]
   /// Set when an OR ROLLBACK conflict aborts the whole transaction.
   mut rollback_txn : Bool
   /// Text of the statement being executed.
@@ -70,7 +70,7 @@ pub(all) struct Database {
   /// Views being expanded (cycle detection).
   expanding : Set[String]
   /// sqlite_schema position of sqlite_sequence (0 = not created yet).
-  mut sequence_seq : Int
+  mut sequence_seq : Int32
   mut changes : Int64
   mut total_changes : Int64
   mut last_rowid : Int64
@@ -127,7 +127,7 @@ pub fn Database::get_table(
 }
 
 ///|
-pub fn Table::column_index(self : Table, name : String) -> Int? {
+pub fn Table::column_index(self : Table, name : String) -> Int32? {
   let f = fold_name(name)
   for i, c in self.columns {
     if fold_name(c.name) == f {
@@ -170,7 +170,7 @@ pub fn write_value_key(sb : StringBuilder, v : Value, coll : Coll) -> Unit {
 
 ///|
 /// Bumped on every row change in any table.
-let data_version : Ref[Int] = { val: 0, }
+let data_version : Ref[Int32] = { val: 0, }
 
 ///|
 fn Table::raw_put(self : Table, rowid : Int64, row : Array[Value]) -> Unit {
@@ -237,7 +237,7 @@ fn Database::set_seq(self : Database, t : Table, v : Int64) -> Unit {
 }
 
 ///|
-fn Database::rollback_to(self : Database, mark : Int) -> Unit {
+fn Database::rollback_to(self : Database, mark : Int32) -> Unit {
   while self.undo.length() > mark {
     match self.undo.pop() {
       Some(UInsert(t, id)) => t.raw_remove(id) |> ignore
@@ -286,8 +286,8 @@ pub fn Database::execute(
   cte_env.val = []
   dml_target.val = false
   cte_active.clear()
-  let res = self.execute_stmt(stmt) catch {
-    e => {
+  let res = {
+    errdefer {
       if self.rollback_txn {
         self.rollback_to(0)
         self.end_txn()
@@ -306,8 +306,8 @@ pub fn Database::execute(
       if !self.in_txn {
         self.undo.clear()
       }
-      raise e
     }
+    self.execute_stmt(stmt)
   }
   if self.in_dml {
     self.changes = self.stmt_changes
@@ -389,7 +389,7 @@ fn Database::execute_stmt(
 fn Database::find_savepoint(
   self : Database,
   name : String,
-) -> Int raise SqlError {
+) -> Int32 raise SqlError {
   let f = fold_name(name)
   for i = self.savepoints.length() - 1; i >= 0; i = i - 1 {
     if fold_name(self.savepoints[i].0) == f {
@@ -400,7 +400,7 @@ fn Database::find_savepoint(
 }
 
 ///|
-fn Database::next_seq(self : Database) -> Int {
+fn Database::next_seq(self : Database) -> Int32 {
   self.schema_seq += 1
   self.schema_seq
 }
@@ -514,11 +514,11 @@ fn Database::create_table(
 fn auto_index(
   table : String,
   columns : Array[TableColumn],
-  cols : Array[Int],
+  cols : Array[Int32],
   colls : Array[Coll],
   descs : Array[Bool],
   conflict : String?,
-  num : Int,
+  num : Int32,
 ) -> Index {
   {
     name: "sqlite_autoindex_" + table + "_" + num.to_string(),
@@ -585,7 +585,7 @@ fn Database::build_table(
   let mut autoinc = false
   let uniques : Array[Index] = []
   let add_unique = (
-    cols : Array[Int],
+    cols : Array[Int32],
     colls : Array[Coll],
     descs : Array[Bool],
     conflict : String?,
@@ -607,7 +607,7 @@ fn Database::build_table(
       ),
     )
   }
-  let is_integer_type = (i : Int) => {
+  let is_integer_type = (i : Int32) => {
     columns[i].type_name.to_upper() == "INTEGER"
   }
   for i, cd in ct.columns {
@@ -628,7 +628,7 @@ fn Database::build_table(
       add_unique([i], [columns[i].coll], [false], cd.unique_conflict)
     }
   }
-  let key_colls = (idx : Array[Int], cols : Array[(String, String?, Bool)]) => {
+  let key_colls = (idx : Array[Int32], cols : Array[(String, String?, Bool)]) => {
     let out = []
     for k, c in cols {
       out.push(

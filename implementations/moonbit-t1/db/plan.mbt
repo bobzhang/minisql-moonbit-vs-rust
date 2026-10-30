@@ -34,7 +34,7 @@ priv enum Access {
 ///|
 /// True if `e` can be evaluated before the source whose first slot is `lo`
 /// is scanned: it uses only earlier sources, outer rows and constants.
-fn probe_ok(e : Expr, lo : Int) -> Bool {
+fn probe_ok(e : Expr, lo : Int32) -> Bool {
   match e {
     Slot(i, _, _) => i < lo
     Outer(_, _) | Lit(_) | BigIntLit => true
@@ -65,7 +65,7 @@ fn values_same(a : Value, b : Value) -> Bool {
 
 ///|
 /// Structural equality of bound expressions; slots of `b` are shifted by `off`.
-fn expr_same(a : Expr, b : Expr, off : Int) -> Bool {
+fn expr_same(a : Expr, b : Expr, off : Int32) -> Bool {
   match (a, b) {
     (Lit(x), Lit(y)) => values_same(x, y)
     (BigIntLit, BigIntLit) => true
@@ -134,7 +134,7 @@ fn flip_op(op : BinOp) -> BinOp {
 }
 
 ///|
-fn collect_terms(cands : Array[Expr], lo : Int, hi : Int) -> Array[Term] {
+fn collect_terms(cands : Array[Expr], lo : Int32, hi : Int32) -> Array[Term] {
   let out : Array[Term] = []
   let on_src = (e : Expr) => slots_within(e, lo, hi) && max_slot(e) >= lo
   for c in cands {
@@ -188,7 +188,7 @@ fn implies(
   cands : Array[Expr],
   terms : Array[Term],
   w : Expr,
-  off : Int,
+  off : Int32,
 ) -> Bool {
   let parts : Array[Expr] = []
   split_and(w, parts)
@@ -205,7 +205,7 @@ fn implies(
 
 ///|
 /// SQLite's logarithmic size estimate (sqlite3LogEst).
-fn log_est(x0 : Int) -> Int {
+fn log_est(x0 : Int32) -> Int32 {
   let a = [0, 2, 3, 5, 6, 7, 8, 9]
   let mut x = x0
   let mut y = 40
@@ -232,14 +232,14 @@ fn log_est(x0 : Int) -> Int {
 
 ///|
 /// Estimated width of a column (SQLite's szEst).
-fn col_size_est(c : ColumnDef) -> Int {
+fn col_size_est(c : ColumnDef) -> Int32 {
   let tn = c.type_name.to_upper()
   if tn == "" {
     return 1
   }
   let mut v = 0
   if c.affinity is (AffText | AffNone) {
-    let digits_after = (pos : Int) => {
+    let digits_after = (pos : Int32) => {
       let mut n = 0
       let mut seen = false
       for i in pos..<tn.length() {
@@ -279,7 +279,7 @@ fn col_size_est(c : ColumnDef) -> Int {
 }
 
 ///|
-fn table_width(t : Table) -> Int {
+fn table_width(t : Table) -> Int32 {
   let mut w = 0
   for c in t.cols {
     w += col_size_est(c)
@@ -291,7 +291,7 @@ fn table_width(t : Table) -> Int {
 }
 
 ///|
-fn index_width(t : Table, ix : Index) -> Int {
+fn index_width(t : Table, ix : Index) -> Int32 {
   let mut w = 1 // rowid
   for c in ix.cols {
     w += if c >= 0 { col_size_est(t.cols[c]) } else { 1 }
@@ -323,7 +323,7 @@ priv struct OrderHint {
 }
 
 ///|
-fn hint_matches(h : OrderHint, ix : Index, j : Int, off : Int) -> Bool {
+fn hint_matches(h : OrderHint, ix : Index, j : Int32, off : Int32) -> Bool {
   let (inner, coll) = match h.key {
     Collate(x, c) => (x, Some(c))
     e => (e, expr_coll(e))
@@ -339,7 +339,7 @@ fn hint_matches(h : OrderHint, ix : Index, j : Int, off : Int) -> Bool {
 /// query reads (None: all).
 fn choose_access(
   t : Table,
-  off : Int,
+  off : Int32,
   cands : Array[Expr],
   hint : OrderHint?,
   used : Array[Bool]?,
@@ -403,7 +403,7 @@ fn choose_access(
     let eqs : Array[EqCons] = []
     let mut lo : Bound? = None
     let mut hi : Bound? = None
-    let usable = (tm : Term, j : Int) => {
+    let usable = (tm : Term, j : Int32) => {
       expr_same(tm.target, ix.exprs[j], off) &&
       (
         tm.probes[0] is Lit(Null) ||

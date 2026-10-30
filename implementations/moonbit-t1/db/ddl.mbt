@@ -202,7 +202,6 @@ fn Database::run_ddl(self : Database, st : Stmt) -> Unit raise SqlError {
         (
           p.0,
           {
-            ..d,
             cols: d.cols.map(c => { ..c, expr: ren(c.expr), }),
             where_: d.where_.map(ren),
             sql: sql_rename_column_in_index(d.sql, old_name, new_name),
@@ -349,8 +348,8 @@ fn Database::alter_target(
 
 ///|
 /// Explicit indexes of a table in checking order: (name, definition, unique, seq).
-fn index_defs(t : Table) -> Array[(String, IndexDef, Bool, Int)] {
-  let out : Array[(String, IndexDef, Bool, Int)] = []
+fn index_defs(t : Table) -> Array[(String, IndexDef, Bool, Int32)] {
+  let out : Array[(String, IndexDef, Bool, Int32)] = []
   for ix in t.indexes {
     if ix.def is Some(d) {
       out.push((ix.name, d, ix.unique, ix.seq))
@@ -368,7 +367,7 @@ fn rebuild_table(
   sql : String,
   cols : Array[ColumnDef],
   constraints : Array[TableConstraint],
-  defs : Array[(String, IndexDef, Bool, Int)],
+  defs : Array[(String, IndexDef, Bool, Int32)],
   f : (Array[Value]) -> Array[Value],
 ) -> Table raise SqlError {
   let nt = build_table(name, cols, constraints, sql, t.seq)
@@ -697,7 +696,7 @@ fn Database::end_txn(self : Database) -> Unit {
 }
 
 ///|
-fn Database::find_savepoint(self : Database, name : String) -> Int? {
+fn Database::find_savepoint(self : Database, name : String) -> Int32? {
   for i = self.savepoints.length() - 1; i >= 0; i = i - 1 {
     if same_name(self.savepoints[i].0, name) {
       return Some(i)

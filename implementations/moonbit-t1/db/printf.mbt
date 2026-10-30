@@ -4,9 +4,9 @@
 /// Decimal digits of a double (SQLite's FpDecode).
 priv struct FpDecode {
   neg : Bool
-  special : Int // 0 normal, 1 infinity, 2 NaN
-  digits : Array[Int] // significant digits, no trailing zeros
-  idp : Int // position of the decimal point
+  special : Int32 // 0 normal, 1 infinity, 2 NaN
+  digits : Array[Int32] // significant digits, no trailing zeros
+  idp : Int32 // position of the decimal point
 }
 
 ///|
@@ -39,7 +39,7 @@ fn dekker_mul2(x : FixedArray[Double], y : Double, yy : Double) -> Unit {
 }
 
 ///|
-fn fp_decode(r0 : Double, iround0 : Int, mxround : Int) -> FpDecode {
+fn fp_decode(r0 : Double, iround0 : Int32, mxround : Int32) -> FpDecode {
   let mut r = r0
   let mut neg = false
   if r < 0.0 {
@@ -90,13 +90,13 @@ fn fp_decode(r0 : Double, iround0 : Int, mxround : Int) -> FpDecode {
     hi + rr[1].to_uint64()
   }
   // digits, most significant first; slot 0 is spare for a carry
-  let rev : Array[Int] = []
+  let rev : Array[Int32] = []
   let mut w = v
   while w > 0UL {
     rev.push((w % 10UL).to_int())
     w = w / 10UL
   }
-  let z : Array[Int] = [0]
+  let z : Array[Int32] = [0]
   for k = rev.length() - 1; k >= 0; k = k - 1 {
     z.push(rev[k])
   }
@@ -143,7 +143,7 @@ fn fp_decode(r0 : Double, iround0 : Int, mxround : Int) -> FpDecode {
       }
     }
   }
-  let digits : Array[Int] = []
+  let digits : Array[Int32] = []
   for k in 0..<n {
     digits.push(z[start + k])
   }
@@ -161,12 +161,12 @@ priv struct Spec {
   mut alt2 : Bool // '!'
   mut zeropad : Bool
   mut thousands : Bool
-  mut width : Int
-  mut precision : Int // -1: none
+  mut width : Int32
+  mut precision : Int32 // -1: none
 }
 
 ///|
-fn utf8_len(s : String) -> Int {
+fn utf8_len(s : String) -> Int32 {
   let mut n = 0
   for c in s {
     let v = c.to_int()
@@ -185,7 +185,7 @@ fn utf8_len(s : String) -> Int {
 
 ///|
 /// Longest prefix of `s` whose UTF-8 encoding fits in `nbytes` bytes.
-fn utf8_prefix(s : String, nbytes : Int) -> String {
+fn utf8_prefix(s : String, nbytes : Int32) -> String {
   let sb = StringBuilder()
   let mut used = 0
   for c in s {
@@ -200,7 +200,7 @@ fn utf8_prefix(s : String, nbytes : Int) -> String {
 }
 
 ///|
-fn char_prefix(s : String, nchars : Int) -> String {
+fn char_prefix(s : String, nchars : Int32) -> String {
   let sb = StringBuilder()
   let mut k = 0
   for c in s {
@@ -475,7 +475,7 @@ fn sql_printf(fmt : String, args : ArrayView[Value]) -> String {
           }
           done = true
         }
-        '1'..='9' => {
+        '1'..<='9' => {
           let mut wx = c.to_int() - '0'.to_int()
           i += 1
           c = if i < n { f[i] } else { '\u{0}' }

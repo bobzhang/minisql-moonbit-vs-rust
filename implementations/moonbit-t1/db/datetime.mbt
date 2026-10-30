@@ -3,12 +3,12 @@
 ///|
 priv struct DateTime {
   mut ijd : Int64 // Julian day number times 86400000
-  mut y : Int
-  mut mo : Int
-  mut d : Int
-  mut h : Int
-  mut mi : Int
-  mut tz : Int // minutes
+  mut y : Int32
+  mut mo : Int32
+  mut d : Int32
+  mut h : Int32
+  mut mi : Int32
+  mut tz : Int32 // minutes
   mut s : Double
   mut valid_jd : Bool
   mut valid_ymd : Bool
@@ -17,7 +17,7 @@ priv struct DateTime {
   mut raw_s : Bool
   mut is_error : Bool
   mut use_subsec : Bool
-  mut n_floor : Int
+  mut n_floor : Int32
 }
 
 ///|
@@ -49,7 +49,7 @@ fn DateTime::copy(self : DateTime) -> DateTime {
 
 ///|
 /// Code unit at i, or 0 past the end.
-fn cu_at(z : String, i : Int) -> Int {
+fn cu_at(z : String, i : Int32) -> Int32 {
   if i < z.length() {
     z[i].to_int()
   } else {
@@ -58,12 +58,12 @@ fn cu_at(z : String, i : Int) -> Int {
 }
 
 ///|
-fn is_digit_i(c : Int) -> Bool {
+fn is_digit_i(c : Int32) -> Bool {
   c >= '0'.to_int() && c <= '9'.to_int()
 }
 
 ///|
-fn is_space_i(c : Int) -> Bool {
+fn is_space_i(c : Int32) -> Bool {
   c == ' '.to_int() ||
   c == '\t'.to_int() ||
   c == '\n'.to_int() ||
@@ -77,10 +77,10 @@ fn is_space_i(c : Int) -> Bool {
 /// 0 = none). Returns the parsed values (fewer than requested on failure).
 fn get_digits(
   z : String,
-  start : Int,
-  fields : Array[(Int, Int, Int, Int)],
-) -> Array[Int] {
-  let out : Array[Int] = []
+  start : Int32,
+  fields : Array[(Int32, Int32, Int32, Int32)],
+) -> Array[Int32] {
+  let out : Array[Int32] = []
   let mut i = start
   for f in fields {
     let (n, lo, hi, next) = f
@@ -107,14 +107,14 @@ fn get_digits(
 }
 
 ///|
-let colon : Int = ':'.to_int()
+let colon : Int32 = ':'.to_int()
 
 ///|
-let dash : Int = '-'.to_int()
+let dash : Int32 = '-'.to_int()
 
 ///|
 /// Parse an optional timezone suffix at z[i..]; true on error.
-fn parse_timezone(z : String, i0 : Int, p : DateTime) -> Bool {
+fn parse_timezone(z : String, i0 : Int32, p : DateTime) -> Bool {
   let mut i = i0
   while is_space_i(cu_at(z, i)) {
     i += 1
@@ -150,7 +150,7 @@ fn parse_timezone(z : String, i0 : Int, p : DateTime) -> Bool {
 
 ///|
 /// Parse HH:MM[:SS[.FFF]] [tz] at z[i..]; true on error.
-fn parse_hms(z : String, i0 : Int, p : DateTime) -> Bool {
+fn parse_hms(z : String, i0 : Int32, p : DateTime) -> Bool {
   let v = get_digits(z, i0, [(2, 0, 24, colon), (2, 0, 59, 0)])
   if v.length() != 2 {
     return true
@@ -399,7 +399,7 @@ let xform_types : Array[(String, Double, Double)] = [
 
 ///|
 /// Apply one modifier; true on error.
-fn parse_modifier(z0 : String, p : DateTime, idx : Int) -> Bool {
+fn parse_modifier(z0 : String, p : DateTime, idx : Int32) -> Bool {
   let z = z0
   let lz = z.to_lower()
   let first = if z.length() > 0 { ascii_lower_cu(z[0].to_int()) } else { 0 }
@@ -522,7 +522,7 @@ fn parse_modifier(z0 : String, p : DateTime, idx : Int) -> Bool {
       }
       true
     }
-    '+' | '-' | '0'..='9' => parse_numeric_modifier(z, p)
+    '+' | '-' | '0'..<='9' => parse_numeric_modifier(z, p)
     _ => true
   }
 }
@@ -692,7 +692,7 @@ fn is_date(args : ArrayView[Value]) -> DateTime? {
 
 ///|
 /// Like C's "%0*d": the width includes the sign.
-fn pad_int(v : Int, width : Int) -> String {
+fn pad_int(v : Int32, width : Int32) -> String {
   let s = v.abs().to_string()
   let w = if v < 0 { width - 1 } else { width }
   let body = if s.length() < w {
@@ -708,7 +708,7 @@ fn pad_int(v : Int, width : Int) -> String {
 }
 
 ///|
-fn space_pad(v : Int) -> String {
+fn space_pad(v : Int32) -> String {
   if v < 10 && v >= 0 {
     " " + v.to_string()
   } else {
@@ -744,7 +744,7 @@ fn unix_ms(p : DateTime) -> Int64 {
 }
 
 ///|
-fn days_after_jan01(p : DateTime) -> Int {
+fn days_after_jan01(p : DateTime) -> Int32 {
   let j = p.copy()
   j.valid_jd = false
   j.mo = 1
@@ -754,12 +754,12 @@ fn days_after_jan01(p : DateTime) -> Int {
 }
 
 ///|
-fn days_after_monday(p : DateTime) -> Int {
+fn days_after_monday(p : DateTime) -> Int32 {
   ((p.ijd + 43200000L) / 86400000L % 7L).to_int()
 }
 
 ///|
-fn days_after_sunday(p : DateTime) -> Int {
+fn days_after_sunday(p : DateTime) -> Int32 {
   ((p.ijd + 129600000L) / 86400000L % 7L).to_int()
 }
 

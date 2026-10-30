@@ -38,7 +38,7 @@ priv enum Expr {
   /// Unresolved column reference. `dq` marks a lone double-quoted name.
   Column(tbl~ : String?, name~ : String, dq~ : Bool)
   /// Resolved column: slot in the flat row, with its affinity.
-  Slot(Int, Affinity, Coll)
+  Slot(Int32, Affinity, Coll)
   Unary(UnOp, Expr)
   Binary(BinOp, Expr, Expr)
   /// Bound comparison (Eq..IsNot) with its affinity and collation.
@@ -67,13 +67,13 @@ priv enum Expr {
     order~ : Array[OrderTerm]
   )
   /// Result of an aggregate, stored at this slot of the group row.
-  AggRef(Int)
+  AggRef(Int32)
   /// Unbound subqueries: scalar, EXISTS, x [NOT] IN (query).
   SubQ(Query)
   ExistsQ(Query)
   InQ(Expr, Query, Bool)
   /// Reference into the row of an enclosing query, `depth` levels up.
-  Outer(Int, Expr)
+  Outer(Int32, Expr)
   /// Bound subqueries.
   SubScalar(SubPlan)
   SubExists(SubPlan)
@@ -81,7 +81,7 @@ priv enum Expr {
   /// Unbound window function call.
   WinCall(WinAst)
   /// Result of window function `i`, stored at slot `base + i`.
-  WinRef(Int, Ref[Int])
+  WinRef(Int32, Ref[Int32])
 }
 
 ///|

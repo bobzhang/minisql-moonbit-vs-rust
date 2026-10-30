@@ -5,19 +5,19 @@
 
 ///|
 priv struct PageWriter {
-  page_size : Int
-  usable : Int
+  page_size : Int32
+  usable : Int32
   pages : Array[FixedArray[Byte]]
 }
 
 ///|
-fn PageWriter::alloc(self : PageWriter) -> Int {
+fn PageWriter::alloc(self : PageWriter) -> Int32 {
   self.pages.push(FixedArray::make(self.page_size, b'\x00'))
   self.pages.length()
 }
 
 ///|
-fn varint_len(v : Int64) -> Int {
+fn varint_len(v : Int64) -> Int32 {
   let u = v.reinterpret_as_uint64()
   if u <= 0x7FUL {
     1
@@ -59,7 +59,7 @@ fn write_varint(buf : @buffer.Buffer, v : Int64) -> Unit {
 }
 
 ///|
-fn int_serial(i : Int64) -> (Int, Int) {
+fn int_serial(i : Int64) -> (Int32, Int32) {
   if i == 0L {
     (8, 0)
   } else if i == 1L {
@@ -127,13 +127,13 @@ fn encode_record(vals : Array[Value]) -> Bytes {
 }
 
 ///|
-fn put_u16(p : FixedArray[Byte], off : Int, v : Int) -> Unit {
+fn put_u16(p : FixedArray[Byte], off : Int32, v : Int32) -> Unit {
   p[off] = (v >> 8).to_byte()
   p[off + 1] = v.to_byte()
 }
 
 ///|
-fn put_u32(p : FixedArray[Byte], off : Int, v : Int) -> Unit {
+fn put_u32(p : FixedArray[Byte], off : Int32, v : Int32) -> Unit {
   p[off] = (v >> 24).to_byte()
   p[off + 1] = (v >> 16).to_byte()
   p[off + 2] = (v >> 8).to_byte()
@@ -179,7 +179,7 @@ fn PageWriter::payload_cell(
 }
 
 ///|
-fn PageWriter::hdr_off(pgno : Int) -> Int {
+fn PageWriter::hdr_off(pgno : Int32) -> Int32 {
   if pgno == 1 {
     100
   } else {
@@ -189,22 +189,26 @@ fn PageWriter::hdr_off(pgno : Int) -> Int {
 
 ///|
 /// Space for cells (with their pointers) on a page.
-fn PageWriter::capacity(self : PageWriter, pgno : Int, interior : Bool) -> Int {
+fn PageWriter::capacity(
+  self : PageWriter,
+  pgno : Int32,
+  interior : Bool,
+) -> Int32 {
   self.usable - PageWriter::hdr_off(pgno) - (if interior { 12 } else { 8 })
 }
 
 ///|
-fn cell_cost(c : Bytes) -> Int {
+fn cell_cost(c : Bytes) -> Int32 {
   (if c.length() < 4 { 4 } else { c.length() }) + 2
 }
 
 ///|
 fn PageWriter::write_page(
   self : PageWriter,
-  pgno : Int,
-  kind : Int,
+  pgno : Int32,
+  kind : Int32,
   cells : ArrayView[Bytes],
-  right : Int,
+  right : Int32,
 ) -> Unit {
   let p = self.pages[pgno - 1]
   let h = PageWriter::hdr_off(pgno)
@@ -229,7 +233,7 @@ fn PageWriter::write_page(
 }
 
 ///|
-fn u32_prefix(child : Int, rest : Bytes) -> Bytes {
+fn u32_prefix(child : Int32, rest : Bytes) -> Bytes {
   let b = @buffer.Buffer(size_hint=rest.length() + 4)
   b.write_uint_be(child.reinterpret_as_uint())
   b.write_bytes(rest[:])
@@ -241,7 +245,7 @@ fn u32_prefix(child : Int, rest : Bytes) -> Bytes {
 /// order, rooted at page `root`.
 fn PageWriter::build_table(
   self : PageWriter,
-  root : Int,
+  root : Int32,
   entries : Array[(Int64, Bytes)],
 ) -> Unit {
   let cells : Array[Bytes] = []
@@ -259,7 +263,7 @@ fn PageWriter::build_table(
   }
   // leaf level: greedy groups
   let cap = self.capacity(0, false)
-  let mut children : Array[(Int, Int64)] = []
+  let mut children : Array[(Int32, Int64)] = []
   let mut start = 0
   let mut used = 0
   for i, c in cells {
@@ -295,7 +299,7 @@ fn PageWriter::build_table(
     }
     let icap = self.capacity(0, true)
     // groups [a, b]: cells a..<b, right child b
-    let groups : Array[(Int, Int)] = []
+    let groups : Array[(Int32, Int32)] = []
     let mut a = 0
     while a <= m {
       let mut b = a
@@ -313,7 +317,7 @@ fn PageWriter::build_table(
       groups[ng - 2] = (a0, b0 - 1)
       groups[ng - 1] = (b0, groups[ng - 1].1)
     }
-    let next : Array[(Int, Int64)] = []
+    let next : Array[(Int32, Int64)] = []
     for g in groups {
       let pg = self.alloc()
       self.write_page(pg, 0x05, icells[g.0:g.1], children[g.1].0)
@@ -328,7 +332,7 @@ fn PageWriter::build_table(
 /// at page `root`.
 fn PageWriter::build_index(
   self : PageWriter,
-  root : Int,
+  root : Int32,
   records : Array[Bytes],
 ) -> Unit {
   let mut items : Array[Bytes] = records.map(r => {
@@ -337,10 +341,10 @@ fn PageWriter::build_index(
     self.payload_cell(b, r, true)
     b.to_bytes()
   })
-  let mut children : Array[Int]? = None
+  let mut children : Array[Int32]? = None
   while true {
     let interior = children is Some(_)
-    let cell_at = fn(i : Int) -> Bytes {
+    let cell_at = fn(i : Int32) -> Bytes {
       match children {
         Some(ch) => u32_prefix(ch[i], items[i])
         None => items[i]
@@ -348,7 +352,7 @@ fn PageWriter::build_index(
     }
     let m = items.length()
     let kind = if interior { 0x02 } else { 0x0a }
-    let right_of = fn(b : Int) -> Int {
+    let right_of = fn(b : Int32) -> Int32 {
       match children {
         Some(ch) => ch[b]
         None => 0
@@ -362,7 +366,7 @@ fn PageWriter::build_index(
     }
     let cap = self.capacity(0, interior)
     // groups [a, b): items a..<b; item b (if < m) is the divider above
-    let groups : Array[(Int, Int)] = []
+    let groups : Array[(Int32, Int32)] = []
     let mut a = 0
     while true {
       let mut b = a
@@ -383,7 +387,7 @@ fn PageWriter::build_index(
       groups[ng - 2] = (a0, b0 - 1)
       groups[ng - 1] = (b0, m)
     }
-    let next_children : Array[Int] = []
+    let next_children : Array[Int32] = []
     let next_items : Array[Bytes] = []
     for gi, g in groups {
       let pg = self.alloc()
@@ -420,7 +424,7 @@ fn schema_sig(rows : Array[Array[Value]]) -> String {
 }
 
 ///|
-fn get_u32(b : Bytes, off : Int) -> Int {
+fn get_u32(b : Bytes, off : Int32) -> Int32 {
   (b[off].to_int() << 24) |
   (b[off + 1].to_int() << 16) |
   (b[off + 2].to_int() << 8) |
@@ -449,7 +453,7 @@ pub fn Database::to_file_bytes(self : Database) -> Bytes {
   let w : PageWriter = { page_size, usable: page_size - reserved, pages: [], }
   ignore(w.alloc()) // page 1
   // schema objects in order
-  let objs : Array[(Int, SchemaObj)] = []
+  let objs : Array[(Int32, SchemaObj)] = []
   for _, t in self.tables {
     objs.push((t.schema_seq, OTable(t)))
     for idx in t.indexes {

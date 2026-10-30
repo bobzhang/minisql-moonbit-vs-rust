@@ -3,7 +3,7 @@
 pub(all) enum BExpr {
   BConst(Value)
   /// Row slot index, the column's affinity and collation.
-  BCol(Int, Affinity, Coll)
+  BCol(Int32, Affinity, Coll)
   /// Explicit COLLATE operator.
   BCollate(BExpr, Coll)
   BCast(BExpr, Affinity)
@@ -24,10 +24,10 @@ pub(all) enum BExpr {
   BMinMax(Bool, Array[BExpr], Coll)
   BNullIf(BExpr, BExpr, Affinity, Coll)
   /// Row slot without affinity or collation (aggregate results).
-  BSlot(Int)
+  BSlot(Int32)
   /// Column of an enclosing query: nesting depth (1 = parent), slot,
   /// affinity and collation.
-  BOuter(Int, Int, Affinity, Coll)
+  BOuter(Int32, Int32, Affinity, Coll)
   /// Scalar subquery.
   BSubq(SubPlan)
   /// [NOT] EXISTS (true = NOT).
@@ -215,7 +215,7 @@ fn compare_with_affinity(
   b : Value,
   aff : Affinity,
   coll : Coll,
-) -> Int? {
+) -> Int32? {
   if a is Null || b is Null {
     return None
   }
@@ -397,7 +397,7 @@ fn negate(v : Value) -> Value {
 }
 
 ///|
-fn cmp_result(op : BinOp, c : Int) -> Bool {
+fn cmp_result(op : BinOp, c : Int32) -> Bool {
   match op {
     Eq => c == 0
     Ne => c != 0

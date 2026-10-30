@@ -169,7 +169,7 @@ fn cmp_prepare(a : Value, b : Value, aff : Affinity?) -> (Value, Value) {
 
 ///|
 /// Compare two values under a collation.
-fn compare_coll(a : Value, b : Value, coll : Coll) -> Int {
+fn compare_coll(a : Value, b : Value, coll : Coll) -> Int32 {
   match (a, b, coll) {
     (Text(x), Text(y), CNoCase) => compare_text_nocase(x, y)
     (Text(x), Text(y), CRTrim) => compare_text(rtrim_spaces(x), rtrim_spaces(y))
@@ -191,7 +191,7 @@ fn rtrim_spaces(s : String) -> String {
 }
 
 ///|
-fn ascii_lower_cu(c : Int) -> Int {
+fn ascii_lower_cu(c : Int32) -> Int32 {
   if c >= 'A'.to_int() && c <= 'Z'.to_int() {
     c + 32
   } else {
@@ -200,7 +200,7 @@ fn ascii_lower_cu(c : Int) -> Int {
 }
 
 ///|
-fn compare_text_nocase(a : String, b : String) -> Int {
+fn compare_text_nocase(a : String, b : String) -> Int32 {
   let n = if a.length() < b.length() { a.length() } else { b.length() }
   for i in 0..<n {
     let x = ascii_lower_cu(a[i].to_int())

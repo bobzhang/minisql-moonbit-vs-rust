@@ -53,7 +53,7 @@ pub(all) enum Expr {
   Subquery(Select)
   Param(String)
   /// Placeholder for the k-th aggregate call of an aggregate query.
-  AggSlot(Int)
+  AggSlot(Int32)
 } derive(Debug)
 
 ///|

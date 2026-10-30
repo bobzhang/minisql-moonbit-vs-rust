@@ -2,7 +2,7 @@
 // frames, and evaluation over the rows of a query.
 
 ///|
-let window_arity : Map[String, (Int, Int)] = {
+let window_arity : Map[String, (Int32, Int32)] = {
   "row_number": (0, 0),
   "rank": (0, 0),
   "dense_rank": (0, 0),
@@ -34,7 +34,7 @@ priv struct WinInfo {
   name : String
   args : Array[Expr] // bound
   filter : Expr?
-  sort : Int // index into WinCtx::sorts
+  sort : Int32 // index into WinCtx::sorts
   frame : Frame
   start_n : Value // evaluated offset of an `N PRECEDING/FOLLOWING` start
   end_n : Value
@@ -43,7 +43,7 @@ priv struct WinInfo {
 
 ///|
 priv struct WinCtx {
-  base : Int // slot of the first window result
+  base : Int32 // slot of the first window result
   wins : Array[WinInfo]
   sorts : Array[WinSort]
   scope : Scope
@@ -54,7 +54,7 @@ priv struct WinCtx {
 
 ///|
 /// Number of window function calls in an unbound expression.
-fn count_winfuncs(e : Expr) -> Int {
+fn count_winfuncs(e : Expr) -> Int32 {
   let mut n = if e is WinFunc(_, _) { 1 } else { 0 }
   for c in expr_children(e) {
     n += count_winfuncs(c)
@@ -67,7 +67,7 @@ fn count_winfuncs(e : Expr) -> Int {
 fn resolve_window(
   spec : WindowSpec,
   named : Array[(String, WindowSpec)],
-  depth? : Int = 0,
+  depth~ : Int32 = 0,
 ) -> WindowSpec raise SqlError {
   guard spec.base is Some(b) else { return spec }
   let mut found : WindowSpec? = None
@@ -134,7 +134,7 @@ fn frame_offset(
 }
 
 ///|
-fn bound_rank(b : FrameBound) -> Int {
+fn bound_rank(b : FrameBound) -> Int32 {
   match b {
     UnboundedPreceding => 0
     Preceding(_) => 1
@@ -318,11 +318,11 @@ priv struct WinAgg {
   mut count : Int64
   sum : SumCtx
   // min/max: positions of candidate values (monotonic deque)
-  mm : Array[Int]
-  mut mm_head : Int
+  mm : Array[Int32]
+  mut mm_head : Int32
   // group_concat: (position) of the non-NULL values in the frame
-  gc : Array[Int]
-  mut gc_head : Int
+  gc : Array[Int32]
+  mut gc_head : Int32
 }
 
 ///|
@@ -384,7 +384,7 @@ priv struct PartVals {
 }
 
 ///|
-fn WinAgg::add(self : WinAgg, pv : PartVals, p : Int) -> Unit {
+fn WinAgg::add(self : WinAgg, pv : PartVals, p : Int32) -> Unit {
   if !pv.ok[p] {
     return
   }
@@ -414,7 +414,7 @@ fn WinAgg::add(self : WinAgg, pv : PartVals, p : Int) -> Unit {
 }
 
 ///|
-fn WinAgg::remove(self : WinAgg, pv : PartVals, p : Int) -> Unit {
+fn WinAgg::remove(self : WinAgg, pv : PartVals, p : Int32) -> Unit {
   if !pv.ok[p] {
     return
   }
@@ -489,15 +489,15 @@ fn WinAgg::value(self : WinAgg, pv : PartVals) -> Value raise SqlError {
 ///|
 /// Peer-group structure of a sorted partition.
 priv struct Peers {
-  gid : Array[Int] // group index of each position
-  first : Array[Int] // first position of each group
-  last : Array[Int] // last position of each group
+  gid : Array[Int32] // group index of each position
+  first : Array[Int32] // first position of each group
+  last : Array[Int32] // last position of each group
 }
 
 ///|
 /// First position in [lo, hi) where `pred` holds (`pred` is monotonic:
 /// false then true); `hi` if none.
-fn lower_pos(lo : Int, hi : Int, pred : (Int) -> Bool) -> Int {
+fn lower_pos(lo : Int32, hi : Int32, pred : (Int32) -> Bool) -> Int32 {
   let mut a = lo
   let mut b = hi
   while a < b {
@@ -519,9 +519,9 @@ fn frame_bounds(
   key : SortKey?,
   okeys : Array[Value],
   peers : Peers,
-  pos : Int,
-  n : Int,
-) -> (Int, Int) {
+  pos : Int32,
+  n : Int32,
+) -> (Int32, Int32) {
   let g = peers.gid[pos]
   let ng = peers.first.length()
   let off = fn(v : Value) -> Int64 {
@@ -530,7 +530,7 @@ fn frame_bounds(
       _ => value_to_int64(v)
     }
   }
-  let range_bound = fn(v : Value, sign : Int, is_start : Bool) -> Int {
+  let range_bound = fn(v : Value, sign : Int32, is_start : Bool) -> Int32 {
     // sign: -1 for PRECEDING, +1 for FOLLOWING (in sort direction)
     guard key is Some(k) else { return if is_start { 0 } else { n - 1 } }
     let cur = okeys[pos]
@@ -546,7 +546,7 @@ fn frame_bounds(
     } else {
       arith(Add, cur, v)
     }
-    let cmp = fn(p : Int) -> Int {
+    let cmp = fn(p : Int32) -> Int32 {
       compare_sort_keys([k], [okeys[p]], [target])
     }
     if is_start {
@@ -661,11 +661,11 @@ fn frame_bounds(
 fn frame_positions(
   w : WinInfo,
   peers : Peers,
-  pos : Int,
-  fs : Int,
-  fe : Int,
-) -> Array[Int] {
-  let out : Array[Int] = []
+  pos : Int32,
+  fs : Int32,
+  fe : Int32,
+) -> Array[Int32] {
+  let out : Array[Int32] = []
   let g = peers.gid[pos]
   for p in fs..<=fe {
     let skip = match w.frame.exclude {
@@ -719,7 +719,7 @@ fn compute_windows(
       let env : Env = { row: r, parent, }
       sort.order.map(k => eval(k.expr, env))
     })
-    let cmp_part = fn(a : Int, b : Int) -> Int {
+    let cmp_part = fn(a : Int32, b : Int32) -> Int32 {
       let ka = pkeys[a]
       let kb = pkeys[b]
       for j in 0..<ka.length() {
@@ -750,7 +750,7 @@ fn compute_windows(
     for i in 0..<nrows {
       rows[i] = sorted_rows[i]
     }
-    let wins : Array[(Int, WinInfo)] = []
+    let wins : Array[(Int32, WinInfo)] = []
     for k, w in ctx.wins {
       if w.sort == si {
         wins.push((k, w))
@@ -772,21 +772,21 @@ fn compute_windows(
 ///|
 fn compute_partition(
   ctx : WinCtx,
-  wins : Array[(Int, WinInfo)],
+  wins : Array[(Int32, WinInfo)],
   sort : WinSort,
   rows : Array[Array[Value]],
   okeys : Array[Array[Value]],
-  ps : Int,
-  pe : Int,
+  ps : Int32,
+  pe : Int32,
   penv : Env,
 ) -> Unit raise SqlError {
   let parent = Some(penv)
   let n = pe - ps
-  let env_at = fn(p : Int) -> Env { { row: rows[ps + p], parent, } }
+  let env_at = fn(p : Int32) -> Env { { row: rows[ps + p], parent, } }
   // peer groups
   let gid = Array::make(n, 0)
-  let first : Array[Int] = []
-  let last : Array[Int] = []
+  let first : Array[Int32] = []
+  let last : Array[Int32] = []
   for p in 0..<n {
     if p == 0 ||
       compare_sort_keys(sort.order, okeys[ps + p - 1], okeys[ps + p]) != 0 {
@@ -816,7 +816,7 @@ fn compute_partition(
   for kw in wins {
     let (k, w) = kw
     let slot = ctx.base + k
-    let set = fn(p : Int, v : Value) { rows[ps + p][slot] = v }
+    let set = fn(p : Int32, v : Value) { rows[ps + p][slot] = v }
     match w.name {
       "row_number" =>
         for p in 0..<n {

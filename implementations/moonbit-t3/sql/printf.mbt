@@ -3,20 +3,20 @@
 /// sqlite3FpDecode: value = 0.d1d2d3... * 10^idp.
 priv struct FpDecode {
   neg : Bool
-  mut digits : Array[Int]
-  mut idp : Int
-  special : Int // 0 = finite, 1 = infinity, 2 = NaN
+  mut digits : Array[Int32]
+  mut idp : Int32
+  special : Int32 // 0 = finite, 1 = infinity, 2 = NaN
 }
 
 ///|
 /// Exact decimal digits of a non-negative big integer given as base-1e9
 /// little-endian limbs.
-fn limbs_to_digits(limbs : Array[Int64]) -> Array[Int] {
+fn limbs_to_digits(limbs : Array[Int64]) -> Array[Int32] {
   let mut top = limbs.length() - 1
   while top > 0 && limbs[top] == 0L {
     top -= 1
   }
-  let out : Array[Int] = []
+  let out : Array[Int32] = []
   let first = limbs[top].to_string()
   for c in first {
     out.push(c.to_int() - '0'.to_int())
@@ -50,7 +50,7 @@ fn limbs_mul_small(limbs : Array[Int64], m : Int64) -> Unit {
 ///|
 /// Exact decimal digits (no leading zeros) and exponent for a positive
 /// finite double.
-fn exact_decimal(x : Double) -> (Array[Int], Int) {
+fn exact_decimal(x : Double) -> (Array[Int32], Int32) {
   let bits = x.reinterpret_as_uint64()
   let biased = ((bits >> 52) & 0x7FFUL).to_int()
   let frac = bits & 0xFFFFFFFFFFFFFUL
@@ -91,7 +91,7 @@ fn exact_decimal(x : Double) -> (Array[Int], Int) {
 }
 
 ///|
-fn fp_decode(r : Double, iround : Int, mx_round : Int) -> FpDecode {
+fn fp_decode(r : Double, iround : Int32, mx_round : Int32) -> FpDecode {
   if r.is_nan() {
     return { neg: false, digits: [], idp: 0, special: 2, }
   }
@@ -153,8 +153,8 @@ fn fp_decode(r : Double, iround : Int, mx_round : Int) -> FpDecode {
 fn format_float(
   value : Double,
   conv : Char,
-  precision : Int,
-  width : Int,
+  precision : Int32,
+  width : Int32,
   flag_plus : Bool,
   flag_blank : Bool,
   flag_alt : Bool,
@@ -221,7 +221,7 @@ fn format_float(
   }
   let nd = s.digits.length()
   let mut j = 0
-  let digit = (k : Int) => (s.digits[k] + '0'.to_int()).unsafe_to_char()
+  let digit = (k : Int32) => (s.digits[k] + '0'.to_int()).unsafe_to_char()
   if e2 < 0 {
     buf.write_char('0')
   } else {
@@ -302,7 +302,7 @@ fn format_float(
 }
 
 ///|
-fn utf8_len_char(c : Char) -> Int {
+fn utf8_len_char(c : Char) -> Int32 {
   let v = c.to_int()
   if v < 0x80 {
     1
@@ -316,7 +316,7 @@ fn utf8_len_char(c : Char) -> Int {
 }
 
 ///|
-pub fn utf8_length(s : String) -> Int {
+pub fn utf8_length(s : String) -> Int32 {
   let mut n = 0
   for c in s {
     n += utf8_len_char(c)

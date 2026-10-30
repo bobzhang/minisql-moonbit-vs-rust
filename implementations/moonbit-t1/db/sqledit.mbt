@@ -18,7 +18,7 @@ fn is_op_tok(t : Token, op : String) -> Bool {
 
 ///|
 /// Offset just past an identifier token.
-fn ident_end(src : String, t : Token) -> Int {
+fn ident_end(src : String, t : Token) -> Int32 {
   match t.kind {
     TIdent => {
       let mut i = t.pos
@@ -40,7 +40,7 @@ fn ident_end(src : String, t : Token) -> Int {
 
 ///|
 /// Apply (start, end, replacement) edits to `src`.
-fn apply_edits(src : String, edits : Array[(Int, Int, String)]) -> String {
+fn apply_edits(src : String, edits : Array[(Int32, Int32, String)]) -> String {
   edits.sort_by((a, b) => a.0 - b.0)
   let sb = StringBuilder()
   let mut at = 0
@@ -66,8 +66,8 @@ fn tokens_of(sql : String) -> Array[Token] {
 ///|
 /// Top-level parts of a CREATE TABLE body: (first token, separator token)
 /// indexes, where the separator is the ',' or ')' ending the part.
-fn table_parts(toks : Array[Token]) -> Array[(Int, Int)] {
-  let parts : Array[(Int, Int)] = []
+fn table_parts(toks : Array[Token]) -> Array[(Int32, Int32)] {
+  let parts : Array[(Int32, Int32)] = []
   let mut i = 0
   while i < toks.length() && !is_op_tok(toks[i], "(") {
     i += 1
@@ -107,7 +107,7 @@ fn is_constraint_part(t : Token) -> Bool {
 
 ///|
 /// End of the text before token `i` (trailing whitespace excluded).
-fn text_end_before(src : String, toks : Array[Token], i : Int) -> Int {
+fn text_end_before(src : String, toks : Array[Token], i : Int32) -> Int32 {
   let mut e = toks[i].pos
   while e > 0 && is_space_cu(src[e - 1]) {
     e -= 1
@@ -211,7 +211,7 @@ fn sql_rename_table_refs(
   new_name : String,
 ) -> String {
   let toks = tokens_of(sql)
-  let edits : Array[(Int, Int, String)] = []
+  let edits : Array[(Int32, Int32, String)] = []
   let in_from : Array[Bool] = [false]
   for i, t in toks {
     if is_op_tok(t, "(") {
@@ -277,7 +277,7 @@ fn sql_rename_column_in_table(
 ) -> String {
   let toks = tokens_of(sql)
   let parts = table_parts(toks)
-  let edits : Array[(Int, Int, String)] = []
+  let edits : Array[(Int32, Int32, String)] = []
   let q = quote_ident(new_name)
   for p in parts {
     let mut depth = 0
@@ -313,7 +313,7 @@ fn sql_rename_column_in_index(
   new_name : String,
 ) -> String {
   let toks = tokens_of(sql)
-  let edits : Array[(Int, Int, String)] = []
+  let edits : Array[(Int32, Int32, String)] = []
   let mut started = false
   for i, t in toks {
     if !started {
@@ -346,7 +346,7 @@ fn sql_rename_column_in_view(
   if !toks.any(t => is_ident_tok(t) && same_name(t.text, table)) {
     return sql
   }
-  let edits : Array[(Int, Int, String)] = []
+  let edits : Array[(Int32, Int32, String)] = []
   for i, t in toks {
     guard is_ident_tok(t) && same_name(t.text, old) else { continue }
     if i + 1 < toks.length() &&

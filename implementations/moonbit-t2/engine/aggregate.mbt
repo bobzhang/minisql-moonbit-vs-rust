@@ -99,7 +99,7 @@ priv struct AggInfo {
 
 ///|
 priv struct AggCtx {
-  base : Int // slot of the first aggregate result in a group row
+  base : Int32 // slot of the first aggregate result in a group row
   aggs : Array[AggInfo]
   scope : Scope
 }
@@ -110,7 +110,7 @@ priv struct AggCtx {
 fn make_sort_key(
   bound : Expr,
   explicit : String?,
-  result_idx : Int,
+  result_idx : Int32,
   t : OrderTerm,
 ) -> SortKey {
   let coll = match explicit {
@@ -198,7 +198,7 @@ priv struct AggAcc {
 }
 
 ///|
-fn new_accs(n : Int) -> Array[AggAcc] {
+fn new_accs(n : Int32) -> Array[AggAcc] {
   Array::makei(n, _ => { items: [], seen: Set([]), })
 }
 

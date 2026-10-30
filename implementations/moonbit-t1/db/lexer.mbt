@@ -17,11 +17,11 @@ pub(all) struct Token {
   kind : TokKind
   text : String // identifier name / decoded string / operator / number text
   upper : String // uppercased text for keyword checks (identifiers only)
-  pos : Int
+  pos : Int32
 } derive(Debug)
 
 ///|
-fn is_ident_start(c : Int) -> Bool {
+fn is_ident_start(c : Int32) -> Bool {
   (c >= 'a'.to_int() && c <= 'z'.to_int()) ||
   (c >= 'A'.to_int() && c <= 'Z'.to_int()) ||
   c == '_'.to_int() ||
@@ -29,14 +29,14 @@ fn is_ident_start(c : Int) -> Bool {
 }
 
 ///|
-fn is_ident_char(c : Int) -> Bool {
+fn is_ident_char(c : Int32) -> Bool {
   is_ident_start(c) ||
   (c >= '0'.to_int() && c <= '9'.to_int()) ||
   c == '$'.to_int()
 }
 
 ///|
-fn hex_val(c : Int) -> Int {
+fn hex_val(c : Int32) -> Int32 {
   if c >= '0'.to_int() && c <= '9'.to_int() {
     c - '0'.to_int()
   } else if c >= 'a'.to_int() && c <= 'f'.to_int() {
@@ -49,14 +49,14 @@ fn hex_val(c : Int) -> Int {
 }
 
 ///|
-fn mk_tok(kind : TokKind, text : String, pos : Int) -> Token {
+fn mk_tok(kind : TokKind, text : String, pos : Int32) -> Token {
   { kind, text, upper: "", pos, }
 }
 
 ///|
 /// Read a quoted token starting at `i` (the opening quote). Returns the
 /// decoded contents and the index after the closing quote, or None.
-fn read_quoted(s : String, i : Int, close : Int) -> (String, Int)? {
+fn read_quoted(s : String, i : Int32, close : Int32) -> (String, Int32)? {
   let n = s.length()
   let sb = StringBuilder()
   let mut j = i + 1
@@ -80,7 +80,7 @@ fn read_quoted(s : String, i : Int, close : Int) -> (String, Int)? {
 
 ///|
 /// Consume digits (hex digits if `hex`) with single '_' separators between them.
-fn scan_digits(s : String, start : Int, hex : Bool) -> Int {
+fn scan_digits(s : String, start : Int32, hex : Bool) -> Int32 {
   let n = s.length()
   let is_d = (c : UInt16) => {
     if hex {
