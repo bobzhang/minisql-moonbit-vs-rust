@@ -157,8 +157,8 @@ fn FileImage::cell_size(
   p : Int32,
   index : Bool,
 ) -> Int32 {
-  let local = local_payload(self.usable, p, self.max_local(index))
-  let s = prefix + local + (if local < p { 4 } else { 0 })
+  let local_size = local_payload(self.usable, p, self.max_local(index))
+  let s = prefix + local_size + (if local_size < p { 4 } else { 0 })
   if s < 4 {
     4
   } else {
@@ -176,15 +176,15 @@ fn FileImage::make_cell(
   index : Bool,
 ) -> Bytes {
   let p = payload.length()
-  let local = local_payload(self.usable, p, self.max_local(index))
-  let buf = @buffer.Buffer(size_hint=prefix.length() + local + 4)
+  let local_size = local_payload(self.usable, p, self.max_local(index))
+  let buf = @buffer.Buffer(size_hint=prefix.length() + local_size + 4)
   buf.write_bytes(prefix)
-  buf.write_bytes(payload[0:local])
-  if local < p {
+  buf.write_bytes(payload[0:local_size])
+  if local_size < p {
     let per = self.usable - 4
     let mut pg = self.alloc()
     buf.write_uint_be(pg.reinterpret_as_uint())
-    let mut off = local
+    let mut off = local_size
     while off < p {
       let n = if p - off < per { p - off } else { per }
       let page = self.pages[pg - 1]

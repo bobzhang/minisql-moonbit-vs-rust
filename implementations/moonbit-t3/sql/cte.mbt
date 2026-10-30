@@ -44,11 +44,11 @@ fn[T] with_cte_env(
 ) -> T raise SqlError {
   let saved = cte_env.val
   cte_env.val = env
-  let r = f() catch {
-    e => {
+  let r = {
+    errdefer {
       cte_env.val = saved
-      raise e
     }
+    f()
   }
   cte_env.val = saved
   r
@@ -145,7 +145,7 @@ fn core_is_aggregate(core : SelectCore) -> Bool raise SqlError {
 fn Database::cte_source(
   self : Database,
   b : CteBinding,
-  alias : String?,
+  table_alias : String?,
   offset : Int32,
   outer : Scope?,
   corr : Ref[Bool],
@@ -162,7 +162,7 @@ fn Database::cte_source(
     return subquery_source(
       c,
       w.names,
-      alias.unwrap_or(w.table_name),
+      table_alias.unwrap_or(w.table_name),
       offset,
       chain,
       true,
@@ -175,13 +175,9 @@ fn Database::cte_source(
   }
   cte_active.add(b.id)
   let sub_corr : Ref[Bool] = { val: false, }
-  let c = with_cte_env(b.env, () => {
-    self.compile_cte_body(cte, b, outer, sub_corr)
-  }) catch {
-    e => {
-      cte_active.remove(b.id)
-      raise e
-    }
+  let c = {
+    errdefer cte_active.remove(b.id)
+    with_cte_env(b.env, () => self.compile_cte_body(cte, b, outer, sub_corr))
   }
   cte_active.remove(b.id)
   if sub_corr.val {
@@ -200,7 +196,7 @@ fn Database::cte_source(
   subquery_source(
     c,
     names,
-    alias.unwrap_or(cte.name),
+    table_alias.unwrap_or(cte.name),
     offset,
     chain,
     sub_corr.val,

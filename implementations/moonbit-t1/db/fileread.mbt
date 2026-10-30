@@ -64,11 +64,11 @@ fn Pager::payload(
   }
   let m = (u - 12) * 32 / 255 - 23
   let k = m + (total - m) % (u - 4)
-  let local = if k <= x { k } else { m }
+  let local_size = if k <= x { k } else { m }
   let buf = @buffer.Buffer(size_hint=total)
-  buf.write_bytes(self.data[off:off + local])
-  let mut next = self.u32(off + local)
-  let mut remaining = total - local
+  buf.write_bytes(self.data[off:off + local_size])
+  let mut next = self.u32(off + local_size)
+  let mut remaining = total - local_size
   while remaining > 0 && next != 0 {
     let po = self.page_off(next)
     let n = if remaining < u - 4 { remaining } else { u - 4 }

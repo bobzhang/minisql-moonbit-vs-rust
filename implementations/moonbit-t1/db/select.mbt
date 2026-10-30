@@ -281,11 +281,9 @@ fn prepare_query(
     }
     QWith(ctes~, body~) => {
       let base = push_ctes(ctes)
-      let p = prepare_query(body, outer, level, corr) catch {
-        e => {
-          cte_stack.truncate(base)
-          raise e
-        }
+      let p = {
+        errdefer cte_stack.truncate(base)
+        prepare_query(body, outer, level, corr)
       }
       cte_stack.truncate(base)
       p
@@ -912,12 +910,12 @@ fn prepare_view(v : View, level : Int32) -> QPlan raise SqlError {
   view_stack.push(k)
   let saved = cte_stack.copy()
   cte_stack.clear()
-  let p = prepare_query(v.query, None, level, { val: false, }) catch {
-    e => {
+  let p = {
+    errdefer {
       ignore(view_stack.pop())
       cte_stack.append(saved)
-      raise e
     }
+    prepare_query(v.query, None, level, { val: false, })
   }
   ignore(view_stack.pop())
   cte_stack.append(saved)
@@ -1060,11 +1058,9 @@ fn SubPlan::rows(
     return c
   }
   outer_stack.push(row)
-  let r = self.plan.run(max_rows) catch {
-    e => {
-      ignore(outer_stack.pop())
-      raise e
-    }
+  let r = {
+    errdefer ignore(outer_stack.pop())
+    self.plan.run(max_rows)
   }
   ignore(outer_stack.pop())
   if !self.corr.val {

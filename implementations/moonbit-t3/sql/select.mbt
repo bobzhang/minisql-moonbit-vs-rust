@@ -643,11 +643,11 @@ fn Database::compile_from(
   order_ctx? : OrderCtx,
 ) -> Source raise SqlError {
   match item {
-    TableRef(name, alias) => {
+    TableRef(name, table_alias) => {
       if dml_target.val {
         dml_target.val = false
       } else if find_cte(name) is Some(b) {
-        return self.cte_source(b, alias, offset, outer, corr, chain)
+        return self.cte_source(b, table_alias, offset, outer, corr, chain)
       }
       let t = match self.find_table(name) {
         Some(t) => t
@@ -659,13 +659,11 @@ fn Database::compile_from(
                 raise err("view " + v.name + " is circularly defined")
               }
               self.expanding.add(f)
-              let c = with_cte_env([], () => {
-                self.compile_select(v.select, None, { val: false, })
-              }) catch {
-                e => {
-                  self.expanding.remove(f)
-                  raise e
-                }
+              let c = {
+                errdefer self.expanding.remove(f)
+                with_cte_env([], () => {
+                  self.compile_select(v.select, None, { val: false, })
+                })
               }
               self.expanding.remove(f)
               if v.columns.length() > 0 &&
@@ -682,7 +680,7 @@ fn Database::compile_from(
               return subquery_source(
                 c,
                 names,
-                alias.unwrap_or(v.name),
+                table_alias.unwrap_or(v.name),
                 offset,
                 chain,
                 false,
@@ -699,7 +697,7 @@ fn Database::compile_from(
               }
           }
       }
-      let entry = table_scope_entry(t, alias.unwrap_or(t.name), offset)
+      let entry = table_scope_entry(t, table_alias.unwrap_or(t.name), offset)
       let width = t.columns.length() + 1
       let filters = []
       // Access path: an index (or rowid) lookup, else an automatic index for
@@ -813,7 +811,7 @@ fn Database::compile_from(
       chain.push(src)
       src
     }
-    SubqueryRef(sel, alias) => {
+    SubqueryRef(sel, table_alias) => {
       let sub_corr : Ref[Bool] = { val: false, }
       let c = self.compile_select(sel, outer, sub_corr)
       if sub_corr.val {
@@ -822,7 +820,7 @@ fn Database::compile_from(
       subquery_source(
         c,
         c.names,
-        alias.unwrap_or(""),
+        table_alias.unwrap_or(""),
         offset,
         chain,
         sub_corr.val,
@@ -1121,7 +1119,7 @@ fn Database::compile_from(
 fn subquery_source(
   c : Compiled,
   names : Array[String],
-  alias : String,
+  table_alias : String,
   offset : Int32,
   chain : Array[Source],
   correlated : Bool,
@@ -1142,7 +1140,7 @@ fn subquery_source(
       coll=c.colls[i].unwrap_or(CBinary),
     )
   })
-  let entry = ScopeTable::new(alias, columns, offset, -1)
+  let entry = ScopeTable::new(table_alias, columns, offset, -1)
   let filters = []
   let width = columns.length()
   // Rows of an uncorrelated subquery are reused while no table changes,
@@ -1773,10 +1771,10 @@ fn Database::bind_result_columns(
           names.push(c.name)
         }
       }
-      ExprCol(e, alias) => {
+      ExprCol(e, table_alias) => {
         exprs.push(bind_expr(self, scope, e))
         names.push(
-          match alias {
+          match table_alias {
             Some(a) => a
             None =>
               match e {
@@ -1831,7 +1829,8 @@ fn Database::compile_simple(
   let aggs : Array[FuncCall] = []
   let columns = core.columns.map(rc => {
     match rc {
-      ExprCol(e, alias) => ExprCol(extract_aggregates(e, aggs, db=self), alias)
+      ExprCol(e, table_alias) =>
+        ExprCol(extract_aggregates(e, aggs, db=self), table_alias)
       _ => rc
     }
   })
@@ -1981,8 +1980,8 @@ fn bind_order_term(
       let mut pos = 0
       for rc in columns {
         match rc {
-          ExprCol(_, Some(alias)) => {
-            if fold_name(alias) == f {
+          ExprCol(_, Some(table_alias)) => {
+            if fold_name(table_alias) == f {
               return exprs[pos]
             }
             pos += 1

@@ -28,4 +28,10 @@ jobs:
       - run: moon version --all
       - run: moon update
       - run: moon check
+      # T3 retains exported `alias` fields pending the API decision in issue #2.
+      - name: Strict warning check for T1 and T2
+        if: matrix.module != 'implementations/moonbit-t3'
+        run: moon check --deny-warn
+      - run: moon fmt --check
       - run: moon test
+      - run: moon build --release

@@ -108,7 +108,6 @@ priv struct WinFunc {
   slot : Int32
   kind : String
   args : Array[BExpr]
-  filter : BExpr?
   agg : AggSpec?
 }
 
@@ -189,13 +188,10 @@ fn Database::compile_windows(
     } else {
       None
     }
-    let func : WinFunc = {
-      slot: base + k,
-      kind: name,
-      args: fc.args.map(a => bind_expr(self, scope, a)),
-      filter: fc.filter.map(x => bind_expr(self, scope, x)),
-      agg,
-    }
+    let args = fc.args.map(a => bind_expr(self, scope, a))
+    // Retain filter binding validation even though WinFunc does not store it.
+    ignore(fc.filter.map(x => bind_expr(self, scope, x)))
+    let func : WinFunc = { slot: base + k, kind: name, args, agg, }
     let key = "\{Repr(w)}"
     let mut placed = false
     for g in groups {

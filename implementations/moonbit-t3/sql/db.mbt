@@ -286,8 +286,8 @@ pub fn Database::execute(
   cte_env.val = []
   dml_target.val = false
   cte_active.clear()
-  let res = self.execute_stmt(stmt) catch {
-    e => {
+  let res = {
+    errdefer {
       if self.rollback_txn {
         self.rollback_to(0)
         self.end_txn()
@@ -306,8 +306,8 @@ pub fn Database::execute(
       if !self.in_txn {
         self.undo.clear()
       }
-      raise e
     }
+    self.execute_stmt(stmt)
   }
   if self.in_dml {
     self.changes = self.stmt_changes
