@@ -14,7 +14,7 @@ priv struct IndexDef {
 priv struct Index {
   name : String
   exprs : Array[Expr] // key expressions bound against [cols..., rowid]
-  cols : Array[Int] // column of each key part, -1 for an expression
+  cols : Array[Int32] // column of each key part, -1 for an expression
   colls : Array[Coll]
   descs : Array[Bool]
   affs : Array[Affinity]
@@ -22,12 +22,12 @@ priv struct Index {
   conflict : Conflict?
   where_ : Expr? // partial index predicate (bound)
   def : IndexDef? // None for automatic indexes
-  seq : Int // position in sqlite_schema
+  seq : Int32 // position in sqlite_schema
   mut map : PMap[Array[Value], Int64]
 }
 
 ///|
-fn key_cmp(colls : Array[Coll]) -> (Array[Value], Array[Value]) -> Int {
+fn key_cmp(colls : Array[Coll]) -> (Array[Value], Array[Value]) -> Int32 {
   (a, b) => {
     let n = if a.length() < b.length() { a.length() } else { b.length() }
     for i in 0..<n {
@@ -46,7 +46,7 @@ fn key_cmp(colls : Array[Coll]) -> (Array[Value], Array[Value]) -> Int {
 fn index_key_cmp(
   colls : Array[Coll],
   descs : Array[Bool],
-) -> (Array[Value], Array[Value]) -> Int {
+) -> (Array[Value], Array[Value]) -> Int32 {
   (a, b) => {
     let n = if a.length() < b.length() { a.length() } else { b.length() }
     for i in 0..<n {
@@ -141,18 +141,18 @@ priv struct Table {
   cols : Array[ColumnDef]
   constraints : Array[TableConstraint]
   sql : String
-  rowid_alias : Int? // column that is an INTEGER PRIMARY KEY
+  rowid_alias : Int32? // column that is an INTEGER PRIMARY KEY
   autoinc : Bool
   rowid_conflict : Conflict? // ON CONFLICT clause of the INTEGER PRIMARY KEY
   indexes : Array[Index] // in constraint-checking order
   checks : Array[Expr] // bound against the row layout [cols..., rowid]
-  seq : Int // position in sqlite_schema
+  seq : Int32 // position in sqlite_schema
   mut rows : PMap[Int64, Array[Value]]
   mut seq_val : Int64 // AUTOINCREMENT high-water mark
 }
 
 ///|
-fn rowid_cmp(a : Int64, b : Int64) -> Int {
+fn rowid_cmp(a : Int64, b : Int64) -> Int32 {
   if a < b {
     -1
   } else if a > b {
@@ -189,7 +189,7 @@ fn Table::delete_row(self : Table, rowid : Int64) -> Unit raise SqlError {
 fn find_rowid_alias(
   cols : Array[ColumnDef],
   constraints : Array[TableConstraint],
-) -> Int? {
+) -> Int32? {
   for i, c in cols {
     if c.primary_key && !c.pk_desc && c.type_name.to_upper() == "INTEGER" {
       return Some(i)
@@ -208,7 +208,7 @@ fn find_rowid_alias(
 }
 
 ///|
-fn col_index_in(cols : Array[ColumnDef], name : String) -> Int? {
+fn col_index_in(cols : Array[ColumnDef], name : String) -> Int32? {
   for i, c in cols {
     if same_name(c.name, name) {
       return Some(i)
@@ -225,7 +225,7 @@ fn build_table(
   cols : Array[ColumnDef],
   constraints : Array[TableConstraint],
   sql : String,
-  seq : Int,
+  seq : Int32,
 ) -> Table raise SqlError {
   for i, c in cols {
     for j in 0..<i {
@@ -250,7 +250,7 @@ fn build_table(
   }
   // unique indexes in creation order
   let created : Array[Index] = []
-  fn add_index(idx_cols : Array[Int], conflict : Conflict?) -> Unit {
+  fn add_index(idx_cols : Array[Int32], conflict : Conflict?) -> Unit {
     for ix in created {
       if ix.cols == idx_cols {
         return
@@ -285,7 +285,7 @@ fn build_table(
   for tc in constraints {
     match tc {
       TPrimaryKey(names, conflict) | TUnique(names, conflict) => {
-        let idx_cols : Array[Int] = []
+        let idx_cols : Array[Int32] = []
         for n in names {
           match col_index_in(cols, n) {
             Some(i) => idx_cols.push(i)
@@ -348,7 +348,7 @@ fn make_index(
   name : String,
   unique : Bool,
   def : IndexDef,
-  seq : Int,
+  seq : Int32,
 ) -> Index raise SqlError {
   for c in def.cols {
     if has_subquery_ast(c.expr) {
@@ -360,7 +360,7 @@ fn make_index(
   }
   let scope = simple_scope([table_source(t.name, t, 0, false)])
   let exprs : Array[Expr] = []
-  let cols : Array[Int] = []
+  let cols : Array[Int32] = []
   let colls : Array[Coll] = []
   let affs : Array[Affinity] = []
   let ncols = t.cols.length()
@@ -448,14 +448,14 @@ priv struct View {
   cols : Array[String]?
   query : Query
   sql : String
-  seq : Int
+  seq : Int32
 }
 
 ///|
 struct Database {
   tables : Map[String, Table]
   views : Map[String, View]
-  mut next_seq : Int
+  mut next_seq : Int32
   mut stmt_changes : Int64
   mut dml_started : Bool
   mut fail_keep : Bool
@@ -467,9 +467,9 @@ struct Database {
   mut txn_by_savepoint : Bool
   savepoints : Array[(String, DbSnap)]
   /// Root pages of objects loaded from a database file (by lowercase name).
-  roots : Map[String, Int]
+  roots : Map[String, Int32]
   /// Position of sqlite_sequence in sqlite_schema, once it exists.
-  mut seq_table : Int?
+  mut seq_table : Int32?
 }
 
 ///|
@@ -504,8 +504,8 @@ priv struct TableSnap {
 priv struct DbSnap {
   tables : Array[TableSnap]
   views : Array[(String, View)]
-  next_seq : Int
-  seq_table : Int?
+  next_seq : Int32
+  seq_table : Int32?
 }
 
 ///|
@@ -530,7 +530,7 @@ fn Database::snapshot(self : Database) -> DbSnap {
 
 ///|
 /// Bumped on every row change (invalidates cached view contents).
-let data_version : Ref[Int] = { val: 0, }
+let data_version : Ref[Int32] = { val: 0, }
 
 ///|
 fn Database::restore(self : Database, snap : DbSnap) -> Unit {
@@ -598,7 +598,7 @@ fn Database::writable_table(
 
 ///|
 /// The table owning index `name` and the index's position in it.
-fn Database::find_index(self : Database, name : String) -> (Table, Int)? {
+fn Database::find_index(self : Database, name : String) -> (Table, Int32)? {
   for _, t in self.tables {
     for i, ix in t.indexes {
       if same_name(ix.name, name) {
@@ -624,7 +624,7 @@ fn Database::object_kind(self : Database, name : String) -> String? {
 }
 
 ///|
-fn Database::take_seq(self : Database, n : Int) -> Int {
+fn Database::take_seq(self : Database, n : Int32) -> Int32 {
   let s = self.next_seq
   self.next_seq += n
   s
@@ -661,7 +661,7 @@ fn Database::schema_table(self : Database, name : String) -> Table {
     text_col("sql", "text"),
   ]
   let t = build_table(name, cols, [], "", 0) catch { _ => abort("schema") }
-  let entries : Array[(Int, Array[Value])] = []
+  let entries : Array[(Int32, Array[Value])] = []
   for _, tb in self.tables {
     entries.push(
       (
@@ -716,7 +716,7 @@ fn Database::schema_table(self : Database, name : String) -> Table {
 }
 
 ///|
-fn Table::col_index(self : Table, name : String) -> Int? {
+fn Table::col_index(self : Table, name : String) -> Int32? {
   col_index_in(self.cols, name)
 }
 

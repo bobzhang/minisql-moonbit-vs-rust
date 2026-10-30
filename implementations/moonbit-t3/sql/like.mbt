@@ -12,9 +12,9 @@ fn like_fold(c : Char) -> Char {
 /// optional escape) and GLOB (`*`, `?`, `[...]`).
 fn pattern_match(
   pat : Array[Char],
-  pi : Int,
+  pi : Int32,
   s : Array[Char],
-  si : Int,
+  si : Int32,
   glob : Bool,
   esc : Char?,
 ) -> Bool {

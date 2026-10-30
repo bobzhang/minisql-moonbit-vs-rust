@@ -1,7 +1,7 @@
 ///|
 /// Result of scanning a number at the start of `s[pos:]`.
 priv struct NumScan {
-  end : Int // index just past the number (== start if none)
+  end : Int32 // index just past the number (== start if none)
   is_int : Bool // no '.' and no exponent
 }
 
@@ -22,7 +22,7 @@ fn is_digit_cu(c : UInt16) -> Bool {
 
 ///|
 /// Scans `[sign] digits [. digits] [e [sign] digits]` starting at `pos`.
-fn scan_number(s : String, pos : Int) -> NumScan {
+fn scan_number(s : String, pos : Int32) -> NumScan {
   let n = s.length()
   let mut i = pos
   if i < n && (s[i] == '+' || s[i] == '-') {

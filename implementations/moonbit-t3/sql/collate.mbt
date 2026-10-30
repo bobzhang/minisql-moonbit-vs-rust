@@ -28,7 +28,7 @@ pub fn check_coll(c : Coll) -> Coll raise SqlError {
 }
 
 ///|
-fn fold_ascii(u : Int) -> Int {
+fn fold_ascii(u : Int32) -> Int32 {
   if u >= 'A'.to_int() && u <= 'Z'.to_int() {
     u + 32
   } else {
@@ -37,7 +37,7 @@ fn fold_ascii(u : Int) -> Int {
 }
 
 ///|
-fn compare_text_nocase(a : String, b : String) -> Int {
+fn compare_text_nocase(a : String, b : String) -> Int32 {
   let n = if a.length() < b.length() { a.length() } else { b.length() }
   for i in 0..<n {
     let x = fold_ascii(a[i].to_int())
@@ -63,7 +63,7 @@ fn rtrim_spaces(s : String) -> String {
 }
 
 ///|
-pub fn compare_text_coll(a : String, b : String, coll : Coll) -> Int {
+pub fn compare_text_coll(a : String, b : String, coll : Coll) -> Int32 {
   match coll {
     CBinary => compare_text(a, b)
     CNoCase => compare_text_nocase(a, b)
@@ -75,7 +75,7 @@ pub fn compare_text_coll(a : String, b : String, coll : Coll) -> Int {
 ///|
 /// Total order of values under a collation (the collation only affects
 /// TEXT-vs-TEXT comparisons).
-pub fn compare_values_coll(a : Value, b : Value, coll : Coll) -> Int {
+pub fn compare_values_coll(a : Value, b : Value, coll : Coll) -> Int32 {
   match (a, b) {
     (Text(x), Text(y)) => compare_text_coll(x, y, coll)
     _ => compare_values(a, b)

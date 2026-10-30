@@ -3,12 +3,12 @@
 ///|
 priv struct DateTime {
   mut ijd : Int64 // Julian day number times 86400000
-  mut y : Int
-  mut mo : Int
-  mut d : Int
-  mut h : Int
-  mut mi : Int
-  mut tz : Int // timezone offset in minutes
+  mut y : Int32
+  mut mo : Int32
+  mut d : Int32
+  mut h : Int32
+  mut mi : Int32
+  mut tz : Int32 // timezone offset in minutes
   mut s : Double
   mut valid_jd : Bool
   mut valid_ymd : Bool
@@ -16,7 +16,7 @@ priv struct DateTime {
   mut raw_s : Bool // `s` holds a raw number not yet interpreted
   mut is_error : Bool
   mut use_subsec : Bool
-  mut n_floor : Int // days to subtract for the `floor` modifier
+  mut n_floor : Int32 // days to subtract for the `floor` modifier
 }
 
 ///|
@@ -66,7 +66,7 @@ fn DateTime::set_error(self : DateTime) -> Unit {
 }
 
 ///|
-fn cu_at(s : String, i : Int) -> Int {
+fn cu_at(s : String, i : Int32) -> Int32 {
   if i < s.length() {
     s[i].to_int()
   } else {
@@ -75,12 +75,12 @@ fn cu_at(s : String, i : Int) -> Int {
 }
 
 ///|
-fn is_space_at(s : String, i : Int) -> Bool {
+fn is_space_at(s : String, i : Int32) -> Bool {
   i < s.length() && is_space_cu(s[i])
 }
 
 ///|
-fn is_digit_at(s : String, i : Int) -> Bool {
+fn is_digit_at(s : String, i : Int32) -> Bool {
   i < s.length() && is_digit_cu(s[i])
 }
 
@@ -89,10 +89,10 @@ fn is_digit_at(s : String, i : Int) -> Bool {
 /// (digits, min, max, separator or 0).
 fn get_digits(
   s : String,
-  pos : Int,
-  specs : Array[(Int, Int, Int, Int)],
-) -> Array[Int]? {
-  let out : Array[Int] = []
+  pos : Int32,
+  specs : Array[(Int32, Int32, Int32, Int32)],
+) -> Array[Int32]? {
+  let out : Array[Int32] = []
   let mut i = pos
   for spec in specs {
     let (n, lo, hi, sep) = spec
@@ -117,14 +117,14 @@ fn get_digits(
 }
 
 ///|
-let colon : Int = ':'.to_int()
+let colon : Int32 = ':'.to_int()
 
 ///|
-let dash : Int = '-'.to_int()
+let dash : Int32 = '-'.to_int()
 
 ///|
 /// Parses a timezone suffix at `i`; true on error.
-fn DateTime::parse_timezone(self : DateTime, s : String, i0 : Int) -> Bool {
+fn DateTime::parse_timezone(self : DateTime, s : String, i0 : Int32) -> Bool {
   let mut i = i0
   while is_space_at(s, i) {
     i += 1
@@ -159,7 +159,7 @@ fn DateTime::parse_timezone(self : DateTime, s : String, i0 : Int) -> Bool {
 
 ///|
 /// Parses HH:MM[:SS[.FFF]] [timezone] at `i`; true on error.
-fn DateTime::parse_hms(self : DateTime, s : String, i0 : Int) -> Bool {
+fn DateTime::parse_hms(self : DateTime, s : String, i0 : Int32) -> Bool {
   guard get_digits(s, i0, [(2, 0, 24, colon), (2, 0, 59, 0)]) is Some(hm) else {
     return true
   }
@@ -396,7 +396,7 @@ let xform_types : Array[(String, Double, Double)] = [
 
 ///|
 /// Applies one modifier; true on error.
-fn DateTime::apply_modifier(self : DateTime, z : String, idx : Int) -> Bool {
+fn DateTime::apply_modifier(self : DateTime, z : String, idx : Int32) -> Bool {
   let lz = ascii_case(z, false)
   let n = z.length()
   if n == 0 {
@@ -538,7 +538,7 @@ fn DateTime::apply_modifier(self : DateTime, z : String, idx : Int) -> Bool {
         true
       }
     }
-    '+' | '-' | '0'..='9' => self.apply_offset(z)
+    '+' | '-' | '0'..<='9' => self.apply_offset(z)
     _ => true
   }
 }
@@ -716,7 +716,7 @@ fn date_from_args(args : ArrayView[Value]) -> DateTime? {
 
 ///|
 /// Formats `v` as a decimal padded to `width` (with zeros or spaces).
-fn pad_int(v : Int, width : Int, zero : Bool) -> String {
+fn pad_int(v : Int32, width : Int32, zero : Bool) -> String {
   let neg = v < 0
   let digits = (if neg { -v } else { v }).to_string()
   let body_len = digits.length() + (if neg { 1 } else { 0 })
@@ -760,7 +760,7 @@ fn DateTime::time_text(self : DateTime) -> String {
 }
 
 ///|
-fn DateTime::days_after_jan01(self : DateTime) -> Int {
+fn DateTime::days_after_jan01(self : DateTime) -> Int32 {
   let j = self.copy()
   j.valid_jd = false
   j.mo = 1
@@ -770,12 +770,12 @@ fn DateTime::days_after_jan01(self : DateTime) -> Int {
 }
 
 ///|
-fn DateTime::days_after_monday(self : DateTime) -> Int {
+fn DateTime::days_after_monday(self : DateTime) -> Int32 {
   ((self.ijd + 43200000L) / 86400000L % 7L).to_int()
 }
 
 ///|
-fn DateTime::days_after_sunday(self : DateTime) -> Int {
+fn DateTime::days_after_sunday(self : DateTime) -> Int32 {
   ((self.ijd + 129600000L) / 86400000L % 7L).to_int()
 }
 

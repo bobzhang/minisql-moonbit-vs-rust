@@ -1,7 +1,7 @@
 ///|
 priv struct Parser {
   toks : Array[Token]
-  mut pos : Int
+  mut pos : Int32
   src : String
 }
 
@@ -24,7 +24,7 @@ fn Parser::peek(self : Parser) -> Token {
 }
 
 ///|
-fn Parser::peek_at(self : Parser, k : Int) -> Token {
+fn Parser::peek_at(self : Parser, k : Int32) -> Token {
   let i = self.pos + k
   if i < self.toks.length() {
     self.toks[i]
@@ -69,7 +69,7 @@ fn Parser::is_kw(self : Parser, kw : String) -> Bool {
 }
 
 ///|
-fn Parser::is_kw_at(self : Parser, k : Int, kw : String) -> Bool {
+fn Parser::is_kw_at(self : Parser, k : Int32, kw : String) -> Bool {
   let t = self.peek_at(k)
   t.kind == TIdent && t.upper == kw
 }
@@ -258,7 +258,7 @@ fn Parser::parse_if_not_exists(self : Parser) -> Bool raise SqlError {
 ///|
 fn Parser::parse_create_index(
   self : Parser,
-  start : Int,
+  start : Int32,
   unique : Bool,
 ) -> Stmt raise SqlError {
   self.expect_kw("INDEX")
@@ -293,7 +293,10 @@ fn Parser::parse_create_index(
 }
 
 ///|
-fn Parser::parse_create_view(self : Parser, start : Int) -> Stmt raise SqlError {
+fn Parser::parse_create_view(
+  self : Parser,
+  start : Int32,
+) -> Stmt raise SqlError {
   self.expect_kw("VIEW")
   let if_not_exists = self.parse_if_not_exists()
   let name = self.parse_qualified_name()

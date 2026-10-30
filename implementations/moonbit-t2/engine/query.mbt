@@ -153,7 +153,7 @@ fn expr_children(e : Expr) -> Array[Expr] {
 ///|
 /// Adds `d` to the depth of every column reference of a bound expression
 /// (containing no subqueries).
-fn shift_depth(e : Expr, d : Int) -> Expr {
+fn shift_depth(e : Expr, d : Int32) -> Expr {
   if d == 0 {
     return e
   }
@@ -206,13 +206,13 @@ fn expr_equal(a : Expr, b : Expr) -> Bool {
 
 ///|
 /// The smallest scope depth of the column references in a bound expression.
-fn min_depth(e : Expr) -> Int? {
+fn min_depth(e : Expr) -> Int32? {
   match e {
     Slot(depth~, ..) => Some(depth)
     AggRef(depth~, ..) => Some(depth)
     ScalarQ(_) | ExistsQ(_) => None
     _ => {
-      let mut m : Int? = None
+      let mut m : Int32? = None
       for c in expr_children(e) {
         if min_depth(c) is Some(d) && (m is None || Some(d) < m) {
           m = Some(d)
@@ -233,7 +233,7 @@ fn outer_aggregate(e : Expr, scope : Scope?) -> Expr? raise SqlError {
   if filter is Some(f) {
     parts.push(bind_expr(f, scope))
   }
-  let mut d : Int? = None
+  let mut d : Int32? = None
   for p in parts {
     if min_depth(p) is Some(x) && (d is None || Some(x) < d) {
       d = Some(x)
@@ -472,7 +472,7 @@ fn Database::build_from(
     }
     let mut cond : Expr? = None
     for name in using_names {
-      let mut left : (Int, Int)? = None
+      let mut left : (Int32, Int32)? = None
       for j in 0..<i {
         let l = sources[j]
         if l.table.find_column(name) is Some(k) && !l.merged[k] {
@@ -529,7 +529,7 @@ fn Database::build_from(
 priv struct SrcRows {
   vals : Array[Array[Value]]
   rowids : Array[Int64]?
-  ncols : Int
+  ncols : Int32
 }
 
 ///|
@@ -553,9 +553,9 @@ fn source_rows(src : Source, penv : Env) -> SrcRows raise SqlError {
 ///|
 fn SrcRows::load(
   self : SrcRows,
-  j : Int,
+  j : Int32,
   buf : Array[Value],
-  off : Int,
+  off : Int32,
 ) -> Unit {
   let v = self.vals[j]
   for k in 0..<self.ncols {
@@ -580,7 +580,7 @@ fn null_fill(buf : Array[Value], src : Source) -> Unit {
 /// 0..=i are bound; `final_conds` once all are.
 fn scan_sources(
   sources : Array[Source],
-  width : Int,
+  width : Int32,
   level_conds : Array[Array[Expr]],
   final_conds : Array[Expr],
   penv : Env,
@@ -620,7 +620,7 @@ fn scan_sources(
     true
   }
 
-  fn level(i : Int) -> Unit raise SqlError {
+  fn level(i : Int32) -> Unit raise SqlError {
     if i == n {
       if check(final_conds) {
         f({ row: buf.copy(), parent, })

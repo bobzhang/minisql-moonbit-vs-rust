@@ -5,22 +5,22 @@
 ///|
 priv enum Node[K, V] {
   Nil
-  N(Node[K, V], K, V, Node[K, V], Int, Int) // left, key, val, right, height, size
+  N(Node[K, V], K, V, Node[K, V], Int32, Int32) // left, key, val, right, height, size
 }
 
 ///|
 priv struct PMap[K, V] {
   root : Node[K, V]
-  cmp : (K, K) -> Int
+  cmp : (K, K) -> Int32
 }
 
 ///|
-fn[K, V] PMap::empty(cmp : (K, K) -> Int) -> PMap[K, V] {
+fn[K, V] PMap::empty(cmp : (K, K) -> Int32) -> PMap[K, V] {
   { root: Nil, cmp, }
 }
 
 ///|
-fn[K, V] node_height(n : Node[K, V]) -> Int {
+fn[K, V] node_height(n : Node[K, V]) -> Int32 {
   match n {
     Nil => 0
     N(_, _, _, _, h, _) => h
@@ -28,7 +28,7 @@ fn[K, V] node_height(n : Node[K, V]) -> Int {
 }
 
 ///|
-fn[K, V] node_size(n : Node[K, V]) -> Int {
+fn[K, V] node_size(n : Node[K, V]) -> Int32 {
   match n {
     Nil => 0
     N(_, _, _, _, _, s) => s
@@ -79,7 +79,7 @@ fn[K, V] node_insert(
   n : Node[K, V],
   k : K,
   v : V,
-  cmp : (K, K) -> Int,
+  cmp : (K, K) -> Int32,
 ) -> Node[K, V] {
   match n {
     Nil => N(Nil, k, v, Nil, 1, 1)
@@ -109,7 +109,11 @@ fn[K, V] node_remove_min(n : Node[K, V]) -> (K, V, Node[K, V]) {
 }
 
 ///|
-fn[K, V] node_remove(n : Node[K, V], k : K, cmp : (K, K) -> Int) -> Node[K, V] {
+fn[K, V] node_remove(
+  n : Node[K, V],
+  k : K,
+  cmp : (K, K) -> Int32,
+) -> Node[K, V] {
   match n {
     Nil => Nil
     N(l, nk, nv, r, _, _) => {
@@ -158,7 +162,7 @@ fn[K, V] PMap::find(self : PMap[K, V], k : K) -> V? {
 }
 
 ///|
-fn[K, V] PMap::length(self : PMap[K, V]) -> Int {
+fn[K, V] PMap::length(self : PMap[K, V]) -> Int32 {
   node_size(self.root)
 }
 
@@ -249,7 +253,7 @@ fn[K, V] PMap::to_array(self : PMap[K, V]) -> Array[(K, V)] {
 
 ///|
 test "pmap" {
-  let mut m : PMap[Int, Int] = PMap::empty((a, b) => a - b)
+  let mut m : PMap[Int32, Int32] = PMap::empty((a, b) => a - b)
   for i in 0..<1000 {
     m = m.add(i * 7919 % 1000, i)
   }
@@ -260,13 +264,13 @@ test "pmap" {
   inspect(m.length(), content="500")
   inspect(old.length(), content="1000")
   debug_inspect(m.max_key(), content="Some(999)")
-  let ks : Array[Int] = []
+  let ks : Array[Int32] = []
   m.each_from(Some(10), (k, _) => {
     ks.push(k)
     ks.length() < 3
   })
   debug_inspect(ks, content="[11, 13, 15]")
-  let rs : Array[Int] = []
+  let rs : Array[Int32] = []
   m.each_rev_from(Some(10), (k, _) => {
     rs.push(k)
     rs.length() < 3

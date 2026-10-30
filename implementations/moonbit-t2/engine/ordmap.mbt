@@ -3,28 +3,28 @@
 ///|
 priv enum Node[K, V] {
   Leaf
-  Branch(Node[K, V], K, V, Node[K, V], Int)
+  Branch(Node[K, V], K, V, Node[K, V], Int32)
 }
 
 ///|
 pub struct OrdMap[K, V] {
-  priv cmp : (K, K) -> Int
+  priv cmp : (K, K) -> Int32
   priv mut root : Node[K, V]
-  priv mut size : Int
+  priv mut size : Int32
 }
 
 ///|
-pub fn[K, V] OrdMap::new(cmp : (K, K) -> Int) -> OrdMap[K, V] {
+pub fn[K, V] OrdMap::new(cmp : (K, K) -> Int32) -> OrdMap[K, V] {
   { cmp, root: Leaf, size: 0, }
 }
 
 ///|
-pub fn[K, V] OrdMap::length(self : OrdMap[K, V]) -> Int {
+pub fn[K, V] OrdMap::length(self : OrdMap[K, V]) -> Int32 {
   self.size
 }
 
 ///|
-fn[K, V] height(n : Node[K, V]) -> Int {
+fn[K, V] height(n : Node[K, V]) -> Int32 {
   match n {
     Leaf => 0
     Branch(_, _, _, _, h) => h
@@ -281,7 +281,7 @@ pub fn[K, V] OrdMap::copy(self : OrdMap[K, V]) -> OrdMap[K, V] {
 /// returns false. `probe` must be monotonic in the key order.
 pub fn[K, V] OrdMap::each_ge(
   self : OrdMap[K, V],
-  probe : (K) -> Int,
+  probe : (K) -> Int32,
   f : (K, V) -> Bool raise?,
 ) -> Unit raise? {
   fn go(n : Node[K, V], check : Bool) -> Bool raise? {
@@ -329,7 +329,7 @@ pub fn[K, V] OrdMap::each_le_rev(
 /// false.
 pub fn[K, V] OrdMap::each_le_by(
   self : OrdMap[K, V],
-  probe : (K) -> Int,
+  probe : (K) -> Int32,
   f : (K, V) -> Bool raise?,
 ) -> Unit raise? {
   fn go(n : Node[K, V], check : Bool) -> Bool raise? {

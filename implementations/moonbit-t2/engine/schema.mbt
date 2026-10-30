@@ -7,7 +7,7 @@ pub fn Database::find_view(self : Database, name : String) -> View? {
 
 ///|
 /// The table owning the index `name` and the index's position.
-fn Database::find_index(self : Database, name : String) -> (Table, Int)? {
+fn Database::find_index(self : Database, name : String) -> (Table, Int32)? {
   for _, t in self.tables {
     for j, idx in t.indexes {
       if idx.name.equal_ignore_ascii_case(name) {
@@ -203,7 +203,7 @@ fn Database::prepare_view(self : Database, v : View) -> Prepared raise SqlError 
 
 ///|
 fn Database::schema_rows(self : Database) -> Array[Array[Value]] {
-  let rows : Array[(Int, Array[Value])] = []
+  let rows : Array[(Int32, Array[Value])] = []
   for _, t in self.tables {
     rows.push(
       (

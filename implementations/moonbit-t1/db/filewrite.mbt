@@ -5,26 +5,26 @@
 ///|
 /// Header fields of the file the database was loaded from.
 priv struct FileHdr {
-  page_size : Int
-  change_counter : Int
-  schema_cookie : Int
-  cache_size : Int
-  user_version : Int
-  app_id : Int
+  page_size : Int32
+  change_counter : Int32
+  schema_cookie : Int32
+  cache_size : Int32
+  user_version : Int32
+  app_id : Int32
 }
 
 ///|
 priv struct LoadState {
   mut hdr : FileHdr?
   mut schema_sig : String
-  mut data_ver : Int
+  mut data_ver : Int32
 }
 
 ///|
 let load_state : LoadState = { hdr: None, schema_sig: "", data_ver: 0, }
 
 ///|
-fn hdr_u32(data : Bytes, off : Int) -> Int {
+fn hdr_u32(data : Bytes, off : Int32) -> Int32 {
   (data[off].to_int() << 24) |
   (data[off + 1].to_int() << 16) |
   (data[off + 2].to_int() << 8) |
@@ -37,7 +37,7 @@ fn hdr_u32(data : Bytes, off : Int) -> Int {
 fn Database::note_loaded(
   self : Database,
   data : Bytes,
-  page_size : Int,
+  page_size : Int32,
 ) -> Unit {
   load_state.hdr = Some({
     page_size,
@@ -62,7 +62,7 @@ priv enum SchemaObj {
 ///|
 /// Schema objects in sqlite_schema order.
 fn Database::schema_objs(self : Database) -> Array[SchemaObj] {
-  let objs : Array[(Int, SchemaObj)] = []
+  let objs : Array[(Int32, SchemaObj)] = []
   for _, t in self.tables {
     objs.push((t.seq, OTable(t)))
     for ix in t.indexes {
@@ -119,7 +119,7 @@ fn Database::schema_signature(self : Database) -> String {
 // ---------------------------------------------------------------------------
 
 ///|
-fn varint_len(v : Int64) -> Int {
+fn varint_len(v : Int64) -> Int32 {
   let u = v.reinterpret_as_uint64()
   if u > 0x00FFFFFFFFFFFFFFUL {
     return 9
@@ -153,7 +153,7 @@ fn write_varint(buf : @buffer.Buffer, v : Int64) -> Unit {
 }
 
 ///|
-fn int_serial(n : Int64) -> (Int, Int) {
+fn int_serial(n : Int64) -> (Int32, Int32) {
   if n == 0L {
     (8, 0)
   } else if n == 1L {
@@ -237,25 +237,25 @@ fn encode_record(vals : Array[Value]) -> Bytes {
 
 ///|
 priv struct Writer {
-  page_size : Int
-  usable : Int
+  page_size : Int32
+  usable : Int32
   pages : Array[FixedArray[Byte]]
 }
 
 ///|
-fn Writer::alloc(self : Writer) -> Int {
+fn Writer::alloc(self : Writer) -> Int32 {
   self.pages.push(FixedArray::make(0, b'\x00'))
   self.pages.length()
 }
 
 ///|
-fn put_u16(p : FixedArray[Byte], off : Int, v : Int) -> Unit {
+fn put_u16(p : FixedArray[Byte], off : Int32, v : Int32) -> Unit {
   p[off] = (v >> 8).to_byte()
   p[off + 1] = v.to_byte()
 }
 
 ///|
-fn put_u32(p : FixedArray[Byte], off : Int, v : Int) -> Unit {
+fn put_u32(p : FixedArray[Byte], off : Int32, v : Int32) -> Unit {
   p[off] = (v >> 24).to_byte()
   p[off + 1] = (v >> 16).to_byte()
   p[off + 2] = (v >> 8).to_byte()
@@ -264,7 +264,7 @@ fn put_u32(p : FixedArray[Byte], off : Int, v : Int) -> Unit {
 
 ///|
 /// Payload bytes stored on the b-tree page for a payload of `p` bytes.
-fn Writer::local_size(self : Writer, p : Int, is_table : Bool) -> Int {
+fn Writer::local_size(self : Writer, p : Int32, is_table : Bool) -> Int32 {
   let u = self.usable
   let x = if is_table { u - 35 } else { (u - 12) * 64 / 255 - 23 }
   if p <= x {
@@ -317,7 +317,7 @@ fn Writer::make_cell(self : Writer, payload : Bytes, rowid : Int64?) -> Bytes {
 }
 
 ///|
-fn Writer::hdr_off(pgno : Int) -> Int {
+fn Writer::hdr_off(pgno : Int32) -> Int32 {
   if pgno == 1 {
     100
   } else {
@@ -327,17 +327,17 @@ fn Writer::hdr_off(pgno : Int) -> Int {
 
 ///|
 /// Space available for cells and cell pointers on a b-tree page.
-fn Writer::cap(self : Writer, pgno : Int, interior : Bool) -> Int {
+fn Writer::cap(self : Writer, pgno : Int32, interior : Bool) -> Int32 {
   self.usable - Writer::hdr_off(pgno) - (if interior { 12 } else { 8 })
 }
 
 ///|
 fn Writer::write_page(
   self : Writer,
-  pgno : Int,
-  kind : Int,
+  pgno : Int32,
+  kind : Int32,
   cells : ArrayView[Bytes],
-  right : Int,
+  right : Int32,
 ) -> Unit {
   let page = FixedArray::make(self.page_size, b'\x00')
   let h = Writer::hdr_off(pgno)
@@ -359,7 +359,7 @@ fn Writer::write_page(
 }
 
 ///|
-fn cells_size(cells : ArrayView[Bytes]) -> Int {
+fn cells_size(cells : ArrayView[Bytes]) -> Int32 {
   let mut n = 0
   for c in cells {
     n += c.length() + 2
@@ -368,7 +368,7 @@ fn cells_size(cells : ArrayView[Bytes]) -> Int {
 }
 
 ///|
-fn child_cell(child : Int, body : Bytes) -> Bytes {
+fn child_cell(child : Int32, body : Bytes) -> Bytes {
   let buf = @buffer.Buffer(size_hint=body.length() + 4)
   buf.write_uint_be(child.reinterpret_as_uint())
   buf.write_bytes(body)
@@ -377,8 +377,8 @@ fn child_cell(child : Int, body : Bytes) -> Bytes {
 
 ///|
 /// Greedy split of a leaf level into page ranges [start, end).
-fn pack_leaves(cells : Array[Bytes], cap : Int) -> Array[(Int, Int)] {
-  let out : Array[(Int, Int)] = []
+fn pack_leaves(cells : Array[Bytes], cap : Int32) -> Array[(Int32, Int32)] {
+  let out : Array[(Int32, Int32)] = []
   let mut start = 0
   let mut size = 0
   for i, c in cells {
@@ -400,8 +400,8 @@ fn pack_leaves(cells : Array[Bytes], cap : Int) -> Array[(Int, Int)] {
 fn Writer::table_tree(
   self : Writer,
   rows : Array[(Int64, Bytes)],
-  root? : Int,
-) -> Int {
+  root? : Int32,
+) -> Int32 {
   let cells = rows.map(r => self.make_cell(r.1, Some(r.0)))
   let root_pg = match root {
     Some(r) => r
@@ -422,7 +422,7 @@ fn Writer::table_tree(
     let n = cells.length()
     groups = [(0, n / 2), (n / 2, n)]
   }
-  let mut children : Array[(Int, Int64)] = []
+  let mut children : Array[(Int32, Int64)] = []
   for g in groups {
     let pg = self.alloc()
     self.write_page(pg, 0x0d, cells[g.0:g.1], 0)
@@ -444,7 +444,7 @@ fn Writer::table_tree(
       return pg
     }
     let cap = self.cap(2, true)
-    let next : Array[(Int, Int64)] = []
+    let next : Array[(Int32, Int64)] = []
     let mut start = 0
     let mut size = 0
     let mut i = 0
@@ -478,7 +478,7 @@ fn Writer::table_tree(
 
 ///|
 /// Build an index b-tree over records in index order.
-fn Writer::index_tree(self : Writer, keys : Array[Bytes]) -> Int {
+fn Writer::index_tree(self : Writer, keys : Array[Bytes]) -> Int32 {
   let cells = keys.map(k => self.make_cell(k, None))
   if cells_size(cells[:]) <= self.cap(2, false) {
     let pg = self.alloc()
@@ -488,8 +488,8 @@ fn Writer::index_tree(self : Writer, keys : Array[Bytes]) -> Int {
   // leaves separated by promoted entries
   let cap = self.cap(2, false)
   let n = cells.length()
-  let mut children : Array[Int] = []
-  let mut seps : Array[Int] = []
+  let mut children : Array[Int32] = []
+  let mut seps : Array[Int32] = []
   let mut start = 0
   let mut size = 0
   let mut i = 0
@@ -525,8 +525,8 @@ fn Writer::index_tree(self : Writer, keys : Array[Bytes]) -> Int {
       return pg
     }
     let icap = self.cap(2, true)
-    let next_children : Array[Int] = []
-    let next_seps : Array[Int] = []
+    let next_children : Array[Int32] = []
+    let next_seps : Array[Int32] = []
     let mut start = 0
     let mut size = 0
     let mut j = 0
@@ -584,9 +584,9 @@ fn Database::table_records(self : Database, t : Table) -> Array[(Int64, Bytes)] 
 /// Serialize the database into a file image.
 fn Database::to_file_image(
   self : Database,
-  page_size : Int,
-  change_counter : Int,
-  schema_cookie : Int,
+  page_size : Int32,
+  change_counter : Int32,
+  schema_cookie : Int32,
   hdr : FileHdr?,
 ) -> Bytes {
   let w : Writer = { page_size, usable: page_size, pages: [], }

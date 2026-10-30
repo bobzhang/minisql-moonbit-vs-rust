@@ -61,7 +61,7 @@ fn cmp_info_col(l : Expr, r : ColInfo) -> CmpInfo {
 ///|
 priv struct SelPlan {
   sources : Array[Source]
-  width : Int
+  width : Int32
   exprs : Array[Expr]
   names : Array[String]
   texts : Array[String] // source text of each result expression
@@ -95,15 +95,15 @@ priv struct HashKey {
 ///|
 /// Rows of a base table as of a given snapshot, with the lookup index.
 priv struct SrcCache {
-  mut ver : Int // data_version the rows of a view were computed at (-1: none)
+  mut ver : Int32 // data_version the rows of a view were computed at (-1: none)
   mut snap : PMap[Int64, Array[Value]]?
   mut data : Array[(Value, Array[Value])]
-  mut index : PMap[Value, Array[Int]]?
+  mut index : PMap[Value, Array[Int32]]?
 }
 
 ///|
 /// True if every slot in `e` lies in [lo, hi) and it holds no subquery.
-fn slots_within(e : Expr, lo : Int, hi : Int) -> Bool {
+fn slots_within(e : Expr, lo : Int32, hi : Int32) -> Bool {
   match e {
     Slot(i, _, _) => i >= lo && i < hi
     SubScalar(_) | SubExists(_) | SubIn(_, _, _, _) | AggRef(_) => false
@@ -112,7 +112,7 @@ fn slots_within(e : Expr, lo : Int, hi : Int) -> Bool {
 }
 
 ///|
-fn find_hash_key(cands : Array[Expr], lo : Int, hi : Int) -> HashKey? {
+fn find_hash_key(cands : Array[Expr], lo : Int32, hi : Int32) -> HashKey? {
   for c in cands {
     guard c is Cmp(Eq, l, r, info) else { continue }
     if info.aff is Some(AffText) {
@@ -135,7 +135,7 @@ priv struct CompPlan {
   rest : Array[(CompoundOp, QPlan)]
   cols : Array[ColInfo]
   colls : Array[Coll]
-  order : Array[(Int, Bool, Bool, Coll)] // column, desc, nulls first, collation
+  order : Array[(Int32, Bool, Bool, Coll)] // column, desc, nulls first, collation
   limit : Expr?
   offset : Expr?
 }
@@ -206,7 +206,7 @@ fn Scope::bind_subquery(
 }
 
 ///|
-fn scope_at(outer : Scope?, level : Int, corr : Ref[Bool]) -> Scope {
+fn scope_at(outer : Scope?, level : Int32, corr : Ref[Bool]) -> Scope {
   {
     sources: [],
     aliases: [],
@@ -223,7 +223,7 @@ fn scope_at(outer : Scope?, level : Int, corr : Ref[Bool]) -> Scope {
 fn prepare_query(
   q : Query,
   outer : Scope?,
-  level : Int,
+  level : Int32,
   corr : Ref[Bool],
 ) -> QPlan raise SqlError {
   match q {
@@ -281,11 +281,9 @@ fn prepare_query(
     }
     QWith(ctes~, body~) => {
       let base = push_ctes(ctes)
-      let p = prepare_query(body, outer, level, corr) catch {
-        e => {
-          cte_stack.truncate(base)
-          raise e
-        }
+      let p = {
+        errdefer cte_stack.truncate(base)
+        prepare_query(body, outer, level, corr)
       }
       cte_stack.truncate(base)
       p
@@ -300,9 +298,9 @@ fn compound_order(
   members : Array[QPlan],
   mcols : Array[Array[ColInfo]],
   colls : Array[Coll],
-) -> Array[(Int, Bool, Bool, Coll)] raise SqlError {
+) -> Array[(Int32, Bool, Bool, Coll)] raise SqlError {
   let n = colls.length()
-  let order : Array[(Int, Bool, Bool, Coll)] = []
+  let order : Array[(Int32, Bool, Bool, Coll)] = []
   for k, t in order_by {
     let (inner, ecoll) = match t.expr {
       Collate(x, c) => (x, Some(c))
@@ -376,7 +374,7 @@ fn norm_text(s : String) -> String {
 }
 
 ///|
-fn ordinal(n : Int) -> String {
+fn ordinal(n : Int32) -> String {
   let suffix = if n % 100 >= 11 && n % 100 <= 13 {
     "th"
   } else {
@@ -434,7 +432,7 @@ fn split_and(e : Expr, out : Array[Expr]) -> Unit {
 ///|
 /// Highest slot referenced by the expression (-1 if none); -2 if it holds
 /// a subquery (which must be checked on the complete row).
-fn max_slot(e : Expr) -> Int {
+fn max_slot(e : Expr) -> Int32 {
   match e {
     Slot(i, _, _) => i
     SubScalar(_) | SubExists(_) | SubIn(_, _, _, _) => -2
@@ -459,7 +457,7 @@ fn max_slot(e : Expr) -> Int {
 fn prepare_select(
   sel : Select,
   outer : Scope?,
-  level : Int,
+  level : Int32,
   corr : Ref[Bool],
 ) -> SelPlan raise SqlError {
   let db = get_db()
@@ -904,7 +902,7 @@ fn prepare_select(
 let view_stack : Array[String] = []
 
 ///|
-fn prepare_view(v : View, level : Int) -> QPlan raise SqlError {
+fn prepare_view(v : View, level : Int32) -> QPlan raise SqlError {
   let k = key_of(v.name)
   if view_stack.contains(k) {
     raise sql_err("view \{v.name} is circularly defined")
@@ -912,12 +910,12 @@ fn prepare_view(v : View, level : Int) -> QPlan raise SqlError {
   view_stack.push(k)
   let saved = cte_stack.copy()
   cte_stack.clear()
-  let p = prepare_query(v.query, None, level, { val: false, }) catch {
-    e => {
+  let p = {
+    errdefer {
       ignore(view_stack.pop())
       cte_stack.append(saved)
-      raise e
     }
+    prepare_query(v.query, None, level, { val: false, })
   }
   ignore(view_stack.pop())
   cte_stack.append(saved)
@@ -926,7 +924,11 @@ fn prepare_view(v : View, level : Int) -> QPlan raise SqlError {
 
 ///|
 /// First visible column called `name` among sources[0..k): (source, column).
-fn left_col(sources : Array[Source], k : Int, name : String) -> (Int, Int)? {
+fn left_col(
+  sources : Array[Source],
+  k : Int32,
+  name : String,
+) -> (Int32, Int32)? {
   for i in 0..<k {
     let s = sources[i]
     match s.col_index(name) {
@@ -1039,7 +1041,7 @@ fn resolve_order_term(
 fn Database::run_query(
   self : Database,
   q : Query,
-) -> (Array[Array[Value]], Int) raise SqlError {
+) -> (Array[Array[Value]], Int32) raise SqlError {
   cur_db.val = Some(self)
   let p = prepare_query(q, None, 0, { val: false, })
   (p.run(-1L), p.cols().length())
@@ -1056,11 +1058,9 @@ fn SubPlan::rows(
     return c
   }
   outer_stack.push(row)
-  let r = self.plan.run(max_rows) catch {
-    e => {
-      ignore(outer_stack.pop())
-      raise e
-    }
+  let r = {
+    errdefer ignore(outer_stack.pop())
+    self.plan.run(max_rows)
   }
   ignore(outer_stack.pop())
   if !self.corr.val {
@@ -1070,7 +1070,7 @@ fn SubPlan::rows(
 }
 
 ///|
-fn eval_outer(depth : Int, e : Expr) -> Value raise SqlError {
+fn eval_outer(depth : Int32, e : Expr) -> Value raise SqlError {
   let n = outer_stack.length()
   if depth > n {
     raise sql_err("invalid outer reference")
@@ -1188,7 +1188,7 @@ fn QPlan::run(
 }
 
 ///|
-fn rows_cmp(colls : Array[Coll]) -> (Array[Value], Array[Value]) -> Int {
+fn rows_cmp(colls : Array[Coll]) -> (Array[Value], Array[Value]) -> Int32 {
   (a, b) => {
     for i in 0..<a.length() {
       let c = compare_coll(a[i], b[i], colls[i])
@@ -1300,7 +1300,7 @@ fn SelPlan::run(
     stop_at < @int64.MAX_VALUE
   // source rows
   let data : Array[Array[(Value, Array[Value])]] = []
-  let indexes : Array[PMap[Value, Array[Int]]?] = sources.map(_ => None)
+  let indexes : Array[PMap[Value, Array[Int32]]?] = sources.map(_ => None)
   for k, s in sources {
     if !(self.access[k] is AScan) {
       data.push([])
@@ -1392,7 +1392,7 @@ fn SelPlan::run(
     !(early && out.length().to_int64() >= stop_at)
   }
 
-  fn set_row(k : Int, rid : Value, vals : Array[Value]) -> Unit {
+  fn set_row(k : Int32, rid : Value, vals : Array[Value]) -> Unit {
     let s = sources[k]
     let nc = s.cols.length()
     for i in 0..<nc {
@@ -1401,7 +1401,7 @@ fn SelPlan::run(
     row[s.offset + nc] = rid
   }
 
-  fn set_null(k : Int) -> Unit {
+  fn set_null(k : Int32) -> Unit {
     let s = sources[k]
     for i in 0..<=s.cols.length() {
       row[s.offset + i] = Null
@@ -1417,13 +1417,13 @@ fn SelPlan::run(
   }
 
   // candidate rows of source k for the current row of the earlier sources
-  fn candidates(k : Int) -> Array[Int]? raise SqlError {
+  fn candidates(k : Int32) -> Array[Int32]? raise SqlError {
     guard self.hkeys[k] is Some(hk) else { return None }
     let idx = match indexes[k] {
       Some(m) => m
       None => {
         let coll = hk.coll
-        let mut m : PMap[Value, Array[Int]] = PMap::empty((a, b) => {
+        let mut m : PMap[Value, Array[Int32]] = PMap::empty((a, b) => {
           compare_coll(a, b, coll)
         })
         for j, pair in data[k] {
@@ -1452,7 +1452,7 @@ fn SelPlan::run(
     Some(idx.find(hash_val(p, hk)).unwrap_or([]))
   }
 
-  fn scan(k : Int) -> Bool raise SqlError {
+  fn scan(k : Int32) -> Bool raise SqlError {
     if k == n {
       return emit()
     }

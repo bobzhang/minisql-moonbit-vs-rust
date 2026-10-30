@@ -20,11 +20,11 @@ pub(all) enum Tok {
 ///|
 pub(all) struct Token {
   tok : Tok
-  pos : Int
+  pos : Int32
 } derive(Debug)
 
 ///|
-fn is_ident_start(c : Int) -> Bool {
+fn is_ident_start(c : Int32) -> Bool {
   (c >= 'a'.to_int() && c <= 'z'.to_int()) ||
   (c >= 'A'.to_int() && c <= 'Z'.to_int()) ||
   c == '_'.to_int() ||
@@ -32,19 +32,19 @@ fn is_ident_start(c : Int) -> Bool {
 }
 
 ///|
-fn is_ident_char(c : Int) -> Bool {
+fn is_ident_char(c : Int32) -> Bool {
   is_ident_start(c) ||
   (c >= '0'.to_int() && c <= '9'.to_int()) ||
   c == '$'.to_int()
 }
 
 ///|
-fn is_digit(c : Int) -> Bool {
+fn is_digit(c : Int32) -> Bool {
   c >= '0'.to_int() && c <= '9'.to_int()
 }
 
 ///|
-fn hex_val(c : Int) -> Int {
+fn hex_val(c : Int32) -> Int32 {
   if c >= '0'.to_int() && c <= '9'.to_int() {
     c - '0'.to_int()
   } else if c >= 'a'.to_int() && c <= 'f'.to_int() {
@@ -61,9 +61,9 @@ fn hex_val(c : Int) -> Int {
 /// `close`; doubled closing quotes are unescaped. Returns (content, next index).
 fn read_quoted(
   s : String,
-  i : Int,
-  close : Int,
-) -> (String, Int) raise SqlError {
+  i : Int32,
+  close : Int32,
+) -> (String, Int32) raise SqlError {
   let n = s.length()
   let sb = StringBuilder()
   let mut j = i + 1
@@ -91,9 +91,11 @@ pub fn tokenize(s : String) -> Array[Token] raise SqlError {
 
 ///|
 /// Tokenizes `s`, also returning the end offset of each token.
-pub fn tokenize_spans(s : String) -> (Array[Token], Array[Int]) raise SqlError {
+pub fn tokenize_spans(
+  s : String,
+) -> (Array[Token], Array[Int32]) raise SqlError {
   let toks : Array[Token] = []
-  let ends : Array[Int] = []
+  let ends : Array[Int32] = []
   let n = s.length()
   let mut i = 0
   while i < n {

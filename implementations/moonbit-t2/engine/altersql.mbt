@@ -51,7 +51,7 @@ fn quoted_ident(name : String) -> String {
 
 ///|
 /// End offset of a token in its source text.
-fn token_end(s : String, t : Token) -> Int {
+fn token_end(s : String, t : Token) -> Int32 {
   match t.kind {
     TQuoted | TString =>
       match lex_quoted(s, t.pos, s[t.pos]) {
@@ -84,7 +84,7 @@ fn is_name_tok(t : Token) -> Bool {
 
 ///|
 /// Replaces the given token spans of `s` with new texts.
-fn splice_tokens(s : String, edits : Array[(Int, Int, String)]) -> String {
+fn splice_tokens(s : String, edits : Array[(Int32, Int32, String)]) -> String {
   edits.sort_by((a, b) => a.0 - b.0)
   let sb = StringBuilder()
   let mut last = 0
@@ -99,7 +99,7 @@ fn splice_tokens(s : String, edits : Array[(Int, Int, String)]) -> String {
 
 ///|
 /// Index of the name token of a CREATE TABLE/INDEX/VIEW statement.
-fn create_name_index(toks : Array[Token]) -> Int {
+fn create_name_index(toks : Array[Token]) -> Int32 {
   let mut i = 0
   while i < toks.length() &&
         toks[i].kind == TIdent &&
@@ -147,7 +147,7 @@ fn sql_rename_table_refs(
 ) -> String {
   let toks = tokenize(sql) catch { _ => return sql }
   let own = create_name_index(toks)
-  let edits : Array[(Int, Int, String)] = []
+  let edits : Array[(Int32, Int32, String)] = []
   for i, t in toks {
     if i == own || !(t.kind is (TIdent | TQuoted | TBracket)) {
       continue
@@ -176,7 +176,7 @@ fn sql_rename_table_refs(
 fn sql_rename_column(sql : String, old : String, new_name : String) -> String {
   let toks = tokenize(sql) catch { _ => return sql }
   let own = create_name_index(toks)
-  let edits : Array[(Int, Int, String)] = []
+  let edits : Array[(Int32, Int32, String)] = []
   for i, t in toks {
     if i <= own || !(t.kind is (TIdent | TQuoted | TBracket)) {
       continue
@@ -202,8 +202,8 @@ fn sql_rename_column(sql : String, old : String, new_name : String) -> String {
 fn table_def_elements(
   sql : String,
   toks : Array[Token],
-) -> Array[(Int, Int, Bool)] {
-  let out : Array[(Int, Int, Bool)] = []
+) -> Array[(Int32, Int32, Bool)] {
+  let out : Array[(Int32, Int32, Bool)] = []
   let mut i = create_name_index(toks) + 1
   while i < toks.length() && !(toks[i].kind == TOp && toks[i].text == "(") {
     i += 1
@@ -275,7 +275,7 @@ fn sql_add_column(sql : String, coldef : String) -> String {
 
 ///|
 /// CREATE TABLE text without the definition of column `k` (by position).
-fn sql_drop_column(sql : String, k : Int) -> String {
+fn sql_drop_column(sql : String, k : Int32) -> String {
   let toks = tokenize(sql) catch { _ => return sql }
   let els = table_def_elements(sql, toks)
   let mut ci = 0

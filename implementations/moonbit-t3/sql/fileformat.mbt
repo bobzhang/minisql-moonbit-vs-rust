@@ -2,8 +2,8 @@
 /// Read-only access to the pages of an SQLite 3 database file.
 priv struct Pager {
   data : Bytes
-  page_size : Int
-  usable : Int
+  page_size : Int32
+  usable : Int32
 }
 
 ///|
@@ -16,12 +16,12 @@ fn Pager::new(data : Bytes) -> Pager raise SqlError {
   if page_size < 512 || (page_size & (page_size - 1)) != 0 {
     raise err("file is not a database")
   }
-  { data, page_size, usable: page_size - data[20].to_int() }
+  { data, page_size, usable: page_size - data[20].to_int(), }
 }
 
 ///|
 /// Byte offset of page `pgno` (1-based) in the file.
-fn Pager::offset(self : Pager, pgno : Int) -> Int raise SqlError {
+fn Pager::offset(self : Pager, pgno : Int32) -> Int32 raise SqlError {
   let off = (pgno - 1) * self.page_size
   if pgno < 1 || off + self.page_size > self.data.length() {
     raise err("database disk image is malformed")
@@ -30,17 +30,17 @@ fn Pager::offset(self : Pager, pgno : Int) -> Int raise SqlError {
 }
 
 ///|
-fn Pager::u8(self : Pager, pos : Int) -> Int {
+fn Pager::u8(self : Pager, pos : Int32) -> Int32 {
   self.data[pos].to_int()
 }
 
 ///|
-fn Pager::u16(self : Pager, pos : Int) -> Int {
+fn Pager::u16(self : Pager, pos : Int32) -> Int32 {
   (self.data[pos].to_int() << 8) | self.data[pos + 1].to_int()
 }
 
 ///|
-fn Pager::u32(self : Pager, pos : Int) -> Int {
+fn Pager::u32(self : Pager, pos : Int32) -> Int32 {
   (self.data[pos].to_int() << 24) |
   (self.data[pos + 1].to_int() << 16) |
   (self.data[pos + 2].to_int() << 8) |
@@ -49,7 +49,7 @@ fn Pager::u32(self : Pager, pos : Int) -> Int {
 
 ///|
 /// Decodes a varint at `pos`; returns (value, bytes used).
-fn read_varint(data : BytesView, pos : Int) -> (Int64, Int) {
+fn read_varint(data : BytesView, pos : Int32) -> (Int64, Int32) {
   let mut v = 0L
   for i in 0..<8 {
     let b = data[pos + i].to_int64()
@@ -67,9 +67,9 @@ fn read_varint(data : BytesView, pos : Int) -> (Int64, Int) {
 /// at `pos`, followed by an overflow page chain.
 fn Pager::payload(
   self : Pager,
-  pos : Int,
-  total : Int,
-  nlocal : Int,
+  pos : Int32,
+  total : Int32,
+  nlocal : Int32,
 ) -> Bytes raise SqlError {
   if nlocal >= total {
     return self.data[pos:pos + total].to_owned()
@@ -94,7 +94,7 @@ fn Pager::payload(
 
 ///|
 /// Number of payload bytes stored on the b-tree page itself.
-fn local_payload(usable : Int, total : Int, max_local : Int) -> Int {
+fn local_payload(usable : Int32, total : Int32, max_local : Int32) -> Int32 {
   if total <= max_local {
     return total
   }
@@ -112,11 +112,11 @@ fn local_payload(usable : Int, total : Int, max_local : Int) -> Int {
 /// rowid order.
 fn Pager::scan_table(
   self : Pager,
-  root : Int,
+  root : Int32,
   f : (Int64, Bytes) -> Unit raise SqlError,
 ) -> Unit raise SqlError {
   let stack = [root]
-  let visited : Set[Int] = Set([])
+  let visited : Set[Int32] = Set([])
   // Depth-first, left to right: children are pushed in reverse order.
   while stack.pop() is Some(pgno) {
     if !visited.add_and_check(pgno) {
@@ -181,12 +181,7 @@ fn decode_record(rec : Bytes) -> Array[Value] raise SqlError {
       4L => 4
       5L => 6
       6L | 7L => 8
-      _ =>
-        if t >= 12L {
-          ((t - 12L) / 2L).to_int()
-        } else {
-          0
-        }
+      _ => if t >= 12L { ((t - 12L) / 2L).to_int() } else { 0 }
     }
     if body + len > view.length() {
       raise err("database disk image is malformed")
@@ -231,7 +226,10 @@ fn decode_record(rec : Bytes) -> Array[Value] raise SqlError {
 
 ///|
 /// Loads the SQLite database image `data` into this (empty) database.
-pub fn Database::load_file(self : Database, data : Bytes) -> Unit raise SqlError {
+pub fn Database::load_file(
+  self : Database,
+  data : Bytes,
+) -> Unit raise SqlError {
   if data.length() == 0 {
     return
   }
@@ -242,10 +240,10 @@ pub fn Database::load_file(self : Database, data : Bytes) -> Unit raise SqlError
   }
   let entries = []
   pager.scan_table(1, (_, rec) => entries.push(decode_record(rec)))
-  let loads : Array[(Table, Int)] = []
+  let loads : Array[(Table, Int32)] = []
   let mut seq_root = 0
   for e in entries {
-    let field = (i : Int) => if i < e.length() { e[i] } else { Null }
+    let field = (i : Int32) => if i < e.length() { e[i] } else { Null }
     let kind = match field(0) {
       Text(s) => s
       _ => ""

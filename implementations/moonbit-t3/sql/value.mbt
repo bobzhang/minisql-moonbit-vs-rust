@@ -67,7 +67,7 @@ pub fn affinity_of_type(type_name : String) -> Affinity {
 ///|
 /// Decomposes a finite, non-zero, positive double into its shortest
 /// round-trip digit string and decimal exponent E (x = d.ddd * 10^E).
-fn decompose_double(x : Double) -> (String, Int) {
+fn decompose_double(x : Double) -> (String, Int32) {
   let s = x.to_string()
   let (mant, exp) = match s.find("e") {
     Some(i) => {
@@ -265,7 +265,7 @@ pub fn text_to_double(s : String) -> Double {
 /// Scans the longest numeric prefix of `s` starting at `start`
 /// (after leading whitespace). Returns (value, end index, is_integer_form).
 /// If no digits are present returns None.
-fn scan_number(s : String) -> (Value, Int)? {
+fn scan_number(s : String) -> (Value, Int32)? {
   let n = s.length()
   let mut i = 0
   while i < n && is_space_code(s[i]) {
@@ -496,7 +496,7 @@ pub fn Value::apply_affinity(self : Value, aff : Affinity) -> Value {
 // ---------------------------------------------------------------------------
 
 ///|
-fn map_code_unit(u : Int) -> Int {
+fn map_code_unit(u : Int32) -> Int32 {
   if u >= 0xD800 && u <= 0xDFFF {
     u + 0x2000
   } else if u >= 0xE000 {
@@ -508,7 +508,7 @@ fn map_code_unit(u : Int) -> Int {
 
 ///|
 /// Compares strings in UTF-8 byte (code point) order.
-pub fn compare_text(a : String, b : String) -> Int {
+pub fn compare_text(a : String, b : String) -> Int32 {
   let n = if a.length() < b.length() { a.length() } else { b.length() }
   for i in 0..<n {
     let x = a[i].to_int()
@@ -521,7 +521,7 @@ pub fn compare_text(a : String, b : String) -> Int {
 }
 
 ///|
-pub fn compare_bytes(a : Bytes, b : Bytes) -> Int {
+pub fn compare_bytes(a : Bytes, b : Bytes) -> Int32 {
   let n = if a.length() < b.length() { a.length() } else { b.length() }
   for i in 0..<n {
     let x = a[i].to_int()
@@ -534,7 +534,7 @@ pub fn compare_bytes(a : Bytes, b : Bytes) -> Int {
 }
 
 ///|
-fn compare_int_real(i : Int64, r : Double) -> Int {
+fn compare_int_real(i : Int64, r : Double) -> Int32 {
   if r.is_nan() {
     return 1
   }
@@ -562,7 +562,7 @@ fn compare_int_real(i : Int64, r : Double) -> Int {
 }
 
 ///|
-fn class_rank(v : Value) -> Int {
+fn class_rank(v : Value) -> Int32 {
   match v {
     Null => 0
     Int(_) | Real(_) => 1
@@ -573,7 +573,7 @@ fn class_rank(v : Value) -> Int {
 
 ///|
 /// Total order used for sorting and comparisons (BINARY collation).
-pub fn compare_values(a : Value, b : Value) -> Int {
+pub fn compare_values(a : Value, b : Value) -> Int32 {
   let ra = class_rank(a)
   let rb = class_rank(b)
   if ra != rb {

@@ -34,7 +34,7 @@ pub(all) enum Expr {
   /// Unresolved column reference; `dq` marks a double-quoted bare name.
   Col(tbl~ : String?, name~ : String, dq~ : Bool)
   /// Resolved column: `depth` scopes up, slot `idx` in that scope's row.
-  Slot(depth~ : Int, idx~ : Int, aff~ : Affinity, coll~ : String?)
+  Slot(depth~ : Int32, idx~ : Int32, aff~ : Affinity, coll~ : String?)
   Unary(UnOp, Expr)
   Binary(BinOp, Expr, Expr)
   IsNull(Expr, Bool) // negated when true
@@ -52,7 +52,7 @@ pub(all) enum Expr {
   )
   /// Result of an aggregate, stored at slot `idx` of the group row; `coll`
   /// is an explicit collation propagated from the arguments.
-  AggRef(depth~ : Int, idx~ : Int, coll~ : String?)
+  AggRef(depth~ : Int32, idx~ : Int32, coll~ : String?)
   Case(Expr?, Array[(Expr, Expr)], Expr?)
   Cast(Expr, String)
   Collate(Expr, String)
@@ -148,7 +148,7 @@ pub(all) enum ResultCol {
 pub(all) struct OrderTerm {
   expr : Expr
   desc : Bool
-  nulls : Int // 0 default, 1 first, 2 last
+  nulls : Int32 // 0 default, 1 first, 2 last
 }
 
 ///|
