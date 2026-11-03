@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        toolchain: [latest, nightly]
+        toolchain: [latest, pre-release]
         module: ["implementations/moonbit-t1", "implementations/moonbit-t2", "implementations/moonbit-t3"]
     defaults:
       run:

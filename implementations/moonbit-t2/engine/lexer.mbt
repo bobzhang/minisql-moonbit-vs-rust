@@ -1,4 +1,5 @@
 ///|
+#derive(Eq, Debug)
 pub(all) enum TokKind {
   TIdent // bare identifier or keyword
   TQuoted // "..." (identifier, or string if unresolved)
@@ -9,19 +10,21 @@ pub(all) enum TokKind {
   TBlob
   TOp
   TEof
-} derive(Eq, Debug)
+}
 
 ///|
+#derive(Debug)
 pub(all) struct Token {
   kind : TokKind
   text : String
   pos : Int32
-} derive(Debug)
+}
 
 ///|
+#derive(Debug)
 pub suberror SqlError {
   SqlError(String)
-} derive(Debug)
+}
 
 ///|
 pub fn sql_err(msg : String) -> SqlError {

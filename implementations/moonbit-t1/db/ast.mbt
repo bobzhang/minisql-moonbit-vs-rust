@@ -1,4 +1,5 @@
 ///|
+#derive(Eq)
 priv enum BinOp {
   Add
   Sub
@@ -20,15 +21,16 @@ priv enum BinOp {
   Shr
   Is
   IsNot
-} derive(Eq)
+}
 
 ///|
+#derive(Eq)
 priv enum UnOp {
   Neg
   Pos
   Not
   BitNot
-} derive(Eq)
+}
 
 ///|
 priv enum Expr {
@@ -85,11 +87,12 @@ priv enum Expr {
 }
 
 ///|
+#derive(Eq)
 priv enum FrameUnit {
   FRows
   FRange
   FGroups
-} derive(Eq)
+}
 
 ///|
 priv enum FrameBound {
@@ -101,12 +104,13 @@ priv enum FrameBound {
 }
 
 ///|
+#derive(Eq)
 priv enum Exclude {
   ExNone
   ExCurrent
   ExGroup
   ExTies
-} derive(Eq)
+}
 
 ///|
 priv struct Frame {
@@ -151,11 +155,12 @@ priv struct CteDef {
 }
 
 ///|
+#derive(Eq)
 priv enum Coll {
   CBinary
   CNoCase
   CRTrim
-} derive(Eq)
+}
 
 ///|
 /// How a comparison converts and orders its operands.
@@ -184,12 +189,13 @@ priv struct OrderTerm {
 }
 
 ///|
+#derive(Eq)
 priv enum JoinKind {
   JInner
   JLeft
   JRight
   JFull
-} derive(Eq)
+}
 
 ///|
 priv enum FromSrc {
@@ -208,12 +214,13 @@ priv struct FromItem {
 }
 
 ///|
+#derive(Eq)
 priv enum CompoundOp {
   UnionAll
   Union
   Intersect
   Except
-} derive(Eq)
+}
 
 ///|
 priv enum Query {
@@ -245,13 +252,14 @@ priv struct Select {
 }
 
 ///|
+#derive(Eq)
 priv enum Conflict {
   CRollback
   CAbort
   CFail
   CIgnore
   CReplace
-} derive(Eq)
+}
 
 ///|
 priv struct ColumnDef {

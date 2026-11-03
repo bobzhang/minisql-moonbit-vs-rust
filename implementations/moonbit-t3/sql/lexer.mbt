@@ -1,4 +1,5 @@
 ///|
+#derive(Debug, Eq)
 pub(all) enum Tok {
   /// Bare word: identifier or keyword (original spelling).
   Word(String)
@@ -15,13 +16,14 @@ pub(all) enum Tok {
   /// Operator or punctuation.
   Op(String)
   Eof
-} derive(Debug, Eq)
+}
 
 ///|
+#derive(Debug)
 pub(all) struct Token {
   tok : Tok
   pos : Int32
-} derive(Debug)
+}
 
 ///|
 fn is_ident_start(c : Int32) -> Bool {

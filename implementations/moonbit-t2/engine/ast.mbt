@@ -1,4 +1,5 @@
 ///|
+#derive(Eq)
 pub(all) enum BinOp {
   Add
   Sub
@@ -18,15 +19,16 @@ pub(all) enum BinOp {
   BitOr
   Shl
   Shr
-} derive(Eq)
+}
 
 ///|
+#derive(Eq)
 pub(all) enum UnOp {
   Neg
   Pos
   BitNot
   Not
-} derive(Eq)
+}
 
 ///|
 pub(all) enum Expr {
@@ -79,19 +81,21 @@ pub(all) enum FrameBound {
 }
 
 ///|
+#derive(Eq)
 pub(all) enum FrameUnit {
   FRows
   FRange
   FGroups
-} derive(Eq)
+}
 
 ///|
+#derive(Eq)
 pub(all) enum FrameExclude {
   ExNoOthers
   ExCurrentRow
   ExGroup
   ExTies
-} derive(Eq)
+}
 
 ///|
 pub(all) struct Frame {
@@ -152,12 +156,13 @@ pub(all) struct OrderTerm {
 }
 
 ///|
+#derive(Eq)
 pub(all) enum JoinKind {
   JInner
   JLeft
   JRight
   JFull
-} derive(Eq)
+}
 
 ///|
 pub(all) enum FromItem {
@@ -174,12 +179,13 @@ pub(all) enum FromItem {
 }
 
 ///|
+#derive(Eq)
 pub(all) enum CompoundOp {
   UnionAll
   Union
   Intersect
   Except
-} derive(Eq)
+}
 
 ///|
 fn CompoundOp::label(self : CompoundOp) -> String {
@@ -214,6 +220,7 @@ pub(all) struct Select {
 
 ///|
 /// Conflict resolution algorithm.
+#derive(Eq)
 pub(all) enum Conflict {
   CDefault
   CRollback
@@ -221,7 +228,7 @@ pub(all) enum Conflict {
   CFail
   CIgnore
   CReplace
-} derive(Eq)
+}
 
 ///|
 pub(all) struct CheckDef {

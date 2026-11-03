@@ -1,12 +1,13 @@
 ///|
 /// Collating sequences for text comparison.
+#derive(Eq, Debug)
 pub(all) enum Coll {
   CBinary
   CNoCase
   CRTrim
   /// An unknown name: only an error if a comparison actually uses it.
   CUnknown(String)
-} derive(Eq, Debug)
+}
 
 ///|
 pub fn coll_of_name(name : String) -> Coll {

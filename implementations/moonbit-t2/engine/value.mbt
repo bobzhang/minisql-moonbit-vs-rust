@@ -1,15 +1,17 @@
 ///|
 /// A SQL value (one of SQLite's five storage classes).
+#derive(Debug)
 pub(all) enum Value {
   Null
   Int(Int64)
   Real(Double)
   Text(String)
   Blob(Bytes)
-} derive(Debug)
+}
 
 ///|
 /// Column affinity.
+#derive(Eq, Debug)
 pub(all) enum Affinity {
   AffNone // BLOB affinity / no affinity
   /// No affinity at all: an expression column of a subquery or view
@@ -19,7 +21,7 @@ pub(all) enum Affinity {
   AffNumeric
   AffInteger
   AffReal
-} derive(Eq, Debug)
+}
 
 ///|
 pub fn affinity_of_type(decl : String) -> Affinity {

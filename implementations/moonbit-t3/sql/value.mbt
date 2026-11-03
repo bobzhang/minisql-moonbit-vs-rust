@@ -1,26 +1,29 @@
 ///|
 /// A SQL value in one of SQLite's five storage classes.
+#derive(Debug)
 pub(all) enum Value {
   Null
   Int(Int64)
   Real(Double)
   Text(String)
   Blob(Bytes)
-} derive(Debug)
+}
 
 ///|
+#derive(Eq, Debug)
 pub(all) enum Affinity {
   AffNone // "BLOB" affinity / no affinity
   AffText
   AffNumeric
   AffInteger
   AffReal
-} derive(Eq, Debug)
+}
 
 ///|
+#derive(Debug)
 pub suberror SqlError {
   SqlError(String)
-} derive(Debug)
+}
 
 ///|
 pub fn err(msg : String) -> SqlError {

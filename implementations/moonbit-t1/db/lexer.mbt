@@ -1,4 +1,5 @@
 ///|
+#derive(Eq, Debug)
 pub(all) enum TokKind {
   TIdent // unquoted identifier or keyword
   TQuoted // "..." identifier (may be a string)
@@ -10,15 +11,16 @@ pub(all) enum TokKind {
   TParam
   TOp
   TEof
-} derive(Eq, Debug)
+}
 
 ///|
+#derive(Debug)
 pub(all) struct Token {
   kind : TokKind
   text : String // identifier name / decoded string / operator / number text
   upper : String // uppercased text for keyword checks (identifiers only)
   pos : Int32
-} derive(Debug)
+}
 
 ///|
 fn is_ident_start(c : Int32) -> Bool {

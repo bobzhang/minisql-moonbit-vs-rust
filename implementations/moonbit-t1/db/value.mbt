@@ -1,11 +1,12 @@
 ///|
+#derive(Debug)
 pub(all) enum Value {
   Null
   Int(Int64)
   Real(Double)
   Text(String)
   Blob(Bytes)
-} derive(Debug)
+}
 
 ///|
 pub suberror SqlError {
@@ -18,13 +19,14 @@ fn sql_err(msg : String) -> SqlError {
 }
 
 ///|
+#derive(Eq, Debug)
 pub(all) enum Affinity {
   AffNone // BLOB affinity / no affinity
   AffText
   AffNumeric
   AffInteger
   AffReal
-} derive(Eq, Debug)
+}
 
 ///|
 /// Determine column affinity from the declared type name (SQLite rules).
