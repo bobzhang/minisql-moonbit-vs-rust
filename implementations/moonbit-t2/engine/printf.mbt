@@ -4,7 +4,7 @@
 /// Exact decimal expansion of a positive finite double: the significant
 /// digits (no leading or trailing zeros) and the position of the decimal
 /// point relative to the first digit (value = 0.d1d2... * 10^dp).
-fn exact_decimal(d : Double) -> (Array[Int], Int) {
+fn exact_decimal(d : Double) -> (Array[Int32], Int32) {
   let bits = d.reinterpret_as_uint64()
   let be = ((bits >> 52) & 0x7FFUL).reinterpret_as_int64().to_int()
   let frac = bits & 0xFFFFFFFFFFFFFUL
@@ -54,7 +54,7 @@ fn exact_decimal(d : Double) -> (Array[Int], Int) {
       rem -= s
     }
   }
-  let digits : Array[Int] = []
+  let digits : Array[Int32] = []
   let top = limbs[limbs.length() - 1]
   let ts = top.to_string()
   for c in ts {
@@ -78,14 +78,14 @@ fn exact_decimal(d : Double) -> (Array[Int], Int) {
 
 ///|
 priv struct FpDec {
-  digits : Array[Int]
-  dp : Int // number of digits before the decimal point
+  digits : Array[Int32]
+  dp : Int32 // number of digits before the decimal point
   neg : Bool
 }
 
 ///|
 /// Port of SQLite's sqlite3FpDecode rounding rules.
-fn fp_decode(r : Double, round : Int, mx_round : Int) -> FpDec {
+fn fp_decode(r : Double, round : Int32, mx_round : Int32) -> FpDec {
   let neg = r < 0.0
   let a = r.abs()
   if a == 0.0 {
@@ -134,7 +134,7 @@ fn fp_decode(r : Double, round : Int, mx_round : Int) -> FpDec {
 }
 
 ///|
-fn utf8_len(s : String) -> Int {
+fn utf8_len(s : String) -> Int32 {
   let mut n = 0
   for c in s {
     let v = c.to_int()
@@ -153,7 +153,7 @@ fn utf8_len(s : String) -> Int {
 
 ///|
 /// Prefix of `s` containing at most `nbytes` UTF-8 bytes (whole characters).
-fn utf8_prefix(s : String, nbytes : Int) -> String {
+fn utf8_prefix(s : String, nbytes : Int32) -> String {
   let sb = StringBuilder()
   let mut n = 0
   for c in s {
@@ -177,7 +177,7 @@ fn utf8_prefix(s : String, nbytes : Int) -> String {
 }
 
 ///|
-fn char_prefix(s : String, nchars : Int) -> String {
+fn char_prefix(s : String, nchars : Int32) -> String {
   let sb = StringBuilder()
   let mut n = 0
   for c in s {
@@ -211,14 +211,14 @@ fn u64_to_radix(v : UInt64, base : UInt64, upper : Bool) -> String {
 fn format_float(
   value : Double,
   conv : Char,
-  precision0 : Int,
-  width : Int,
+  precision0 : Int32,
+  width : Int32,
   flag_prefix : Char?,
   flag_alt : Bool,
   flag_alt2 : Bool,
   flag_zeropad : Bool,
   flag_left : Bool,
-  flag_comma? : Bool = false,
+  flag_comma~ : Bool = false,
 ) -> String {
   let mut precision = if precision0 < 0 { 6 } else { precision0 }
   let mut xtype = match conv {
@@ -267,7 +267,7 @@ fn format_float(
   }
   let mut e2 = if xtype == 1 { 0 } else { s.dp - 1 }
   let buf = StringBuilder()
-  let digit = fn(j : Int) -> Char {
+  let digit = fn(j : Int32) -> Char {
     if j < s.digits.length() {
       digit_char(s.digits[j])
     } else {
@@ -610,6 +610,6 @@ pub fn sql_printf(fmt : String, args : ArrayView[Value]) -> String {
 }
 
 ///|
-fn digit_char(d : Int) -> Char {
+fn digit_char(d : Int32) -> Char {
   "0123456789".get_char(d).unwrap()
 }

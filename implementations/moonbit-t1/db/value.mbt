@@ -1,11 +1,12 @@
 ///|
+#derive(Debug)
 pub(all) enum Value {
   Null
   Int(Int64)
   Real(Double)
   Text(String)
   Blob(Bytes)
-} derive(Debug)
+}
 
 ///|
 pub suberror SqlError {
@@ -18,13 +19,14 @@ fn sql_err(msg : String) -> SqlError {
 }
 
 ///|
+#derive(Eq, Debug)
 pub(all) enum Affinity {
   AffNone // BLOB affinity / no affinity
   AffText
   AffNumeric
   AffInteger
   AffReal
-} derive(Eq, Debug)
+}
 
 ///|
 /// Determine column affinity from the declared type name (SQLite rules).
@@ -207,7 +209,6 @@ fn Value::to_text(self : Value) -> String? {
 priv struct NumScan {
   has_num : Bool // a numeric prefix exists
   whole : Bool // the whole string (modulo surrounding spaces) is numeric
-  is_int : Bool // the prefix has no '.' or exponent
   int_ok : Bool // is_int and fits in Int64
   ival : Int64
   rval : Double
@@ -260,14 +261,7 @@ fn scan_number(s : String) -> NumScan {
     }
   }
   if int_digits.length() == 0 && frac_digits.length() == 0 {
-    return {
-      has_num: false,
-      whole: false,
-      is_int: true,
-      int_ok: true,
-      ival: 0L,
-      rval: 0.0,
-    }
+    return { has_num: false, whole: false, int_ok: true, ival: 0L, rval: 0.0, }
   }
   let mut exp = 0
   if i < n && (s[i] == 'e' || s[i] == 'E') {
@@ -340,7 +334,7 @@ fn scan_number(s : String) -> NumScan {
         0.0
       }
   }
-  { has_num: true, whole, is_int, int_ok, ival, rval, }
+  { has_num: true, whole, int_ok, ival, rval, }
 }
 
 ///|
@@ -523,7 +517,7 @@ fn Value::truth(self : Value) -> Bool? {
 
 ///|
 /// Compare strings by code point (equivalent to UTF-8 byte order).
-fn compare_text(a : String, b : String) -> Int {
+fn compare_text(a : String, b : String) -> Int32 {
   let n = if a.length() < b.length() { a.length() } else { b.length() }
   for i in 0..<n {
     let x = a[i].to_int()
@@ -536,7 +530,7 @@ fn compare_text(a : String, b : String) -> Int {
 }
 
 ///|
-fn fix_cu(c : Int) -> Int {
+fn fix_cu(c : Int32) -> Int32 {
   if c >= 0xD800 {
     if c >= 0xE000 {
       c - 0x800
@@ -549,7 +543,7 @@ fn fix_cu(c : Int) -> Int {
 }
 
 ///|
-fn compare_bytes(a : Bytes, b : Bytes) -> Int {
+fn compare_bytes(a : Bytes, b : Bytes) -> Int32 {
   let n = if a.length() < b.length() { a.length() } else { b.length() }
   for i in 0..<n {
     let x = a[i].to_int()
@@ -562,7 +556,7 @@ fn compare_bytes(a : Bytes, b : Bytes) -> Int {
 }
 
 ///|
-fn compare_int_real(i : Int64, r : Double) -> Int {
+fn compare_int_real(i : Int64, r : Double) -> Int32 {
   if r.is_nan() {
     return 1
   }
@@ -590,7 +584,7 @@ fn compare_int_real(i : Int64, r : Double) -> Int {
 }
 
 ///|
-fn class_rank(v : Value) -> Int {
+fn class_rank(v : Value) -> Int32 {
   match v {
     Null => 0
     Int(_) | Real(_) => 1
@@ -601,7 +595,7 @@ fn class_rank(v : Value) -> Int {
 
 ///|
 /// Total order used for sorting and comparisons (NULL < numbers < text < blob).
-pub fn compare_values(a : Value, b : Value) -> Int {
+pub fn compare_values(a : Value, b : Value) -> Int32 {
   match (a, b) {
     (Int(x), Int(y)) => if x < y { -1 } else if x > y { 1 } else { 0 }
     (Real(x), Real(y)) => if x < y { -1 } else if x > y { 1 } else { 0 }

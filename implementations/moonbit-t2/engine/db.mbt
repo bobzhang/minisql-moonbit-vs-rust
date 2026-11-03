@@ -15,24 +15,24 @@ pub(all) struct Index {
   name : String
   unique : Bool
   /// 0 = CREATE INDEX, 1 = UNIQUE constraint, 2 = PRIMARY KEY.
-  origin : Int
+  origin : Int32
   conflict : Conflict
   /// Unbound definition, kept for re-binding after ALTER TABLE.
   parts : Array[IndexPart]
   where_src : Expr?
   sql : String?
-  seq : Int
+  seq : Int32
   /// Bound key parts: column index (or -1 for an expression), expression
   /// over the table row (column values then rowid), collation, direction
   /// and affinity.
-  cols : Array[Int]
+  cols : Array[Int32]
   exprs : Array[Expr]
   colls : Array[String]
   descs : Array[Bool]
   affs : Array[Affinity]
   where_ : Expr?
   /// Root page in the database file (0 when not loaded from a file).
-  mut rootpage : Int
+  mut rootpage : Int32
   /// Entry values are the rows themselves (row arrays are never mutated).
   mut entries : OrdMap[Array[Value], Array[Value]]
 }
@@ -50,18 +50,18 @@ pub(all) struct Table {
   mut columns : Array[Column]
   mut rows : OrdMap[Int64, Array[Value]]
   /// Index of the INTEGER PRIMARY KEY column (rowid alias), or -1.
-  mut ipk : Int
+  mut ipk : Int32
   ipk_conflict : Conflict
   autoinc : Bool
   mut seq : Int64
   mut indexes : Array[Index]
   mut checks : Array[CheckCons]
   /// Position in sqlite_schema.
-  schema_seq : Int
+  schema_seq : Int32
   /// Root page in the database file (0 when not loaded from a file).
-  mut rootpage : Int
+  mut rootpage : Int32
   /// Changes whenever the rows change (for caches of transient indexes).
-  mut version : Int
+  mut version : Int32
   mut sql : String
 }
 
@@ -71,7 +71,7 @@ pub(all) struct View {
   cols : Array[String]?
   query : Select
   sql : String
-  schema_seq : Int
+  schema_seq : Int32
 }
 
 ///|
@@ -80,7 +80,7 @@ priv struct TableSnap {
   name : String
   columns : Array[Column]
   rows : OrdMap[Int64, Array[Value]]
-  ipk : Int
+  ipk : Int32
   seq : Int64
   indexes : Array[Index]
   entries : Array[OrdMap[Array[Value], Array[Value]]]
@@ -93,7 +93,7 @@ priv struct DbSnap {
   tables : Array[(String, Table)]
   views : Array[(String, View)]
   tsnaps : Array[TableSnap]
-  sequence_seq : Int
+  sequence_seq : Int32
 }
 
 ///|
@@ -112,9 +112,9 @@ pub(all) struct Database {
   mut in_txn : Bool
   /// Schema position of sqlite_sequence (0 until an AUTOINCREMENT table
   /// is created).
-  mut sequence_seq : Int
+  mut sequence_seq : Int32
   /// Root page of sqlite_sequence in the database file.
-  mut sequence_root : Int
+  mut sequence_root : Int32
   /// The transaction was opened by SAVEPOINT (RELEASE of the outermost
   /// savepoint commits it).
   mut txn_by_savepoint : Bool
@@ -141,16 +141,16 @@ priv struct ConnState {
 let conn : ConnState = { last_rowid: 0L, changes: 0L, total_changes: 0L, }
 
 ///|
-let counters : Array[Int] = [0, 0] // schema sequence, row version
+let counters : Array[Int32] = [0, 0] // schema sequence, row version
 
 ///|
-fn next_schema_seq() -> Int {
+fn next_schema_seq() -> Int32 {
   counters[0] += 1
   counters[0]
 }
 
 ///|
-fn next_version() -> Int {
+fn next_version() -> Int32 {
   counters[1] += 1
   counters[1]
 }
@@ -188,7 +188,7 @@ pub fn Database::find_table(self : Database, name : String) -> Table? {
 }
 
 ///|
-pub fn Table::find_column(self : Table, name : String) -> Int? {
+pub fn Table::find_column(self : Table, name : String) -> Int32? {
   for i, c in self.columns {
     if c.name.equal_ignore_ascii_case(name) {
       return Some(i)
@@ -198,7 +198,7 @@ pub fn Table::find_column(self : Table, name : String) -> Int? {
 }
 
 ///|
-fn int64_cmp(a : Int64, b : Int64) -> Int {
+fn int64_cmp(a : Int64, b : Int64) -> Int32 {
   if a < b {
     -1
   } else if a > b {

@@ -9,7 +9,7 @@ fn Database::end_txn(self : Database) -> Unit {
 }
 
 ///|
-fn Database::find_savepoint(self : Database, name : String) -> Int? {
+fn Database::find_savepoint(self : Database, name : String) -> Int32? {
   for i = self.savepoints.length() - 1; i >= 0; i = i - 1 {
     if self.savepoints[i].0.equal_ignore_ascii_case(name) {
       return Some(i)

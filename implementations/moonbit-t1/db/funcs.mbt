@@ -2,7 +2,7 @@
 
 ///|
 /// Allowed argument counts: (min, max); max = -1 means unlimited.
-fn func_arity(name : String) -> (Int, Int)? {
+fn func_arity(name : String) -> (Int32, Int32)? {
   let r = match name {
     "TYPEOF"
     | "ABS"
@@ -201,7 +201,7 @@ fn trim_value(x : Value, set : Value?, left : Bool, right : Bool) -> Value {
 }
 
 ///|
-fn text_length(s : String) -> Int {
+fn text_length(s : String) -> Int32 {
   let mut n = 0
   for c in s {
     if c == '\u{0}' {
@@ -348,7 +348,7 @@ fn substr_value(x : Value, y : Value, z : Value?) -> Value {
 }
 
 ///|
-fn[T : Eq] find_sub(hay : ArrayView[T], needle : ArrayView[T]) -> Int {
+fn[T : Eq] find_sub(hay : ArrayView[T], needle : ArrayView[T]) -> Int32 {
   let n = needle.length()
   if n == 0 {
     return 1

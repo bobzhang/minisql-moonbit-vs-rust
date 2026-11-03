@@ -25,15 +25,15 @@ priv enum Access {
   AIndex(Index, Array[EqPart], RangeB?, RangeB?)
   /// Transient index on column `col` with collation `coll`, built on first
   /// use and cached while the table is unchanged.
-  AAuto(Int, String, EqPart, Ref[(Int, Index)?])
+  AAuto(Int32, String, EqPart, Ref[(Int32, Index)?])
   /// Transient index over the materialized rows of a subquery or view,
   /// built once per run.
-  AMatAuto(Int, String, EqPart)
+  AMatAuto(Int32, String, EqPart)
 }
 
 ///|
 priv struct Level {
-  src : Int
+  src : Int32
   mut access : Access
   conds : Array[Expr]
   /// Visit the candidates in descending order.
@@ -43,7 +43,7 @@ priv struct Level {
 ///|
 priv struct ScanPlan {
   sources : Array[Source]
-  width : Int
+  width : Int32
   levels : Array[Level]
   final_conds : Array[Expr]
   /// RIGHT/FULL joins: plain nested loops over materialized rows.
@@ -51,8 +51,8 @@ priv struct ScanPlan {
   level_conds : Array[Array[Expr]]
   /// Rows of uncorrelated subqueries/views in FROM (and their transient
   /// indexes), reused while no table changes (global data version).
-  mat_cache : Array[(Int, Array[Array[Value]])?]
-  mat_idx_cache : Array[(Int, Index)?]
+  mat_cache : Array[(Int32, Array[Array[Value]])?]
+  mat_idx_cache : Array[(Int32, Index)?]
 }
 
 ///|
@@ -206,7 +206,7 @@ fn Form::is_eq(self : Form) -> Bool {
 
 ///|
 /// Index of the source containing slot `idx` of the joined row.
-fn source_of_slot(sources : Array[Source], idx : Int) -> Int {
+fn source_of_slot(sources : Array[Source], idx : Int32) -> Int32 {
   for i, s in sources {
     if idx >= s.offset && idx <= s.offset + s.table.columns.length() {
       return i
@@ -240,7 +240,7 @@ fn has_outer_ref(e : Expr) -> Bool {
 }
 
 ///|
-fn offset_slots(e : Expr, off : Int) -> Expr {
+fn offset_slots(e : Expr, off : Int32) -> Expr {
   match e {
     Slot(depth=0, idx~, aff~, coll~) =>
       Slot(depth=0, idx=idx + off, aff~, coll~)
@@ -296,14 +296,14 @@ fn implied(w : Expr, terms : Array[Expr]) -> Bool {
 priv struct Choice {
   access : Access
   rows : Double
-  used : Int
+  used : Int32
   build : Double // one-time cost
 }
 
 ///|
 fn choose_access(
   sources : Array[Source],
-  si : Int,
+  si : Int32,
   forms : Array[Form],
   terms : Array[Expr],
   placed : Array[Bool],
@@ -411,7 +411,7 @@ fn choose_access(
       continue
     }
     let nparts = idx.cols.length()
-    let matches = fn(e : Expr, k : Int) -> Bool {
+    let matches = fn(e : Expr, k : Int32) -> Bool {
       let c = idx.cols[k]
       if c >= 0 {
         e is Slot(depth=0, idx=j, ..) && j == off + c
@@ -419,7 +419,7 @@ fn choose_access(
         expr_equal(e, offset_slots(idx.exprs[k], off))
       }
     }
-    let ok = fn(f : Form, k : Int) -> Bool {
+    let ok = fn(f : Form, k : Int32) -> Bool {
       matches(f.col, k) &&
       affinity_ok(f.aff, idx.affs[k]) &&
       (match f.coll {
@@ -529,7 +529,7 @@ fn choose_access(
 
 ///|
 /// Next permutation in lexicographic order; false when `a` was the last.
-fn next_perm(a : Array[Int]) -> Bool {
+fn next_perm(a : Array[Int32]) -> Bool {
   let n = a.length()
   let mut i = n - 2
   while i >= 0 && a[i] >= a[i + 1] {
@@ -559,8 +559,8 @@ fn next_perm(a : Array[Int]) -> Bool {
 fn term_positions(
   terms : Array[Expr],
   sources : Array[Source],
-  order : Array[Int],
-) -> Array[Int] {
+  order : Array[Int32],
+) -> Array[Int32] {
   let pos = Array::make(sources.length(), 0)
   for p, s in order {
     pos[s] = p
@@ -584,8 +584,8 @@ fn term_positions(
 ///|
 /// Sources referenced by a bound term, or None when it cannot be
 /// determined (correlated subqueries).
-fn conj_sources(e : Expr, sources : Array[Source]) -> Array[Int]? {
-  let out : Array[Int] = []
+fn conj_sources(e : Expr, sources : Array[Source]) -> Array[Int32]? {
+  let out : Array[Int32] = []
   fn go(x : Expr) -> Bool {
     match x {
       ScalarQ(q) | ExistsQ(q) => !q.correlated
@@ -675,7 +675,7 @@ fn plan_scan(sources : Array[Source], where_ : Expr?) -> ScanPlan {
     src_forms.push(fs)
     src_terms.push(ts)
   }
-  let evaluate = fn(order : Array[Int]) -> (Double, Array[Choice]) {
+  let evaluate = fn(order : Array[Int32]) -> (Double, Array[Choice]) {
     let placed = Array::make(n, false)
     let positions = term_positions(terms, sources, order)
     let mut outer = 1.0
@@ -797,7 +797,7 @@ fn index_lookup(
   hi : RangeB?,
   env : Env,
   f : (Int64, Array[Value]) -> Bool raise SqlError,
-  reverse? : Bool = false,
+  reverse~ : Bool = false,
 ) -> Unit raise SqlError {
   let lists : Array[Array[Value]] = []
   for k, eq in eqs {
@@ -853,7 +853,7 @@ fn index_lookup(
       false
     }
   }
-  fn go(k : Int) raise SqlError {
+  fn go(k : Int32) raise SqlError {
     if stop {
       return
     }
@@ -951,10 +951,10 @@ fn rowid_bounds(
 /// same way), so it serves `col = expr` under any affinity combination.
 fn auto_index(
   t : Table,
-  col : Int,
+  col : Int32,
   coll : String,
   aff : Affinity,
-  cache : Ref[(Int, Index)?],
+  cache : Ref[(Int32, Index)?],
 ) -> Index raise SqlError {
   if cache.val is Some((v, idx)) && v == t.version {
     return idx
@@ -997,8 +997,8 @@ fn each_candidate(
   src : Source,
   mat : Array[Array[Value]]?,
   mat_idx : Array[Index?],
-  mat_cache : Array[(Int, Index)?],
-  mat_ver : Int,
+  mat_cache : Array[(Int32, Index)?],
+  mat_ver : Int32,
   env : Env,
   visit : (Array[Value], Value) -> Bool raise SqlError,
 ) -> Unit raise SqlError {
@@ -1101,7 +1101,7 @@ fn ScanPlan::run(
   self : ScanPlan,
   penv : Env,
   f : (Env) -> Unit raise SqlError,
-  stop? : Ref[Bool] = { val: false, },
+  stop~ : Ref[Bool] = { val: false, },
 ) -> Unit raise SqlError {
   if self.simple {
     scan_sources(
@@ -1164,7 +1164,7 @@ fn ScanPlan::run(
       None => mats.push(None)
     }
   }
-  fn level(p : Int) raise SqlError {
+  fn level(p : Int32) raise SqlError {
     if p == n {
       // the row buffer is reused: consumers copy what they keep
       if check(self.final_conds) {
@@ -1217,7 +1217,7 @@ fn ScanPlan::run(
 priv struct OrderReq {
   expr : Expr
   desc : Bool
-  nulls : Int
+  nulls : Int32
   coll : String
   /// Either direction will do (GROUP BY without a matching ORDER BY term).
   any_dir : Bool
@@ -1261,11 +1261,11 @@ fn ScanPlan::try_order(
     ARowidEq(eq) if eq.exprs.length() == 1 && single => return true
     _ => ()
   }
-  let index_match = fn(idx : Index, m : Int) -> Bool? {
+  let index_match = fn(idx : Index, m : Int32) -> Bool? {
     // Some(reverse) when the index order (after m equality parts) gives
     // the requested order
     let nparts = idx.cols.length()
-    let matches = fn(e : Expr, k : Int) -> Bool {
+    let matches = fn(e : Expr, k : Int32) -> Bool {
       let c = idx.cols[k]
       if c >= 0 {
         e is Slot(depth=0, idx=j, ..) && j == off + c

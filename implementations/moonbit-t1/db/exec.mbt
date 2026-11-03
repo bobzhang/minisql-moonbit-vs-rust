@@ -6,7 +6,7 @@
 priv struct Source {
   name : String // as_name or table name
   cols : Array[ColumnDef]
-  offset : Int // slot of the first column; rowid at offset + ncols
+  offset : Int32 // slot of the first column; rowid at offset + ncols
   hidden : Bool // only reachable with a table qualifier (upsert "excluded")
   table : Table? // base table
   sub : QPlan? // subquery in FROM
@@ -29,7 +29,7 @@ priv struct Source {
 fn table_source(
   name : String,
   t : Table,
-  offset : Int,
+  offset : Int32,
   hidden : Bool,
 ) -> Source {
   new_source(name, t.cols, offset, hidden, Some(t), None, JInner)
@@ -39,7 +39,7 @@ fn table_source(
 fn new_source(
   name : String,
   cols : Array[ColumnDef],
-  offset : Int,
+  offset : Int32,
   hidden : Bool,
   table : Table?,
   sub : QPlan?,
@@ -63,12 +63,12 @@ fn new_source(
 }
 
 ///|
-fn Source::col_index(self : Source, name : String) -> Int? {
+fn Source::col_index(self : Source, name : String) -> Int32? {
   col_index_in(self.cols, name)
 }
 
 ///|
-fn Source::col_expr(self : Source, i : Int) -> Expr {
+fn Source::col_expr(self : Source, i : Int32) -> Expr {
   self.used[i] = true
   let cd = self.cols[i]
   Slot(self.offset + i, cd.affinity, col_coll(cd))
@@ -84,7 +84,7 @@ priv struct Scope {
   /// Scope of the enclosing query (for correlated references).
   outer : Scope?
   /// Nesting depth of the query; outer references use level differences.
-  level : Int
+  level : Int32
   /// Set when the query refers to an enclosing query's row.
   corr : Ref[Bool]
   /// Set (to the function name) when an aggregate of an enclosing query is
@@ -110,7 +110,7 @@ fn simple_scope(sources : Array[Source]) -> Scope {
 
 ///|
 /// Active aggregate-argument trackers: (owner level, innermost level referenced).
-let agg_trackers : Array[(Int, Ref[Int])] = []
+let agg_trackers : Array[(Int32, Ref[Int32])] = []
 
 ///|
 fn is_rowid_name(n : String) -> Bool {
@@ -186,7 +186,7 @@ fn Scope::resolve_local(
 
 ///|
 /// Record that a column of the query at `level` was referenced.
-fn note_ref(level : Int) -> Unit {
+fn note_ref(level : Int32) -> Unit {
   for t in agg_trackers {
     if level <= t.0 && level > t.1.val {
       t.1.val = level
@@ -196,7 +196,7 @@ fn note_ref(level : Int) -> Unit {
 
 ///|
 /// Mark the queries between this scope and `level` as correlated.
-fn Scope::mark_corr(self : Scope, level : Int) -> Unit {
+fn Scope::mark_corr(self : Scope, level : Int32) -> Unit {
   let mut cur : Scope? = Some(self)
   while cur is Some(c) && c.level > level {
     c.corr.val = true
@@ -423,11 +423,9 @@ pub fn Database::execute(
   match st {
     WithDml(ctes, inner) => {
       let base = push_ctes(ctes)
-      let rows = self.execute_dml(inner) catch {
-        e => {
-          cte_stack.truncate(base)
-          raise e
-        }
+      let rows = {
+        errdefer cte_stack.truncate(base)
+        self.execute_dml(inner)
       }
       cte_stack.truncate(base)
       rows
@@ -440,11 +438,9 @@ pub fn Database::execute(
     }
     _ => {
       let snap = self.snapshot()
-      self.run_ddl(st) catch {
-        e => {
-          self.restore(snap)
-          raise e
-        }
+      {
+        errdefer self.restore(snap)
+        self.run_ddl(st)
       }
       []
     }
@@ -462,25 +458,23 @@ fn Database::execute_dml(
   self.dml_started = false
   self.fail_keep = false
   self.rollback_all = false
-  let rows = self.run_dml(st) catch {
-    e => {
-      if self.rollback_all && self.txn is Some(s) {
-        self.restore(s)
-        self.end_txn()
-        if self.dml_started {
-          conn.changes = 0L
-        }
-      } else if self.fail_keep {
-        conn.changes = self.stmt_changes
-        conn.total_changes += self.stmt_changes
-      } else {
-        self.restore(snap)
-        if self.dml_started {
-          conn.changes = 0L
-        }
+  let rows = {
+    errdefer (if self.rollback_all && self.txn is Some(s) {
+      self.restore(s)
+      self.end_txn()
+      if self.dml_started {
+        conn.changes = 0L
       }
-      raise e
-    }
+    } else if self.fail_keep {
+      conn.changes = self.stmt_changes
+      conn.total_changes += self.stmt_changes
+    } else {
+      self.restore(snap)
+      if self.dml_started {
+        conn.changes = 0L
+      }
+    })
+    self.run_dml(st)
   }
   conn.changes = self.stmt_changes
   conn.total_changes += self.stmt_changes
@@ -509,7 +503,7 @@ fn Database::run_dml(
 
 ///|
 /// Stable merge sort.
-fn[T] stable_sort(arr : Array[T], cmp : (T, T) -> Int) -> Unit {
+fn[T] stable_sort(arr : Array[T], cmp : (T, T) -> Int32) -> Unit {
   let n = arr.length()
   if n < 2 {
     return

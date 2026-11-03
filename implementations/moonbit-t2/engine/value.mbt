@@ -1,15 +1,17 @@
 ///|
 /// A SQL value (one of SQLite's five storage classes).
+#derive(Debug)
 pub(all) enum Value {
   Null
   Int(Int64)
   Real(Double)
   Text(String)
   Blob(Bytes)
-} derive(Debug)
+}
 
 ///|
 /// Column affinity.
+#derive(Eq, Debug)
 pub(all) enum Affinity {
   AffNone // BLOB affinity / no affinity
   /// No affinity at all: an expression column of a subquery or view
@@ -19,7 +21,7 @@ pub(all) enum Affinity {
   AffNumeric
   AffInteger
   AffReal
-} derive(Eq, Debug)
+}
 
 ///|
 pub fn affinity_of_type(decl : String) -> Affinity {
@@ -159,7 +161,7 @@ pub fn format_real(d : Double) -> String {
 ///|
 /// Shortest round-trip digits of a positive finite double, and the decimal
 /// exponent of the first digit.
-fn shortest_digits(d : Double) -> (String, Int) {
+fn shortest_digits(d : Double) -> (String, Int32) {
   let s = d.to_string()
   let (mant, exp) = match s.find("e") {
     Some(i) => {
@@ -192,7 +194,7 @@ fn shortest_digits(d : Double) -> (String, Int) {
 
 ///|
 /// Compare two strings by their UTF-8 byte order.
-pub fn text_compare(a : String, b : String) -> Int {
+pub fn text_compare(a : String, b : String) -> Int32 {
   let la = a.length()
   let lb = b.length()
   let n = if la < lb { la } else { lb }
@@ -207,7 +209,7 @@ pub fn text_compare(a : String, b : String) -> Int {
 }
 
 ///|
-fn utf16_fix(c : Int) -> Int {
+fn utf16_fix(c : Int32) -> Int32 {
   if c >= 0xD800 {
     if c >= 0xE000 {
       c - 0x800
@@ -221,7 +223,7 @@ fn utf16_fix(c : Int) -> Int {
 
 ///|
 /// Exact comparison between an integer and a double.
-fn int_real_compare(i : Int64, d : Double) -> Int {
+fn int_real_compare(i : Int64, d : Double) -> Int32 {
   if d.is_nan() {
     return 1
   }
@@ -249,7 +251,7 @@ fn int_real_compare(i : Int64, d : Double) -> Int {
 }
 
 ///|
-fn class_rank(v : Value) -> Int {
+fn class_rank(v : Value) -> Int32 {
   match v {
     Null => 0
     Int(_) | Real(_) => 1
@@ -260,7 +262,7 @@ fn class_rank(v : Value) -> Int {
 
 ///|
 /// SQLite's default ordering (BINARY collation).
-pub fn value_compare(a : Value, b : Value) -> Int {
+pub fn value_compare(a : Value, b : Value) -> Int32 {
   match (a, b) {
     (Null, Null) => 0
     (Int(x), Int(y)) => if x < y { -1 } else if x > y { 1 } else { 0 }

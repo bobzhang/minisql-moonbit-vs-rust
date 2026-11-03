@@ -89,8 +89,8 @@ fn find_conflicts(
   rowid : Int64,
   vals : Array[Value],
   self_rowid : Int64?,
-) -> Array[(Int, Int64)] raise SqlError {
-  let out : Array[(Int, Int64)] = []
+) -> Array[(Int32, Int64)] raise SqlError {
+  let out : Array[(Int32, Int64)] = []
   if Some(rowid) != self_rowid && t.rows.contains(rowid) {
     out.push((-1, rowid))
   }
@@ -108,7 +108,7 @@ fn find_conflicts(
 }
 
 ///|
-fn constraint_conflict(t : Table, j : Int) -> Conflict {
+fn constraint_conflict(t : Table, j : Int32) -> Conflict {
   if j < 0 {
     t.ipk_conflict
   } else {
@@ -117,7 +117,7 @@ fn constraint_conflict(t : Table, j : Int) -> Conflict {
 }
 
 ///|
-fn constraint_msg(t : Table, j : Int) -> String {
+fn constraint_msg(t : Table, j : Int32) -> String {
   if j < 0 {
     "UNIQUE constraint failed: \{t.rowid_label()}"
   } else {
@@ -131,7 +131,7 @@ fn constraint_msg(t : Table, j : Int) -> String {
 fn Database::resolve_unique(
   self : Database,
   t : Table,
-  conflicts : Array[(Int, Int64)],
+  conflicts : Array[(Int32, Int64)],
   or_conflict : Conflict,
 ) -> Bool raise SqlError {
   let mut replace = false
@@ -225,14 +225,14 @@ fn Database::update_row(
 ///|
 /// A compiled upsert clause.
 priv struct UpsertPlan {
-  targets : Array[Int]? // constraint indexes (-1 = rowid); None = any
+  targets : Array[Int32]? // constraint indexes (-1 = rowid); None = any
   action : UpsertAction
-  sets : Array[(Int, Expr)]
+  sets : Array[(Int32, Expr)]
   where_ : Expr?
 }
 
 ///|
-fn same_columns(a : Array[Int], b : Array[Int]) -> Bool {
+fn same_columns(a : Array[Int32], b : Array[Int32]) -> Bool {
   a.length() == b.length() && a.all(x => b.contains(x))
 }
 
@@ -245,7 +245,7 @@ fn Database::insert(
   let tname = ins.as_name.unwrap_or(t.name)
   let ncols = t.columns.length()
   // target columns; -1 is the rowid
-  let targets : Array[Int] = match ins.columns {
+  let targets : Array[Int32] = match ins.columns {
     Some(names) => {
       let out = []
       for n in names {
@@ -263,7 +263,7 @@ fn Database::insert(
     }
     None => Array::makei(ncols, i => i)
   }
-  let check_width = fn(width : Int) raise SqlError {
+  let check_width = fn(width : Int32) raise SqlError {
     if width != targets.length() {
       match ins.columns {
         Some(_) =>
@@ -313,7 +313,7 @@ fn Database::insert(
         None
       }
       Some(names) => {
-        let idx : Array[Int] = []
+        let idx : Array[Int32] = []
         for n in names {
           match t.find_column(n) {
             Some(ci) => idx.push(ci)
@@ -325,7 +325,7 @@ fn Database::insert(
               }
           }
         }
-        let found : Array[Int] = []
+        let found : Array[Int32] = []
         if t.ipk >= 0 && same_columns(idx, [t.ipk]) {
           found.push(-1)
         }
@@ -348,7 +348,7 @@ fn Database::insert(
     let (sets, w) = match u.action {
       DoNothing => ([], None)
       DoUpdate(sets, w) => {
-        let out : Array[(Int, Expr)] = []
+        let out : Array[(Int32, Expr)] = []
         for s in sets {
           let ci = match t.find_column(s.0) {
             Some(ci) => ci
@@ -511,7 +511,7 @@ fn Database::update(
 ) -> Array[Array[Value]] raise SqlError {
   let t = self.table_for_write(up.table)
   let scope = table_scope(t, up.as_name.unwrap_or(t.name))
-  let sets : Array[(Int, Expr)] = []
+  let sets : Array[(Int32, Expr)] = []
   for s in up.sets {
     let ci = match t.find_column(s.0) {
       Some(ci) => ci

@@ -19,7 +19,7 @@ let cte_stack : Array[Cte] = []
 
 ///|
 /// Bring the CTEs of a WITH clause into scope; returns the previous depth.
-fn push_ctes(ctes : Array[CteDef]) -> Int {
+fn push_ctes(ctes : Array[CteDef]) -> Int32 {
   let base = cte_stack.length()
   let objs : Array[Cte] = ctes.map(d => {
     def: d,
@@ -73,7 +73,7 @@ fn cte_cols(
 fn cte_source(
   cte : Cte,
   f : FromItem,
-  level : Int,
+  level : Int32,
 ) -> (QPlan?, Array[ColumnDef], Ref[Array[Array[Value]]]?) raise SqlError {
   if cte.rec is Some((item, buf, cols)) && physical_equal(item, f) {
     return (None, cols, Some(buf))
@@ -84,14 +84,14 @@ fn cte_source(
   let saved = cte_stack.copy()
   cte_stack.clear()
   cte_stack.append(cte.env)
-  let p = prepare_cte(cte, level) catch {
-    e => {
+  let p = {
+    errdefer {
       cte.err = None
       cte.rec = None
       cte_stack.clear()
       cte_stack.append(saved)
-      raise e
     }
+    prepare_cte(cte, level)
   }
   cte_stack.clear()
   cte_stack.append(saved)
@@ -153,7 +153,7 @@ fn op_name(op : CompoundOp) -> String {
 
 ///|
 /// Bind the body of a CTE (the CTE stack holds its environment).
-fn prepare_cte(cte : Cte, level : Int) -> QPlan raise SqlError {
+fn prepare_cte(cte : Cte, level : Int32) -> QPlan raise SqlError {
   let name = cte.def.name
   let q = cte.def.query
   let plain = () => {
@@ -263,7 +263,7 @@ priv struct RecPlan {
   distinct : Bool // UNION: rows already queued are dropped
   cols : Array[ColInfo]
   colls : Array[Coll]
-  order : Array[(Int, Bool, Bool, Coll)] // queue order (ORDER BY)
+  order : Array[(Int32, Bool, Bool, Coll)] // queue order (ORDER BY)
   limit : Expr?
   offset : Expr?
 }
@@ -297,9 +297,9 @@ fn RecPlan::run(self : RecPlan) -> Array[Array[Value]] raise SqlError {
   // FIFO queue (no ORDER BY) or binary heap ordered by (ORDER BY, seq)
   let fifo : Array[Array[Value]] = []
   let mut head = 0
-  let heap : Array[(Array[Value], Int)] = []
+  let heap : Array[(Array[Value], Int32)] = []
   let mut seq = 0
-  let less = (a : (Array[Value], Int), b : (Array[Value], Int)) => {
+  let less = (a : (Array[Value], Int32), b : (Array[Value], Int32)) => {
     let c = cmp_rows(a.0, b.0)
     if c != 0 {
       c < 0

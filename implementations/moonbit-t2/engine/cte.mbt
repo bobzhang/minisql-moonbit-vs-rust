@@ -28,7 +28,7 @@ priv struct RecTable {
 let rec_tables : Map[String, RecTable] = Map([])
 
 ///|
-let rec_counter : Ref[Int] = { val: 0, }
+let rec_counter : Ref[Int32] = { val: 0, }
 
 ///|
 /// Runs `body` with the CTEs of a WITH clause visible.
@@ -79,7 +79,7 @@ fn is_rec_marker(name : String) -> Bool {
 
 ///|
 /// Number of FROM items of a core naming `name` directly.
-fn direct_refs(sel : Select, name : String) -> Int {
+fn direct_refs(sel : Select, name : String) -> Int32 {
   guard sel.from is Some(f) else { return 0 }
   let leaves : Array[FromLeaf] = []
   flatten_from(f, leaves)
@@ -205,12 +205,12 @@ fn Database::expand_cte(
 /// A queued row of a recursive CTE with ORDER BY.
 priv struct QItem {
   keys : Array[Value]
-  seq : Int
+  seq : Int32
   row : Array[Value]
 }
 
 ///|
-fn qitem_cmp(keys : Array[SortKey], a : QItem, b : QItem) -> Int {
+fn qitem_cmp(keys : Array[SortKey], a : QItem, b : QItem) -> Int32 {
   let c = compare_sort_keys(keys, a.keys, b.keys)
   if c != 0 {
     c
@@ -268,7 +268,7 @@ fn Database::prepare_recursive(
   def : CteDef,
   arms : Array[Select],
   ops : Array[CompoundOp?],
-  rec_start : Int,
+  rec_start : Int32,
   parent : Scope?,
 ) -> Prepared raise SqlError {
   let name = def.decl.name

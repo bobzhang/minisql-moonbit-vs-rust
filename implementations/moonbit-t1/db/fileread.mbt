@@ -3,12 +3,12 @@
 ///|
 priv struct Pager {
   data : Bytes
-  page_size : Int
-  usable : Int
+  page_size : Int32
+  usable : Int32
 }
 
 ///|
-fn Pager::page_off(self : Pager, pgno : Int) -> Int raise SqlError {
+fn Pager::page_off(self : Pager, pgno : Int32) -> Int32 raise SqlError {
   let off = (pgno - 1) * self.page_size
   if pgno < 1 || off + self.page_size > self.data.length() {
     raise sql_err("database disk image is malformed")
@@ -17,17 +17,17 @@ fn Pager::page_off(self : Pager, pgno : Int) -> Int raise SqlError {
 }
 
 ///|
-fn Pager::u8(self : Pager, off : Int) -> Int {
+fn Pager::u8(self : Pager, off : Int32) -> Int32 {
   self.data[off].to_int()
 }
 
 ///|
-fn Pager::u16(self : Pager, off : Int) -> Int {
+fn Pager::u16(self : Pager, off : Int32) -> Int32 {
   (self.data[off].to_int() << 8) | self.data[off + 1].to_int()
 }
 
 ///|
-fn Pager::u32(self : Pager, off : Int) -> Int {
+fn Pager::u32(self : Pager, off : Int32) -> Int32 {
   (self.data[off].to_int() << 24) |
   (self.data[off + 1].to_int() << 16) |
   (self.data[off + 2].to_int() << 8) |
@@ -36,7 +36,7 @@ fn Pager::u32(self : Pager, off : Int) -> Int {
 
 ///|
 /// Big-endian varint at `off`: (value, length).
-fn read_varint(data : Bytes, off : Int) -> (Int64, Int) {
+fn read_varint(data : Bytes, off : Int32) -> (Int64, Int32) {
   let mut v = 0L
   for i in 0..<8 {
     let b = data[off + i].to_int64()
@@ -53,8 +53,8 @@ fn read_varint(data : Bytes, off : Int) -> (Int64, Int) {
 /// Full payload of a cell whose payload (of `total` bytes) starts at `off`.
 fn Pager::payload(
   self : Pager,
-  off : Int,
-  total : Int,
+  off : Int32,
+  total : Int32,
   is_table : Bool,
 ) -> Bytes raise SqlError {
   let u = self.usable
@@ -64,11 +64,11 @@ fn Pager::payload(
   }
   let m = (u - 12) * 32 / 255 - 23
   let k = m + (total - m) % (u - 4)
-  let local = if k <= x { k } else { m }
+  let local_size = if k <= x { k } else { m }
   let buf = @buffer.Buffer(size_hint=total)
-  buf.write_bytes(self.data[off:off + local])
-  let mut next = self.u32(off + local)
-  let mut remaining = total - local
+  buf.write_bytes(self.data[off:off + local_size])
+  let mut next = self.u32(off + local_size)
+  let mut remaining = total - local_size
   while remaining > 0 && next != 0 {
     let po = self.page_off(next)
     let n = if remaining < u - 4 { remaining } else { u - 4 }
@@ -83,7 +83,7 @@ fn Pager::payload(
 /// Visit every (rowid, payload) of the table b-tree rooted at `root`.
 fn Pager::scan_table(
   self : Pager,
-  root : Int,
+  root : Int32,
   f : (Int64, Bytes) -> Unit raise SqlError,
 ) -> Unit raise SqlError {
   let stack = [root]
@@ -122,7 +122,7 @@ fn Pager::scan_table(
 }
 
 ///|
-fn be_int(data : Bytes, off : Int, n : Int) -> Int64 {
+fn be_int(data : Bytes, off : Int32, n : Int32) -> Int64 {
   let mut v = if data[off].to_int() >= 0x80 { -1L } else { 0L }
   for i in 0..<n {
     v = (v << 8) | data[off + i].to_int64()
@@ -266,7 +266,7 @@ fn Database::load_rows(
   self : Database,
   pager : Pager,
   t : Table,
-  root : Int,
+  root : Int32,
 ) -> Unit raise SqlError {
   ignore(self)
   let ncols = t.cols.length()

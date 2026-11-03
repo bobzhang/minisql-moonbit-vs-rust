@@ -4,16 +4,16 @@
 priv enum Outcome {
   Written
   Skipped
-  UpsertHit(Int, Int64) // upsert clause, rowid of the conflicting row
+  UpsertHit(Int32, Int64) // upsert clause, rowid of the conflicting row
 }
 
 ///|
 /// How upsert clauses map onto uniqueness constraints (-1 = rowid,
 /// i >= 0 = t.indexes[i]).
 priv struct UpsertPlan {
-  by_constraint : Map[Int, Int]
-  catch_all : Int?
-  first : Array[Int] // constraints named by targets, checked first
+  by_constraint : Map[Int32, Int32]
+  catch_all : Int32?
+  first : Array[Int32] // constraints named by targets, checked first
 }
 
 ///|
@@ -29,7 +29,7 @@ fn pick_conflict(stmt : Conflict?, own : Conflict?) -> Conflict {
 }
 
 ///|
-fn unique_error(t : Table, c : Int) -> SqlError {
+fn unique_error(t : Table, c : Int32) -> SqlError {
   let names = if c < 0 {
     match t.rowid_alias {
       Some(ai) => [t.cols[ai].name]
@@ -60,7 +60,7 @@ fn Database::raise_conflict(
 ///|
 fn find_unique_conflict(
   t : Table,
-  c : Int,
+  c : Int32,
   rowid : Int64,
   vals : Array[Value],
   old : Int64?,
@@ -133,7 +133,7 @@ fn Database::write_row(
     }
   }
   // uniqueness: targets of upsert clauses first, then the rowid, then indexes
-  let order : Array[Int] = []
+  let order : Array[Int32] = []
   if plan is Some(p) {
     for c in p.first {
       order.push(c)
@@ -147,7 +147,7 @@ fn Database::write_row(
       order.push(i)
     }
   }
-  let replace_list : Array[Int] = []
+  let replace_list : Array[Int32] = []
   for c in order {
     let upsert = match plan {
       Some(p) =>
@@ -189,7 +189,7 @@ fn Database::write_row(
 }
 
 ///|
-fn same_col_set(a : Array[Int], b : Array[Int]) -> Bool {
+fn same_col_set(a : Array[Int32], b : Array[Int32]) -> Bool {
   if a.length() != b.length() {
     return false
   }
@@ -208,21 +208,21 @@ fn build_upsert_plan(
   if upserts.length() == 0 {
     return None
   }
-  let by_constraint : Map[Int, Int] = Map([])
-  let first : Array[Int] = []
-  let mut catch_all : Int? = None
+  let by_constraint : Map[Int32, Int32] = Map([])
+  let first : Array[Int32] = []
+  let mut catch_all : Int32? = None
   for ui, u in upserts {
     match u.target {
       None => if catch_all is None { catch_all = Some(ui) }
       Some(names) => {
-        let idxs : Array[Int] = []
+        let idxs : Array[Int32] = []
         for n in names {
           match t.col_index(n) {
             Some(i) => idxs.push(i)
             None => raise sql_err("no such column: \{n}")
           }
         }
-        let mut found : Int? = None
+        let mut found : Int32? = None
         if idxs.length() == 1 && t.rowid_alias == Some(idxs[0]) {
           found = Some(-1)
         } else {
@@ -257,8 +257,8 @@ fn bind_sets(
   t : Table,
   sets : Array[(String, Expr)],
   scope : Scope,
-) -> Array[(Int, Expr)] raise SqlError {
-  let out : Array[(Int, Expr)] = []
+) -> Array[(Int32, Expr)] raise SqlError {
+  let out : Array[(Int32, Expr)] = []
   for s in sets {
     let ci = match t.col_index(s.0) {
       Some(i) => i
@@ -278,7 +278,7 @@ fn bind_sets(
 /// Apply SET assignments to a row; all right-hand sides see `env`.
 fn apply_sets(
   t : Table,
-  sets : Array[(Int, Expr)],
+  sets : Array[(Int32, Expr)],
   oldvals : Array[Value],
   oldrowid : Int64,
   env : Array[Value],
@@ -409,9 +409,9 @@ fn Database::run_insert(
   let t = self.writable_table(tname)
   let ncols = t.cols.length()
   // target column indexes (-1 = rowid)
-  let targets : Array[Int] = match cols {
+  let targets : Array[Int32] = match cols {
     Some(names) => {
-      let out : Array[Int] = []
+      let out : Array[Int32] = []
       for n in names {
         match t.col_index(n) {
           Some(i) => out.push(i)
@@ -434,7 +434,7 @@ fn Database::run_insert(
     scope.sources[0],
     table_source("excluded", t, ncols + 1, true),
   ])
-  let usets : Array[Array[(Int, Expr)]?] = []
+  let usets : Array[Array[(Int32, Expr)]?] = []
   let uwheres : Array[Expr?] = []
   for u in upserts {
     match u.sets {
@@ -557,8 +557,8 @@ fn Database::run_insert(
 fn check_width(
   t : Table,
   cols : Array[String]?,
-  ntargets : Int,
-  w : Int,
+  ntargets : Int32,
+  w : Int32,
 ) -> Unit raise SqlError {
   if w != ntargets {
     match cols {

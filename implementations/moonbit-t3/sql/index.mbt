@@ -8,7 +8,7 @@ pub(all) struct IKey {
   rowid : Int64
   colls : Array[Coll]
   descs : Array[Bool]
-  bound : Int
+  bound : Int32
 }
 
 ///|
@@ -62,12 +62,12 @@ pub(all) struct Index {
   unique : Bool
   /// Number n of an automatic index sqlite_autoindex_<table>_<n>; 0 if the
   /// index was created explicitly.
-  auto_num : Int
+  auto_num : Int32
   conflict : String?
   cols : Array[IndexedCol]
   where_ : Expr?
   /// Table column of each key, or -1 for an expression key.
-  col_idx : Array[Int]
+  col_idx : Array[Int32]
   colls : Array[Coll]
   descs : Array[Bool]
   /// Key expressions and predicate, bound against the table at slot 0.
@@ -75,7 +75,7 @@ pub(all) struct Index {
   pred : BExpr?
   /// Entries mapped to the row they index (without the rowid).
   tree : SortedChunks[IKey, Array[Value]]
-  mut seq : Int
+  mut seq : Int32
   mut sql : String?
 }
 

@@ -2,8 +2,8 @@
 /// Serializes the database into a complete SQLite 3 file image. Every
 /// b-tree is rebuilt bottom-up, so the image never has free pages.
 priv struct FileImage {
-  page_size : Int
-  usable : Int
+  page_size : Int32
+  usable : Int32
   pages : Array[FixedArray[Byte]]
 }
 
@@ -15,19 +15,19 @@ priv enum Sep {
 }
 
 ///|
-fn FileImage::alloc(self : FileImage) -> Int {
+fn FileImage::alloc(self : FileImage) -> Int32 {
   self.pages.push(FixedArray::make(self.page_size, b'\x00'))
   self.pages.length()
 }
 
 ///|
-fn put_u16(page : FixedArray[Byte], pos : Int, v : Int) -> Unit {
+fn put_u16(page : FixedArray[Byte], pos : Int32, v : Int32) -> Unit {
   page[pos] = (v >> 8).to_byte()
   page[pos + 1] = v.to_byte()
 }
 
 ///|
-fn put_u32(page : FixedArray[Byte], pos : Int, v : Int) -> Unit {
+fn put_u32(page : FixedArray[Byte], pos : Int32, v : Int32) -> Unit {
   page[pos] = (v >> 24).to_byte()
   page[pos + 1] = (v >> 16).to_byte()
   page[pos + 2] = (v >> 8).to_byte()
@@ -35,7 +35,7 @@ fn put_u32(page : FixedArray[Byte], pos : Int, v : Int) -> Unit {
 }
 
 ///|
-fn varint_len(v : Int64) -> Int {
+fn varint_len(v : Int64) -> Int32 {
   let u = v.reinterpret_as_uint64()
   if u > 0x00FFFFFFFFFFFFFFUL {
     return 9
@@ -141,7 +141,7 @@ fn encode_record(vals : Array[Value]) -> Bytes {
 }
 
 ///|
-fn FileImage::max_local(self : FileImage, index : Bool) -> Int {
+fn FileImage::max_local(self : FileImage, index : Bool) -> Int32 {
   if index {
     (self.usable - 12) * 64 / 255 - 23
   } else {
@@ -153,12 +153,12 @@ fn FileImage::max_local(self : FileImage, index : Bool) -> Int {
 /// Size of a cell made of a `prefix`-byte header and a `p`-byte payload.
 fn FileImage::cell_size(
   self : FileImage,
-  prefix : Int,
-  p : Int,
+  prefix : Int32,
+  p : Int32,
   index : Bool,
-) -> Int {
-  let local = local_payload(self.usable, p, self.max_local(index))
-  let s = prefix + local + (if local < p { 4 } else { 0 })
+) -> Int32 {
+  let local_size = local_payload(self.usable, p, self.max_local(index))
+  let s = prefix + local_size + (if local_size < p { 4 } else { 0 })
   if s < 4 {
     4
   } else {
@@ -176,15 +176,15 @@ fn FileImage::make_cell(
   index : Bool,
 ) -> Bytes {
   let p = payload.length()
-  let local = local_payload(self.usable, p, self.max_local(index))
-  let buf = @buffer.Buffer(size_hint=prefix.length() + local + 4)
+  let local_size = local_payload(self.usable, p, self.max_local(index))
+  let buf = @buffer.Buffer(size_hint=prefix.length() + local_size + 4)
   buf.write_bytes(prefix)
-  buf.write_bytes(payload[0:local])
-  if local < p {
+  buf.write_bytes(payload[0:local_size])
+  if local_size < p {
     let per = self.usable - 4
     let mut pg = self.alloc()
     buf.write_uint_be(pg.reinterpret_as_uint())
-    let mut off = local
+    let mut off = local_size
     while off < p {
       let n = if p - off < per { p - off } else { per }
       let page = self.pages[pg - 1]
@@ -206,10 +206,10 @@ fn FileImage::make_cell(
 ///|
 fn FileImage::write_page(
   self : FileImage,
-  pgno : Int,
-  kind : Int,
+  pgno : Int32,
+  kind : Int32,
   cells : Array[Bytes],
-  right : Int,
+  right : Int32,
 ) -> Unit {
   let page = self.pages[pgno - 1]
   let hdr = if pgno == 1 { 100 } else { 0 }
@@ -232,12 +232,16 @@ fn FileImage::write_page(
 }
 
 ///|
-fn FileImage::root_capacity(self : FileImage, root : Int, hdr : Int) -> Int {
+fn FileImage::root_capacity(
+  self : FileImage,
+  root : Int32,
+  hdr : Int32,
+) -> Int32 {
   self.usable - hdr - (if root == 1 { 100 } else { 0 })
 }
 
 ///|
-fn fits_in(sizes : Array[Int], cap : Int) -> Bool {
+fn fits_in(sizes : Array[Int32], cap : Int32) -> Bool {
   let mut used = 0
   for s in sizes {
     used += s + 2
@@ -252,7 +256,11 @@ fn fits_in(sizes : Array[Int], cap : Int) -> Bool {
 /// Splits items into consecutive groups of at least one item that fit in
 /// `cap` bytes. With `seps`, the item following each group except the last
 /// is a divider that belongs to no group. Always at least two groups.
-fn split_groups(sizes : Array[Int], cap : Int, seps : Bool) -> Array[(Int, Int)] {
+fn split_groups(
+  sizes : Array[Int32],
+  cap : Int32,
+  seps : Bool,
+) -> Array[(Int32, Int32)] {
   let n = sizes.length()
   let groups = []
   let mut i = 0
@@ -295,7 +303,7 @@ fn split_groups(sizes : Array[Int], cap : Int, seps : Bool) -> Array[(Int, Int)]
 }
 
 ///|
-fn FileImage::sep_size(self : FileImage, s : Sep) -> Int {
+fn FileImage::sep_size(self : FileImage, s : Sep) -> Int32 {
   match s {
     Key(k) => 4 + varint_len(k)
     Entry(b) =>
@@ -304,7 +312,7 @@ fn FileImage::sep_size(self : FileImage, s : Sep) -> Int {
 }
 
 ///|
-fn FileImage::interior_cell(self : FileImage, child : Int, s : Sep) -> Bytes {
+fn FileImage::interior_cell(self : FileImage, child : Int32, s : Sep) -> Bytes {
   let buf = @buffer.Buffer()
   buf.write_uint_be(child.reinterpret_as_uint())
   match s {
@@ -324,8 +332,8 @@ fn FileImage::interior_cell(self : FileImage, child : Int, s : Sep) -> Bytes {
 /// the root page `root`.
 fn FileImage::build_interior(
   self : FileImage,
-  root : Int,
-  children : Array[Int],
+  root : Int32,
+  children : Array[Int32],
   seps : Array[Sep],
   index : Bool,
 ) -> Unit {
@@ -350,9 +358,16 @@ fn FileImage::build_interior(
         cells.push(self.interior_cell(children[t], seps[t]))
       }
       let last = gi == groups.length() - 1
-      self.write_page(pg, kind, cells, if last { children[m] } else {
-        children[g.1]
-      })
+      self.write_page(
+        pg,
+        kind,
+        cells,
+        if last {
+          children[m]
+        } else {
+          children[g.1]
+        },
+      )
       next_children.push(pg)
       if !last {
         next_seps.push(seps[g.1])
@@ -380,7 +395,7 @@ fn FileImage::table_leaf_cell(
 /// order).
 fn FileImage::build_table(
   self : FileImage,
-  root : Int,
+  root : Int32,
   rows : Array[(Int64, Bytes)],
 ) -> Unit {
   let sizes = rows.map(r => {
@@ -420,7 +435,7 @@ fn FileImage::index_leaf_cell(self : FileImage, rec : Bytes) -> Bytes {
 /// index order).
 fn FileImage::build_index(
   self : FileImage,
-  root : Int,
+  root : Int32,
   entries : Array[Bytes],
 ) -> Unit {
   let sizes = entries.map(e => {
@@ -451,7 +466,7 @@ fn FileImage::build_index(
 }
 
 ///|
-fn header_u32(data : Bytes?, pos : Int) -> Int {
+fn header_u32(data : Bytes?, pos : Int32) -> Int32 {
   match data {
     Some(d) if d.length() >= 100 =>
       (d[pos].to_int() << 24) |
@@ -474,7 +489,7 @@ pub fn Database::file_image(self : Database, old : Bytes?) -> Bytes {
     }
     _ => (4096, 0)
   }
-  let img = { page_size, usable: page_size - reserved, pages: [] }
+  let img = { page_size, usable: page_size - reserved, pages: [], }
   img.alloc() |> ignore
   let schema = self.schema_rows()
   for row in schema {

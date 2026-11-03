@@ -6,7 +6,7 @@ priv struct WorkTable {
   exprs : Array[BExpr]
   colls : Array[Coll?]
   rows : Ref[Array[Array[Value]]]
-  mut refs : Int
+  mut refs : Int32
 }
 
 ///|
@@ -16,7 +16,7 @@ priv struct WorkTable {
 priv struct CteBinding {
   name : String
   cte : Cte?
-  id : Int
+  id : Int32
   mut env : Array[CteBinding]
   work : WorkTable?
 }
@@ -26,7 +26,7 @@ let cte_env : Ref[Array[CteBinding]] = { val: [], }
 
 ///|
 /// CTEs whose bodies are being compiled (cycle detection).
-let cte_active : Set[Int] = Set([])
+let cte_active : Set[Int32] = Set([])
 
 ///|
 /// Set while compiling the target table of UPDATE/DELETE, which always
@@ -34,7 +34,7 @@ let cte_active : Set[Int] = Set([])
 let dml_target : Ref[Bool] = { val: false, }
 
 ///|
-let cte_next_id : Ref[Int] = { val: 0, }
+let cte_next_id : Ref[Int32] = { val: 0, }
 
 ///|
 /// Runs `f` with `env` as the visible CTEs.
@@ -44,11 +44,11 @@ fn[T] with_cte_env(
 ) -> T raise SqlError {
   let saved = cte_env.val
   cte_env.val = env
-  let r = f() catch {
-    e => {
+  let r = {
+    errdefer {
       cte_env.val = saved
-      raise e
     }
+    f()
   }
   cte_env.val = saved
   r
@@ -101,7 +101,7 @@ fn find_cte(name : String) -> CteBinding? {
 ///|
 /// Number of references to `name` among the tables of a FROM clause (not
 /// looking into subqueries).
-fn count_from_refs(item : FromItem, name : String) -> Int {
+fn count_from_refs(item : FromItem, name : String) -> Int32 {
   match item {
     TableRef(n, _) => if fold_name(n) == name { 1 } else { 0 }
     SubqueryRef(_, _) => 0
@@ -111,7 +111,7 @@ fn count_from_refs(item : FromItem, name : String) -> Int {
 }
 
 ///|
-fn core_from_refs(core : SelectCore, name : String) -> Int {
+fn core_from_refs(core : SelectCore, name : String) -> Int32 {
   match core {
     Simple(s) =>
       match s.from {
@@ -145,8 +145,8 @@ fn core_is_aggregate(core : SelectCore) -> Bool raise SqlError {
 fn Database::cte_source(
   self : Database,
   b : CteBinding,
-  alias : String?,
-  offset : Int,
+  table_alias : String?,
+  offset : Int32,
   outer : Scope?,
   corr : Ref[Bool],
   chain : Array[Source],
@@ -162,7 +162,7 @@ fn Database::cte_source(
     return subquery_source(
       c,
       w.names,
-      alias.unwrap_or(w.table_name),
+      table_alias.unwrap_or(w.table_name),
       offset,
       chain,
       true,
@@ -175,13 +175,9 @@ fn Database::cte_source(
   }
   cte_active.add(b.id)
   let sub_corr : Ref[Bool] = { val: false, }
-  let c = with_cte_env(b.env, () => {
-    self.compile_cte_body(cte, b, outer, sub_corr)
-  }) catch {
-    e => {
-      cte_active.remove(b.id)
-      raise e
-    }
+  let c = {
+    errdefer cte_active.remove(b.id)
+    with_cte_env(b.env, () => self.compile_cte_body(cte, b, outer, sub_corr))
   }
   cte_active.remove(b.id)
   if sub_corr.val {
@@ -200,7 +196,7 @@ fn Database::cte_source(
   subquery_source(
     c,
     names,
-    alias.unwrap_or(cte.name),
+    table_alias.unwrap_or(cte.name),
     offset,
     chain,
     sub_corr.val,
@@ -404,8 +400,8 @@ fn Database::compile_cte_body(
 priv struct RowHeap {
   terms : Array[OrderTerm]
   colls : Array[Coll]
-  items : Array[(Array[Value], Int, Array[Value])]
-  mut seq : Int
+  items : Array[(Array[Value], Int32, Array[Value])]
+  mut seq : Int32
 }
 
 ///|
@@ -414,7 +410,7 @@ fn RowHeap::new(terms : Array[OrderTerm], colls : Array[Coll]) -> RowHeap {
 }
 
 ///|
-fn RowHeap::less(self : RowHeap, i : Int, j : Int) -> Bool {
+fn RowHeap::less(self : RowHeap, i : Int32, j : Int32) -> Bool {
   let a = self.items[i]
   let b = self.items[j]
   let c = compare_order_keys(self.terms, self.colls, a.0, b.0)

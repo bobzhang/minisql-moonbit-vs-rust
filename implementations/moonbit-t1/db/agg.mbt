@@ -22,12 +22,12 @@ priv struct AggSpec {
 ///|
 priv struct AggCtx {
   specs : Array[AggSpec]
-  base : Int // slot of the first aggregate result in the group row
+  base : Int32 // slot of the first aggregate result in the group row
   mut inside : Bool
 }
 
 ///|
-fn is_aggregate_call(name : String, nargs : Int) -> Bool {
+fn is_aggregate_call(name : String, nargs : Int32) -> Bool {
   match name {
     "COUNT" | "SUM" | "TOTAL" | "AVG" | "GROUP_CONCAT" | "STRING_AGG" => true
     "MIN" | "MAX" => nargs == 1
@@ -48,7 +48,7 @@ fn Scope::bind_aggregate(
   // Like SQLite, an aggregate belongs to the innermost query whose columns
   // its arguments reference; probe the arguments to find it.
   if self.outer is Some(_) {
-    let tr : Ref[Int] = { val: -1, }
+    let tr : Ref[Int32] = { val: -1, }
     agg_trackers.push((self.level, tr))
     let probe : Scope = { ..self, agg: None, }
     for a in args {
@@ -418,7 +418,7 @@ priv struct Group {
 }
 
 ///|
-fn new_group(specs : Array[AggSpec], width : Int) -> Group {
+fn new_group(specs : Array[AggSpec], width : Int32) -> Group {
   { rep: Array::make(width, Null), loaded: false, accs: specs.map(new_acc), }
 }
 

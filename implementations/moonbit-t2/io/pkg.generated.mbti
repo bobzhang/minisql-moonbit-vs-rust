@@ -1,0 +1,23 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "bench/minisql/io"
+
+// Values
+pub fn args() -> Array[String]
+
+pub fn flush_stdout() -> Unit
+
+pub fn read_file(String) -> Bytes?
+
+pub fn read_stdin() -> String
+
+pub fn write_file(String, Bytes) -> Bool
+
+pub fn write_stdout(String) -> Unit
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits

@@ -37,7 +37,7 @@ fn resolve_windows(
 fn resolve_window_spec(
   w : WindowSpec,
   defs : Array[(String, WindowSpec)],
-  depth : Int,
+  depth : Int32,
 ) -> WindowSpec raise SqlError {
   guard w.base is Some(name) else { return w }
   let f = fold_name(name)
@@ -83,7 +83,7 @@ fn resolve_window_spec(
 fn extract_windows(
   e : Expr,
   wins : Array[FuncCall],
-  base : Int,
+  base : Int32,
 ) -> Expr raise SqlError {
   match e {
     Func(fc) if fc.over is Some(_) => {
@@ -105,10 +105,9 @@ priv enum WBound {
 ///|
 priv struct WinFunc {
   /// Slot of the result in the extended row.
-  slot : Int
+  slot : Int32
   kind : String
   args : Array[BExpr]
-  filter : BExpr?
   agg : AggSpec?
 }
 
@@ -148,7 +147,7 @@ fn Database::compile_windows(
   self : Database,
   scope : Scope,
   wins : Array[FuncCall],
-  base : Int,
+  base : Int32,
 ) -> Array[WinGroup] raise SqlError {
   let groups : Array[WinGroup] = []
   for k, fc in wins {
@@ -189,13 +188,10 @@ fn Database::compile_windows(
     } else {
       None
     }
-    let func : WinFunc = {
-      slot: base + k,
-      kind: name,
-      args: fc.args.map(a => bind_expr(self, scope, a)),
-      filter: fc.filter.map(x => bind_expr(self, scope, x)),
-      agg,
-    }
+    let args = fc.args.map(a => bind_expr(self, scope, a))
+    // Retain filter binding validation even though WinFunc does not store it.
+    ignore(fc.filter.map(x => bind_expr(self, scope, x)))
+    let func : WinFunc = { slot: base + k, kind: name, args, agg, }
     let key = "\{Repr(w)}"
     let mut placed = false
     for g in groups {
@@ -262,8 +258,8 @@ fn Database::compile_windows(
 fn run_windows(
   groups : Array[WinGroup],
   rows : Array[Array[Value]],
-  width : Int,
-  nwin : Int,
+  width : Int32,
+  nwin : Int32,
 ) -> Array[Array[Value]] raise SqlError {
   let mut cur = rows.map(r => {
     let row = Array(capacity=width + nwin)
@@ -305,7 +301,7 @@ fn frame_offset(
 }
 
 ///|
-fn clamp_offset(v : Value) -> Int {
+fn clamp_offset(v : Value) -> Int32 {
   match v {
     Int(i) => if i > 1000000000L { 1000000000 } else { i.to_int() }
     _ => 0
@@ -384,12 +380,12 @@ fn window_pass(
 /// direction) not before `target`, or (strict) after it.
 fn range_search(
   keys : ArrayView[Array[Value]],
-  lo : Int,
-  hi : Int,
+  lo : Int32,
+  hi : Int32,
   target : Double,
   desc : Bool,
   strict : Bool,
-) -> Int {
+) -> Int32 {
   let t = Real(target)
   let mut a = lo
   let mut b = hi
@@ -418,7 +414,7 @@ fn window_partition(
   let m = rows.length()
   // Peer groups.
   let gid = Array::make(m, 0)
-  let gstart : Array[Int] = [0]
+  let gstart : Array[Int32] = [0]
   for j in 1..<m {
     if compare_order_keys(g.oterms, g.ocolls, keys[j - 1], keys[j]) != 0 {
       gstart.push(j)
@@ -426,7 +422,7 @@ fn window_partition(
     gid[j] = gstart.length() - 1
   }
   let ngroups = gstart.length()
-  let gend = (x : Int) => if x + 1 < ngroups { gstart[x + 1] } else { m }
+  let gend = (x : Int32) => if x + 1 < ngroups { gstart[x + 1] } else { m }
   // Numeric segment of the (single) ORDER BY key, for RANGE offsets.
   let mut ns = 0
   let mut ne = 0
@@ -447,7 +443,7 @@ fn window_partition(
       ne = 0
     }
   }
-  let bound = (j : Int, b : WBound, off : Value, is_start : Bool) => {
+  let bound = (j : Int32, b : WBound, off : Value, is_start : Bool) => {
     let gj = gid[j]
     match b {
       WUnbounded => if is_start { 0 } else { m }
@@ -523,7 +519,7 @@ fn window_partition(
   let los = Array::makei(m, j => bound(j, g.start, start_off, true))
   let his = Array::makei(m, j => bound(j, g.end, end_off, false))
   // Whether position p is excluded from the frame of row j.
-  let excluded = (j : Int, p : Int) => {
+  let excluded = (j : Int32, p : Int32) => {
     match g.exclude {
       "CURRENT ROW" => p == j
       "GROUP" => gid[p] == gid[j]
@@ -533,7 +529,7 @@ fn window_partition(
   }
   let has_exclude = g.exclude != "NO OTHERS"
   for f in g.funcs {
-    let argv = (j : Int, k : Int) => eval(f.args[k], rows[j])
+    let argv = (j : Int32, k : Int32) => eval(f.args[k], rows[j])
     match f.kind {
       "row_number" =>
         for j in 0..<m {

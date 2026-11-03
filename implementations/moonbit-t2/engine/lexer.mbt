@@ -1,4 +1,5 @@
 ///|
+#derive(Eq, Debug)
 pub(all) enum TokKind {
   TIdent // bare identifier or keyword
   TQuoted // "..." (identifier, or string if unresolved)
@@ -9,19 +10,21 @@ pub(all) enum TokKind {
   TBlob
   TOp
   TEof
-} derive(Eq, Debug)
+}
 
 ///|
+#derive(Debug)
 pub(all) struct Token {
   kind : TokKind
   text : String
-  pos : Int
-} derive(Debug)
+  pos : Int32
+}
 
 ///|
+#derive(Debug)
 pub suberror SqlError {
   SqlError(String)
-} derive(Debug)
+}
 
 ///|
 pub fn sql_err(msg : String) -> SqlError {
@@ -49,7 +52,7 @@ fn is_hex_cu(c : UInt16) -> Bool {
 ///|
 /// Reads a quoted token starting at `i` (the opening quote) with closing
 /// quote `q`; doubled quotes are escapes. Returns (content, end index).
-fn lex_quoted(s : String, i : Int, q : UInt16) -> (String, Int)? {
+fn lex_quoted(s : String, i : Int32, q : UInt16) -> (String, Int32)? {
   let n = s.length()
   let sb = StringBuilder()
   let mut j = i + 1
