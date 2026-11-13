@@ -1,7 +1,7 @@
 ///|
 /// Structural equality of a key expression bound at slot 0 (`k`) with an
 /// expression bound at slot offset `off` (`e`).
-fn bexpr_same(k : BExpr, e : BExpr, off : Int) -> Bool {
+fn bexpr_same(k : BExpr, e : BExpr, off : Int32) -> Bool {
   let all_same = (xs : Array[BExpr], ys : Array[BExpr]) => {
     if xs.length() != ys.length() {
       return false
@@ -94,7 +94,7 @@ fn same_value(a : Value, b : Value) -> Bool {
 ///|
 /// True if the expression can be evaluated before the scan: it reads no
 /// row slots (constants and outer columns), or only slots below `limit`.
-fn is_probe_expr(e : BExpr, limit : (Int, Int)) -> Bool {
+fn is_probe_expr(e : BExpr, limit : (Int32, Int32)) -> Bool {
   let (lo, hi) = slot_range(e)
   (lo == no_slot && hi == -1) || (lo >= limit.0 && hi >= 0 && hi < limit.1)
 }
@@ -141,10 +141,10 @@ fn flip_op(op : BinOp) -> BinOp {
 fn term_constraint(
   term : BExpr,
   key : BExpr,
-  off : Int,
+  off : Int32,
   kcoll : Coll,
   ka : Affinity?,
-  limit : (Int, Int),
+  limit : (Int32, Int32),
 ) -> KeyCons? {
   match term {
     BCmp(op, a, b, aff, coll) => {
@@ -198,7 +198,7 @@ priv struct IndexPlan {
   lo : (BExpr, Affinity, Bool)?
   hi : (BExpr, Affinity, Bool)?
   /// Positions of the filter terms the access fully enforces.
-  consumed : Array[Int]
+  consumed : Array[Int32]
   /// The bounds apply to the rowid after a fully fixed index key.
   rowid_range : Bool
 }
@@ -211,9 +211,9 @@ fn plan_keys(
   keys : Array[BExpr],
   colls : Array[Coll],
   filters : Array[BExpr],
-  off : Int,
-  limit : (Int, Int),
-  rowid_keys? : Array[BExpr] = [],
+  off : Int32,
+  limit : (Int32, Int32),
+  rowid_keys~ : Array[BExpr] = [],
 ) -> IndexPlan? {
   let eqs = []
   let consumed = []
@@ -298,7 +298,7 @@ fn plan_keys(
 
 ///|
 /// True if the filter terms imply the partial-index predicate.
-fn implies_predicate(pred : BExpr, filters : Array[BExpr], off : Int) -> Bool {
+fn implies_predicate(pred : BExpr, filters : Array[BExpr], off : Int32) -> Bool {
   let conj = []
   split_and(pred, conj)
   for c in conj {
@@ -322,7 +322,7 @@ fn implies_predicate(pred : BExpr, filters : Array[BExpr], off : Int) -> Bool {
 
 ///|
 /// SQLite's LogEst addition (log of the sum of two estimates).
-fn log_est_add(a : Int, b : Int) -> Int {
+fn log_est_add(a : Int32, b : Int32) -> Int32 {
   let x = [
     10, 10, 9, 9, 8, 8, 7, 7, 7, 6, 6, 6, 5, 5, 5, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3,
     2, 2, 2, 2, 2, 2, 2,
@@ -339,7 +339,7 @@ fn log_est_add(a : Int, b : Int) -> Int {
 
 ///|
 /// Default estimated table size (LogEst of 1M rows).
-let default_rows : Int = 200
+let default_rows : Int32 = 200
 
 ///|
 /// True if the index holds every column in `used`.
@@ -362,14 +362,14 @@ fn plan_cost(
   t : Table,
   p : IndexPlan,
   used : Array[Bool],
-  tw : Int,
-) -> (Int, Int) {
+  tw : Int32,
+) -> (Int32, Int32) {
   let partial = match p.index {
     Some(idx) => idx.pred is Some(_)
     None => false
   }
   let rsize = if partial { default_rows - 10 } else { default_rows }
-  let est = (j : Int) => {
+  let est = (j : Int32) => {
     // Rows matching the first j keys.
     if j == 0 {
       return rsize
@@ -436,10 +436,10 @@ fn plan_cost(
 fn choose_index_plan(
   t : Table,
   filters : Array[BExpr],
-  off : Int,
+  off : Int32,
   used : Array[Bool],
-  probe_limit? : (Int, Int) = (0, 0),
-  per_row? : Bool = false,
+  probe_limit~ : (Int32, Int32) = (0, 0),
+  per_row~ : Bool = false,
 ) -> IndexPlan? {
   if filters.length() == 0 {
     return None
@@ -513,8 +513,8 @@ fn dedupe_sorted(vals : Array[Value], coll : Coll) -> Array[Value] {
 fn run_index_plan(
   t : Table,
   p : IndexPlan,
-  row? : Array[Value] = [],
-  rev? : Bool = false,
+  row~ : Array[Value] = [],
+  rev~ : Bool = false,
   f : (Int64, Array[Value]) -> Bool raise SqlError,
 ) -> Unit raise SqlError {
   let colls = match p.index {
@@ -680,7 +680,7 @@ fn or_eq_leaves(e : BExpr) -> Bool {
 
 ///|
 /// SQLite's logarithmic estimate (10 * log2(x)).
-fn log_est(x0 : Int) -> Int {
+fn log_est(x0 : Int32) -> Int32 {
   let a = [0, 2, 3, 5, 6, 7, 8, 9]
   let mut x = x0
   let mut y = 40
@@ -707,7 +707,7 @@ fn log_est(x0 : Int) -> Int {
 
 ///|
 /// SQLite's estimate of a column's size (1 = an integer) from its type.
-fn column_size_est(type_name : String) -> Int {
+fn column_size_est(type_name : String) -> Int32 {
   if type_name.trim().length() == 0 {
     return 1
   }
@@ -744,7 +744,7 @@ fn column_size_est(type_name : String) -> Int {
 }
 
 ///|
-fn table_row_width(t : Table) -> Int {
+fn table_row_width(t : Table) -> Int32 {
   let mut w = 0
   for c in t.columns {
     w += column_size_est(c.type_name)
@@ -756,7 +756,7 @@ fn table_row_width(t : Table) -> Int {
 }
 
 ///|
-fn index_row_width(t : Table, idx : Index) -> Int {
+fn index_row_width(t : Table, idx : Index) -> Int32 {
   let mut w = 1 // the rowid
   for c in idx.col_idx {
     w += if c < 0 { 1 } else { column_size_est(t.columns[c].type_name) }
@@ -805,13 +805,13 @@ fn covering_index(t : Table, used : Array[Bool]) -> Index? {
 priv struct OrderHint {
   /// Expression, descending, explicit NULLS FIRST, collation.
   terms : Array[(BExpr, Bool, Bool?, Coll)]
-  kind : Int
+  kind : Int32
   /// Number of result columns (sorting cost).
-  ncols : Int
+  ncols : Int32
   has_limit : Bool
   /// When the scan delivers the order: stop after this many rows (-1 = no
   /// limit), skipping rows where `nonnull` is NULL (min/max optimization).
-  limit : Int
+  limit : Int32
   nonnull : BExpr?
 }
 
@@ -833,11 +833,11 @@ fn order_satisfied(
   t : Table,
   index : Index?,
   single_eq : Array[Bool],
-  eq_count : Int,
+  eq_count : Int32,
   hint : OrderHint,
   filters : Array[BExpr],
-  off : Int,
-) -> (Int, Bool) {
+  off : Int32,
+) -> (Int32, Bool) {
   let terms = hint.terms
   let n = terms.length()
   if index is None && eq_count > 0 && single_eq.all(x => x) {
@@ -937,7 +937,7 @@ fn order_satisfied(
 }
 
 ///|
-fn est_log(n : Int) -> Int {
+fn est_log(n : Int32) -> Int32 {
   if n <= 10 {
     0
   } else {
@@ -949,13 +949,13 @@ fn est_log(n : Int) -> Int {
 /// A candidate scan in `choose_access` (SQLite's WhereLoop).
 priv struct Cand {
   plan : IndexPlan?
-  mut run : Int
-  mut nout : Int
+  mut run : Int32
+  mut nout : Int32
   indexed : Bool
   covering : Bool
-  consumed : Array[Int]
+  consumed : Array[Int32]
   /// Loops that may deliver a different order are compared separately.
-  sort_idx : Int
+  sort_idx : Int32
 }
 
 ///|
@@ -982,7 +982,7 @@ fn cheaper_proper_subset(x : Cand, y : Cand) -> Bool {
 fn choose_access(
   t : Table,
   filters : Array[BExpr],
-  off : Int,
+  off : Int32,
   used : Array[Bool],
   hint : OrderHint?,
 ) -> (IndexPlan?, Bool, Bool) {
@@ -994,10 +994,10 @@ fn choose_access(
   }
   let insert = (
     p : IndexPlan?,
-    run : Int,
-    nout0 : Int,
+    run : Int32,
+    nout0 : Int32,
     covering : Bool,
-    sort_idx : Int,
+    sort_idx : Int32,
   ) => {
     let nrow = match p {
       Some({ index: Some(idx), .. }) if idx.pred is Some(_) => default_rows - 10
@@ -1192,7 +1192,7 @@ fn choose_access(
 
 ///|
 /// True if every column the term reads is available in the index.
-fn term_covered(e : BExpr, idx : Index, t : Table, off : Int) -> Bool {
+fn term_covered(e : BExpr, idx : Index, t : Table, off : Int32) -> Bool {
   match e {
     BCol(i, _, _) => {
       let c = i - off
@@ -1206,7 +1206,7 @@ fn term_covered(e : BExpr, idx : Index, t : Table, off : Int) -> Bool {
 ///|
 /// True if the filter term can only be true when `x` (bound at slot 0) is
 /// not NULL.
-fn implies_not_null(f : BExpr, x : BExpr, off : Int) -> Bool {
+fn implies_not_null(f : BExpr, x : BExpr, off : Int32) -> Bool {
   // `e` is NULL whenever x is.
   fn propagates(e : BExpr) -> Bool {
     if bexpr_same(x, e, off) {

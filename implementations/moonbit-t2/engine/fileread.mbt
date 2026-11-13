@@ -5,12 +5,12 @@
 ///|
 priv struct DbFile {
   data : Bytes
-  page_size : Int
-  usable : Int
+  page_size : Int32
+  usable : Int32
 }
 
 ///|
-fn DbFile::page_off(self : DbFile, pgno : Int) -> Int raise SqlError {
+fn DbFile::page_off(self : DbFile, pgno : Int32) -> Int32 raise SqlError {
   let off = (pgno - 1) * self.page_size
   if pgno < 1 || off + self.page_size > self.data.length() {
     raise SqlError("database disk image is malformed")
@@ -19,17 +19,17 @@ fn DbFile::page_off(self : DbFile, pgno : Int) -> Int raise SqlError {
 }
 
 ///|
-fn DbFile::u8(self : DbFile, off : Int) -> Int {
+fn DbFile::u8(self : DbFile, off : Int32) -> Int32 {
   self.data[off].to_int()
 }
 
 ///|
-fn DbFile::u16(self : DbFile, off : Int) -> Int {
+fn DbFile::u16(self : DbFile, off : Int32) -> Int32 {
   (self.data[off].to_int() << 8) | self.data[off + 1].to_int()
 }
 
 ///|
-fn DbFile::u32(self : DbFile, off : Int) -> Int {
+fn DbFile::u32(self : DbFile, off : Int32) -> Int32 {
   (self.data[off].to_int() << 24) |
   (self.data[off + 1].to_int() << 16) |
   (self.data[off + 2].to_int() << 8) |
@@ -38,7 +38,7 @@ fn DbFile::u32(self : DbFile, off : Int) -> Int {
 
 ///|
 /// Big-endian varint at `off` in `b`: (value, length).
-fn read_varint(b : Bytes, off : Int) -> (Int64, Int) {
+fn read_varint(b : Bytes, off : Int32) -> (Int64, Int32) {
   let mut v = 0L
   for i in 0..<8 {
     let c = b[off + i].to_int64()
@@ -55,8 +55,8 @@ fn read_varint(b : Bytes, off : Int) -> (Int64, Int) {
 /// Reads the full payload of a cell whose payload starts at `off`.
 fn DbFile::payload(
   self : DbFile,
-  off : Int,
-  size : Int,
+  off : Int32,
+  size : Int32,
   is_index : Bool,
 ) -> Bytes raise SqlError {
   let u = self.usable
@@ -90,7 +90,7 @@ fn DbFile::payload(
 /// Visits every (rowid, payload) of the table b-tree rooted at `root`.
 fn DbFile::scan_table(
   self : DbFile,
-  root : Int,
+  root : Int32,
   f : (Int64, Bytes) -> Unit raise SqlError,
 ) -> Unit raise SqlError {
   let stack = [root]
@@ -129,7 +129,7 @@ fn DbFile::scan_table(
 }
 
 ///|
-fn be_int(b : Bytes, off : Int, n : Int) -> Int64 {
+fn be_int(b : Bytes, off : Int32, n : Int32) -> Int64 {
   let mut v = if b[off].to_int() >= 128 { -1L } else { 0L }
   for i in 0..<n {
     v = (v << 8) | b[off + i].to_int64()
@@ -292,7 +292,7 @@ fn Database::load_table_rows(
   self : Database,
   f : DbFile,
   t : Table,
-  root : Int,
+  root : Int32,
 ) -> Unit raise SqlError {
   ignore(self)
   let ncols = t.columns.length()

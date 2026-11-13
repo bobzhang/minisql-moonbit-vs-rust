@@ -7,8 +7,8 @@ fn is_rowid_name(folded : String) -> Bool {
 fn table_scope_entry(
   t : Table,
   name : String,
-  offset : Int,
-  qualified_only? : Bool = false,
+  offset : Int32,
+  qualified_only~ : Bool = false,
 ) -> ScopeTable {
   ScopeTable::new(
     name,
@@ -27,7 +27,7 @@ fn table_scope(t : Table, name : String) -> Scope {
 ///|
 /// Resolves a column name used as an assignment target; -1 = the rowid of a
 /// table without an INTEGER PRIMARY KEY.
-fn Table::target_column(self : Table, n : String) -> Int raise SqlError {
+fn Table::target_column(self : Table, n : String) -> Int32 raise SqlError {
   match self.column_index(n) {
     Some(i) => i
     None =>
@@ -145,11 +145,11 @@ priv enum UniqResult {
   UProceed
   USkip
   /// Index of the matching upsert clause and the conflicting rowid.
-  UUpsert(Int, Int64)
+  UUpsert(Int32, Int64)
 }
 
 ///|
-fn Table::unique_error(self : Table, id : Int) -> String {
+fn Table::unique_error(self : Table, id : Int32) -> String {
   let names = if id < 0 {
     if self.ipk >= 0 {
       [self.columns[self.ipk].name]
@@ -181,9 +181,9 @@ fn Database::check_unique(
   rowid : Int64,
   self_rowid : Int64?,
   or_action : String?,
-  targets : Array[Int],
+  targets : Array[Int32],
 ) -> UniqResult raise SqlError {
-  let action_of = (id : Int) => {
+  let action_of = (id : Int32) => {
     match or_action {
       Some(a) => a
       None => {
@@ -192,7 +192,7 @@ fn Database::check_unique(
       }
     }
   }
-  let order : Array[Int] = []
+  let order : Array[Int32] = []
   for u in targets {
     if u != -2 && !order.contains(u) {
       order.push(u)
@@ -299,9 +299,9 @@ fn Database::update_row(
 fn Table::upsert_target(
   self : Table,
   cols : Array[String],
-) -> Int raise SqlError {
+) -> Int32 raise SqlError {
   let idx = cols.map(n => self.target_column(n))
-  let set : Set[Int] = Set([])
+  let set : Set[Int32] = Set([])
   for i in idx {
     set.add(i)
   }
@@ -328,7 +328,7 @@ fn Database::exec_insert(
 ) -> QueryResult raise SqlError {
   let t = self.writable_table(ins.table)
   let ncols = t.columns.length()
-  let targets : Array[Int] = match ins.columns {
+  let targets : Array[Int32] = match ins.columns {
     _ if ins.source is InsDefault => []
     Some(names) => names.map(n => t.target_column(n))
     None => Array::makei(ncols, i => i)

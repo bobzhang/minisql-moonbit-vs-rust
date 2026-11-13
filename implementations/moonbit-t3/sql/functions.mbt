@@ -1,7 +1,7 @@
 ///|
 pub(all) struct ScalarFunc {
-  min_args : Int
-  max_args : Int // -1 = variadic
+  min_args : Int32
+  max_args : Int32 // -1 = variadic
   f : (Array[Value]) -> Value raise SqlError
 }
 
@@ -140,7 +140,7 @@ fn case_func(upper : Bool) -> ScalarFunc {
 }
 
 ///|
-fn hex_value(c : Int) -> Int {
+fn hex_value(c : Int32) -> Int32 {
   if c >= '0'.to_int() && c <= '9'.to_int() {
     c - '0'.to_int()
   } else if c >= 'a'.to_int() && c <= 'f'.to_int() {
@@ -634,7 +634,7 @@ let scalar_functions : Map[String, ScalarFunc] = {
 }
 
 ///|
-pub fn lookup_scalar(name : String, nargs : Int) -> ScalarFunc raise SqlError {
+pub fn lookup_scalar(name : String, nargs : Int32) -> ScalarFunc raise SqlError {
   match scalar_functions.get(name.to_lower()) {
     Some(sf) => {
       if nargs < sf.min_args || (sf.max_args >= 0 && nargs > sf.max_args) {

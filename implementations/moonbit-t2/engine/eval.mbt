@@ -6,7 +6,7 @@ pub(all) struct Env {
 }
 
 ///|
-fn Env::lookup(self : Env, depth : Int, idx : Int) -> Value {
+fn Env::lookup(self : Env, depth : Int32, idx : Int32) -> Value {
   let mut e = self
   for _ in 0..<depth {
     match e.parent {
@@ -256,7 +256,7 @@ fn cmp_with_affinity(
   b : Value,
   aff : Affinity,
   coll : String,
-) -> Int? {
+) -> Int32? {
   if a is Null || b is Null {
     return None
   }
@@ -268,7 +268,7 @@ fn cmp_with_affinity(
 ///|
 /// Compares the values of two expressions with SQLite's binary-comparison
 /// affinity and collation rules.
-fn cmp_exprs(l : Expr, r : Expr, a : Value, b : Value) -> Int? {
+fn cmp_exprs(l : Expr, r : Expr, a : Value, b : Value) -> Int32? {
   cmp_with_affinity(a, b, comparison_affinity(l, r), binary_coll(l, r))
 }
 

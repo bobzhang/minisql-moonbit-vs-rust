@@ -13,7 +13,7 @@ extern "c" fn flush_stdout_ffi() -> Unit = "minisql_io_flush_stdout"
 
 ///|
 #borrow(path)
-extern "c" fn file_exists_ffi(path : Bytes) -> Int = "minisql_io_file_exists"
+extern "c" fn file_exists_ffi(path : Bytes) -> Int32 = "minisql_io_file_exists"
 
 ///|
 #borrow(path)
@@ -21,7 +21,7 @@ extern "c" fn read_file_ffi(path : Bytes) -> Bytes = "minisql_io_read_file"
 
 ///|
 #borrow(path, data)
-extern "c" fn write_file_ffi(path : Bytes, data : Bytes) -> Int = "minisql_io_write_file"
+extern "c" fn write_file_ffi(path : Bytes, data : Bytes) -> Int32 = "minisql_io_write_file"
 
 ///|
 /// Reads all of standard input and decodes it as UTF-8

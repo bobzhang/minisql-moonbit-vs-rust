@@ -3,7 +3,7 @@ priv struct Source {
   name : String
   /// Column metadata (a pseudo-table for subqueries in FROM).
   table : Table
-  offset : Int
+  offset : Int32
   /// Only reachable through a qualified name (upsert's `excluded`).
   hidden : Bool
   /// A subquery in FROM providing the rows.
@@ -17,7 +17,7 @@ priv struct Source {
   merged : Array[Bool]
   /// Expressions used instead of the column for unqualified references
   /// (coalesced USING columns of RIGHT/FULL joins).
-  overrides : Map[Int, Expr]
+  overrides : Map[Int32, Expr]
   /// Estimated row count of a subquery source.
   est_rows : Double?
 }
@@ -26,10 +26,10 @@ priv struct Source {
 fn new_source(
   name : String,
   table : Table,
-  offset : Int,
-  hidden? : Bool = false,
+  offset : Int32,
+  hidden~ : Bool = false,
   sub? : Prepared,
-  kind? : JoinKind = JInner,
+  kind~ : JoinKind = JInner,
   est_rows? : Double,
 ) -> Source {
   {
@@ -63,9 +63,9 @@ priv struct Scope {
 fn new_scope(
   sources : Array[Source],
   parent : Scope?,
-  aliases? : Array[(String, Expr)] = [],
-  correlated? : Ref[Bool] = { val: false, },
-  agg_ctx? : Ref[AggCtx?] = { val: None, },
+  aliases~ : Array[(String, Expr)] = [],
+  correlated~ : Ref[Bool] = { val: false, },
+  agg_ctx~ : Ref[AggCtx?] = { val: None, },
 ) -> Scope {
   { sources, parent, aliases, correlated, agg_ctx, }
 }
@@ -345,7 +345,7 @@ fn Database::create_table(
   }
   // PRIMARY KEY and UNIQUE constraints, in order of appearance:
   // (columns, conflict, is primary key, autoincrement, desc)
-  let specs : Array[(Array[Int], Conflict, Bool, Bool, Bool)] = []
+  let specs : Array[(Array[Int32], Conflict, Bool, Bool, Bool)] = []
   let mut has_pk = false
   for i, cd in ct.columns {
     if cd.primary_key {
@@ -366,14 +366,14 @@ fn Database::create_table(
           raise SqlError("table \"\{ct.name}\" has more than one primary key")
         }
         has_pk = true
-        let idx : Array[Int] = []
+        let idx : Array[Int32] = []
         for n in names {
           idx.push(find(n))
         }
         specs.push((idx, c, true, autoinc, false))
       }
       Unique(names, c) => {
-        let idx : Array[Int] = []
+        let idx : Array[Int32] = []
         for n in names {
           idx.push(find(n))
         }
@@ -385,7 +385,7 @@ fn Database::create_table(
   let mut ipk = -1
   let mut ipk_conflict = CDefault
   let mut autoinc = false
-  let unique_specs : Array[(Array[Int], Conflict, Bool)] = []
+  let unique_specs : Array[(Array[Int32], Conflict, Bool)] = []
   for sp in specs {
     let (idx, c, is_pk, ai, desc) = sp
     if is_pk &&
@@ -493,7 +493,7 @@ fn bind_checks(
 // ---------------------------------------------------------------------------
 
 ///|
-fn ordinal_suffix(n : Int) -> String {
+fn ordinal_suffix(n : Int32) -> String {
   match n % 10 {
     1 if n % 100 != 11 => "st"
     2 if n % 100 != 12 => "nd"
@@ -621,9 +621,9 @@ fn eval_limit(e : Expr) -> Int64 raise SqlError {
 ///|
 priv struct SortKey {
   expr : Expr // bound; a result-column expression for ordinals and aliases
-  result_idx : Int // >= 0 when the key is a result column
+  result_idx : Int32 // >= 0 when the key is a result column
   desc : Bool
-  nulls : Int
+  nulls : Int32
   coll : String
 }
 
@@ -632,7 +632,7 @@ fn compare_sort_keys(
   keys : Array[SortKey],
   ka : Array[Value],
   kb : Array[Value],
-) -> Int {
+) -> Int32 {
   for k, key in keys {
     let va = ka[k]
     let vb = kb[k]
@@ -664,7 +664,7 @@ fn compare_sort_keys(
 ///|
 /// Binds an ORDER BY term; `exprs`/`aliases` are the result columns.
 fn bind_order_term(
-  i : Int,
+  i : Int32,
   t : OrderTerm,
   exprs : Array[Expr],
   aliases : Array[String?],

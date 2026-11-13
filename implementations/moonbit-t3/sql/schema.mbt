@@ -302,9 +302,9 @@ fn Database::drop_view(
 /// Rows of sqlite_schema: type, name, tbl_name, rootpage, sql.
 fn Database::schema_rows(
   self : Database,
-  temp? : Bool = false,
+  temp~ : Bool = false,
 ) -> Array[Array[Value]] {
-  let entries : Array[(Int, Array[Value])] = []
+  let entries : Array[(Int32, Array[Value])] = []
   let sql_value = (s : String?) => {
     match s {
       Some(x) => Text(x)

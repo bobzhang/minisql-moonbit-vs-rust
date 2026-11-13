@@ -90,8 +90,8 @@ fn cast_value(v : Value, aff : Affinity) -> Value {
 }
 
 ///|
-fn code_points(s : String) -> Array[Int] {
-  let out : Array[Int] = []
+fn code_points(s : String) -> Array[Int32] {
+  let out : Array[Int32] = []
   for c in s {
     out.push(c.to_int())
   }
@@ -125,7 +125,7 @@ fn like_values(
 }
 
 ///|
-fn pattern_match(glob : Bool, p : String, x : String, escape : Int) -> Bool {
+fn pattern_match(glob : Bool, p : String, x : String, escape : Int32) -> Bool {
   let m : PatMatcher = if glob {
     {
       p: code_points(p),
@@ -158,16 +158,16 @@ fn pattern_match(glob : Bool, p : String, x : String, escape : Int) -> Bool {
 
 ///|
 priv struct PatMatcher {
-  p : Array[Int]
-  s : Array[Int]
-  match_all : Int
-  match_one : Int
-  match_other : Int // escape char (LIKE) or '[' (GLOB); -1 if none
+  p : Array[Int32]
+  s : Array[Int32]
+  match_all : Int32
+  match_one : Int32
+  match_other : Int32 // escape char (LIKE) or '[' (GLOB); -1 if none
   glob : Bool
 }
 
 ///|
-fn lower_ascii(c : Int) -> Int {
+fn lower_ascii(c : Int32) -> Int32 {
   if c >= 'A'.to_int() && c <= 'Z'.to_int() {
     c + 32
   } else {
@@ -176,7 +176,7 @@ fn lower_ascii(c : Int) -> Int {
 }
 
 ///|
-fn PatMatcher::pat_at(self : PatMatcher, i : Int) -> Int {
+fn PatMatcher::pat_at(self : PatMatcher, i : Int32) -> Int32 {
   if i < self.p.length() {
     self.p[i]
   } else {
@@ -185,7 +185,7 @@ fn PatMatcher::pat_at(self : PatMatcher, i : Int) -> Int {
 }
 
 ///|
-fn PatMatcher::chars_eq(self : PatMatcher, c : Int, c2 : Int) -> Bool {
+fn PatMatcher::chars_eq(self : PatMatcher, c : Int32, c2 : Int32) -> Bool {
   c == c2 ||
   (!self.glob && c < 128 && c2 < 128 && lower_ascii(c) == lower_ascii(c2))
 }
@@ -193,7 +193,7 @@ fn PatMatcher::chars_eq(self : PatMatcher, c : Int, c2 : Int) -> Bool {
 ///|
 /// SQLite's patternCompare: 0 = match, 1 = no match, 2 = no match and no
 /// later wildcard can match either.
-fn PatMatcher::compare(self : PatMatcher, pi0 : Int, si0 : Int) -> Int {
+fn PatMatcher::compare(self : PatMatcher, pi0 : Int32, si0 : Int32) -> Int32 {
   let plen = self.p.length()
   let slen = self.s.length()
   let mut pi = pi0
