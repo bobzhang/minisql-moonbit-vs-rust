@@ -96,7 +96,7 @@ pub fn Value::to_text(self : Value) -> String {
 ///|
 pub fn Value::to_blob(self : Value) -> Bytes {
   match self {
-    Null => Bytes::new(0)
+    Null => b""
     Blob(b) => b
     _ => @utf8.encode(self.to_text())
   }

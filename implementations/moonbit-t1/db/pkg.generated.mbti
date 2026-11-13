@@ -1,0 +1,74 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "bench/minisql/db"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn compare_values(Value, Value) -> Int32
+
+pub fn format_real(Double) -> String
+
+pub fn run_script(Database, String) -> String
+
+pub fn split_statements(String) -> Array[String]
+
+pub fn tokenize(String) -> Array[Token] raise SqlError
+
+// Errors
+pub suberror SqlError {
+  SqlError(String)
+}
+
+// Types and methods
+#derive(Eq, @debug.Debug)
+pub(all) enum Affinity {
+  AffNone
+  AffText
+  AffNumeric
+  AffInteger
+  AffReal
+}
+
+type Database
+pub fn Database::execute(Self, String) -> Array[Array[Value]] raise SqlError
+pub fn Database::image_to_save(Self, Bool) -> Bytes?
+pub fn Database::load_file(Self, Bytes) -> Unit raise SqlError
+pub fn Database::new() -> Self
+
+#derive(Eq, @debug.Debug)
+pub(all) enum TokKind {
+  TIdent
+  TQuoted
+  TBracket
+  TString
+  TBlob
+  TInteger
+  TFloat
+  TParam
+  TOp
+  TEof
+}
+
+#derive(@debug.Debug)
+pub(all) struct Token {
+  kind : TokKind
+  text : String
+  upper : String
+  pos : Int32
+}
+
+#derive(@debug.Debug)
+pub(all) enum Value {
+  Null
+  Int(Int64)
+  Real(Double)
+  Text(String)
+  Blob(Bytes)
+}
+pub fn Value::display(Self) -> String
+
+// Type aliases
+
+// Traits

@@ -202,7 +202,6 @@ fn Database::run_ddl(self : Database, st : Stmt) -> Unit raise SqlError {
         (
           p.0,
           {
-            ..d,
             cols: d.cols.map(c => { ..c, expr: ren(c.expr), }),
             where_: d.where_.map(ren),
             sql: sql_rename_column_in_index(d.sql, old_name, new_name),

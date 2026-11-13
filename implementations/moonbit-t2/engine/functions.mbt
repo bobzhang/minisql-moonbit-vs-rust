@@ -297,7 +297,7 @@ fn sql_substr(v : Value, start : Value, len : Value?) -> Value {
   let is_blob = v is Blob(_)
   let bytes = match v {
     Blob(b) => b
-    _ => Bytes::new(0)
+    _ => b""
   }
   let chars = if is_blob { [] } else { v.to_text().to_array() }
   let total_len = if is_blob { bytes.length() } else { chars.length() }

@@ -730,7 +730,7 @@ fn Parser::insert(self : Parser) -> Insert raise SqlError {
   }
   self.expect_kw("INTO")
   let table = self.qualified_name()
-  let alias = if self.eat_kw("AS") { Some(self.name()) } else { None }
+  let table_alias = if self.eat_kw("AS") { Some(self.name()) } else { None }
   let columns = if self.is_op("(") { Some(self.name_list()) } else { None }
   let source = if self.eat_kw("DEFAULT") {
     self.expect_kw("VALUES")
@@ -789,7 +789,7 @@ fn Parser::insert(self : Parser) -> Insert raise SqlError {
     upserts.push({ target, target_where, action, })
   }
   let returning = self.returning_clause()
-  { table, alias, columns, source, or_action, upserts, returning, }
+  { table, alias: table_alias, columns, source, or_action, upserts, returning, }
 }
 
 ///|
@@ -870,7 +870,7 @@ fn Parser::update(self : Parser) -> Update raise SqlError {
   self.expect_kw("UPDATE")
   let or_action = self.or_clause()
   let table = self.qualified_name()
-  let alias = if self.eat_kw("AS") { Some(self.name()) } else { None }
+  let table_alias = if self.eat_kw("AS") { Some(self.name()) } else { None }
   if self.eat_kw("INDEXED") {
     self.expect_kw("BY")
     let _ = self.name()
@@ -881,7 +881,7 @@ fn Parser::update(self : Parser) -> Update raise SqlError {
   let sets = self.set_list()
   let where_ = if self.eat_kw("WHERE") { Some(self.expr()) } else { None }
   let returning = self.returning_clause()
-  { table, alias, or_action, sets, where_, returning, }
+  { table, alias: table_alias, or_action, sets, where_, returning, }
 }
 
 ///|
@@ -889,7 +889,7 @@ fn Parser::delete(self : Parser) -> Delete raise SqlError {
   self.expect_kw("DELETE")
   self.expect_kw("FROM")
   let table = self.qualified_name()
-  let alias = if self.eat_kw("AS") { Some(self.name()) } else { None }
+  let table_alias = if self.eat_kw("AS") { Some(self.name()) } else { None }
   if self.eat_kw("INDEXED") {
     self.expect_kw("BY")
     let _ = self.name()
@@ -898,7 +898,7 @@ fn Parser::delete(self : Parser) -> Delete raise SqlError {
   }
   let where_ = if self.eat_kw("WHERE") { Some(self.expr()) } else { None }
   let returning = self.returning_clause()
-  { table, alias, where_, returning, }
+  { table, alias: table_alias, where_, returning, }
 }
 
 ///|

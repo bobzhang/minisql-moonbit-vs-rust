@@ -423,11 +423,9 @@ pub fn Database::execute(
   match st {
     WithDml(ctes, inner) => {
       let base = push_ctes(ctes)
-      let rows = self.execute_dml(inner) catch {
-        e => {
-          cte_stack.truncate(base)
-          raise e
-        }
+      let rows = {
+        errdefer cte_stack.truncate(base)
+        self.execute_dml(inner)
       }
       cte_stack.truncate(base)
       rows
@@ -440,11 +438,9 @@ pub fn Database::execute(
     }
     _ => {
       let snap = self.snapshot()
-      self.run_ddl(st) catch {
-        e => {
-          self.restore(snap)
-          raise e
-        }
+      {
+        errdefer self.restore(snap)
+        self.run_ddl(st)
       }
       []
     }
@@ -462,25 +458,23 @@ fn Database::execute_dml(
   self.dml_started = false
   self.fail_keep = false
   self.rollback_all = false
-  let rows = self.run_dml(st) catch {
-    e => {
-      if self.rollback_all && self.txn is Some(s) {
-        self.restore(s)
-        self.end_txn()
-        if self.dml_started {
-          conn.changes = 0L
-        }
-      } else if self.fail_keep {
-        conn.changes = self.stmt_changes
-        conn.total_changes += self.stmt_changes
-      } else {
-        self.restore(snap)
-        if self.dml_started {
-          conn.changes = 0L
-        }
+  let rows = {
+    errdefer (if self.rollback_all && self.txn is Some(s) {
+      self.restore(s)
+      self.end_txn()
+      if self.dml_started {
+        conn.changes = 0L
       }
-      raise e
-    }
+    } else if self.fail_keep {
+      conn.changes = self.stmt_changes
+      conn.total_changes += self.stmt_changes
+    } else {
+      self.restore(snap)
+      if self.dml_started {
+        conn.changes = 0L
+      }
+    })
+    self.run_dml(st)
   }
   conn.changes = self.stmt_changes
   conn.total_changes += self.stmt_changes

@@ -84,14 +84,14 @@ fn cte_source(
   let saved = cte_stack.copy()
   cte_stack.clear()
   cte_stack.append(cte.env)
-  let p = prepare_cte(cte, level) catch {
-    e => {
+  let p = {
+    errdefer {
       cte.err = None
       cte.rec = None
       cte_stack.clear()
       cte_stack.append(saved)
-      raise e
     }
+    prepare_cte(cte, level)
   }
   cte_stack.clear()
   cte_stack.append(saved)

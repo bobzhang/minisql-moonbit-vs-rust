@@ -1,0 +1,548 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "bench/minisql/engine"
+
+import {
+  "moonbitlang/core/debug",
+  "moonbitlang/core/set",
+}
+
+// Values
+pub fn affinity_of_type(String) -> Affinity
+
+pub fn apply_affinity(Value, Affinity) -> Value
+
+pub fn args_coll(Array[Expr]) -> String
+
+pub fn arith(BinOp, Value, Value) -> Value
+
+pub fn binary_coll(Expr, Expr) -> String
+
+pub fn blob_to_hex(Bytes) -> String
+
+pub fn cast_value(Value, String) -> Value
+
+pub fn check_collation(String) -> String raise SqlError
+
+pub fn coll_compare(String, String, String) -> Int32
+
+pub fn double_to_int64(Double) -> Int64
+
+pub fn eval(Expr, Env) -> Value raise SqlError
+
+pub fn eval_like(String, Value, Value, Value?) -> Value raise SqlError
+
+pub fn expr_aff_opt(Expr) -> Affinity?
+
+pub fn expr_affinity(Expr) -> Affinity
+
+pub fn expr_coll(Expr) -> (String, Bool)?
+
+pub fn format_real(Double) -> String
+
+pub fn glob_match(Array[Char], Array[Char]) -> Bool
+
+pub fn like_match(Array[Char], Array[Char], Char?) -> Bool
+
+pub fn name_key(String) -> String
+
+pub fn numeric_prefix(String) -> Value
+
+pub fn parse_numeric_text(String) -> Value?
+
+pub fn parse_real_text(StringView) -> Double
+
+pub fn parse_statement(String) -> Stmt raise SqlError
+
+pub fn real_to_int_exact(Double) -> Int64?
+
+pub fn run_script(Database, String) -> Unit
+
+pub fn split_statements(String) -> Array[String]
+
+pub fn sql_err(String) -> SqlError
+
+pub fn sql_printf(String, ArrayView[Value]) -> String
+
+pub fn text_compare(String, String) -> Int32
+
+pub fn text_to_int64(String) -> Int64
+
+pub fn to_numeric(Value) -> Value
+
+pub fn tokenize(String) -> Array[Token] raise SqlError
+
+pub fn truthy(Value) -> Bool?
+
+pub fn value_compare(Value, Value) -> Int32
+
+pub fn value_compare_coll(Value, Value, String) -> Int32
+
+pub fn value_to_double(Value) -> Double
+
+pub fn value_to_int64(Value) -> Int64
+
+// Errors
+#derive(@debug.Debug)
+pub suberror SqlError {
+  SqlError(String)
+}
+
+// Types and methods
+#derive(Eq, @debug.Debug)
+pub(all) enum Affinity {
+  AffNone
+  AffUnset
+  AffText
+  AffNumeric
+  AffInteger
+  AffReal
+}
+
+pub(all) enum AlterAction {
+  RenameTo(String)
+  RenameColumn(String, String)
+  AddColumn(ColumnDef, String)
+  DropColumn(String)
+}
+
+#derive(Eq)
+pub(all) enum BinOp {
+  Add
+  Sub
+  Mul
+  Div
+  Rem
+  Concat
+  Eq
+  Ne
+  Lt
+  Le
+  Gt
+  Ge
+  And
+  Or
+  BitAnd
+  BitOr
+  Shl
+  Shr
+}
+
+pub(all) struct CheckCons {
+  expr : Expr
+  label : String
+  def : CheckDef
+}
+
+pub(all) struct CheckDef {
+  expr : Expr
+  name : String?
+  text : String
+}
+
+pub(all) struct Column {
+  name : String
+  decl_type : String
+  aff : Affinity
+  coll : String?
+  def : ColumnDef
+}
+
+pub(all) struct ColumnDef {
+  name : String
+  decl_type : String
+  mut primary_key : Bool
+  mut pk_desc : Bool
+  mut pk_conflict : Conflict
+  mut autoincrement : Bool
+  mut not_null : Bool
+  mut nn_conflict : Conflict
+  mut unique : Bool
+  mut unique_conflict : Conflict
+  mut default : Expr?
+  checks : Array[CheckDef]
+  mut collate : String?
+}
+
+#derive(Eq)
+pub(all) enum CompoundOp {
+  UnionAll
+  Union
+  Intersect
+  Except
+}
+
+#derive(Eq)
+pub(all) enum Conflict {
+  CDefault
+  CRollback
+  CAbort
+  CFail
+  CIgnore
+  CReplace
+}
+
+pub(all) struct CreateIndex {
+  name : String
+  table : String
+  unique : Bool
+  if_not_exists : Bool
+  parts : Array[IndexPart]
+  where_ : Expr?
+  sql : String
+}
+
+pub(all) struct CreateTable {
+  name : String
+  if_not_exists : Bool
+  columns : Array[ColumnDef]
+  constraints : Array[TableConstraint]
+  sql : String
+}
+
+pub(all) struct CreateView {
+  name : String
+  if_not_exists : Bool
+  cols : Array[String]?
+  query : Select
+  sql : String
+}
+
+pub(all) struct CteDecl {
+  name : String
+  cols : Array[String]?
+  query : Select
+}
+
+pub(all) struct Database {
+  mut tables : Map[String, Table]
+  mut views : Map[String, View]
+  mut keep_on_error : Bool
+  mut rollback_txn : Bool
+  mut stmt_changes : Int64
+  mut exec_started : Bool
+  mut in_txn : Bool
+  mut sequence_seq : Int32
+  mut sequence_root : Int32
+  mut txn_by_savepoint : Bool
+  mut file_header : Bytes?
+  mut file_schema_sig : String
+  mut dirty : Bool
+  mut load_failed : Bool
+  // private fields
+}
+pub fn Database::execute(Self, Stmt) -> Array[Array[Value]] raise SqlError
+pub fn Database::execute_atomic(Self, Stmt) -> Array[Array[Value]] raise SqlError
+pub fn Database::find_table(Self, String) -> Table?
+pub fn Database::find_view(Self, String) -> View?
+pub fn Database::finish_file(Self, String, Bool) -> Unit
+pub fn Database::load_file(Self, Bytes) -> Unit raise SqlError
+pub fn Database::new() -> Self
+pub fn Database::to_file_bytes(Self) -> Bytes
+
+pub(all) struct Delete {
+  table : String
+  as_name : String?
+  where_ : Expr?
+  returning : Array[ResultCol]
+}
+
+pub(all) struct Env {
+  row : Array[Value]
+  parent : Env?
+}
+
+pub(all) enum Expr {
+  Lit(Value)
+  Col(tbl~ : String?, name~ : String, dq~ : Bool)
+  Slot(depth~ : Int32, idx~ : Int32, aff~ : Affinity, coll~ : String?)
+  Unary(UnOp, Expr)
+  Binary(BinOp, Expr, Expr)
+  IsNull(Expr, Bool)
+  Is(Expr, Expr, Bool)
+  Between(Expr, Expr, Expr, Bool)
+  InList(Expr, Array[Expr], Bool)
+  Like(String, Expr, Expr, Expr?, Bool)
+  Func(name~ : String, args~ : Array[Expr], distinct~ : Bool, star~ : Bool, filter~ : Expr?, order~ : Array[OrderTerm])
+  AggRef(depth~ : Int32, idx~ : Int32, coll~ : String?)
+  Case(Expr?, Array[(Expr, Expr)], Expr?)
+  Cast(Expr, String)
+  Collate(Expr, String)
+  Subquery(Select)
+  Exists(Select)
+  InSelect(Expr, Select, Bool)
+  ScalarQ(SubQuery)
+  ExistsQ(SubQuery)
+  InQ(Expr, SubQuery, Bool)
+  WinFunc(Expr, WindowSpec)
+}
+
+pub(all) struct Frame {
+  unit : FrameUnit
+  start : FrameBound
+  end : FrameBound
+  exclude : FrameExclude
+}
+
+pub(all) enum FrameBound {
+  UnboundedPreceding
+  Preceding(Expr)
+  CurrentRow
+  Following(Expr)
+  UnboundedFollowing
+}
+
+#derive(Eq)
+pub(all) enum FrameExclude {
+  ExNoOthers
+  ExCurrentRow
+  ExGroup
+  ExTies
+}
+
+#derive(Eq)
+pub(all) enum FrameUnit {
+  FRows
+  FRange
+  FGroups
+}
+
+pub(all) enum FromItem {
+  TableRef(name~ : String, as_name~ : String?)
+  SubqueryRef(query~ : Select, as_name~ : String?)
+  Join(left~ : FromItem, right~ : FromItem, kind~ : JoinKind, natural~ : Bool, on~ : Expr?, using_cols~ : Array[String]?)
+}
+
+pub(all) struct Index {
+  name : String
+  unique : Bool
+  origin : Int32
+  conflict : Conflict
+  parts : Array[IndexPart]
+  where_src : Expr?
+  sql : String?
+  seq : Int32
+  cols : Array[Int32]
+  exprs : Array[Expr]
+  colls : Array[String]
+  descs : Array[Bool]
+  affs : Array[Affinity]
+  where_ : Expr?
+  mut rootpage : Int32
+  mut entries : OrdMap[Array[Value], Array[Value]]
+}
+
+pub(all) struct IndexPart {
+  expr : Expr
+  coll : String?
+  desc : Bool
+}
+
+pub(all) struct Insert {
+  or_conflict : Conflict
+  table : String
+  as_name : String?
+  columns : Array[String]?
+  source : InsertSource
+  upsert : Array[Upsert]
+  returning : Array[ResultCol]
+}
+
+pub(all) enum InsertSource {
+  Values(Array[Array[Expr]])
+  FromSelect(Select)
+  DefaultValues
+}
+
+#derive(Eq)
+pub(all) enum JoinKind {
+  JInner
+  JLeft
+  JRight
+  JFull
+}
+
+pub struct OrdMap[K, V] {
+  // private fields
+}
+pub fn[K, V] OrdMap::clear(Self[K, V]) -> Unit
+pub fn[K, V] OrdMap::contains(Self[K, V], K) -> Bool
+pub fn[K, V] OrdMap::copy(Self[K, V]) -> Self[K, V]
+pub fn[K, V] OrdMap::each_from(Self[K, V], K, (K, V) -> Bool raise?) -> Unit raise?
+pub fn[K, V] OrdMap::each_ge(Self[K, V], (K) -> Int32, (K, V) -> Bool raise?) -> Unit raise?
+pub fn[K, V] OrdMap::each_le_by(Self[K, V], (K) -> Int32, (K, V) -> Bool raise?) -> Unit raise?
+pub fn[K, V] OrdMap::each_le_rev(Self[K, V], K, (K, V) -> Bool raise?) -> Unit raise?
+pub fn[K, V] OrdMap::each_rev_while(Self[K, V], (K, V) -> Bool raise?) -> Unit raise?
+pub fn[K, V] OrdMap::each_while(Self[K, V], (K, V) -> Bool raise?) -> Unit raise?
+pub fn[K, V] OrdMap::get(Self[K, V], K) -> V?
+pub fn[K, V] OrdMap::length(Self[K, V]) -> Int32
+pub fn[K, V] OrdMap::max(Self[K, V]) -> (K, V)?
+pub fn[K, V] OrdMap::min(Self[K, V]) -> (K, V)?
+pub fn[K, V] OrdMap::new((K, K) -> Int32) -> Self[K, V]
+pub fn[K, V] OrdMap::remove(Self[K, V], K) -> Unit
+pub fn[K, V] OrdMap::set(Self[K, V], K, V) -> Unit
+pub fn[K, V] OrdMap::to_array(Self[K, V]) -> Array[(K, V)]
+pub fn[K, V] OrdMap::values(Self[K, V]) -> Array[V]
+
+pub(all) struct OrderTerm {
+  expr : Expr
+  desc : Bool
+  nulls : Int32
+}
+
+pub(all) enum ResultCol {
+  Star
+  TableStar(String)
+  ExprCol(Expr, String?, String)
+}
+
+pub(all) struct Select {
+  distinct : Bool
+  columns : Array[ResultCol]
+  from : FromItem?
+  where_ : Expr?
+  group_by : Array[Expr]
+  having : Expr?
+  values : Array[Array[Expr]]?
+  compound : Array[(CompoundOp, Select)]
+  order_by : Array[OrderTerm]
+  limit : Expr?
+  offset : Expr?
+  with_ : Array[CteDecl]
+  windows : Array[(String, WindowSpec)]
+}
+
+pub(all) enum Stmt {
+  CreateTableStmt(CreateTable)
+  DropTableStmt(String, Bool)
+  CreateIndexStmt(CreateIndex)
+  DropIndexStmt(String, Bool)
+  CreateViewStmt(CreateView)
+  DropViewStmt(String, Bool)
+  AlterStmt(String, AlterAction)
+  BeginStmt
+  CommitStmt
+  RollbackStmt(String?)
+  SavepointStmt(String)
+  ReleaseStmt(String)
+  InsertStmt(Insert)
+  UpdateStmt(Update)
+  DeleteStmt(Delete)
+  SelectStmt(Select)
+  WithStmt(Array[CteDecl], Stmt)
+}
+
+pub(all) struct SubQuery {
+  run : (Env) -> Array[Array[Value]] raise SqlError
+  correlated : Bool
+  aff : Affinity?
+  coll : (String, Bool)?
+  mut cache : Array[Array[Value]]?
+  mut in_keys : @set.Set[String]?
+  mut in_null : Bool
+}
+
+pub(all) struct Table {
+  mut name : String
+  mut columns : Array[Column]
+  mut rows : OrdMap[Int64, Array[Value]]
+  mut ipk : Int32
+  ipk_conflict : Conflict
+  autoinc : Bool
+  mut seq : Int64
+  mut indexes : Array[Index]
+  mut checks : Array[CheckCons]
+  schema_seq : Int32
+  mut rootpage : Int32
+  mut version : Int32
+  mut sql : String
+}
+pub fn Table::find_column(Self, String) -> Int32?
+
+pub(all) enum TableConstraint {
+  PrimaryKey(Array[String], Conflict, Bool)
+  Unique(Array[String], Conflict)
+  Check(CheckDef)
+  ForeignKey
+}
+
+#derive(Eq, @debug.Debug)
+pub(all) enum TokKind {
+  TIdent
+  TQuoted
+  TBracket
+  TString
+  TInteger
+  TFloat
+  TBlob
+  TOp
+  TEof
+}
+
+#derive(@debug.Debug)
+pub(all) struct Token {
+  kind : TokKind
+  text : String
+  pos : Int32
+}
+
+#derive(Eq)
+pub(all) enum UnOp {
+  Neg
+  Pos
+  BitNot
+  Not
+}
+
+pub(all) struct Update {
+  or_conflict : Conflict
+  table : String
+  as_name : String?
+  sets : Array[(String, Expr)]
+  where_ : Expr?
+  returning : Array[ResultCol]
+}
+
+pub(all) struct Upsert {
+  target : Array[String]?
+  target_where : Expr?
+  action : UpsertAction
+}
+
+pub(all) enum UpsertAction {
+  DoNothing
+  DoUpdate(Array[(String, Expr)], Expr?)
+}
+
+#derive(@debug.Debug)
+pub(all) enum Value {
+  Null
+  Int(Int64)
+  Real(Double)
+  Text(String)
+  Blob(Bytes)
+}
+pub fn Value::is_null(Self) -> Bool
+pub fn Value::to_blob(Self) -> Bytes
+pub fn Value::to_output(Self) -> String
+pub fn Value::to_text(Self) -> String
+pub fn Value::type_name(Self) -> String
+
+pub(all) struct View {
+  name : String
+  cols : Array[String]?
+  query : Select
+  sql : String
+  schema_seq : Int32
+}
+
+pub(all) struct WindowSpec {
+  base : String?
+  partition : Array[Expr]
+  order : Array[OrderTerm]
+  frame : Frame?
+  named_only : Bool
+}
+
+// Type aliases
+
+// Traits

@@ -1,0 +1,628 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "bench/minisql/sql"
+
+import {
+  "moonbitlang/core/debug",
+  "moonbitlang/core/ref",
+  "moonbitlang/core/set",
+}
+
+// Values
+pub fn affinity_of_type(String) -> Affinity
+
+pub fn arith(BinOp, Value, Value) -> Value
+
+pub fn binary_collation(BExpr, BExpr) -> Coll raise SqlError
+
+pub fn bind_expr(Database, Scope, Expr) -> BExpr raise SqlError
+
+pub fn blob_to_hex(Bytes) -> String
+
+pub fn cast_value(Value, Affinity) -> Value
+
+pub fn check_coll(Coll) -> Coll raise SqlError
+
+pub fn coll_of_name(String) -> Coll
+
+pub fn compare_bytes(Bytes, Bytes) -> Int32
+
+pub fn compare_text(String, String) -> Int32
+
+pub fn compare_text_coll(String, String, Coll) -> Int32
+
+pub fn compare_values(Value, Value) -> Int32
+
+pub fn compare_values_coll(Value, Value, Coll) -> Int32
+
+pub fn comparison_affinity(Affinity?, Affinity?) -> Affinity
+
+pub fn double_to_int64(Double) -> Int64
+
+pub fn err(String) -> SqlError
+
+pub fn eval(BExpr, Array[Value]) -> Value raise SqlError
+
+pub fn fold_name(String) -> String
+
+pub fn format_real(Double) -> String
+
+pub fn glob_text(String, String) -> Bool
+
+pub fn like_text(String, String, Char?) -> Bool
+
+pub fn lookup_scalar(String, Int32) -> ScalarFunc raise SqlError
+
+pub fn parse_statement(String) -> Stmt raise SqlError
+
+pub fn run_script(Database, String, (String) -> Unit) -> Unit
+
+pub fn split_statements(String) -> Array[String]
+
+pub fn sql_printf(String, ArrayView[Value]) -> String
+
+pub fn sql_round(Double, Int64) -> Double
+
+pub fn text_int_prefix(String) -> Int64
+
+pub fn text_to_double(String) -> Double
+
+pub fn text_to_numeric_lenient(String) -> Value
+
+pub fn text_to_numeric_strict(String) -> Value?
+
+pub fn tokenize(String) -> Array[Token] raise SqlError
+
+pub fn tokenize_spans(String) -> (Array[Token], Array[Int32]) raise SqlError
+
+pub fn utf8_length(String) -> Int32
+
+pub fn write_value_key(StringBuilder, Value, Coll) -> Unit
+
+// Errors
+#derive(@debug.Debug)
+pub suberror SqlError {
+  SqlError(String)
+}
+
+// Types and methods
+#derive(Eq, @debug.Debug)
+pub(all) enum Affinity {
+  AffNone
+  AffText
+  AffNumeric
+  AffInteger
+  AffReal
+}
+
+#derive(@debug.Debug)
+pub(all) enum AlterAction {
+  RenameTable(String)
+  RenameColumn(String, String)
+  AddColumn(ColumnDef)
+  DropColumn(String)
+}
+
+pub(all) enum BExpr {
+  BConst(Value)
+  BCol(Int32, Affinity, Coll)
+  BCollate(BExpr, Coll)
+  BCast(BExpr, Affinity)
+  BUnary(UnOp, BExpr)
+  BArith(BinOp, BExpr, BExpr)
+  BCmp(BinOp, BExpr, BExpr, Affinity, Coll)
+  BAnd(BExpr, BExpr)
+  BOr(BExpr, BExpr)
+  BIsNull(BExpr, Bool)
+  BInList(BExpr, Array[BExpr], Bool, Affinity, Coll)
+  BCase(BExpr?, Array[(BExpr, BExpr, Affinity, Coll)], BExpr?)
+  BFunc(String, (Array[Value]) -> Value raise SqlError, Array[BExpr])
+  BCoalesce(Array[BExpr])
+  BIif(BExpr, BExpr, BExpr?)
+  BMinMax(Bool, Array[BExpr], Coll)
+  BNullIf(BExpr, BExpr, Affinity, Coll)
+  BSlot(Int32)
+  BOuter(Int32, Int32, Affinity, Coll)
+  BSubq(SubPlan)
+  BExists(SubPlan, Bool)
+  BInSub(BExpr, SubPlan, Bool, Affinity, Coll)
+}
+pub fn BExpr::affinity(Self) -> Affinity?
+pub fn BExpr::collation(Self) -> Coll?
+pub fn BExpr::has_collate(Self) -> Bool
+
+#derive(Eq, @debug.Debug)
+pub(all) enum BinOp {
+  Add
+  Sub
+  Mul
+  Div
+  Mod
+  Concat
+  Eq
+  Ne
+  Lt
+  Le
+  Gt
+  Ge
+  And
+  Or
+  BitAnd
+  BitOr
+  Shl
+  Shr
+  Is
+  IsNot
+}
+
+#derive(Eq, @debug.Debug)
+pub(all) enum Coll {
+  CBinary
+  CNoCase
+  CRTrim
+  CUnknown(String)
+}
+
+#derive(@debug.Debug)
+pub(all) struct ColumnDef {
+  name : String
+  type_name : String
+  mut primary_key : Bool
+  mut pk_desc : Bool
+  mut autoincrement : Bool
+  mut not_null : Bool
+  mut unique : Bool
+  mut default : Expr?
+  checks : Array[Expr]
+  mut collate : String?
+  mut pk_conflict : String?
+  mut nn_conflict : String?
+  mut unique_conflict : String?
+}
+
+#derive(Eq, @debug.Debug)
+pub(all) enum CompoundOp {
+  Union
+  UnionAll
+  Intersect
+  Except
+}
+
+#derive(@debug.Debug)
+pub(all) struct CreateIndex {
+  name : String
+  table : String
+  unique : Bool
+  if_not_exists : Bool
+  cols : Array[IndexedCol]
+  where_ : Expr?
+}
+
+#derive(@debug.Debug)
+pub(all) struct CreateTable {
+  name : String
+  if_not_exists : Bool
+  temp : Bool
+  columns : Array[ColumnDef]
+  constraints : Array[TableConstraint]
+}
+
+#derive(@debug.Debug)
+pub(all) struct CreateView {
+  name : String
+  if_not_exists : Bool
+  temp : Bool
+  columns : Array[String]
+  select : Select
+}
+
+#derive(@debug.Debug)
+pub(all) struct Cte {
+  name : String
+  columns : Array[String]
+  select : Select
+  materialized : Bool?
+}
+
+pub(all) struct Database {
+  tables : Map[String, Table]
+  views : Map[String, View]
+  indexes : Map[String, Index]
+  mut schema_seq : Int32
+  mut in_txn : Bool
+  mut txn_by_savepoint : Bool
+  savepoints : Array[(String, Int32)]
+  mut rollback_txn : Bool
+  mut cur_sql : String
+  expanding : @set.Set[String]
+  mut sequence_seq : Int32
+  mut changes : Int64
+  mut total_changes : Int64
+  mut last_rowid : Int64
+  mut stmt_changes : Int64
+  mut fail_keep : Bool
+  mut in_dml : Bool
+  // private fields
+}
+pub fn Database::execute(Self, String) -> QueryResult raise SqlError
+pub fn Database::file_image(Self, Bytes?) -> Bytes
+pub fn Database::find_table(Self, String) -> Table?
+pub fn Database::get_table(Self, String) -> Table raise SqlError
+pub fn Database::load_file(Self, Bytes) -> Unit raise SqlError
+pub fn Database::new() -> Self
+pub fn Database::rollback_open_txn(Self) -> Unit
+pub fn Database::state_fingerprint(Self) -> String
+
+#derive(@debug.Debug)
+pub(all) struct Delete {
+  table : String
+  alias : String?
+  where_ : Expr?
+  returning : Array[ResultCol]
+}
+
+#derive(@debug.Debug)
+pub(all) enum Expr {
+  Lit(Value)
+  Column(String?, String, Bool)
+  Unary(UnOp, Expr)
+  Binary(BinOp, Expr, Expr)
+  IsNull(Expr, Bool)
+  Between(Expr, Expr, Expr, Bool)
+  InList(Expr, Array[Expr], Bool)
+  InSelect(Expr, Select, Bool)
+  Like(String, Expr, Expr, Expr?, Bool)
+  Case(Expr?, Array[(Expr, Expr)], Expr?)
+  Cast(Expr, String)
+  Collate(Expr, String)
+  Func(FuncCall)
+  Exists(Select, Bool)
+  Subquery(Select)
+  Param(String)
+  AggSlot(Int32)
+}
+
+#derive(@debug.Debug)
+pub(all) enum FrameBound {
+  UnboundedPreceding
+  Preceding(Expr)
+  CurrentRow
+  Following(Expr)
+  UnboundedFollowing
+}
+
+#derive(@debug.Debug)
+pub(all) struct FrameSpec {
+  unit : String
+  start : FrameBound
+  end : FrameBound
+  exclude : String
+}
+
+#derive(@debug.Debug)
+pub(all) enum FromItem {
+  TableRef(String, String?)
+  SubqueryRef(Select, String?)
+  Join(FromItem, FromItem, JoinKind, Bool, Expr?, Array[String]?)
+}
+
+#derive(@debug.Debug)
+pub(all) struct FuncCall {
+  name : String
+  args : Array[Expr]
+  distinct : Bool
+  star : Bool
+  filter : Expr?
+  order_by : Array[OrderTerm]
+  over : WindowSpec?
+}
+
+pub(all) struct IKey {
+  vals : Array[Value]
+  rowid : Int64
+  colls : Array[Coll]
+  descs : Array[Bool]
+  bound : Int32
+}
+pub impl Compare for IKey
+pub impl Eq for IKey
+
+pub(all) struct Index {
+  mut name : String
+  mut table : String
+  unique : Bool
+  auto_num : Int32
+  conflict : String?
+  cols : Array[IndexedCol]
+  where_ : Expr?
+  col_idx : Array[Int32]
+  colls : Array[Coll]
+  descs : Array[Bool]
+  keys : Array[BExpr]
+  pred : BExpr?
+  tree : SortedChunks[IKey, Array[Value]]
+  mut seq : Int32
+  mut sql : String?
+}
+
+#derive(@debug.Debug)
+pub(all) struct IndexedCol {
+  expr : Expr
+  collate : String?
+  desc : Bool
+}
+
+#derive(@debug.Debug)
+pub(all) struct Insert {
+  table : String
+  alias : String?
+  columns : Array[String]?
+  source : InsertSource
+  or_action : String?
+  upserts : Array[Upsert]
+  returning : Array[ResultCol]
+}
+
+#derive(@debug.Debug)
+pub(all) enum InsertSource {
+  InsValues(Array[Array[Expr]])
+  InsSelect(Select)
+  InsDefault
+}
+
+#derive(Eq, @debug.Debug)
+pub(all) enum JoinKind {
+  Inner
+  Left
+  Right
+  Full
+  Cross
+}
+
+#derive(@debug.Debug)
+pub(all) struct OrderTerm {
+  expr : Expr
+  desc : Bool
+  nulls_first : Bool?
+}
+
+type Parser
+pub fn Parser::expr(Self) -> Expr raise SqlError
+
+pub(all) struct QueryResult {
+  columns : Array[String]
+  rows : Array[Array[Value]]
+}
+
+#derive(@debug.Debug)
+pub(all) enum ResultCol {
+  Star
+  TableStar(String)
+  ExprCol(Expr, String?)
+}
+
+pub(all) struct ScalarFunc {
+  min_args : Int32
+  max_args : Int32
+  f : (Array[Value]) -> Value raise SqlError
+}
+
+pub(all) struct Scope {
+  tables : Array[ScopeTable]
+  width : Int32
+  parent : Scope?
+  corr : @ref.Ref[Bool]
+}
+pub fn Scope::empty() -> Self
+pub fn Scope::new(Array[ScopeTable], Int32, parent? : Self, corr? : @ref.Ref[Bool]) -> Self
+
+pub(all) struct ScopeTable {
+  name : String
+  columns : Array[TableColumn]
+  offset : Int32
+  rowid_slot : Int32
+  qualified_only : Bool
+  hidden : Array[Bool]
+  partners : Array[Array[BExpr]]
+  used : Array[Bool]
+}
+
+#derive(@debug.Debug)
+pub(all) struct Select {
+  with_ : Array[Cte]
+  recursive : Bool
+  first : SelectCore
+  rest : Array[(CompoundOp, SelectCore)]
+  order_by : Array[OrderTerm]
+  limit : Expr?
+  offset : Expr?
+}
+
+#derive(@debug.Debug)
+pub(all) enum SelectCore {
+  Simple(SimpleSelect)
+  Values(Array[Array[Expr]])
+}
+
+#derive(@debug.Debug)
+pub(all) struct SimpleSelect {
+  distinct : Bool
+  columns : Array[ResultCol]
+  from : FromItem?
+  where_ : Expr?
+  group_by : Array[Expr]
+  having : Expr?
+  windows : Array[(String, WindowSpec)]
+}
+
+pub struct SortedChunks[K, V] {
+  // private fields
+}
+pub fn[K : Compare, V] SortedChunks::contains(Self[K, V], K) -> Bool
+pub fn[K : Compare, V] SortedChunks::get(Self[K, V], K) -> V?
+pub fn[K, V] SortedChunks::is_empty(Self[K, V]) -> Bool
+pub fn[K, V] SortedChunks::iter2(Self[K, V]) -> Iter2[K, V]
+pub fn[K, V] SortedChunks::length(Self[K, V]) -> Int32
+pub fn[K, V] SortedChunks::max_key(Self[K, V]) -> K?
+pub fn[K, V] SortedChunks::new() -> Self[K, V]
+pub fn[K : Compare, V] SortedChunks::remove(Self[K, V], K) -> Unit
+pub fn[K : Compare, V] SortedChunks::scan(Self[K, V], K?, K?, Bool, (K, V) -> Bool raise?) -> Unit raise?
+pub fn[K : Compare, V] SortedChunks::set(Self[K, V], K, V) -> Unit
+
+#derive(@debug.Debug)
+pub(all) enum Stmt {
+  CreateTableStmt(CreateTable)
+  DropTableStmt(String, Bool)
+  CreateIndexStmt(CreateIndex)
+  DropIndexStmt(String, Bool)
+  CreateViewStmt(CreateView)
+  DropViewStmt(String, Bool)
+  AlterStmt(String, AlterAction)
+  BeginStmt
+  CommitStmt
+  RollbackStmt(String?)
+  SavepointStmt(String)
+  ReleaseStmt(String)
+  InsertStmt(Insert)
+  UpdateStmt(Update)
+  DeleteStmt(Delete)
+  SelectStmt(Select)
+  WithStmt(Array[Cte], Stmt)
+}
+
+pub(all) struct SubPlan {
+  run : () -> Array[Array[Value]] raise SqlError
+  correlated : Bool
+  aff : Affinity?
+  mut cache : Array[Array[Value]]?
+  mut keys : @set.Set[String]?
+  mut has_null : Bool
+}
+
+pub(all) struct Table {
+  mut name : String
+  columns : Array[TableColumn]
+  mut def : CreateTable
+  rows : SortedChunks[Int64, Array[Value]]
+  mut max_rowid : Int64
+  mut max_dirty : Bool
+  ipk : Int32
+  ipk_conflict : String?
+  autoinc : Bool
+  mut seq : Int64
+  uniques : Array[Index]
+  indexes : Array[Index]
+  checks : Array[(String, BExpr)]
+  defaults : Array[BExpr?]
+  mut version : Int32
+  mut schema_seq : Int32
+  mut sql : String?
+}
+pub fn Table::column_index(Self, String) -> Int32?
+pub fn Table::current_max_rowid(Self) -> Int64
+
+pub(all) struct TableColumn {
+  name : String
+  type_name : String
+  affinity : Affinity
+  coll : Coll
+  def : ColumnDef
+}
+
+#derive(@debug.Debug)
+pub(all) enum TableConstraint {
+  PrimaryKey(Array[(String, String?, Bool)], String?)
+  Unique(Array[(String, String?, Bool)], String?)
+  Check(Expr)
+  ForeignKey(Array[String], String, Array[String])
+}
+
+#derive(Eq, @debug.Debug)
+pub(all) enum Tok {
+  Word(String)
+  DqIdent(String)
+  QIdent(String)
+  Str(String)
+  BlobLit(Bytes)
+  Num(String)
+  Param(String)
+  Op(String)
+  Eof
+}
+
+#derive(@debug.Debug)
+pub(all) struct Token {
+  tok : Tok
+  pos : Int32
+}
+
+#derive(Eq, @debug.Debug)
+pub(all) enum UnOp {
+  Neg
+  Pos
+  Not
+  BitNot
+}
+
+#derive(@debug.Debug)
+pub(all) struct Update {
+  table : String
+  alias : String?
+  or_action : String?
+  sets : Array[(String, Expr)]
+  where_ : Expr?
+  returning : Array[ResultCol]
+}
+
+#derive(@debug.Debug)
+pub(all) struct Upsert {
+  target : Array[String]?
+  target_where : Expr?
+  action : UpsertAction
+}
+
+#derive(@debug.Debug)
+pub(all) enum UpsertAction {
+  DoNothing
+  DoUpdate(Array[(String, Expr)], Expr?)
+}
+
+#derive(@debug.Debug)
+pub(all) enum Value {
+  Null
+  Int(Int64)
+  Real(Double)
+  Text(String)
+  Blob(Bytes)
+}
+pub fn Value::apply_affinity(Self, Affinity) -> Self
+pub fn Value::as_double(Self) -> Double
+pub fn Value::as_int64(Self) -> Int64
+pub fn Value::is_null(Self) -> Bool
+pub fn Value::numeric_strict(Self) -> Self?
+pub fn Value::to_int64_cast(Self) -> Int64
+pub fn Value::to_numeric(Self) -> Self
+pub fn Value::to_output(Self) -> String
+pub fn Value::to_text(Self) -> String
+pub fn Value::truth(Self) -> Bool?
+pub fn Value::type_name(Self) -> String
+
+pub(all) struct View {
+  name : String
+  temp : Bool
+  columns : Array[String]
+  mut select : Select
+  seq : Int32
+  mut sql : String?
+}
+
+#derive(@debug.Debug)
+pub(all) struct WindowSpec {
+  base : String?
+  partition_by : Array[Expr]
+  order_by : Array[OrderTerm]
+  frame : FrameSpec?
+}
+
+// Type aliases
+
+// Traits

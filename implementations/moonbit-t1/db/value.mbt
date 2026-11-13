@@ -209,7 +209,6 @@ fn Value::to_text(self : Value) -> String? {
 priv struct NumScan {
   has_num : Bool // a numeric prefix exists
   whole : Bool // the whole string (modulo surrounding spaces) is numeric
-  is_int : Bool // the prefix has no '.' or exponent
   int_ok : Bool // is_int and fits in Int64
   ival : Int64
   rval : Double
@@ -262,14 +261,7 @@ fn scan_number(s : String) -> NumScan {
     }
   }
   if int_digits.length() == 0 && frac_digits.length() == 0 {
-    return {
-      has_num: false,
-      whole: false,
-      is_int: true,
-      int_ok: true,
-      ival: 0L,
-      rval: 0.0,
-    }
+    return { has_num: false, whole: false, int_ok: true, ival: 0L, rval: 0.0, }
   }
   let mut exp = 0
   if i < n && (s[i] == 'e' || s[i] == 'E') {
@@ -342,7 +334,7 @@ fn scan_number(s : String) -> NumScan {
         0.0
       }
   }
-  { has_num: true, whole, is_int, int_ok, ival, rval, }
+  { has_num: true, whole, int_ok, ival, rval, }
 }
 
 ///|
