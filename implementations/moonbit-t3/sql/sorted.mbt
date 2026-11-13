@@ -3,11 +3,11 @@
 /// searches over arrays, and scans run in either direction with early exit.
 pub struct SortedChunks[K, V] {
   priv chunks : Array[Array[(K, V)]]
-  priv mut size : Int
+  priv mut size : Int32
 }
 
 ///|
-let chunk_limit : Int = 1024
+let chunk_limit : Int32 = 1024
 
 ///|
 pub fn[K, V] SortedChunks::new() -> SortedChunks[K, V] {
@@ -15,7 +15,7 @@ pub fn[K, V] SortedChunks::new() -> SortedChunks[K, V] {
 }
 
 ///|
-pub fn[K, V] SortedChunks::length(self : SortedChunks[K, V]) -> Int {
+pub fn[K, V] SortedChunks::length(self : SortedChunks[K, V]) -> Int32 {
   self.size
 }
 
@@ -30,7 +30,7 @@ pub fn[K, V] SortedChunks::is_empty(self : SortedChunks[K, V]) -> Bool {
 fn[K : Compare, V] SortedChunks::chunk_for(
   self : SortedChunks[K, V],
   k : K,
-) -> Int {
+) -> Int32 {
   let mut lo = 0
   let mut hi = self.chunks.length()
   while lo < hi {
@@ -47,7 +47,7 @@ fn[K : Compare, V] SortedChunks::chunk_for(
 
 ///|
 /// Position of the first entry with key >= k.
-fn[K : Compare, V] lower_bound(c : Array[(K, V)], k : K) -> Int {
+fn[K : Compare, V] lower_bound(c : Array[(K, V)], k : K) -> Int32 {
   let mut lo = 0
   let mut hi = c.length()
   while lo < hi {
@@ -63,7 +63,7 @@ fn[K : Compare, V] lower_bound(c : Array[(K, V)], k : K) -> Int {
 
 ///|
 /// Position of the first entry with key > k.
-fn[K : Compare, V] upper_bound(c : Array[(K, V)], k : K) -> Int {
+fn[K : Compare, V] upper_bound(c : Array[(K, V)], k : K) -> Int32 {
   let mut lo = 0
   let mut hi = c.length()
   while lo < hi {

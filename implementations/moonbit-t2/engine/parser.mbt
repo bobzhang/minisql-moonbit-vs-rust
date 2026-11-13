@@ -2,7 +2,7 @@
 priv struct Parser {
   src : String
   toks : Array[Token]
-  mut pos : Int
+  mut pos : Int32
 }
 
 ///|
@@ -36,7 +36,7 @@ fn Parser::peek(self : Parser) -> Token {
 }
 
 ///|
-fn Parser::peek_at(self : Parser, k : Int) -> Token {
+fn Parser::peek_at(self : Parser, k : Int32) -> Token {
   let i = self.pos + k
   if i < self.toks.length() {
     self.toks[i]
@@ -81,7 +81,7 @@ fn Parser::is_kw(self : Parser, kw : String) -> Bool {
 }
 
 ///|
-fn Parser::is_kw_at(self : Parser, k : Int, kw : String) -> Bool {
+fn Parser::is_kw_at(self : Parser, k : Int32, kw : String) -> Bool {
   tok_is_kw(self.peek_at(k), kw)
 }
 
@@ -1563,7 +1563,7 @@ fn Parser::parse_unary(self : Parser) -> Expr raise SqlError {
 }
 
 ///|
-fn Parser::is_collate_at(self : Parser, k : Int) -> Bool {
+fn Parser::is_collate_at(self : Parser, k : Int32) -> Bool {
   self.is_kw_at(k, "COLLATE")
 }
 
@@ -1602,7 +1602,7 @@ fn integer_literal(text : String) -> Value raise SqlError {
 fn hex_to_bytes(hex : String) -> Bytes {
   let n = hex.length() / 2
   let arr = FixedArray::make(n, b'\x00')
-  fn hv(c : Int) -> Int {
+  fn hv(c : Int32) -> Int32 {
     if c >= '0'.to_int() && c <= '9'.to_int() {
       c - '0'.to_int()
     } else if c >= 'a'.to_int() && c <= 'f'.to_int() {

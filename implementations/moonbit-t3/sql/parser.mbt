@@ -2,7 +2,7 @@
 struct Parser {
   toks : Array[Token]
   src : String
-  mut pos : Int
+  mut pos : Int32
 }
 
 ///|
@@ -47,7 +47,7 @@ fn Parser::peek(self : Parser) -> Tok {
 }
 
 ///|
-fn Parser::peek_at(self : Parser, k : Int) -> Tok {
+fn Parser::peek_at(self : Parser, k : Int32) -> Tok {
   let i = self.pos + k
   if i < self.toks.length() {
     self.toks[i].tok
@@ -96,7 +96,7 @@ fn Parser::is_kw(self : Parser, kw : String) -> Bool {
 }
 
 ///|
-fn Parser::is_kw_at(self : Parser, k : Int, kw : String) -> Bool {
+fn Parser::is_kw_at(self : Parser, k : Int32, kw : String) -> Bool {
   tok_is_kw(self.peek_at(k), kw)
 }
 

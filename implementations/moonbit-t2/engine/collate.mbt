@@ -11,7 +11,7 @@ pub fn check_collation(name : String) -> String raise SqlError {
 }
 
 ///|
-fn fold_ascii(c : Int) -> Int {
+fn fold_ascii(c : Int32) -> Int32 {
   if c >= 'A'.to_int() && c <= 'Z'.to_int() {
     c + 32
   } else {
@@ -20,7 +20,7 @@ fn fold_ascii(c : Int) -> Int {
 }
 
 ///|
-fn nocase_compare(a : String, b : String) -> Int {
+fn nocase_compare(a : String, b : String) -> Int32 {
   let la = a.length()
   let lb = b.length()
   let n = if la < lb { la } else { lb }
@@ -44,7 +44,7 @@ fn rtrim_spaces(s : String) -> StringView {
 }
 
 ///|
-pub fn coll_compare(a : String, b : String, coll : String) -> Int {
+pub fn coll_compare(a : String, b : String, coll : String) -> Int32 {
   match coll {
     "NOCASE" => nocase_compare(a, b)
     "RTRIM" =>
@@ -55,7 +55,7 @@ pub fn coll_compare(a : String, b : String, coll : String) -> Int {
 
 ///|
 /// Value comparison using a collation for TEXT operands.
-pub fn value_compare_coll(a : Value, b : Value, coll : String) -> Int {
+pub fn value_compare_coll(a : Value, b : Value, coll : String) -> Int32 {
   match (a, b) {
     (Text(x), Text(y)) => coll_compare(x, y, coll)
     _ => value_compare(a, b)
@@ -199,9 +199,9 @@ pub fn like_match(pat : Array[Char], s : Array[Char], esc : Char?) -> Bool {
 ///|
 fn like_at(
   pat : Array[Char],
-  pi : Int,
+  pi : Int32,
   s : Array[Char],
-  si : Int,
+  si : Int32,
   esc : Char?,
 ) -> Bool {
   let mut p = pi
@@ -264,7 +264,7 @@ pub fn glob_match(pat : Array[Char], s : Array[Char]) -> Bool {
 }
 
 ///|
-fn glob_at(pat : Array[Char], pi : Int, s : Array[Char], si : Int) -> Bool {
+fn glob_at(pat : Array[Char], pi : Int32, s : Array[Char], si : Int32) -> Bool {
   let mut p = pi
   let mut i = si
   while p < pat.length() {
@@ -323,7 +323,7 @@ fn glob_at(pat : Array[Char], pi : Int, s : Array[Char], si : Int) -> Bool {
 /// Matches `ch` against a `[...]` class starting after the `[`. Returns
 /// whether it matched and the index after the closing `]`; None if the
 /// class is unterminated.
-fn glob_class(pat : Array[Char], start : Int, ch : Char) -> (Bool, Int)? {
+fn glob_class(pat : Array[Char], start : Int32, ch : Char) -> (Bool, Int32)? {
   let mut p = start
   let mut invert = false
   if p < pat.length() && pat[p] == '^' {

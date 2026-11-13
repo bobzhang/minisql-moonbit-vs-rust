@@ -2,7 +2,7 @@
 
 ///|
 /// Allowed argument counts per function: (min, max); max < 0 = unlimited.
-let function_arity : Map[String, (Int, Int)] = {
+let function_arity : Map[String, (Int32, Int32)] = {
   "typeof": (1, 1),
   "abs": (1, 1),
   "char": (0, -1),
@@ -83,7 +83,7 @@ let function_arity : Map[String, (Int, Int)] = {
 
 ///|
 /// Argument counts of aggregate functions.
-let aggregate_arity : Map[String, (Int, Int)] = {
+let aggregate_arity : Map[String, (Int32, Int32)] = {
   "count": (0, 1),
   "sum": (1, 1),
   "total": (1, 1),
@@ -97,7 +97,7 @@ let aggregate_arity : Map[String, (Int, Int)] = {
 ///|
 /// True if a call with `n` arguments is an aggregate (min/max are scalar
 /// with two or more arguments).
-fn is_aggregate_call(name : String, n : Int) -> Bool {
+fn is_aggregate_call(name : String, n : Int32) -> Bool {
   match name {
     "min" | "max" => n == 1
     _ => aggregate_arity.contains(name)
@@ -335,11 +335,11 @@ fn sql_substr(v : Value, start : Value, len : Value?) -> Value {
 }
 
 ///|
-fn hex_val(c : Char) -> Int? {
+fn hex_val(c : Char) -> Int32? {
   match c {
-    '0'..='9' => Some(c.to_int() - '0'.to_int())
-    'a'..='f' => Some(c.to_int() - 'a'.to_int() + 10)
-    'A'..='F' => Some(c.to_int() - 'A'.to_int() + 10)
+    '0'..<='9' => Some(c.to_int() - '0'.to_int())
+    'a'..<='f' => Some(c.to_int() - 'a'.to_int() + 10)
+    'A'..<='F' => Some(c.to_int() - 'A'.to_int() + 10)
     _ => None
   }
 }

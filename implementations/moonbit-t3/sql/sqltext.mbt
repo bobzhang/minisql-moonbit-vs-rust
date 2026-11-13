@@ -17,7 +17,7 @@ fn tok_is_op(t : Tok, op : String) -> Bool {
 
 ///|
 /// Index of the last real token (not Eof, not a trailing `;`).
-fn last_token(toks : Array[Token]) -> Int {
+fn last_token(toks : Array[Token]) -> Int32 {
   let mut k = toks.length() - 2
   while k > 0 && tok_is_op(toks[k].tok, ";") {
     k -= 1
@@ -46,24 +46,23 @@ fn ident_text(name : String) -> String {
 ///|
 let sql_keywords : Set[String] = Set([
   "ABORT", "ACTION", "ADD", "AFTER", "ALL", "ALTER", "ALWAYS", "ANALYZE", "AND",
-  "AS", "ASC", "ATTACH", "AUTOINCREMENT", "BEFORE", "BEGIN", "BETWEEN", "BY",
-  "CASCADE", "CASE", "CAST", "CHECK", "COLLATE", "COLUMN", "COMMIT", "CONFLICT",
-  "CONSTRAINT", "CREATE", "CROSS", "CURRENT", "CURRENT_DATE", "CURRENT_TIME",
-  "CURRENT_TIMESTAMP", "DATABASE", "DEFAULT", "DEFERRABLE", "DEFERRED", "DELETE",
-  "DESC", "DETACH", "DISTINCT", "DO", "DROP", "EACH", "ELSE", "END", "ESCAPE",
-  "EXCEPT", "EXCLUDE", "EXCLUSIVE", "EXISTS", "EXPLAIN", "FAIL", "FILTER", "FIRST",
-  "FOLLOWING", "FOR", "FOREIGN", "FROM", "FULL", "GENERATED", "GLOB", "GROUP",
-  "GROUPS", "HAVING", "IF", "IGNORE", "IMMEDIATE", "IN", "INDEX", "INDEXED",
-  "INITIALLY", "INNER", "INSERT", "INSTEAD", "INTERSECT", "INTO", "IS", "ISNULL",
-  "JOIN", "KEY", "LAST", "LEFT", "LIKE", "LIMIT", "MATCH", "MATERIALIZED",
-  "NATURAL", "NO", "NOT", "NOTHING", "NOTNULL", "NULL", "NULLS", "OF", "OFFSET",
-  "ON", "OR", "ORDER", "OTHERS", "OUTER", "OVER", "PARTITION", "PLAN", "PRAGMA",
-  "PRECEDING", "PRIMARY", "QUERY", "RAISE", "RANGE", "RECURSIVE", "REFERENCES",
-  "REGEXP", "REINDEX", "RELEASE", "RENAME", "REPLACE", "RESTRICT", "RETURNING",
-  "RIGHT", "ROLLBACK", "ROW", "ROWS", "SAVEPOINT", "SELECT", "SET", "TABLE",
-  "TEMP", "TEMPORARY", "THEN", "TIES", "TO", "TRANSACTION", "TRIGGER", "UNBOUNDED",
-  "UNION", "UNIQUE", "UPDATE", "USING", "VACUUM", "VALUES", "VIEW", "VIRTUAL",
-  "WHEN", "WHERE", "WINDOW", "WITH", "WITHOUT",
+  "AS", "ASC", "ATTACH", "AUTOINCREMENT", "BEFORE", "BEGIN", "BETWEEN", "BY", "CASCADE",
+  "CASE", "CAST", "CHECK", "COLLATE", "COLUMN", "COMMIT", "CONFLICT", "CONSTRAINT",
+  "CREATE", "CROSS", "CURRENT", "CURRENT_DATE", "CURRENT_TIME", "CURRENT_TIMESTAMP",
+  "DATABASE", "DEFAULT", "DEFERRABLE", "DEFERRED", "DELETE", "DESC", "DETACH", "DISTINCT",
+  "DO", "DROP", "EACH", "ELSE", "END", "ESCAPE", "EXCEPT", "EXCLUDE", "EXCLUSIVE",
+  "EXISTS", "EXPLAIN", "FAIL", "FILTER", "FIRST", "FOLLOWING", "FOR", "FOREIGN",
+  "FROM", "FULL", "GENERATED", "GLOB", "GROUP", "GROUPS", "HAVING", "IF", "IGNORE",
+  "IMMEDIATE", "IN", "INDEX", "INDEXED", "INITIALLY", "INNER", "INSERT", "INSTEAD",
+  "INTERSECT", "INTO", "IS", "ISNULL", "JOIN", "KEY", "LAST", "LEFT", "LIKE", "LIMIT",
+  "MATCH", "MATERIALIZED", "NATURAL", "NO", "NOT", "NOTHING", "NOTNULL", "NULL",
+  "NULLS", "OF", "OFFSET", "ON", "OR", "ORDER", "OTHERS", "OUTER", "OVER", "PARTITION",
+  "PLAN", "PRAGMA", "PRECEDING", "PRIMARY", "QUERY", "RAISE", "RANGE", "RECURSIVE",
+  "REFERENCES", "REGEXP", "REINDEX", "RELEASE", "RENAME", "REPLACE", "RESTRICT",
+  "RETURNING", "RIGHT", "ROLLBACK", "ROW", "ROWS", "SAVEPOINT", "SELECT", "SET",
+  "TABLE", "TEMP", "TEMPORARY", "THEN", "TIES", "TO", "TRANSACTION", "TRIGGER", "UNBOUNDED",
+  "UNION", "UNIQUE", "UPDATE", "USING", "VACUUM", "VALUES", "VIEW", "VIRTUAL", "WHEN",
+  "WHERE", "WINDOW", "WITH", "WITHOUT",
 ])
 
 ///|
@@ -74,7 +73,7 @@ fn is_keyword(name : String) -> Bool {
 ///|
 /// Index of the name token of a CREATE statement, and the object kind
 /// ("TABLE", "INDEX", "VIEW"; with "UNIQUE " prefixed for unique indexes).
-fn create_name_token(toks : Array[Token]) -> (Int, String)? {
+fn create_name_token(toks : Array[Token]) -> (Int32, String)? {
   guard toks.length() > 2 && tok_is_kw(toks[0].tok, "CREATE") else {
     return None
   }
@@ -119,7 +118,8 @@ fn normalize_create_sql(sql : String) -> String {
     ends[last_token(toks)]
   } else {
     let mut e = sql.length()
-    while e > 0 && (sql[e - 1] == ';' || sql[e - 1] == ' ' || sql[e - 1] == '\n') {
+    while e > 0 &&
+          (sql[e - 1] == ';' || sql[e - 1] == ' ' || sql[e - 1] == '\n') {
       e -= 1
     }
     e
@@ -132,7 +132,7 @@ fn normalize_create_sql(sql : String) -> String {
 
 ///|
 /// Offsets (start, end) of each column definition of a CREATE TABLE text.
-fn column_spans(sql : String) -> Array[(Int, Int)] {
+fn column_spans(sql : String) -> Array[(Int32, Int32)] {
   let (toks, ends) = tokenize_spans(sql) catch { _ => return [] }
   guard create_name_token(toks) is Some((name, _)) else { return [] }
   let mut i = name + 1
@@ -194,7 +194,7 @@ fn add_column_sql(sql : String, alter : String) -> String {
 
 ///|
 /// Table text after dropping column `ci`.
-fn drop_column_sql(sql : String, ci : Int) -> String {
+fn drop_column_sql(sql : String, ci : Int32) -> String {
   let spans = column_spans(sql)
   if ci >= spans.length() || spans.length() < 2 {
     return sql
@@ -211,8 +211,8 @@ fn drop_column_sql(sql : String, ci : Int) -> String {
 fn replace_tokens(
   sql : String,
   toks : Array[Token],
-  ends : Array[Int],
-  which : Array[Int],
+  ends : Array[Int32],
+  which : Array[Int32],
   text : (Tok) -> String,
 ) -> String {
   if which.length() == 0 {
@@ -273,7 +273,7 @@ fn rename_column_sql(
   sql : String,
   old : String,
   new_name : String,
-  from~ : (Array[Token]) -> Int,
+  from~ : (Array[Token]) -> Int32,
 ) -> String {
   let (toks, ends) = tokenize_spans(sql) catch { _ => return sql }
   let which = []
@@ -282,15 +282,17 @@ fn rename_column_sql(
       which.push(k)
     }
   }
-  replace_tokens(sql, toks, ends, which, t => match t {
-    Word(_) => ident_text(new_name)
-    _ => quote_ident(new_name)
+  replace_tokens(sql, toks, ends, which, t => {
+    match t {
+      Word(_) => ident_text(new_name)
+      _ => quote_ident(new_name)
+    }
   })
 }
 
 ///|
 /// First token after the object name of a CREATE statement.
-fn after_create_name(toks : Array[Token]) -> Int {
+fn after_create_name(toks : Array[Token]) -> Int32 {
   match create_name_token(toks) {
     Some((i, _)) => i + 1
     None => toks.length()
@@ -299,7 +301,7 @@ fn after_create_name(toks : Array[Token]) -> Int {
 
 ///|
 /// First token after `ON <table>` of a CREATE INDEX statement.
-fn after_index_table(toks : Array[Token]) -> Int {
+fn after_index_table(toks : Array[Token]) -> Int32 {
   for k in 0..<toks.length() {
     if tok_is_kw(toks[k].tok, "ON") {
       return k + 2
@@ -310,7 +312,7 @@ fn after_index_table(toks : Array[Token]) -> Int {
 
 ///|
 /// First token after `AS` of a CREATE VIEW statement.
-fn after_view_as(toks : Array[Token]) -> Int {
+fn after_view_as(toks : Array[Token]) -> Int32 {
   for k in 0..<toks.length() {
     if tok_is_kw(toks[k].tok, "AS") {
       return k + 1

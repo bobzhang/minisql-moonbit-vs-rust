@@ -601,7 +601,7 @@ fn Database::compile_aggregate(
   }
   let run = () => {
     let groups : Array[Group] = []
-    let index : Map[String, Int] = Map([])
+    let index : Map[String, Int32] = Map([])
     let new_group = (keys : Array[Value], bare : Array[Value]) => {
       groups.push({ keys, states: specs.map(_ => AggState::new()), bare, })
       groups.length() - 1

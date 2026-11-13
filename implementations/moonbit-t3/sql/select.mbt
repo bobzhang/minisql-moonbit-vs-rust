@@ -2,9 +2,9 @@
 pub(all) struct ScopeTable {
   name : String
   columns : Array[TableColumn]
-  offset : Int
+  offset : Int32
   /// Row slot holding the rowid, or -1 if the source has none.
-  rowid_slot : Int
+  rowid_slot : Int32
   /// Only reachable through a qualified name (upsert's `excluded`).
   qualified_only : Bool
   /// Columns merged into a column to their left by USING/NATURAL: hidden
@@ -20,9 +20,9 @@ pub(all) struct ScopeTable {
 fn ScopeTable::new(
   name : String,
   columns : Array[TableColumn],
-  offset : Int,
-  rowid_slot : Int,
-  qualified_only? : Bool = false,
+  offset : Int32,
+  rowid_slot : Int32,
+  qualified_only~ : Bool = false,
 ) -> ScopeTable {
   {
     name,
@@ -38,7 +38,7 @@ fn ScopeTable::new(
 
 ///|
 /// A bound reference to column `i` (the rowid if `i` is the column count).
-fn ScopeTable::col_ref(self : ScopeTable, i : Int) -> BExpr {
+fn ScopeTable::col_ref(self : ScopeTable, i : Int32) -> BExpr {
   self.used[i] = true
   if i == self.columns.length() {
     BCol(self.rowid_slot, AffInteger, CBinary)
@@ -51,7 +51,7 @@ fn ScopeTable::col_ref(self : ScopeTable, i : Int) -> BExpr {
 ///|
 /// The expression for column `i` of a scope table, coalesced with its USING
 /// partners.
-fn ScopeTable::column_expr(self : ScopeTable, i : Int) -> BExpr {
+fn ScopeTable::column_expr(self : ScopeTable, i : Int32) -> BExpr {
   let base = self.col_ref(i)
   if self.partners[i].length() == 0 {
     base
@@ -63,7 +63,7 @@ fn ScopeTable::column_expr(self : ScopeTable, i : Int) -> BExpr {
 ///|
 pub(all) struct Scope {
   tables : Array[ScopeTable]
-  width : Int
+  width : Int32
   /// Scope of the enclosing query, for correlated references.
   parent : Scope?
   /// Set when this query references columns of an enclosing query.
@@ -73,7 +73,7 @@ pub(all) struct Scope {
 ///|
 pub fn Scope::new(
   tables : Array[ScopeTable],
-  width : Int,
+  width : Int32,
   parent? : Scope,
   corr? : Ref[Bool],
 ) -> Scope {
@@ -109,7 +109,7 @@ fn Scope::find_table(self : Scope, name : String) -> ScopeTable? {
 fn find_visible(
   tables : Array[ScopeTable],
   name : String,
-) -> (ScopeTable, Int)? {
+) -> (ScopeTable, Int32)? {
   let f = fold_name(name)
   for st in tables {
     if st.qualified_only {
@@ -179,7 +179,7 @@ fn lookup_column(
 }
 
 ///|
-fn to_outer(b : BExpr, depth : Int) -> BExpr {
+fn to_outer(b : BExpr, depth : Int32) -> BExpr {
   match b {
     BCol(i, a, c) => BOuter(depth, i, a, c)
     BCoalesce(xs) => BCoalesce(xs.map(x => to_outer(x, depth)))
@@ -550,8 +550,8 @@ priv struct Compiled {
 /// they have length `offset + width`, the first `offset` slots being NULL.
 priv struct Source {
   tables : Array[ScopeTable]
-  offset : Int
-  width : Int
+  offset : Int32
+  width : Int32
   kind : JoinKind?
   /// WHERE terms pushed down to this step (filled in after binding).
   filters : Array[BExpr]
@@ -564,11 +564,11 @@ priv struct Source {
 }
 
 ///|
-let no_slot : Int = 1 << 30
+let no_slot : Int32 = 1 << 30
 
 ///|
 /// Lowest and highest row slot an expression reads (no_slot / -1 if none).
-fn slot_range(e : BExpr) -> (Int, Int) {
+fn slot_range(e : BExpr) -> (Int32, Int32) {
   match e {
     BCol(i, _, _) => (i, i)
     BSlot(_) => (0, no_slot)
@@ -621,7 +621,7 @@ fn all_true(conds : Array[BExpr], row : Array[Value]) -> Bool raise SqlError {
 }
 
 ///|
-fn padded(offset : Int, extra : Int) -> Array[Value] {
+fn padded(offset : Int32, extra : Int32) -> Array[Value] {
   let row = Array(capacity=offset + extra)
   for _ in 0..<offset {
     row.push(Null)
@@ -635,7 +635,7 @@ fn padded(offset : Int, extra : Int) -> Array[Value] {
 fn Database::compile_from(
   self : Database,
   item : FromItem,
-  offset : Int,
+  offset : Int32,
   outer : Scope?,
   corr : Ref[Bool],
   chain : Array[Source],
@@ -1048,7 +1048,7 @@ fn Database::compile_from(
           let hash = find_hash_key(jconds, lend)
           match hash {
             Some((lk, rk, aff, coll)) => {
-              let index : Map[String, Array[Int]] = Map([])
+              let index : Map[String, Array[Int32]] = Map([])
               for j, rrow in rrows {
                 let v = eval(rk, rrow)
                 if v is Null {
@@ -1122,10 +1122,10 @@ fn subquery_source(
   c : Compiled,
   names : Array[String],
   alias : String,
-  offset : Int,
+  offset : Int32,
   chain : Array[Source],
   correlated : Bool,
-  small? : Bool = false,
+  small~ : Bool = false,
 ) -> Source {
   // Duplicate result names are made unique as "name:N".
   let used : Set[String] = Set([])
@@ -1236,7 +1236,7 @@ fn subquery_source(
 /// left slots (< lend), the other only right slots.
 fn find_hash_key(
   conds : Array[BExpr],
-  lend : Int,
+  lend : Int32,
 ) -> (BExpr, BExpr, Affinity, Coll)? {
   for c in conds {
     if c is BCmp(Eq, a, b, aff, coll) {
@@ -1267,8 +1267,8 @@ fn has_outer(e : BExpr) -> Bool {
 /// slots but depends on an enclosing query's row.
 fn find_lookup_key(
   filters : Array[BExpr],
-  lo : Int,
-  hi : Int,
+  lo : Int32,
+  hi : Int32,
 ) -> (BExpr, BExpr, Affinity, Coll)? {
   for c in filters {
     if c is BCmp(Eq, a, b, aff, coll) {
@@ -1377,8 +1377,8 @@ fn Database::compile_source(
 ///|
 fn simple_column(
   name : String,
-  affinity? : Affinity = AffNone,
-  coll? : Coll = CBinary,
+  affinity~ : Affinity = AffNone,
+  coll~ : Coll = CBinary,
 ) -> TableColumn {
   {
     name,
@@ -1505,9 +1505,9 @@ fn Database::compile_select(
 fn compound_order_term(
   parts : Array[Compiled],
   colls : Array[Coll?],
-  k : Int,
+  k : Int32,
   e : Expr,
-) -> (Int, Coll) raise SqlError {
+) -> (Int32, Coll) raise SqlError {
   let n = parts[0].names.length()
   match e {
     Collate(inner, name) => {
@@ -1706,7 +1706,7 @@ fn compare_order_keys(
   colls : Array[Coll],
   xs : Array[Value],
   ys : Array[Value],
-) -> Int {
+) -> Int32 {
   for k, t in terms {
     let x = xs[k]
     let y = ys[k]
@@ -1936,7 +1936,7 @@ fn Database::compile_simple(
 }
 
 ///|
-fn ordinal_suffix(n : Int) -> String {
+fn ordinal_suffix(n : Int32) -> String {
   if n % 100 >= 11 && n % 100 <= 13 {
     "th"
   } else {
@@ -1958,7 +1958,7 @@ fn bind_order_term(
   scope : Scope,
   columns : Array[ResultCol],
   exprs : Array[BExpr],
-  k : Int,
+  k : Int32,
   e : Expr,
 ) -> BExpr raise SqlError {
   match e {
@@ -1999,7 +1999,7 @@ fn bind_order_term(
 
 ///|
 /// LIMIT plus OFFSET when both are integer literals, else -1.
-fn constant_limit(limit : Expr?, offset : Expr?) -> Int {
+fn constant_limit(limit : Expr?, offset : Expr?) -> Int32 {
   let lim = match limit {
     Some(Lit(Int(n))) if n >= 0L && n < 1000000000L => n.to_int()
     _ => return -1
