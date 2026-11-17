@@ -285,7 +285,7 @@ fn Writer::local_size(self : Writer, p : Int32, is_table : Bool) -> Int32 {
 fn Writer::make_cell(self : Writer, payload : Bytes, rowid : Int64?) -> Bytes {
   let p = payload.length()
   let nlocal = self.local_size(p, rowid is Some(_))
-  let buf = @buffer.Buffer(size_hint=nlocal + 20)
+  let buf = @buffer.Buffer(capacity=nlocal + 20)
   write_varint(buf, p.to_int64())
   if rowid is Some(r) {
     write_varint(buf, r)
@@ -369,7 +369,7 @@ fn cells_size(cells : ArrayView[Bytes]) -> Int32 {
 
 ///|
 fn child_cell(child : Int32, body : Bytes) -> Bytes {
-  let buf = @buffer.Buffer(size_hint=body.length() + 4)
+  let buf = @buffer.Buffer(capacity=body.length() + 4)
   buf.write_uint_be(child.reinterpret_as_uint())
   buf.write_bytes(body)
   buf.to_bytes()
@@ -645,7 +645,7 @@ fn Database::to_file_image(
   }
   put_u32(p1, 92, change_counter)
   put_u32(p1, 96, 3053003)
-  let buf = @buffer.Buffer(size_hint=npages * page_size)
+  let buf = @buffer.Buffer(capacity=npages * page_size)
   for p in w.pages {
     buf.write_bytes(Bytes::from_array(p[:]))
   }

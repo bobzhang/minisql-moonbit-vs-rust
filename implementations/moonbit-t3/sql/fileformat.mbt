@@ -74,7 +74,7 @@ fn Pager::payload(
   if nlocal >= total {
     return self.data[pos:pos + total].to_owned()
   }
-  let buf = @buffer.Buffer(size_hint=total)
+  let buf = @buffer.Buffer(capacity=total)
   buf.write_bytes(self.data[pos:pos + nlocal])
   let mut next = self.u32(pos + nlocal)
   let mut remaining = total - nlocal
