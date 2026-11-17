@@ -117,7 +117,7 @@ fn encode_record(vals : Array[Value]) -> Bytes {
   while varint_len(hsize.to_int64()) + hlen != hsize {
     hsize = hlen + varint_len(hsize.to_int64())
   }
-  let out = @buffer.Buffer(size_hint=hsize + body.length())
+  let out = @buffer.Buffer(capacity=hsize + body.length())
   write_varint(out, hsize.to_int64())
   for t in types {
     write_varint(out, t)
@@ -234,7 +234,7 @@ fn PageWriter::write_page(
 
 ///|
 fn u32_prefix(child : Int32, rest : Bytes) -> Bytes {
-  let b = @buffer.Buffer(size_hint=rest.length() + 4)
+  let b = @buffer.Buffer(capacity=rest.length() + 4)
   b.write_uint_be(child.reinterpret_as_uint())
   b.write_bytes(rest[:])
   b.to_bytes()
@@ -585,7 +585,7 @@ pub fn Database::to_file_bytes(self : Database) -> Bytes {
   put_u32(p1, 64, 0)
   put_u32(p1, 92, counter)
   put_u32(p1, 96, 3053003)
-  let out = @buffer.Buffer(size_hint=npages * page_size)
+  let out = @buffer.Buffer(capacity=npages * page_size)
   for p in w.pages {
     out.write_bytes(Bytes::from_array(p[:])[:])
   }

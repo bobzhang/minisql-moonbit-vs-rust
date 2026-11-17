@@ -67,7 +67,7 @@ fn DbFile::payload(
   let m = (u - 12) * 32 / 255 - 23
   let k = m + (size - m) % (u - 4)
   let nlocal = if k <= x { k } else { m }
-  let buf = @buffer.Buffer(size_hint=size)
+  let buf = @buffer.Buffer(capacity=size)
   buf.write_bytes(self.data[off:off + nlocal])
   let mut remaining = size - nlocal
   let mut next = self.u32(off + nlocal)
