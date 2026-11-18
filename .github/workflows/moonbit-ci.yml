@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        toolchain: [pre-release]
+        toolchain: [latest, pre-release]
         module: ["implementations/moonbit-t1", "implementations/moonbit-t2", "implementations/moonbit-t3"]
     defaults:
       run:
@@ -23,14 +23,12 @@ jobs:
           node-version: '22'
       - name: Install MoonBit
         run: |
-          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash -s -- pre-release
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash -s -- "${{ matrix.toolchain }}"
           echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
       - run: moon version --all
       - run: moon update
       - run: moon check
-      # T3 retains exported `alias` fields pending the API decision in issue #2.
-      - name: Strict warning check for T1 and T2
-        if: matrix.module != 'implementations/moonbit-t3'
+      - name: Strict warning check
         run: moon check --deny-warn
       - run: moon fmt --check
       - run: moon test

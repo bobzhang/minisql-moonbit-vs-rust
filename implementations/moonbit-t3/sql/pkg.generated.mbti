@@ -255,7 +255,7 @@ pub fn Database::state_fingerprint(Self) -> String
 #derive(@debug.Debug)
 pub(all) struct Delete {
   table : String
-  alias : String?
+  table_alias : String?
   where_ : Expr?
   returning : Array[ResultCol]
 }
@@ -354,7 +354,7 @@ pub(all) struct IndexedCol {
 #derive(@debug.Debug)
 pub(all) struct Insert {
   table : String
-  alias : String?
+  table_alias : String?
   columns : Array[String]?
   source : InsertSource
   or_action : String?
@@ -566,7 +566,7 @@ pub(all) enum UnOp {
 #derive(@debug.Debug)
 pub(all) struct Update {
   table : String
-  alias : String?
+  table_alias : String?
   or_action : String?
   sets : Array[(String, Expr)]
   where_ : Expr?

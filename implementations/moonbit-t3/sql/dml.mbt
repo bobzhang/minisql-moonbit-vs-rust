@@ -363,7 +363,7 @@ fn Database::exec_insert(
     }
     InsDefault => [[]]
   }
-  let name = ins.alias.unwrap_or(t.name)
+  let name = ins.table_alias.unwrap_or(t.name)
   let scope = table_scope(t, name)
   let up_scope = Scope::new(
     [
@@ -489,7 +489,7 @@ fn Database::exec_update(
   let t = self.writable_table(upd.table)
   dml_target.val = true
   let (scope, produce) = self.compile_source(
-    Some(TableRef(t.name, upd.alias)),
+    Some(TableRef(t.name, upd.table_alias)),
     upd.where_,
     None,
     { val: false, },
@@ -551,7 +551,7 @@ fn Database::exec_delete(
   let t = self.writable_table(del.table)
   dml_target.val = true
   let (scope, produce) = self.compile_source(
-    Some(TableRef(t.name, del.alias)),
+    Some(TableRef(t.name, del.table_alias)),
     del.where_,
     None,
     { val: false, },
