@@ -247,7 +247,7 @@ pub(all) struct Upsert {
 #derive(Debug)
 pub(all) struct Insert {
   table : String
-  alias : String?
+  table_alias : String?
   columns : Array[String]?
   source : InsertSource
   or_action : String? // REPLACE, IGNORE, ABORT, FAIL, ROLLBACK
@@ -259,7 +259,7 @@ pub(all) struct Insert {
 #derive(Debug)
 pub(all) struct Update {
   table : String
-  alias : String?
+  table_alias : String?
   or_action : String?
   sets : Array[(String, Expr)]
   where_ : Expr?
@@ -270,7 +270,7 @@ pub(all) struct Update {
 #derive(Debug)
 pub(all) struct Delete {
   table : String
-  alias : String?
+  table_alias : String?
   where_ : Expr?
   returning : Array[ResultCol]
 }

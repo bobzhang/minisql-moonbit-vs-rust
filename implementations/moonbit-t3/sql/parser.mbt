@@ -789,7 +789,7 @@ fn Parser::insert(self : Parser) -> Insert raise SqlError {
     upserts.push({ target, target_where, action, })
   }
   let returning = self.returning_clause()
-  { table, alias: table_alias, columns, source, or_action, upserts, returning, }
+  { table, table_alias, columns, source, or_action, upserts, returning, }
 }
 
 ///|
@@ -881,7 +881,7 @@ fn Parser::update(self : Parser) -> Update raise SqlError {
   let sets = self.set_list()
   let where_ = if self.eat_kw("WHERE") { Some(self.expr()) } else { None }
   let returning = self.returning_clause()
-  { table, alias: table_alias, or_action, sets, where_, returning, }
+  { table, table_alias, or_action, sets, where_, returning, }
 }
 
 ///|
@@ -898,7 +898,7 @@ fn Parser::delete(self : Parser) -> Delete raise SqlError {
   }
   let where_ = if self.eat_kw("WHERE") { Some(self.expr()) } else { None }
   let returning = self.returning_clause()
-  { table, alias: table_alias, where_, returning, }
+  { table, table_alias, where_, returning, }
 }
 
 ///|
