@@ -230,7 +230,7 @@ fn AggInfo::step(
     }
     let sb = StringBuilder()
     value_key(sb, vals[0], self.coll)
-    if !acc.seen.add_and_check(sb.to_string()) {
+    if !acc.seen.insert_and_check(sb.to_string()) {
       return
     }
   }

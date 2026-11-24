@@ -556,7 +556,7 @@ fn Database::build_table(
     raise err("no columns")
   }
   for cd in ct.columns {
-    if !seen.add_and_check(fold_name(cd.name)) {
+    if !seen.insert_and_check(fold_name(cd.name)) {
       raise err("duplicate column name: " + cd.name)
     }
     columns.push({

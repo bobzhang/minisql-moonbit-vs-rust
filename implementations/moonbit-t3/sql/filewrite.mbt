@@ -135,7 +135,7 @@ fn encode_record(vals : Array[Value]) -> Bytes {
     write_varint(buf, t)
   }
   for b in bodies {
-    buf.write_bytes(b)
+    buf.write_bytesview(b)
   }
   buf.to_bytes()
 }
@@ -178,8 +178,8 @@ fn FileImage::make_cell(
   let p = payload.length()
   let local_size = local_payload(self.usable, p, self.max_local(index))
   let buf = @buffer.Buffer(capacity=prefix.length() + local_size + 4)
-  buf.write_bytes(prefix)
-  buf.write_bytes(payload[0:local_size])
+  buf.write_bytesview(prefix)
+  buf.write_bytesview(payload[0:local_size])
   if local_size < p {
     let per = self.usable - 4
     let mut pg = self.alloc()
@@ -562,7 +562,7 @@ pub fn Database::file_image(self : Database, old : Bytes?) -> Bytes {
   put_u32(p1, 96, 3053000)
   let buf = @buffer.Buffer(capacity=img.pages.length() * page_size)
   for p in img.pages {
-    buf.write_bytes(Bytes::from_array(p[:]))
+    buf.write_bytesview(Bytes::from_array(p[:]))
   }
   buf.to_bytes()
 }

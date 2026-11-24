@@ -303,7 +303,7 @@ fn Table::upsert_target(
   let idx = cols.map(n => self.target_column(n))
   let set : Set[Int32] = Set([])
   for i in idx {
-    set.add(i)
+    set.insert(i)
   }
   if set.length() == 1 && (idx[0] == -1 || idx[0] == self.ipk) {
     return -1

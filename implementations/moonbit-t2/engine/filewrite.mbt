@@ -101,11 +101,11 @@ fn encode_record(vals : Array[Value]) -> Bytes {
       Text(s) => {
         let b = @utf8.encode(s[:])
         types.push((b.length() * 2 + 13).to_int64())
-        body.write_bytes(b[:])
+        body.write_bytesview(b[:])
       }
       Blob(b) => {
         types.push((b.length() * 2 + 12).to_int64())
-        body.write_bytes(b[:])
+        body.write_bytesview(b[:])
       }
     }
   }
@@ -122,7 +122,7 @@ fn encode_record(vals : Array[Value]) -> Bytes {
   for t in types {
     write_varint(out, t)
   }
-  out.write_bytes(body.to_bytes()[:])
+  out.write_bytesview(body.to_bytes()[:])
   out.to_bytes()
 }
 
@@ -153,13 +153,13 @@ fn PageWriter::payload_cell(
   let size = payload.length()
   let x = if is_index { (u - 12) * 64 / 255 - 23 } else { u - 35 }
   if size <= x {
-    buf.write_bytes(payload[:])
+    buf.write_bytesview(payload[:])
     return
   }
   let m = (u - 12) * 32 / 255 - 23
   let k = m + (size - m) % (u - 4)
   let nlocal = if k <= x { k } else { m }
-  buf.write_bytes(payload[0:nlocal])
+  buf.write_bytesview(payload[0:nlocal])
   // overflow chain
   let first = self.alloc()
   buf.write_uint_be(first.reinterpret_as_uint())
@@ -236,7 +236,7 @@ fn PageWriter::write_page(
 fn u32_prefix(child : Int32, rest : Bytes) -> Bytes {
   let b = @buffer.Buffer(capacity=rest.length() + 4)
   b.write_uint_be(child.reinterpret_as_uint())
-  b.write_bytes(rest[:])
+  b.write_bytesview(rest[:])
   b.to_bytes()
 }
 
@@ -587,7 +587,7 @@ pub fn Database::to_file_bytes(self : Database) -> Bytes {
   put_u32(p1, 96, 3053003)
   let out = @buffer.Buffer(capacity=npages * page_size)
   for p in w.pages {
-    out.write_bytes(Bytes::from_array(p[:])[:])
+    out.write_bytesview(Bytes::from_array(p[:])[:])
   }
   out.to_bytes()
 }
