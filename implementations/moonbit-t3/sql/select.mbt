@@ -658,7 +658,7 @@ fn Database::compile_from(
               if self.expanding.contains(f) {
                 raise err("view " + v.name + " is circularly defined")
               }
-              self.expanding.add(f)
+              self.expanding.insert(f)
               let c = {
                 errdefer self.expanding.remove(f)
                 with_cte_env([], () => {
@@ -1130,7 +1130,7 @@ fn subquery_source(
   let columns = names.mapi((i, n) => {
     let mut name = n
     let mut k = 0
-    while !used.add_and_check(fold_name(name)) {
+    while !used.insert_and_check(fold_name(name)) {
       k += 1
       name = n + ":" + k.to_string()
     }
@@ -1570,7 +1570,7 @@ fn combine_compound(
     Intersect => {
       let rk : Set[String] = Set([])
       for r in right {
-        rk.add(row_key(r, colls))
+        rk.insert(row_key(r, colls))
       }
       for r in left {
         let k = row_key(r, colls)
@@ -1669,7 +1669,7 @@ fn Database::finish(
   let mut idx = Array::makei(out.length(), i => i)
   if distinct {
     let seen : Set[String] = Set([])
-    idx = idx.filter(i => seen.add_and_check(row_key(out[i], dcolls)))
+    idx = idx.filter(i => seen.insert_and_check(row_key(out[i], dcolls)))
   }
   if ocolls.length() > 0 {
     idx.sort_by((a, b) => {
@@ -1746,7 +1746,7 @@ fn Database::bind_result_columns(
         }
         let seen : Set[String] = Set([])
         for st in scope.tables {
-          if st.name != "" && !seen.add_and_check(fold_name(st.name)) {
+          if st.name != "" && !seen.insert_and_check(fold_name(st.name)) {
             raise err("ambiguous column name: " + st.name + ".*")
           }
         }

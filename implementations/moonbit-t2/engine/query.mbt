@@ -953,7 +953,7 @@ fn Database::prepare_core(
         for j, v in out {
           value_key(sb, v, dcolls[j])
         }
-        if !seen.add_and_check(sb.to_string()) {
+        if !seen.insert_and_check(sb.to_string()) {
           return
         }
       }
@@ -1169,7 +1169,7 @@ fn combine_rows(
       }
       let rk : Set[String] = Set([])
       for r in right {
-        rk.add(row_key(r, colls))
+        rk.insert(row_key(r, colls))
       }
       let out : Array[Array[Value]] = []
       for k, r in m {

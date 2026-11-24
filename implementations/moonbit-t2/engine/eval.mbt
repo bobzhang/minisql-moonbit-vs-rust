@@ -495,7 +495,7 @@ pub fn eval(e : Expr, env : Env) -> Value raise SqlError {
             } else {
               let sb = StringBuilder()
               value_key(sb, apply_cmp_affinity(w, aff), coll)
-              k.add(sb.to_string())
+              k.insert(sb.to_string())
             }
           }
           q.in_keys = Some(k)

@@ -374,7 +374,7 @@ fn Database::prepare_recursive(
     let heap : Array[QItem] = []
     let mut seq = 0
     let push = fn(r : Array[Value]) {
-      if distinct && !seen.add_and_check(row_key(r, plain_colls)) {
+      if distinct && !seen.insert_and_check(row_key(r, plain_colls)) {
         return
       }
       if keys.length() == 0 {

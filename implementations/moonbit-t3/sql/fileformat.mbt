@@ -75,7 +75,7 @@ fn Pager::payload(
     return self.data[pos:pos + total].to_owned()
   }
   let buf = @buffer.Buffer(capacity=total)
-  buf.write_bytes(self.data[pos:pos + nlocal])
+  buf.write_bytesview(self.data[pos:pos + nlocal])
   let mut next = self.u32(pos + nlocal)
   let mut remaining = total - nlocal
   let per_page = self.usable - 4
@@ -85,7 +85,7 @@ fn Pager::payload(
     }
     let off = self.offset(next)
     let n = if remaining < per_page { remaining } else { per_page }
-    buf.write_bytes(self.data[off + 4:off + 4 + n])
+    buf.write_bytesview(self.data[off + 4:off + 4 + n])
     remaining -= n
     next = self.u32(off)
   }
@@ -119,7 +119,7 @@ fn Pager::scan_table(
   let visited : Set[Int32] = Set([])
   // Depth-first, left to right: children are pushed in reverse order.
   while stack.pop() is Some(pgno) {
-    if !visited.add_and_check(pgno) {
+    if !visited.insert_and_check(pgno) {
       raise err("database disk image is malformed")
     }
     let base = self.offset(pgno)

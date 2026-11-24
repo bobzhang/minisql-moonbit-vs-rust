@@ -63,7 +63,7 @@ fn make_cte_env(ctes : Array[Cte]) -> Array[CteBinding] raise SqlError {
   let added = []
   for c in ctes {
     let f = fold_name(c.name)
-    if !seen.add_and_check(f) {
+    if !seen.insert_and_check(f) {
       raise err("duplicate WITH table name: " + c.name)
     }
     cte_next_id.val += 1
@@ -173,7 +173,7 @@ fn Database::cte_source(
   if cte_active.contains(b.id) {
     raise err("circular reference: " + cte.name)
   }
-  cte_active.add(b.id)
+  cte_active.insert(b.id)
   let sub_corr : Ref[Bool] = { val: false, }
   let c = {
     errdefer cte_active.remove(b.id)
@@ -342,7 +342,7 @@ fn Database::compile_cte_body(
       let mut head = 0
       let heap = RowHeap::new(terms, ocolls)
       let push = (row : Array[Value]) => {
-        if distinct && !seen.add_and_check(row_key(row, dcolls)) {
+        if distinct && !seen.insert_and_check(row_key(row, dcolls)) {
           return
         }
         if order.length() == 0 {

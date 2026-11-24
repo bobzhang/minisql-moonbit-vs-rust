@@ -646,7 +646,7 @@ fn Database::compile_aggregate(
           }
           let sb = StringBuilder()
           write_value_key(sb, args[0], spec.coll)
-          if !st.seen.add_and_check(sb.to_string()) {
+          if !st.seen.insert_and_check(sb.to_string()) {
             continue
           }
         }

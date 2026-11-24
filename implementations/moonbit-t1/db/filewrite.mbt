@@ -225,7 +225,7 @@ fn encode_record(vals : Array[Value]) -> Bytes {
         }
       }
       Real(d) => buf.write_uint64_be(d.reinterpret_as_uint64())
-      _ => if bodies[i] is Some(b) { buf.write_bytes(b) }
+      _ => if bodies[i] is Some(b) { buf.write_bytesview(b) }
     }
   }
   buf.to_bytes()
@@ -290,7 +290,7 @@ fn Writer::make_cell(self : Writer, payload : Bytes, rowid : Int64?) -> Bytes {
   if rowid is Some(r) {
     write_varint(buf, r)
   }
-  buf.write_bytes(payload[0:nlocal])
+  buf.write_bytesview(payload[0:nlocal])
   if nlocal < p {
     // chain of overflow pages
     let per = self.usable - 4
@@ -371,7 +371,7 @@ fn cells_size(cells : ArrayView[Bytes]) -> Int32 {
 fn child_cell(child : Int32, body : Bytes) -> Bytes {
   let buf = @buffer.Buffer(capacity=body.length() + 4)
   buf.write_uint_be(child.reinterpret_as_uint())
-  buf.write_bytes(body)
+  buf.write_bytesview(body)
   buf.to_bytes()
 }
 
@@ -647,7 +647,7 @@ fn Database::to_file_image(
   put_u32(p1, 96, 3053003)
   let buf = @buffer.Buffer(capacity=npages * page_size)
   for p in w.pages {
-    buf.write_bytes(Bytes::from_array(p[:]))
+    buf.write_bytesview(Bytes::from_array(p[:]))
   }
   buf.to_bytes()
 }

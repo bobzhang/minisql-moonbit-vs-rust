@@ -443,7 +443,7 @@ pub fn eval(e : BExpr, row : Array[Value]) -> Value raise SqlError {
               if r[0] is Null {
                 p.has_null = true
               } else {
-                k.add(cmp_key(r[0], aff, coll))
+                k.insert(cmp_key(r[0], aff, coll))
               }
             }
             p.keys = Some(k)
