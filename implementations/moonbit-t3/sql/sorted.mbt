@@ -173,19 +173,21 @@ pub fn[K, V] SortedChunks::max_key(self : SortedChunks[K, V]) -> K? {
 pub fn[K, V] SortedChunks::iter2(self : SortedChunks[K, V]) -> Iter2[K, V] {
   let mut ci = 0
   let mut pi = 0
-  Iter2::new(() => {
-    while ci < self.chunks.length() {
-      let c = self.chunks[ci]
-      if pi < c.length() {
-        let e = c[pi]
-        pi += 1
-        return Some(e)
+  Iter2(
+    Iter(() => {
+      while ci < self.chunks.length() {
+        let c = self.chunks[ci]
+        if pi < c.length() {
+          let e = c[pi]
+          pi += 1
+          return Some(e)
+        }
+        ci += 1
+        pi = 0
       }
-      ci += 1
-      pi = 0
-    }
-    None
-  })
+      None
+    }),
+  )
 }
 
 ///|
